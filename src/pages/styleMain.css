@@ -1,0 +1,64 @@
+/*
+*   This is where all the styling goes for now.
+
+#   Might Break this up into smaller files for a more DRY format later.
+
+*/
+
+* {
+    box-sizing: border-box;
+}
+div {
+    border-width: 1px;
+    border-radius: 5px;
+    /* border-style: dashed; */
+    box-sizing: border-box;
+}
+
+#stickyBanner {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    padding: 20px;
+    max-height: 100px;
+    display: flex;
+    background-color: bisque;
+    justify-content: space-between;
+}
+.leftButtons {
+    display: flex;
+    flex-grow: 1;
+    overflow-x: auto;
+    gap: 20px;
+    padding-right: 10px;
+}
+.leftButtons img {
+    height: 100%;
+    width: auto;
+    border-style: dotted;
+    border-color: antiquewhite;
+}
+.leftButtons img:hover {
+    border-style: none;
+}
+.rightButton {
+    display: flex;
+    flex-grow: 0;
+}
+
+button {
+    color: white;
+    font-size: 24px;
+    text-wrap: nowrap;
+    padding: 10px 20px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: antiquewhite;
+    background-color: black;
+}
+button:hover{
+    border-style: solid;
+    border-color: black;
+}
+
