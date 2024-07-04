@@ -1,0 +1,57 @@
+
+.trip-detail-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+main {
+  margin-top: 90px; /* Ensure the content is not hidden behind the fixed banner */
+  text-align: left;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 1px;
+  margin-top: 50px;
+}
+
+p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: left;
+    font-weight: bold; /* Add this line to make the text bold */
+  }
+  
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.form-group input {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  margin: 0 10px;
+}
+
+.next-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 40px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
+
+  

@@ -27,7 +27,7 @@ function TopBanner() {
             {/* </div> */}
             <div className="spacer"></div>
             {/* <div className="rightButtons spacer"> */}
-            <ButtonComponent text="Profile!" toPage="/login"/>
+            <ButtonComponent text="Log In" toPage="/login"/>
             {/* </div> */}
     
         </div>

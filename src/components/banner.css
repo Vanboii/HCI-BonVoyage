@@ -25,7 +25,7 @@
     align-items: center;
     flex-grow: 1;
     overflow-x: auto;
-    gap: 20px;
+    gap: 25px;
 
     background-color: rgba(0, 0, 0, 0);
     border-style: double;
@@ -58,13 +58,13 @@
 @media only screen and (max-width: 500px) {
     #stickyBanner {
         padding: 8px;
-        height: 5%;
+        height: 10%;
         gap: 4px;
     }
     #stickyBanner img {
-        height: 4vh;
+        height: 8vh;
         
-        padding-right: 3px;
+        padding-right: 5px;
     }
     
 }
