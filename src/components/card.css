@@ -1,0 +1,28 @@
+/* src/components/card.css */
+.card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 300px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-details {
+    padding: 10px;
+}
+
+.card-details h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.card-details p {
+    margin: 5px 0;
+    color: #777;
+}
