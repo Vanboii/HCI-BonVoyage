@@ -26,6 +26,9 @@ import React, { useState } from "react";
 import TopBanner from "../../components/banner";
 import ButtonComponent from "../../components/button";
 import CardComponent from "../../components/card";
+import Bali_Image from "../../components/card_images/bali-image.jpg";
+import France_Image from "../../components/card_images/france-image.jpg";
+import Hawaii_Image from "../../components/card_images/hawaii-image.jpg";
 import '../home_page/homePage.css'; 
 import { useNavigate } from "react-router-dom";
 
@@ -35,19 +38,19 @@ function CommunityPage() {
 
     const itineraries = [
         {
-            image: "card_images/bali-image.jpg",
+            image: Bali_Image,
             location: "Bali",
             priceRange: "$200 - $700",
             likes: 241,
         },
         {
-            image: "card_images/france-image.jpg",
+            image: France_Image,
             location: "France",
             priceRange: "$500 - $1200",
             likes: 532,
         },
         {
-            image: "card_images/hawaii-image.jpg",
+            image: Hawaii_Image,
             location: "Hawaii",
             priceRange: "$700 - $1500",
             likes: 421,
