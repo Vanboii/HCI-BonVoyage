@@ -12,7 +12,6 @@ function TopBanner() {
 
     const navigate = useNavigate();
     function handleClick() {
-        // setState(!state);
         navigate('/Home');
     };
     var doSomething;
@@ -21,7 +20,7 @@ function TopBanner() {
             {/* <div className="leftButtons spacer"> */}
             <img src={logo} title="Logo" onClick={handleClick} alt="Logo" />
             <ButtonComponent text="My Trips" />
-            <ButtonComponent text="Community Trips"/>
+            <ButtonComponent text="Community Trips" toPage="" />
             {/* <ButtonComponent text="Save Me!"/> */}
             {/* <ButtonComponent text="Help Me!"/> */}
             {/* </div> */}

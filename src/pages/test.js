@@ -1,19 +1,23 @@
 import React from "react";
-import "./styleMain.css";
-import logo from '../components/boat-10.png';
+import "./homePage.css";
+import { db } from "../../../bonvoyage/src/firebase-config";
 
 function Test() {
-    var doSomething;
+
+    const userLogin = async (email,pw) => {
+        const results = await signInWithEmailAndPassword(auth,email,pw);
+        
+    };
+
     return (
         <div id="stickyBanner">
             <div className="leftButtons">
-            <img src={logo} title="Logo" onClick={doSomething}/>
+
             <button>My Trips</button>
             <button>Community Trips</button>
             <button>Save Me!</button>
             <button>Help Me!</button>
 
-   
             </div>
             
             <div>

@@ -1,17 +1,21 @@
 import React from "react";
-import TopBanner from "../../../components/banner";
-import ButtonComponent from "../../../components/button";
-import "./homePage.css";
+import TopBanner from "../../components/banner";
+import ButtonComponent from "../../components/button";
+import "../homePage.css";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../../../bonvoyage/src/firebase-config";
 
 
 function LoginPage() {
 
+    const userLogin = async (email,pw) => {
+        const results = await signInWithEmailAndPassword(auth,email,pw);
+        
+    };
     const navigate = useNavigate()
     function handleClick(toPage) {
         navigate(toPage);
     };
-
     return (
         <>
         <TopBanner/>
@@ -22,15 +26,17 @@ function LoginPage() {
                 <p className="subtitle">No account? <i onClick={handleClick('/signup')} >Register</i> </p>
                 </div>
                 <div className="col ">
-                    <form action={' PLS HELP '}>
-                        <label for="id">Email/Username</label>
-                        <input type="text" id="email" name="id"/>
-                        <label for="password">Password</label>
-                        <input type="text" id="password" name="password"/>
+                    <form>
+                        <input type="text" placeholder="Email" id="email" name="id" required />
+                        <input type="text" placeholder="Password"id="password" name="password" required />
                         <div className="rightAlign">
-                        <input className="submit" type="submit" value={"Login"}/>
+                        {/* <input className="submit" type="submit" value={"Login"}/> */}
+                        <button type="submit" onClick={userLogin}>Login</button>
                         </div>
                     </form>
+                </div>
+                <div>
+
                 </div>
             </div>
 
