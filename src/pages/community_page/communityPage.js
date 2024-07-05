@@ -15,13 +15,7 @@
 
 // }
 
-//celest new code no.4:
-// import React, { useState } from "react";
-// import TopBanner from "../components/banner";
-// import CardComponent from "../components/card";
-// import ButtonComponent from "../components/button";
-// import "./communityPage.css";
-
+//celest saved instead of likes code:
 import React, { useState } from "react";
 import TopBanner from "../../components/banner";
 import ButtonComponent from "../../components/button";
@@ -41,19 +35,19 @@ function CommunityPage() {
             image: Bali_Image,
             location: "Bali",
             priceRange: "$200 - $700",
-            likes: 241,
+            saves: 241,
         },
         {
             image: France_Image,
             location: "France",
             priceRange: "$500 - $1200",
-            likes: 532,
+            saves: 532,
         },
         {
             image: Hawaii_Image,
             location: "Hawaii",
             priceRange: "$700 - $1500",
-            likes: 421,
+            saves: 421,
         },
     ];
 
@@ -96,9 +90,9 @@ function CommunityPage() {
                                     image={trip.image}
                                     location={trip.location}
                                     priceRange={trip.priceRange}
-                                    likes={trip.likes}
+                                    saves={trip.saves}
                                 />
-                                <ButtonComponent text="Copy to My Trips" />
+                                <ButtonComponent text="Save To My Trips" />
                             </div>
                         ))}
                     </div>
