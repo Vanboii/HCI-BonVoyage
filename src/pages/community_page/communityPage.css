@@ -1,6 +1,7 @@
 /* src/pages/communityPage.css */
 .community-page {
     font-family: Arial, sans-serif;
+    padding-top: 80px; /* Adjust this value as needed */
 }
 
 .content {
@@ -60,4 +61,3 @@
     margin: 5px 0;
     color: #777;
 }
-
