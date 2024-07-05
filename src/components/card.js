@@ -28,7 +28,7 @@ import React from "react";
 import ButtonComponent from "../components/button";
 import "./card.css";
 
-const CardComponent = ({ image, location, priceRange, likes }) => {
+const CardComponent = ({ image, location, priceRange, saves }) => {
     const caption = "Picture of " + location;
 
     return (
@@ -37,7 +37,7 @@ const CardComponent = ({ image, location, priceRange, likes }) => {
             <div className="card-details">
                 <h2>{location}</h2>
                 <p>{priceRange}</p>
-                <p>{likes} Likes</p>
+                <p>{saves} Saves</p>
             </div>
         </div>
     );

@@ -20,8 +20,8 @@ function TopBanner() {
         <div id="stickyBanner">
             {/* <div className="leftButtons spacer"> */}
             <img src={logo} title="Logo" onClick={handleClick} alt="Logo" />
-            <ButtonComponent text="My Trips" />
-            <ButtonComponent text="Community Trips" toPage= "/community"/>
+            <ButtonComponent text="My Trips" toPage="/mytrips"/> 
+            <ButtonComponent text="Community Trips" toPage="/community"/>
             {/* <ButtonComponent text="Save Me!"/> */}
             {/* <ButtonComponent text="Help Me!"/> */}
             {/* </div> */}
