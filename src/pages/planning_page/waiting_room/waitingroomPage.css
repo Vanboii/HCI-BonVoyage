@@ -1,82 +1,62 @@
-.trip-status-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    margin-top: 50px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .progress {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .progress-text {
-    font-size: 36px;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
-  }
-  
-  .progress-text span {
-    font-size: 48px;
-    color: #007BFF;
-  }
-  
-  .status {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    gap: 10px;
-  }
-  
-  .status-item {
-    margin: 0 10px;
-  }
-  
-  .circle {
-    width: 80px;
-    height: 80px;
-    background-color: lightgray;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s;
-  }
-  
-  .circle.ready {
-    background-color: aquamarine; /* Replace with actual image path if needed */
-  }
-  
-  .circle.waiting {
-    background-color: lightgray;
-  }
-  
-  .generate-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-  }
-  
-  .generate-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-  }
-  
-  .generate-button:active {
-    background-color: #004494;
-    transform: scale(1);
-  }
-  
+/* waitingroomPage.css */
+.container {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.logo {
+  height: 50px;
+}
+
+.nav {
+  display: flex;
+  gap: 15px;
+}
+
+.profile {
+  display: flex;
+  gap: 10px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  padding: 0 50px;
+}
+
+.status {
+  text-align: left;
+}
+
+.statusItem {
+  background-color: #ccc;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.progress {
+  font-size: 2em;
+  font-weight: bold;
+}

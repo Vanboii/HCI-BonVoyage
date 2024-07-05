@@ -1,44 +1,57 @@
-import React, { useState } from 'react';
 import TopBanner from "../../../components/banner";
-import './waitingroomPage.css'; 
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './waitingroomPage.css';
 
-function WaitingRoomPage() {
-  const [totalPeople, setTotalPeople] = useState(5); // Total number of people to fill the preference
-  const [filledPeople, setFilledPeople] = useState([
-    { name: 'John', img: 'path/to/your/cat1.jpg' },
-    { name: 'Jane', img: 'path/to/your/cat2.jpg' },
-    { name: 'Doe', img: 'path/to/your/cat3.jpg' },
-  ]); // List of people who have filled the preference
+function WaitingRoom() {
+  const [users, setUsers] = useState([]);
+  const maxUsers = 5; // Set the number of users expected to join
+  const navigate = useNavigate();
 
-  const handleAddPerson = () => {
-    const newPerson = { name: `Person ${filledPeople.length + 1}`, img: 'path/to/your/cat1.jpg' };
-    setFilledPeople([...filledPeople, newPerson]);
-  };
+  useEffect(() => {
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    setUsers(storedUsers);
+    if (storedUsers.length >= maxUsers) {
+      navigate('/pageA');
+    }
+  }, [navigate]);
+
+  const userStatuses = Array(maxUsers).fill('Waiting for response...');
+  users.forEach((user, index) => {
+    userStatuses[index] = `${user} is ready for the trip!`;
+  });
 
   return (
     <div className="container">
-      <header className="header">
-        <h1>have filled in their preference</h1>
-      </header>
-      <main>
-        <div className="preference-text">
-          <span className="fraction">{filledPeople.length}/{totalPeople}</span>
-          <span className="text">have filled in their preference</span>
+      <div className="header">
+        <img src="path/to/logo.png" title="Logo" alt="Logo" className="logo" />
+        <nav className="nav">
+          <a href="/">Home</a>
+          <a href="/mytrips">My Trips</a>
+          <a href="/community">Community Trips</a>
+          <a href="/tab">Tab</a>
+          <div className="profile">
+            <span>Hello, User</span>
+            <a href="/login">Sign In / Log In</a>
+          </div>
+        </nav>
+      </div>
+      <div className="content">
+        <div>
+          <p className="progress">{users.length}/{maxUsers} has filled in their preference</p>
         </div>
-        <div className="images">
-          {filledPeople.map((person, index) => (
-            <div key={index} className="image-container" title={person.name}>
-              <img src={person.img} alt={person.name} />
+        <div className="status">
+          <h2>Status:</h2>
+          {userStatuses.map((status, index) => (
+            <div key={index} className="statusItem">
+              {status}
             </div>
           ))}
         </div>
-        <button className="generate-button" onClick={handleAddPerson}>
-          <span>Generate</span>
-          <img src="path/to/your/hand-cursor-icon.png" alt="Hand Cursor" className="hand-cursor" />
-        </button>
-      </main>
+      </div>
+      <button className="button" onClick={() => navigate('/start')}>Start Generating</button>
     </div>
   );
 }
 
-export default WaitingRoomPage;
+export default WaitingRoom;
