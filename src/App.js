@@ -1,43 +1,37 @@
-import React, { useState } from 'react';
-// import Test from './pages/test';
-// import TopBanner from './components/banner';
-import Default from './pages/default';
+import React from 'react';
+import TopBanner from './components/banner';
+import Test from './pages/test';
+import Test3 from './pages/test3';
 import HomePage from './pages/homePage';
 import LoginPage from './pages/login-signup/loginPage';
 import SignupPage from './pages/login-signup/signupPage';
 import WelcomePage from './pages/welcomePage';
-// import ButtonComponent from './components/button';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CommunityPage from './pages/communityPage';
-// import TopBanner from './components/banner';
 
-
-
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import './App.css';
 
 function App() {
 
-    // const [dataBase, checkUser] = useState();
 
+    return (
+        <div id='page'>
+        <Router>
+            <TopBanner/>
+            <Routes>
+                <Route exact path="/" Component={HomePage} />
+                <Route path='/login' Component={LoginPage} />
+                <Route path='/signup' Component={SignupPage} />
+                <Route path='/welcome' Component={WelcomePage} />
+                <Route path='/newpage' Component={CommunityPage} />
+                <Route path='/test' Component={Test} />
+                <Route path='/test2' Component={Test3}/>
+                <Route path='*' Component={HomePage} />
+            </Routes>
 
-  return (
-    <>
-    <Router>
-        <Routes>
-            <Route exact path="/" Component={HomePage} />
-            <Route path='/login' Component={LoginPage} />
-            <Route path='/signup' Component={SignupPage} />
-            <Route path='/welcome' Component={WelcomePage} />
-            <Route path='/newpage' Component={CommunityPage} />
-            <Route path='*' Component={HomePage}/>
-        </Routes>
-    </Router>
-
-
-
-    </>
-    
-  );
+        </Router>
+        </div>
+    );
 }
 
 export default App;

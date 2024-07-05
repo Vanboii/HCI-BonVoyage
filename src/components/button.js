@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { useNavigate } from 'react-router-dom';
 
 import './button.css'
@@ -8,7 +8,7 @@ import './button.css'
  * @param  type - 0 -> small, 1 -> normal, 2 -> large, 3 -> alt
  * @param  toPage - a page you want to redirect to onClick
  */
-const ButtonComponent = ({text="Click Me!",type='1',toPage=""}) => {
+const ButtonComponent = ({text="Click Me!",type='1',toPage="/"}) => {
     
     const types = {
         0:"small",

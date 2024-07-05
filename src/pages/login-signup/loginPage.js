@@ -1,24 +1,21 @@
 import React from "react";
 import TopBanner from "../../components/banner";
-import ButtonComponent from "../../components/button";
+// import ButtonComponent from "../../components/button";/
 import "../homePage.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../../../bonvoyage/src/firebase-config";
-
+// import {auth, signInWithEmailAndPassword} from '../../firebase'
 
 function LoginPage() {
 
-    const userLogin = async (email,pw) => {
-        const results = await signInWithEmailAndPassword(auth,email,pw);
-        
-    };
+    // const userLogin = async (email,pw) => {
+    //     const results = await signInWithEmailAndPassword(auth, email, pw);
+    // };
     const navigate = useNavigate()
     function handleClick(toPage) {
         navigate(toPage);
     };
     return (
-        <>
-        <TopBanner/>
+
         <div id="main">
             <div id="account">
                 <div className="left">
@@ -31,7 +28,7 @@ function LoginPage() {
                         <input type="text" placeholder="Password"id="password" name="password" required />
                         <div className="rightAlign">
                         {/* <input className="submit" type="submit" value={"Login"}/> */}
-                        <button type="submit" onClick={userLogin}>Login</button>
+                        <button type="submit" >Login</button>
                         </div>
                     </form>
                 </div>
@@ -43,9 +40,6 @@ function LoginPage() {
 
         </div>
 
-        
-        
-        </>
 
     );
 }

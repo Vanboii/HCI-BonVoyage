@@ -1,39 +1,24 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./homePage.css";
 import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-
-function Test() {
-
-    // const [userEmail, setEmail] = useState('');
-    // const [userPW, setPW] = useState('');
-
-    // async function userLogin (email,password) {
-    //     await signInWithEmailAndPassword(auth, email, password)
-    //         .catch((error) => {
-    //             console.log(error.message);
-    //         }).then((userCredentail) => {
-    //             console.log(userCredentail)
-    //             //# Redirect to homepage
-    //         })
-    // };
-
+function Test3() {
     function UserLogin (event) {
-        event.preventDefault()
+        event.preventDefault();
         const navigate = useNavigate();
-        try {
-            const userCredentail = signInWithEmailAndPassword(auth, document.getElementById('email'), document.getElementById('pw'));
-            console.log(userCredentail)
-            navigate('/newpage')
-        } catch (error) {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('pw').value;
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredentail) => {
+            console.log(userCredentail);
+            navigate('/newpage');
+            }).catch ((error) => {
             alert(error.message);
-        }
+            });
 
     };
-
-
     return (
         <>
         <div className="centerAlign">
@@ -54,4 +39,4 @@ function Test() {
     );
 }
 
-export default Test;
+export default Test3;

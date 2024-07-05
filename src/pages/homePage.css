@@ -19,22 +19,21 @@
 }
 
 /*^ DELETE THIS AFTER */
-/* *:hover {
+*:hover {
     border-style: dotted;
     border-width: .5px;
-} */
+}
 
 
 /**         For global Use       */
 #main {     /*^ This is for the Main div containing the Web page contents.*/
     width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;            /*#align horizontally */
-    justify-content: center;        /*#align vertically */
+    /* height: calc(100%-64px); */
+    align-items: center;            /*#align horizontally*/
+    justify-content: center;        /*#align vertically*/
     overflow-x: hidden;
     overflow-y: auto;
+    border-style: dashed;
 }
 .leftAlign {    /*^     For aligning Elemts to the left edge of parent container*/
     align-items: flex-start;

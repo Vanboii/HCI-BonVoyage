@@ -1,26 +1,23 @@
 import React from "react";
 import logo from './boat-10.png';
 import ButtonComponent from "./button";
-import { useNavigate } from 'react-router-dom';
 import './banner.css';
+import { useNavigate } from "react-router-dom";
 
 
 
 
 
 function TopBanner() {
+    const navigate = useNavigate()
 
-    const navigate = useNavigate();
-    function handleClick() {
-        navigate('/Home');
-    };
-    var doSomething;
+
     return (
         <div id="stickyBanner">
             {/* <div className="leftButtons spacer"> */}
-            <img src={logo} title="Logo" onClick={handleClick} alt="Logo" />
-            <ButtonComponent text="My Trips" />
-            <ButtonComponent text="Community Trips" toPage="" />
+            <img src={logo} title="Logo" onClick={navigate('/')} alt="Logo" />
+            <ButtonComponent text="My Trips" toPage="/test"/>
+            <ButtonComponent text="Community Trips" toPage="/test2" />
             {/* <ButtonComponent text="Save Me!"/> */}
             {/* <ButtonComponent text="Help Me!"/> */}
             {/* </div> */}

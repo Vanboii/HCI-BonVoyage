@@ -7,8 +7,7 @@ import "../homePage.css";
 function SignupPage() {
 
     return (
-        <>
-        <TopBanner/>
+
         <div id="main">
             <div id="account">
                 <div className="left">
@@ -44,7 +43,6 @@ function SignupPage() {
                 </div>
             </div>
         </div>
-        </>
     );
 }
 
