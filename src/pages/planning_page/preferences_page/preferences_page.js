@@ -1,8 +1,16 @@
 import React from 'react';
 import './preferences_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 const PreferencesPage = () => {
+
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+
+  const handleNext = () => {
+    navigate('/tinderpreference'); // Adjust the path to the Preferences page
+  };
+
   return (
     <div className="preferences-container">
       <TopBanner />
@@ -46,7 +54,7 @@ const PreferencesPage = () => {
               <button type="button">(SGD) 1,251++</button>
             </div>
           </div>
-          <button type="button" className="next-button">Next</button>
+          <button className="next-button" onClick={handleNext}>Next</button>
         </form>
       </main>
     </div>

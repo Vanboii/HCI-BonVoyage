@@ -1,0 +1,226 @@
+/*.preference-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: white;
+}
+
+.preference-container h2 {
+  margin-bottom: 0px;
+  margin-top: 60px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.preference-card {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 75%;
+  background-color: white;
+  margin-top: 10px;
+  position: relative; 
+}
+
+.thumb-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+}
+
+.thumb-icon img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 5px;
+}
+
+.thumb-icon span {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.dislike {
+  left: 10%;
+  bottom: 20px; 
+}
+
+.like {
+  right: 10%;
+  bottom: 20px; 
+}
+
+.picture-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%; 
+  height: 60%; 
+  border-radius: 10px;
+  overflow: hidden;
+  background: none; 
+  margin: 0 auto; 
+  border: 5px solid transparent; 
+  position: relative;
+}
+
+.picture-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 10px; 
+  width: 70%; 
+}
+
+.swipe-left {
+  animation: swipe-left 0.5s forwards;
+  border-color: red; 
+}
+
+.swipe-right {
+  animation: swipe-right 0.5s forwards;
+  border-color: green; 
+}
+
+@keyframes swipe-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); opacity: 0; }
+}
+
+@keyframes swipe-right {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.button-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+} */
+
+.preference-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: white;
+}
+
+.preference-container h2 {
+  margin-bottom: 0px;
+  margin-top: 60px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.preference-card {
+  display: flex;
+  flex-direction: column; /* Stacks items vertically */
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 75%;
+  background-color: white;
+  margin-top: 10px;
+  position: relative; /* Ensures thumb icons are positioned correctly */
+}
+
+.thumb-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+}
+
+.thumb-icon img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 5px;
+}
+
+.thumb-icon span {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.dislike {
+  left: 10%;
+  bottom: 20px; /* Positioned at the bottom */
+}
+
+.like {
+  right: 10%;
+  bottom: 20px; /* Positioned at the bottom */
+}
+
+.picture-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%; /* Adjust width to fit between the thumbs */
+  height: 60%; /* Adjust height as needed */
+  border-radius: 10px;
+  overflow: hidden;
+  background: none; /* Remove the white background */
+  margin: 0 auto; /* Center the placeholder */
+  border: 5px solid transparent; /* Highlighted change */
+  position: relative; /* Highlighted change */
+}
+
+.picture-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image covers the placeholder area while maintaining aspect ratio */
+}
+
+.place-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 10px; /* Add margin to separate text from the image */
+  width: 70%; /* Match width with picture-placeholder */
+}
+
+/* Highlighted changes: Add swipe animations */
+.swipe-left {
+  animation: swipe-left 0.5s forwards;
+  border-color: red; /* Highlighted change */
+}
+
+.swipe-right {
+  animation: swipe-right 0.5s forwards;
+  border-color: green; /* Highlighted change */
+}
+
+@keyframes swipe-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); opacity: 0; }
+}
+
+@keyframes swipe-right {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.button-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
