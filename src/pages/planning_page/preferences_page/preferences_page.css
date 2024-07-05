@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: #ffcccc;
+    padding: 10px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.header-buttons button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.header-buttons .profile-button {
+    margin-left: auto;
+}
+
+.preferences-container {
+    padding: 20px;
+    width: 80%;
+    margin: auto;
+    text-align: left;
+}
+
+main {
+    margin-top: 90px; /* Ensure the content is not hidden behind the fixed banner */
+}
+
+.preferences-container h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.preferences-container p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.next-button {
+    align-self: flex-end;
+    margin-top: 20px;
+}
