@@ -5,7 +5,7 @@ import travelerImage from '../../../components/traveler.png';
 
 const LoadingPage = () => {
   const [progress, setProgress] = useState(0); // Initial progress value
-  const progressRef = useRef(null);
+  const [isComplete, setIsComplete] = useState(false); // Track completion
 
   // Function to start the progress bar animation
   const startProgress = (duration) => {
@@ -16,22 +16,32 @@ const LoadingPage = () => {
       setProgress(progress * 100);
       if (progress < 1) {
         requestAnimationFrame(step);
+      } else {
+        setIsComplete(true); // Set completion to true when progress is 100%
       }
     };
     requestAnimationFrame(step);
   };
+
 
   // Example to start the progress animation on component mount
   useEffect(() => {
     const duration = 10000; // Duration in milliseconds (10 seconds)
     startProgress(duration);
   }, []);
+  // Stop animation when progress reaches 75%
+useEffect(() => {
+  if (progress >= 100) {
+    setIsComplete(true);
+  }
+}, [progress]);
+
 
   return (
     <>
     <TopBanner/>
     <div className="loading-container">
-      <h1>Generating Your Itinerary...</h1>
+    <h1>Generating Your Itinerary<span className={`dots ${isComplete ? 'complete' : ''}`}>.</span></h1>
       <div className="progress-container">
         <div className="progress-bar">
           <div className="progress-bar-inner" style={{ width: `${progress}%` }}></div>
