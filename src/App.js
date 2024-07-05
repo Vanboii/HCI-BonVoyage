@@ -7,6 +7,7 @@ import SignupPage from './pages/signup_page/signupPage';
 import WelcomePage from './pages/trial/welcomePage';
 import CommunityPage from './pages/community_page/communityPage';
 import MyTripsPage from './pages/mytrips_page/mytripsPage';
+import WaitingRoomPage from './pages/planning_page/waiting_room/waitingroomPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/welcome' element={<WelcomePage />} />
         <Route path='/community' element={<CommunityPage />} />
         <Route path='/mytrips' element={<MyTripsPage />} />
+        <Route path='/waitingroom' element={<WaitingRoomPage />} />
         <Route path='*' element={<HomePage />} />
       </Routes>
     </Router>
