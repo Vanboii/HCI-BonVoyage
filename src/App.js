@@ -10,6 +10,7 @@ import TripDetailPage from './pages/planning_page/trip_detail/trip_detail'; // A
 import InvitePage from './pages/planning_page/invite_page/invite_page'; // Corrected import path
 import PreferencesPage from './pages/planning_page/preferences_page/preferences_page'; // Import PreferencesPage
 import TinderPreference from './pages/planning_page/tinder_preference/tinder_preference';
+import WaitingRoomPage from './pages/planning_page/waiting_room/waitingroomPage';
 
 function App() {
   
@@ -30,6 +31,7 @@ function App() {
               <Route path='/planning/invite' element={<InvitePage />} /> {/* Corrected path */}
               <Route path='/preferences' element={<PreferencesPage />} /> {/* Added PreferencesPage route */}
               <Route path='/tinderpreference' element={<TinderPreference />} />
+              <Route path='/waitingroom' element={<WaitingRoomPage />} />
               <Route path='*' element={<HomePage />} />
             </Routes>
       </Router>

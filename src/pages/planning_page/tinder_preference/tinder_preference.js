@@ -160,6 +160,7 @@
 import React, { useState, useEffect } from 'react';
 import './tinder_preference.css';
 import TopBanner from "../../../components/banner";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 // Import images for dislike and like icons
 import dislikeIcon from '../../../components/Tinder_img_test/no.png';
@@ -172,6 +173,7 @@ const TinderPreference = () => {
   const [dislikes, setDislikes] = useState([]);
   const [animationClass, setAnimationClass] = useState('');
   const [clickCount, setClickCount] = useState(0);
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     fetch('/places.json')  // Path relative to the public directory
@@ -227,6 +229,10 @@ const TinderPreference = () => {
     document.body.removeChild(link);
   };
 
+  const handleNext = () => {
+    navigate('/waitingroom'); // Adjust the path to the Preferences page
+  };
+
   if (places.length === 0) {
     return <div>Loading...</div>;
   }
@@ -258,10 +264,9 @@ const TinderPreference = () => {
           </div>
         </div>
         <button
-          onClick={handleExport}
+          onClick={handleNext}
           disabled={clickCount < 15}
-          className={clickCount < 15 ? 'button-disabled' : ''}
-        >
+          className={`${clickCount < 15 ? 'button-disabled' : ''}`}>
           Next
         </button>
       </div>
