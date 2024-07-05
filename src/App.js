@@ -10,6 +10,7 @@ import WelcomePage from './pages/trial/welcomePage';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CommunityPage from './pages/community_page/communityPage';
 // import TopBanner from './components/banner';
+import LoadingPage from './pages/planning_page/loading_page/loadingPage';
 
 
 
@@ -29,6 +30,7 @@ function App() {
             <Route exact path='/signup' Component={SignupPage} />
             <Route exact path='/welcome' Component={WelcomePage} />
             <Route exact path='/community' Component={CommunityPage} />
+            <Route exact path='/loading' Component={LoadingPage} />
             <Route path='*' Component={HomePage}/>
         </Routes>
     </Router>
