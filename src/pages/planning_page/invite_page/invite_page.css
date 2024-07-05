@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: #ffcccc;
+    padding: 5px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.header-buttons button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.header-buttons .profile-button {
+    margin-left: auto;
+}
+
+.invite-container {
+    padding: 20px;
+    width: 80%;
+    margin: auto;
+    text-align: left;
+}
+
+main {
+    margin-top: 56px; /* Ensure the content is not hidden behind the fixed banner */
+}
+
+.invite-container h1 {
+    font-size: 48px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.invite-container p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+label {
+    font-weight: bold;
+    width: 150px;
+}
+
+input[type="email"],
+textarea,
+input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    height: 100px;
+}
+
+button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.send-invite-button {
+    margin-left: 10px;
+}
+
+.copy-link-button {
+    margin-left: 10px;
+}
+
+.next-button {
+    align-self: flex-end;
+    margin-top: 20px;
+}
