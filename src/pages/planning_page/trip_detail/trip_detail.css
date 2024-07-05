@@ -1,0 +1,83 @@
+.trip-detail-container {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  width: 80%;
+  margin: auto;
+  text-align: left;
+}
+
+main {
+  margin-top: -15px; /* Ensure the content is not hidden behind the fixed banner */
+}
+
+.trip-detail-container h1 {
+  font-size: 52px;
+  margin-bottom: -10px;
+  margin-top: 90px;
+  text-align: left;
+}
+
+.trip-detail-container p {
+  font-size: 18px;
+  margin-bottom: 40px;
+  font-weight: bold; /* Add this line to make the text bold */
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  margin: 0 10px 10px 0; /* Adds space between input fields */
+}
+
+.when-group .date-group {
+  display: flex;
+  align-items: center;
+}
+
+.next-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 40px;
+  cursor: pointer;
+  font-size: 18px;
+  display: block;
+  margin-top: -100px;
+  margin-left: auto; /* Align the button to the right */
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.date-group input {
+  margin-right: 10px;
+}
+
+.date-group span {
+  margin: 0 10px;
+}

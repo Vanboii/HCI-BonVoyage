@@ -65,11 +65,11 @@ div, h1, h2, h3 { /*^ For ensuring Proper Title formatting*/
 }
 
 h1 {        /*^     For homePage */
-    font-size: 72px;
+    font-size: 120px;
 }
 
 h2 {        /*^     For Page Titles   */
-    font-size: 48px;
+    font-size: 72px;
 }
 #account {
     /* border-style: dashed; */
