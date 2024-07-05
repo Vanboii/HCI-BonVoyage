@@ -15,13 +15,7 @@
 
 // }
 
-//celest new code no.4:
-// import React, { useState } from "react";
-// import TopBanner from "../components/banner";
-// import CardComponent from "../components/card";
-// import ButtonComponent from "../components/button";
-// import "./communityPage.css";
-
+//celest saved instead of likes code:
 import React, { useState } from "react";
 import TopBanner from "../../components/banner";
 import ButtonComponent from "../../components/button";
