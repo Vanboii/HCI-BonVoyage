@@ -2,40 +2,43 @@ import React, { useState } from 'react';
 import TopBanner from "../../../components/banner";
 import './waitingroomPage.css'; 
 
-const WaitingRoomPage = () => {
-  const [responses, setResponses] = useState([
-    { name: 'Jamie', status: 'ready' },
-    { name: 'Rachel', status: 'ready' },
-    { name: 'Brad', status: 'ready' },
-    { name: 'Waiting', status: 'waiting' },
-    { name: 'Waiting', status: 'waiting' },
-  ]);
+function WaitingRoomPage() {
+  const [totalPeople, setTotalPeople] = useState(5); // Total number of people to fill the preference
+  const [filledPeople, setFilledPeople] = useState([
+    { name: 'John', img: 'path/to/your/cat1.jpg' },
+    { name: 'Jane', img: 'path/to/your/cat2.jpg' },
+    { name: 'Doe', img: 'path/to/your/cat3.jpg' },
+  ]); // List of people who have filled the preference
 
-  const readyCount = responses.filter(response => response.status === 'ready').length;
+  const handleAddPerson = () => {
+    const newPerson = { name: `Person ${filledPeople.length + 1}`, img: 'path/to/your/cat1.jpg' };
+    setFilledPeople([...filledPeople, newPerson]);
+  };
 
   return (
-    <>
-    <TopBanner/>
-      <div className="trip-status-container">
-        <div className="progress">
-          <div className="progress-text">
-            <span>{readyCount}</span>/<span>5</span> has filled in their preference
-          </div>
+    <div className="container">
+      <header className="header">
+        <h1>have filled in their preference</h1>
+      </header>
+      <main>
+        <div className="preference-text">
+          <span className="fraction">{filledPeople.length}/{totalPeople}</span>
+          <span className="text">have filled in their preference</span>
         </div>
-        <div className="status">
-          {responses.map((response, index) => (
-            <div key={index} className="status-item">
-              <div className={`circle ${response.status}`} />
+        <div className="images">
+          {filledPeople.map((person, index) => (
+            <div key={index} className="image-container" title={person.name}>
+              <img src={person.img} alt={person.name} />
             </div>
           ))}
         </div>
-        <button className="generate-button">Start Generating</button>
-      </div>
-    </>
+        <button className="generate-button" onClick={handleAddPerson}>
+          <span>Generate</span>
+          <img src="path/to/your/hand-cursor-icon.png" alt="Hand Cursor" className="hand-cursor" />
+        </button>
+      </main>
+    </div>
   );
-};
+}
 
 export default WaitingRoomPage;
-
-
-
