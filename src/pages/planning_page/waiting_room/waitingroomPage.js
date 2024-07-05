@@ -12,7 +12,7 @@ function WaitingRoom() {
     const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
     setUsers(storedUsers);
     if (storedUsers.length >= maxUsers) {
-      navigate('/pageA');
+      navigate('/loading');
     }
   }, [navigate]);
 
@@ -22,35 +22,24 @@ function WaitingRoom() {
   });
 
   return (
-    <div className="container">
-      <div className="header">
-        <img src="path/to/logo.png" title="Logo" alt="Logo" className="logo" />
-        <nav className="nav">
-          <a href="/">Home</a>
-          <a href="/mytrips">My Trips</a>
-          <a href="/community">Community Trips</a>
-          <a href="/tab">Tab</a>
-          <div className="profile">
-            <span>Hello, User</span>
-            <a href="/login">Sign In / Log In</a>
+    <>
+      <TopBanner/>
+        <div className="content">
+          <div>
+            <p className="progress">{users.length}/{maxUsers} has filled in their preference</p>
           </div>
-        </nav>
-      </div>
-      <div className="content">
-        <div>
-          <p className="progress">{users.length}/{maxUsers} has filled in their preference</p>
+          <div className="status">
+            <h2>Status:</h2>
+            {userStatuses.map((status, index) => (
+              <div key={index} className="statusItem">
+                {status}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="status">
-          <h2>Status:</h2>
-          {userStatuses.map((status, index) => (
-            <div key={index} className="statusItem">
-              {status}
-            </div>
-          ))}
-        </div>
-      </div>
-      <button className="button" onClick={() => navigate('/start')}>Start Generating</button>
-    </div>
+        <button className="button" onClick={() => navigate('/loading')}>Start Generating</button>
+    </>
+
   );
 }
 
