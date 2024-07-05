@@ -1,7 +1,7 @@
 /* src/pages/communityPage.css */
 .community-page {
     font-family: Arial, sans-serif;
-    padding-top: 80px; /* Adjust this value as needed */
+    padding-top: 80px;
 }
 
 .content {
@@ -9,55 +9,108 @@
     text-align: center;
 }
 
-.search-bar,
-.filter-bar {
-    width: 300px;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.search-filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
 }
 
-.filter-bar {
-    margin-bottom: 20px;
+.search-bar {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    max-width: 70%;
+}
+
+.filter {
+    position: relative;
+    margin-left: 10px; /* Adjust the spacing between the search bar and filter button */
+}
+
+.filter button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    text-align: center;
+}
+
+.filter-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%); /* Center the dropdown menu */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1;
+    width: 250px;
+    text-align: center;
+}
+
+.filter:hover .filter-options {
+    display: block;
+}
+
+.filter-options button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.filter-options button:hover {
+    background-color: #f0f0f0;
+}
+
+.slider-container {
+    padding: 10px;
+}
+
+.slider-container input[type="range"] {
+    width: 100%;
 }
 
 .itineraries {
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px; /* Increase space between heading and cards */
 }
 
 .card-container {
-    margin: 20px;
-    text-align: left;
+    width: calc(33.333% - 20px); /* Three cards per row with space between */
+    margin-bottom: 40px; /* Increase space between rows of cards */
+    box-sizing: border-box;
+    text-align: center; /* Center align the button */
 }
 
-/* Styles for cards */
-.card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    width: 300px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.card-component {
+    margin-bottom: 10px;
 }
 
-.card-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+.button-component {
+    display: block;
+    margin: 0 auto; /* Center the button */
 }
 
-.card-details {
-    padding: 10px;
+@media (max-width: 768px) {
+    .card-container {
+        width: calc(50% - 20px); /* Two cards per row on tablets */
+    }
 }
 
-.card-details h2 {
-    margin: 0 0 10px;
-    font-size: 18px;
-}
-
-.card-details p {
-    margin: 5px 0;
-    color: #777;
+@media (max-width: 480px) {
+    .card-container {
+        width: 100%; /* One card per row on mobile */
+    }
 }
