@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner';  // Correct the path to banner.js
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
   const [invited, setInvited] = useState([]);
   const [inviteLink, setInviteLink] = useState('');
+
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     // Generate a random invite link on component mount
@@ -23,6 +26,10 @@ const InvitePage = () => {
   const copyInviteLink = () => {
     navigator.clipboard.writeText(inviteLink);
     alert("Invite link copied to clipboard!");
+  };
+
+  const handleNext = () => {
+    navigate('/preferences'); // Adjust the path to the Preferences page
   };
 
   return (
@@ -62,7 +69,7 @@ const InvitePage = () => {
             <button type="button" onClick={copyInviteLink}>Copy Invite Link</button>
           </div>
         </form>
-        <button className="next-button">Next</button>
+        <button className="next-button" onClick={handleNext}>Next</button>
       </div>
     </div>
   );
