@@ -1,7 +1,9 @@
 import React from "react";
-import ButtonComponent from "../components/button";
-import "./homePage.css";
-import TopBanner from "../components/banner";
+import TopBanner from '../../components/banner'; 
+import ButtonComponent from '../../components/button'; 
+import './homePage.css'; 
+
+
 
 
 function HomePage() {

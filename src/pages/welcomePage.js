@@ -1,5 +1,6 @@
 import React from "react";
-import "./homePage.css";
+import '../home_page/homePage.css';
+
 import TopBanner from "../components/banner";
 
 
