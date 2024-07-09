@@ -1,30 +1,42 @@
-import React from "react";
+import React, {useState} from "react";
 import { useNavigate } from 'react-router-dom';
 
 import './button.css'
 
 /**
  * @param  text - a string to show on the button
- * @param  type - 0 -> small, 1 -> normal, 2 -> large, 3 -> alt
- * @param  toPage - a page you want to redirect to onClick
+ * @param  className - small, large, form, profile
+ * @param  toPage - redirect path to onClick
+ * @param  onEnter - Text to change to
+ * @param  onLeave - redirect path to onClick
  */
-const ButtonComponent = ({text="Click Me!",type='1',toPage="/"}) => {
+const ButtonComponent = ({className='', text="Click Me!", toPage="", onHover=''}) => {
     
-    const types = {
-        0:"small",
-        1:"",
-        2:"large",
-        3:"form"
-    };
-    
-    const navigate = useNavigate();
-    function handleClick() {
-        navigate(toPage);
-    };
+  const [message, setText] = useState(text);
 
-    return (
-        <button className={types[type]} onClick={handleClick}>{text}</button>
-    );
+  function handleMouseEnter() { //? to change the text on button hover
+    if (onHover !== '') {
+      setText(onHover)
+    }
+  }
+  function handleMouseLeave() { //? to set the text back to original
+    setText(text)
+  }
+
+  // # Page to redirect to
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate(toPage);
+  };
+
+  return (
+    <button 
+      className={className} 
+      onClick={handleClick} 
+      onMouseEnter={handleMouseEnter} 
+      onMouseLeave={handleMouseLeave}
+    >{message}</button>
+  );
 }
 
 export default ButtonComponent;
