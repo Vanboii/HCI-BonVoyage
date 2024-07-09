@@ -1,53 +1,45 @@
 import React from "react";
 import "./homePage.css";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import TopBanner from "../components/banner";
+import ButtonComponent from "../components/button";
 
 function Test2() {
+    const navigate = useNavigate();
 
-    // const [userEmail, setEmail] = useState('');
-    // const [userPW, setPW] = useState('');
-
-    const UserSignup = (event) => {
+    function UserSignup (event) {
         event.preventDefault();
-        const navigate = useNavigate();
+
         const email = document.getElementById('email').value;
         const password = document.getElementById('pw').value;
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredentail) => {
+            console.log(userCredentail);
+            const user = userCredentail.user
+            alert("Account " + user + " created!")
+            navigate('/newpage');
+            }).catch ((error) => {
+            alert(error.message);
+            });
         
-        try { 
-            const userCredentail = createUserWithEmailAndPassword(auth, email, password);
-            console.log(userCredentail)
-            navigate('/newpage')
-        } catch (error) {
-            console.log(error.message);
-            alert(error.message)
-        }
-        // createUserWithEmailAndPassword(auth, email, password)
-        //     .then((userCredentail) => {
-        //         console.log(userCredentail)
-        //         //# Redirect to homepage
-        //     }).catch((error) => {
-                
-        //     })
     };
-
     return (
-
+        <>
+        {/* <TopBanner/> */}
         <div className="centerAlign">
-            {/* <form className="centerAlign col" onSubmit={userLogin()}>
-                <input type="text" placeholder="Email" id="email" name="email" required />
-                <input type="text" placeholder="Password" id="pw" name="pw" required />
-                <button type="submit">Login</button>
-            </form> */}
-
+            <h2>Sign Up</h2>
             <form className="centerAlign col" onSubmit={UserSignup}>
-                <input type="text" placeholder="Email" required id="email" />
-                <input type="text" placeholder="Password" required id="pw" />
-                <button type="submit">SignUp</button>
+                <input type="text" placeholder="Email" id="email" required />
+                <input type="text" placeholder="Password" id="pw" required />
+                <button type="submit">Sign Me Up!</button>
             </form>
+
+            <ButtonComponent toPage='/test' type="1" text="I have an Account!"/>
         </div>
+        </>
+        
     );
 }
 

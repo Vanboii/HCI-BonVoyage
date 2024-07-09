@@ -9,21 +9,23 @@ import { useNavigate } from "react-router-dom";
 
 
 function TopBanner() {
+
     const navigate = useNavigate()
-
-
+    function handleClick(toPage) {
+        navigate(toPage);
+    }
     return (
         <div id="stickyBanner">
             {/* <div className="leftButtons spacer"> */}
-            <img src={logo} title="Logo" onClick={navigate('/')} alt="Logo" />
-            <ButtonComponent text="My Trips" toPage="/test"/>
-            <ButtonComponent text="Community Trips" toPage="/test2" />
+            <img src={logo} title="Logo" onClick={handleClick('/home')} alt="Logo" />
+            <ButtonComponent text="My Trips" toPage="/newpage"/>
+            <ButtonComponent text="Community Trips" toPage="/welcome" />
             {/* <ButtonComponent text="Save Me!"/> */}
             {/* <ButtonComponent text="Help Me!"/> */}
             {/* </div> */}
             <div className="spacer"></div>
             {/* <div className="rightButtons spacer"> */}
-            <ButtonComponent text="Profile!" toPage="/login"/>
+            <ButtonComponent text="Profile" toPage="/test2"/>
             {/* </div> */}
     
         </div>

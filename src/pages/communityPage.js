@@ -1,15 +1,18 @@
 import React from "react";
-import TopBanner from "../components/banner";
-import ButtonComponent from "../components/button";
 import "./homePage.css";
+import TopBanner from "../components/banner";
 
 
 
-
-export default function CommunityPage() {
+function CommunityPage() {
 
     return (
-        <div>Hello World</div>
+        <>
+        <TopBanner/>
+        <div className="halfWidth">Hello World</div>
+        </>
     )
 
 }
+
+export default CommunityPage;
