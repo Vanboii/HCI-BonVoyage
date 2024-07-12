@@ -1,4 +1,5 @@
 /* src/pages/communityPage.css */
+/* src/pages/communityPage/communityPage.css */
 .community-page {
     font-family: Arial, sans-serif;
     padding-top: 80px; /* Adjusted padding to accommodate banner height */
@@ -6,7 +7,7 @@
 }
 
 .content {
-    padding: 20px;
+    padding: 60px;
     text-align: center;
 }
 
@@ -102,20 +103,8 @@
     transform: translateX(-50%);
 }
 
-@media (max-width: 1200px) {
-    .itineraries {
-        grid-template-columns: repeat(3, 1fr); /* Three cards per row on smaller screens */
-    }
-}
-
-@media (max-width: 768px) {
-    .itineraries {
-        grid-template-columns: repeat(2, 1fr); /* Two cards per row on tablets */
-    }
-}
-
-@media (max-width: 480px) {
-    .itineraries {
-        grid-template-columns: 1fr; /* One card per row on mobile */
-    }
+.card-details .contributors {
+    margin-top: 10px; /* Adjust margin for contributors */
+    font-style: italic; /* Italicize the text */
+    color: #666; /* Grey color for text */
 }

@@ -7,8 +7,8 @@ import CardComponent from "../../components/card";
 import Bali_Image from "../../components/card_images/bali-image.jpg";
 import France_Image from "../../components/card_images/france-image.jpg";
 import Hawaii_Image from "../../components/card_images/hawaii-image.jpg";
-import Jeju_Image from "../../components/card_images/jeju-image.jpg"
-import Laos_Image from "../../components/card_images/laos-image.jpg"
+import Jeju_Image from "../../components/card_images/jeju-image.jpg";
+import Laos_Image from "../../components/card_images/laos-image.jpg";
 import './communityPage.css';
 
 function CommunityPage() {
@@ -22,30 +22,35 @@ function CommunityPage() {
             location: "Bali, Indonesia",
             priceRange: "$200 - $700",
             saves: 241,
+            travelers: 5, // Example number of travelers
         },
         {
             image: France_Image,
             location: "France",
             priceRange: "$500 - $1200",
             saves: 532,
+            travelers: 4, // Example number of travelers
         },
         {
             image: Hawaii_Image,
             location: "Hawaii, United States",
             priceRange: "$700 - $1500",
             saves: 421,
+            travelers: 2, // Example number of travelers
         },
         {
             image: Jeju_Image,
             location: "Jeju, Korea",
             priceRange: "$1200 - $2000",
             saves: 452,
+            travelers: 4, // Example number of travelers
         },
         {
             image: Laos_Image,
             location: "Laos",
             priceRange: "$900 - $2300",
             saves: 51,
+            travelers: 1, // Example number of travelers
         },
     ];
 
@@ -112,6 +117,7 @@ function CommunityPage() {
                                 location={trip.location}
                                 priceRange={trip.priceRange}
                                 saves={trip.saves}
+                                travelers={trip.travelers} // Pass travelers prop
                             />
                             <ButtonComponent className="button-component" text="Save To My Trips" />
                         </div>
@@ -123,5 +129,3 @@ function CommunityPage() {
 }
 
 export default CommunityPage;
-
-
