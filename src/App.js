@@ -26,7 +26,7 @@ function App() {
             <Route exact path='/signup' Component={SignupPage} />
             <Route exact path='/welcome' Component={WelcomePage} />
             <Route exact path='/community' Component={CommunityPage} />
-            <Route exact path='/mytrips' Component = {MyTrips}/>
+            <Route exact path='/mytrips' Component = {MyTripsPage}/>
             <Route path='*' Component={HomePage}/>
         </Routes>
     </Router>

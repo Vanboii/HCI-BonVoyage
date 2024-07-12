@@ -1,19 +1,19 @@
 /* src/pages/communityPage.css */
 .community-page {
     font-family: Arial, sans-serif;
+    padding-top: 80px; /* Adjusted padding to accommodate banner height */
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .content {
     padding: 20px;
     text-align: center;
-    margin-top: 80px; /* Adjusted to push content below the banner */
 }
 
 .search-filter-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Center align items horizontally */
     margin-bottom: 20px;
 }
 
@@ -22,12 +22,12 @@
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    max-width: 60%;
+    max-width: 60%; /* Adjusted max width */
 }
 
 .filter {
     position: relative;
-    margin-left: 8px;
+    margin-left: 8px; /* Adjusted margin */
 }
 
 .filter-button {
@@ -37,15 +37,15 @@
     background-color: white;
     cursor: pointer;
     text-align: center;
-    color: #666;
-    width: 100px;
+    color: #666; /* Grey color for text */
+    width: 100px; /* Adjusted width */
 }
 
 .filter-options {
-    display: none;
+    display: none; /* Hide filter options by default */
     position: absolute;
     top: 100%;
-    left: 0;
+    left: 0; /* Shifted to the left */
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -53,27 +53,42 @@
     z-index: 1;
     width: 250px;
     text-align: center;
-    color: black;
+    color: black; /* Change text color to black */
 }
 
 .filter:hover .filter-options {
+    display: block; /* Show filter options on hover */
+}
+
+.filter-options button {
     display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: center;
+    color: black; /* Change text color to black */
+}
+
+.filter-options button:hover {
+    background-color: #f0f0f0;
 }
 
 .itineraries {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* Four cards per row */
     gap: 20px;
-    justify-items: center;
-    margin-top: 30px;
+    justify-items: center; /* Center the items horizontally */
+    margin-top: 30px; /* Increase space between heading and cards */
 }
 
 .card-container {
-    position: relative;
+    position: relative; /* Ensure relative positioning for absolute button */
     width: 100%;
-    margin-bottom: 40px;
+    margin-bottom: 40px; /* Increase space between rows of cards */
     box-sizing: border-box;
-    text-align: center;
+    text-align: center; /* Center align the button */
 }
 
 .card-component {
@@ -82,25 +97,25 @@
 
 .button-component {
     position: absolute;
-    bottom: 10px;
+    bottom: 10px; /* Adjust as needed */
     left: 50%;
     transform: translateX(-50%);
 }
 
 @media (max-width: 1200px) {
     .itineraries {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* Three cards per row on smaller screens */
     }
 }
 
 @media (max-width: 768px) {
     .itineraries {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr); /* Two cards per row on tablets */
     }
 }
 
 @media (max-width: 480px) {
     .itineraries {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* One card per row on mobile */
     }
 }
