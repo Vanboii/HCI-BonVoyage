@@ -8,20 +8,11 @@ const TripDetailPage = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [numberOfPeople, setNumberOfPeople] = useState(1);
-  const [startDateError, setStartDateError] = useState('');
-  const [endDateError, setEndDateError] = useState('');
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Validate dates
-    if (!isValidDate(startDate)) {
-      setStartDateError('Invalid date format or out of range. Use dd/mm/yyyy');
-      return;
-    } else {
-      setStartDateError('');
-    }
 
     if (!isValidDate(endDate)) {
       setEndDateError('Invalid date format or out of range. Use dd/mm/yyyy');
