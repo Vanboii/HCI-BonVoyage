@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import "./card.css";
 
 const CardComponent = ({ image, location, priceRange, saves, travelers }) => {
@@ -19,6 +19,7 @@ const CardComponent = ({ image, location, priceRange, saves, travelers }) => {
 };
 
 export default CardComponent;
+
 
 
 
