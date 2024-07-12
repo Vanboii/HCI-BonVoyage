@@ -7,12 +7,12 @@ button {
     border-radius: 10px;
     border-width: 2px;
     border-color: antiquewhite;
-    background-color: rgb(0, 0, 0);
+    background-color: #334B48;
     height: auto;
     width: auto;
 }
 button:hover{
-    border-color: black;
+    border-color: #334B48;
 }
 button.small {
     font-size: 12px;
@@ -24,7 +24,7 @@ button.large {
 }
 button.form {
     padding: 5px 10px;
-    color: black;
+    color: #334B48;
     background: antiquewhite;
     border-color: antiquewhite;
     border-style: none;

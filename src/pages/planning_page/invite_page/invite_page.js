@@ -36,8 +36,8 @@ const InvitePage = () => {
     <div className="invite-container">
       <TopBanner />
       <div id="main">
-        <h1>Invite and Plan Your Trip Together</h1>
-        <p>Invite your friends and loved ones to join in the fun of planning your next adventure together!</p>
+        <h1>Invite Others</h1>
+        <p>Plan your next trip together</p>
         <form>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
