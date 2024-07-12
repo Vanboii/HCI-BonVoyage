@@ -9,12 +9,8 @@ import CommunityPage from './pages/communityPage';
 import DisplayDB from './pages/database';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Default from './pages/default';
-import HomePage from './pages/home_page/homePage';
-import LoginPage from './pages/login_page/loginPage';
-import SignupPage from './pages/signup_page/signupPage';
-import WelcomePage from './pages/trial/welcomePage';
-import CommunityPage from './pages/community_page/communityPage';
+// import LoginPage from './pages/login_page/loginPage';
+// import SignupPage from './pages/signup_page/signupPage';
 import MyTripsPage from './pages/mytrips_page/mytripsPage';
 
 function App() {
@@ -41,10 +37,12 @@ const [user, setUser] = useState("")
           
         <Route exact path="/" Component={HomePage} />
         <Route path='/welcome' Component={WelcomePage} />
-        <Route path='/newpage' Component={CommunityPage} />
+        <Route path='/trips' Component={MyTripsPage} />
+        <Route path='/community' Component={CommunityPage} />
         <Route path='/test' Component={Test} />
         <Route path='/test2' Component={Test2} />
         <Route path='/database' Component={DisplayDB} />
+
         <Route path='*' Component={HomePage} />
 
         
