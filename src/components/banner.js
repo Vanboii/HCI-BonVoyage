@@ -1,34 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from './boat-10.png';
 import ButtonComponent from "./button";
-import { useNavigate } from 'react-router-dom';
 import './banner.css';
-
-
+import './button.css';
+import { useNavigate } from "react-router-dom";
+import { useGetUserInfo } from "../pages/hooks/useGetUserInfo";
 
 
 
 function TopBanner() {
 
-    const navigate = useNavigate();
+    const [userName, getUsername] = useState("Login")
+    // const [showSettings, toggleSettings] = useState(false);
+    const {name} = useGetUserInfo();
+  
+    useEffect(() => {
+      getUsername(name)
+    },[])
+
+    function MouseEnter() {
+      getUsername("Logout")
+    }
+    function MouseLeave() {
+      getUsername(name)
+    }
+    
+    //? For the Home icon
+    const navigate = useNavigate()
     function handleClick() {
-        // setState(!state);
-        navigate('/Home');
-    };
-    var doSomething;
+      navigate('/home');
+    }
+
+    //? For the Profile Button
+
+
     return (
         <div id="stickyBanner">
             {/* <div className="leftButtons spacer"> */}
             <img src={logo} title="Logo" onClick={handleClick} alt="Logo" />
-            <ButtonComponent text="My Trips" toPage="/mytrips"/> 
-            <ButtonComponent text="Community Trips" toPage="/community"/>
-            {/* <ButtonComponent text="Save Me!"/> */}
-            {/* <ButtonComponent text="Help Me!"/> */}
+            <ButtonComponent text="My Trips" toPage="/mytrips"/>
+            <ButtonComponent text="Community Trips" toPage="/welcome" />
+            <ButtonComponent text="Database" toPage="/database" />
             {/* </div> */}
+
             <div className="spacer"></div>
-            {/* <div className="rightButtons spacer"> */}
-            <ButtonComponent text="Log In" toPage="/login"/>
-            {/* </div> */}
+            
+            <div className='profile' onMouseEnter={MouseEnter} onMouseLeave={MouseLeave}>
+              <ButtonComponent text={userName} toPage="/test2"/>
+              <div className="rightButtons">
+              <ButtonComponent text="Settings"/>
+              </div>
+              
+            </div>
+            
     
         </div>
 

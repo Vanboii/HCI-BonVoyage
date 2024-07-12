@@ -1,24 +1,20 @@
 import React from "react";
-import TopBanner from "../../components/banner";
-import ButtonComponent from "../../components/button";
 import '../home_page/homePage.css';
 
-
+import TopBanner from "../components/banner";
 
 
 function WelcomePage() {
-
+   
     return (
         <>
-        <TopBanner/>
+        {/* <TopBanner/> */}
         <div className="main">
             Hello
+            <p>dssdndkjnljk</p>
         </div>
         </>
-
-        
-
-    )
+    );
 
 }
 

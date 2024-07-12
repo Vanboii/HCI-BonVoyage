@@ -1,33 +1,48 @@
 button {
-    color: white;
-    font-size: 16px;
-    text-wrap: nowrap;
-    padding: 10px 20px;
-    border-style: solid;
-    border-radius: 10px;
-    border-width: 2px;
-    border-color: antiquewhite;
-    background-color: rgb(0, 0, 0);
-    height: auto;
-    width: auto;
+  color: white;
+  font-size: 16px;
+  text-wrap: nowrap;
+  padding: 10px 20px;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: antiquewhite;
+  background-color: rgb(0, 0, 0);
+  height: auto;
+  width: auto;
 }
 button:hover{
-    border-color: black;
+  border-color: black;
+  cursor: pointer;
 }
+/* #For alternative Button Sizes */
 button.small {
-    font-size: 12px;
-    padding: 5px 10px;
+  font-size: 12px;
+  padding: 5px 10px;
 }
 button.large {
-    font-size: 24px;
-    padding: 12px 32px;
+  font-size: 36px;
+  padding: 12px 32px;
 }
+
+/* #For the form filling on the Login/SignUp page */
 button.form {
-    padding: 5px 10px;
-    color: black;
-    background: antiquewhite;
-    border-color: antiquewhite;
-    border-style: none;
+  padding: 5px 10px;
+  color: black;
+  background: antiquewhite;
+  border-color: antiquewhite;
+  border-style: none;
+}
+
+/* #For Banner Hidden Buttons */
+button.user {
+  background-color: cornflowerblue;
+}
+button.profile {
+  display: none;
+}
+button.user:hover + button.profile {
+  display: flex;
 }
 
 

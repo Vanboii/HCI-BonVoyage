@@ -1,4 +1,13 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
+import TopBanner from './components/banner';
+
+import Test from './pages/test';
+import Test2 from './pages/test2';
+import HomePage from './pages/homePage';
+import WelcomePage from './pages/welcomePage';
+import CommunityPage from './pages/communityPage';
+import DisplayDB from './pages/database';
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from './pages/home_page/homePage';
 import LoginPage from './pages/login_page/loginPage';
@@ -24,29 +33,26 @@ function App() {
 
 
   return (
-        <>
+    <div id='page'>
     <Router>
-            <Routes>
-              <Route path="/home" Component={HomePage} />
-              <Route exact path='/login' Component={LoginPage} />
-              <Route exact path='/signup' Component={SignupPage} />
-              <Route exact path='/welcome' Component={WelcomePage} />
-              <Route exact path='/community' Component={CommunityPage} />
-              <Route exact path='/mytrips' Component = {MyTrips}/>
-              <Route path='/planning/trip_detail' element={<TripDetailPage />} />
-              <Route path='/planning/invite' element={<InvitePage />} /> {/* Corrected path */}
-              <Route path='/preferences' element={<PreferencesPage />} /> {/* Added PreferencesPage route */}
-              <Route path='/tinderpreference' element={<TinderPreference />} />
-              <Route path='/waitingroom' element={<WaitingRoomPage />} />
-              <Route exact path='/loading' Component={LoadingPage} />
-              <Route path='*' element={<HomePage />} />
-            </Routes>
-      </Router>
-  
+      <TopBanner/>
+      <Routes>
+          
+        <Route exact path="/" Component={HomePage} />
+        <Route path='/welcome' Component={WelcomePage} />
+        <Route path='/trips' Component={MyTripsPage} />
+        <Route path='/community' Component={CommunityPage} />
+        <Route path='/test' Component={Test} />
+        <Route path='/test2' Component={Test2} />
+        <Route path='/database' Component={DisplayDB} />
 
+        <Route path='*' Component={HomePage} />
 
-    </>
-    
+        
+      </Routes>
+
+    </Router>
+    </div>
   );
 }
 
