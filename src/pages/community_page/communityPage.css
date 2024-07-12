@@ -1,19 +1,20 @@
 /* src/pages/communityPage.css */
 .community-page {
     font-family: Arial, sans-serif;
-    padding-top: 80px;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .content {
     padding: 20px;
     text-align: center;
+    margin-top: 80px; /* Adjusted to push content below the banner */
 }
 
 .search-filter-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 50px;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .search-bar {
@@ -21,29 +22,30 @@
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    max-width: 70%;
+    max-width: 60%;
 }
 
 .filter {
     position: relative;
-    margin-left: 10px; /* Adjust the spacing between the search bar and filter button */
+    margin-left: 8px;
 }
 
-.filter button {
+.filter-button {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: white;
     cursor: pointer;
     text-align: center;
+    color: #666;
+    width: 100px;
 }
 
 .filter-options {
     display: none;
     position: absolute;
     top: 100%;
-    left: 50%;
-    transform: translateX(-50%); /* Center the dropdown menu */
+    left: 0;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -51,47 +53,27 @@
     z-index: 1;
     width: 250px;
     text-align: center;
+    color: black;
 }
 
 .filter:hover .filter-options {
     display: block;
 }
 
-.filter-options button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    text-align: center;
-}
-
-.filter-options button:hover {
-    background-color: #f0f0f0;
-}
-
-.slider-container {
-    padding: 10px;
-}
-
-.slider-container input[type="range"] {
-    width: 100%;
-}
-
 .itineraries {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    justify-content: center;
-    margin-top: 30px; /* Increase space between heading and cards */
+    justify-items: center;
+    margin-top: 30px;
 }
 
 .card-container {
-    width: calc(33.333% - 20px); /* Three cards per row with space between */
-    margin-bottom: 40px; /* Increase space between rows of cards */
+    position: relative;
+    width: 100%;
+    margin-bottom: 40px;
     box-sizing: border-box;
-    text-align: center; /* Center align the button */
+    text-align: center;
 }
 
 .card-component {
@@ -99,18 +81,26 @@
 }
 
 .button-component {
-    display: block;
-    margin: 0 auto; /* Center the button */
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media (max-width: 1200px) {
+    .itineraries {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
-    .card-container {
-        width: calc(50% - 20px); /* Two cards per row on tablets */
+    .itineraries {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 480px) {
-    .card-container {
-        width: 100%; /* One card per row on mobile */
+    .itineraries {
+        grid-template-columns: 1fr;
     }
 }

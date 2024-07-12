@@ -112,6 +112,8 @@ import CardComponent from "../../components/card";
 import Bali_Image from "../../components/card_images/bali-image.jpg";
 import France_Image from "../../components/card_images/france-image.jpg";
 import Hawaii_Image from "../../components/card_images/hawaii-image.jpg";
+import Jeju_Image from "../../components/card_images/jeju-image.jpg"
+import Laos_Image from "../../components/card_images/laos-image.jpg"
 import './communityPage.css';
 
 function CommunityPage() {
@@ -122,7 +124,7 @@ function CommunityPage() {
     const itineraries = [
         {
             image: Bali_Image,
-            location: "Bali",
+            location: "Bali, Indonesia",
             priceRange: "$200 - $700",
             saves: 241,
         },
@@ -134,9 +136,21 @@ function CommunityPage() {
         },
         {
             image: Hawaii_Image,
-            location: "Hawaii",
+            location: "Hawaii, United States",
             priceRange: "$700 - $1500",
             saves: 421,
+        },
+        {
+            image: Jeju_Image,
+            location: "Jeju, Korea",
+            priceRange: "$1200 - $2000",
+            saves: 452,
+        },
+        {
+            image: Laos_Image,
+            location: "Laos",
+            priceRange: "$900 - $2300",
+            saves: 51,
         },
     ];
 
@@ -163,7 +177,7 @@ function CommunityPage() {
         <div className="community-page">
             <TopBanner />
             <div className="content">
-                <h1 style={{ paddingTop: '80px' }}>Find Your Next Trip!</h1>
+                <h1>Find Your Next Trip!</h1>
                 <p>Explore other trips created by fellow travelers.</p>
                 <div className="search-filter-container">
                     <input
@@ -174,7 +188,7 @@ function CommunityPage() {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     <div className="filter">
-                        <button>Filter</button>
+                        <button className="filter-button">Filter</button>
                         <div className="filter-options">
                             <button onClick={() => setFilter("Most Saved")}>Most Saved</button>
                             <button onClick={() => setFilter("Highest to Lowest Budget")}>Highest to Lowest Budget</button>
