@@ -1,40 +1,37 @@
 import React, { useEffect, useState } from "react";
-import HomePageBanner from '../../components/homepagebanner';
+import TopBanner from '../../components/homepagebanner';
 import ButtonComponent from '../../components/button';
 import './homePage.css';
 
+// Import SVG files as URLs
 const images = [
-    require('../../components/homepage_slideshow/cebu_slideshow.jpg'),
-    require('../../components/homepage_slideshow/singapore_slideshow.jpg'),
-    require('../../components/homepage_slideshow/hawaii_slideshow.jpg'),
-    require('../../components/homepage_slideshow/jeju_slideshow.jpg'),
-    require('../../components/homepage_slideshow/maldives_slideshow.jpg'),
-    require('../../components/homepage_slideshow/mountain_slideshow.jpg'),
-    require('../../components/homepage_slideshow/switzerland_slideshow.jpg'),
-    require('../../components/homepage_slideshow/newzealand_slideshow.jpg'),
-    require('../../components/homepage_slideshow/norway_slideshow.jpg')
+    require('../../components/homepage_slideshow/cebu_slideshow.svg').default,
+    require('../../components/homepage_slideshow/singapore_slideshow.svg').default,
+    require('../../components/homepage_slideshow/hawaii_slideshow.svg').default,
+    require('../../components/homepage_slideshow/jeju_slideshow.svg').default,
+    require('../../components/homepage_slideshow/maldives_slideshow.svg').default,
+    require('../../components/homepage_slideshow/mountain_slideshow.svg').default,
+    require('../../components/homepage_slideshow/switzerland_slideshow.svg').default,
+    require('../../components/homepage_slideshow/newzealand_slideshow.svg').default,
+    require('../../components/homepage_slideshow/norway_slideshow.svg').default
 ];
 
 function HomePage() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [fade, setFade] = useState(true); // Initial fade state set to true
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setFade(false); // Start fading out the current image
-            setTimeout(() => {
-                setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-                setFade(true); // Start fading in the next image after a delay
-            }, 300); // Delay before fading in the next image (match your CSS transition duration)
-        }, 6000); // Interval between image changes
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+        }, 6000); // Interval to change image every 6 seconds
 
         return () => clearInterval(interval); // Cleanup interval on component unmount
     }, []);
 
     return (
         <>
-            <HomePageBanner />
-            <div id="main" className={fade ? 'fade' : ''} style={{ backgroundImage: `url(${images[currentImageIndex]})` }}>
+            <TopBanner />
+            <div id="main" style={{ backgroundImage: `url(${images[currentImageIndex]})` }}>
+                <div className="overlay"></div>
                 <div className="col centerAlign">
                     <h1>Bon Voyage</h1>
                     <ButtonComponent type="2" text="Start Planning" toPage="/planning/trip_detail" />
@@ -45,4 +42,8 @@ function HomePage() {
 }
 
 export default HomePage;
+
+
+
+
 

@@ -13,7 +13,7 @@
     gap: 1vw;
     display: flex;
     align-items: center;
-    background-color: transparent; /* Make background transparent */
+    background-color: transparent; /* Ensure transparent background */
     z-index: 3; /* Ensure the banner stays on top */
 }
 
@@ -40,8 +40,19 @@
     display: flex;
     align-items: center;
     flex-grow: 0;
-    background-color: rgba(0, 0, 0, 0);
-    border-style: double;
+    gap: 8px; /* Increase the spacing between buttons */
+}
+
+.rightButtons button {
+    background-color: transparent; /* Make button background transparent */
+    color: white; /* Set text color to white */
+    border: none; /* Remove border */
+    cursor: pointer; /* Change cursor to pointer */
+    font-size: 16px; /* Adjust font size if necessary */
+}
+
+.rightButtons button:hover {
+    text-decoration: underline; /* Optional: underline text on hover */
 }
 
 @media only screen and (max-width: 500px) {

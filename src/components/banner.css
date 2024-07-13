@@ -1,3 +1,5 @@
+/* banner.css */
+
 * {
     box-sizing: border-box;
 }
@@ -13,46 +15,59 @@
     gap: 1vw;
     display: flex;
     align-items: center;
-    background-color: bisque;
+    z-index: 3; /* Ensure the banner stays on top */
 }
-.spacer {
-    /* padding: 10px; */
-    display: flex;
-    flex-grow: 1;
-}
-.leftButtons {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    overflow-x: auto;
-    gap: 25px;
 
-    background-color: rgba(0, 0, 0, 0);
-    border-style: double;
-    height: fit-content ;
+.spacer {
+    display: flex;
+    flex-grow: 1;
 }
-/* .leftButtons img { */
+
 #stickyBanner img {
     min-height: 30px;
     height: 5vh;
     max-height: 40px;
-
     width: auto;
     border-style: solid;
     border-color: rgba(0, 0, 0, 0);
 }
+
 #stickyBanner img:hover {
     border-style: none;
 }
+
 .rightButtons {
     height: 100%;
     display: flex;
     align-items: center;
     flex-grow: 0;
+    gap: 16px; /* Increased spacing between buttons */
+}
 
-    background-color: rgba(0, 0, 0, 0);
-    border-style: double;
+.rightButtons button {
+    background-color: transparent; /* Make button background transparent */
+    border: none; /* Remove border */
+    cursor: pointer; /* Change cursor to pointer */
+    font-size: 18px; /* Increased font size */
+    font-weight: bold; /* Bold text */
+    padding: 8px 12px; /* Adjust padding */
+}
 
+.rightButtons button:hover {
+    text-decoration: underline; /* Optional: underline text on hover */
+}
+
+.transparent {
+    background-color: transparent !important; /* Transparent background for homepage */
+    color: white; /* White text color for buttons on homepage */
+}
+
+.colored {
+    background-color: #96b1ad !important; /* Colored background for other pages */
+}
+
+.colored .rightButtons button {
+    color: black; /* Black text color for buttons on other pages */
 }
 
 @media only screen and (max-width: 500px) {
@@ -63,8 +78,7 @@
     }
     #stickyBanner img {
         height: 8vh;
-        
         padding-right: 5px;
     }
-    
 }
+    

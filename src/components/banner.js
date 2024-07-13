@@ -1,55 +1,38 @@
+// banner.js
+
 import React from "react";
-import logo from './boat-10.png';
+import homepageLogo from './boat_in_white.png'; // Logo for homepage
+import otherPagesLogo from './boat-10.png'; // Logo for other pages
 import ButtonComponent from "./button";
-import { useNavigate } from 'react-router-dom';
-import './banner.css';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation to get the current path
+import './banner.css'; // Ensure correct CSS file is imported
 
-
-
-
-
-function TopBanner() {
-
+function Banner() {
     const navigate = useNavigate();
-    function handleClick() {
-        // setState(!state);
-        navigate('/Home');
-    };
-    var doSomething;
-    return (
-        <div id="stickyBanner">
-            {/* <div className="leftButtons spacer"> */}
-            <img src={logo} title="Logo" onClick={handleClick} alt="Logo" />
-            <ButtonComponent text="My Trips" toPage="/mytrips"/> 
-            <ButtonComponent text="Community Trips" toPage="/community"/>
-            {/* <ButtonComponent text="Save Me!"/> */}
-            {/* <ButtonComponent text="Help Me!"/> */}
-            {/* </div> */}
-            <div className="spacer"></div>
-            {/* <div className="rightButtons spacer"> */}
-            <ButtonComponent text="Log In" toPage="/login"/>
-            {/* </div> */}
-    
-        </div>
+    const location = useLocation();
 
-        //^ This the previously working layout
-        // <div id="stickyBanner2">
-        //     <div className="leftButtons spacer">
-        //     <img src={logo} title="Logo" onClick={handleClick} alt="Logo" />
-        //     <ButtonComponent text="My Trips" />
-        //     <ButtonComponent text="Community Trips"/>
-        //     <ButtonComponent text="Save Me!"/> /** Extra buttons to test responsiveness */
-        //     <ButtonComponent text="Help Me!"/>
-        //     </div>
-        //     <div className="rightButtons spacer">
-        //     <ButtonComponent text="Profile!" toPage="/login"/>
-        //     </div>
-    
-        // </div>
+    // Determine if the current page is the homepage
+    const isHomepage = location.pathname === '/';
+
+    function handleClick() {
+        navigate('/'); // Adjust the homepage route if needed
+    }
+
+    return (
+        <div id="stickyBanner" className={isHomepage ? 'transparent' : 'colored'}>
+            <img src={isHomepage ? homepageLogo : otherPagesLogo} title="Logo" onClick={handleClick} alt="Logo" />
+            <div className="spacer"></div>
+            <div className="rightButtons">
+                <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => navigate('/mytrips')}>My Trips</button>
+                <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => navigate('/community')}>Community Trips</button>
+                <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => navigate('/login')}>Log In</button>
+            </div>
+        </div>
     );
 }
 
+export default Banner;
 
 
 
-export default TopBanner;
+

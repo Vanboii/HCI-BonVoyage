@@ -1,6 +1,7 @@
+//dont delete this, this is still needed for homepage
+
 import React from "react";
 import logo from './boat_in_white.png'; // Update the logo
-// import ButtonComponent from "./button";
 import { useNavigate } from 'react-router-dom';
 import './homepagebanner.css'; // Ensure correct CSS file is imported
 
@@ -25,5 +26,3 @@ function HomePageBanner() {
 }
 
 export default HomePageBanner;
-
-
