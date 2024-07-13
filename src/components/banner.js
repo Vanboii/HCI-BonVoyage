@@ -3,7 +3,7 @@
 import React from "react";
 import homepageLogo from './boat_in_white.png'; // Logo for homepage
 import otherPagesLogo from './boat-10.png'; // Logo for other pages
-import ButtonComponent from "./button";
+// import ButtonComponent from "./button";
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation to get the current path
 import './banner.css'; // Ensure correct CSS file is imported
 
@@ -32,7 +32,3 @@ function Banner() {
 }
 
 export default Banner;
-
-
-
-

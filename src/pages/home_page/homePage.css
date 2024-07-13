@@ -17,7 +17,6 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: black; /* Initial background color */
 }
 
 .overlay {
@@ -75,4 +74,13 @@ button.startPlanning:hover {
 
 #stickyBanner {
     z-index: 3;
+}
+
+/* Specific styles for login and sign-up pages */
+.login-page {
+    background-color: white; /* Set a specific background color for login page */
+}
+
+.signup-page {
+    background-color: white; /* Set a specific background color for sign-up page */
 }
