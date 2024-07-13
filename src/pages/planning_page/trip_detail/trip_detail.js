@@ -70,6 +70,7 @@ const TripDetailPage = () => {
                   options={countries}
                   isClearable
                   isSearchable
+                  required
                 />
               </div>
               <div className="input-container">
@@ -82,6 +83,7 @@ const TripDetailPage = () => {
                   isClearable
                   isSearchable
                   isDisabled={!country}
+                  required
                 />
               </div>
             </div>
