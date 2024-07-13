@@ -13,7 +13,8 @@
     gap: 1vw;
     display: flex;
     align-items: center;
-    background-color: #0F968C;
+    z-index: 10;
+    background: #015a6c;;
 }
 .spacer {
     /* padding: 10px; */
@@ -34,7 +35,7 @@
 /* .leftButtons img { */
 #stickyBanner img {
     min-height: 30px;
-    height: 5vh;
+    height: 10vh;
     max-height: 40px;
 
     width: auto;
