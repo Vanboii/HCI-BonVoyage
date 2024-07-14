@@ -26,10 +26,11 @@
 #stickyBanner img {
     min-height: 30px;
     height: 10vh;
-    max-height: 40px;
+    max-height: 50px;
     width: auto;
     border-style: solid;
     border-color: rgba(0, 0, 0, 0);
+    margin-left: 20px;
 }
 
 #stickyBanner img:hover {
@@ -42,6 +43,7 @@
     align-items: center;
     flex-grow: 0;
     gap: 16px; /* Increased spacing between buttons */
+    margin-right: 20px;
 }
 
 .rightButtons button {
@@ -50,7 +52,7 @@
     cursor: pointer; /* Change cursor to pointer */
     font-size: 18px; /* Increased font size */
     font-weight: bold; /* Bold text */
-    padding: 8px 12px; /* Adjust padding */
+    padding: 10px 20px; /* Adjust padding */
 }
 
 .rightButtons button:hover {
@@ -78,7 +80,7 @@
     }
     #stickyBanner img {
         height: 8vh;
-        padding-right: 5px;
+        padding-left: 10px;
     }
 }
 
