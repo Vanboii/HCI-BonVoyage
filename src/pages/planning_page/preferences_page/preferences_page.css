@@ -12,13 +12,13 @@ main {
 .preferences-container h1 {
     font-size: 48px;
     margin-bottom: -10px;
-    text-align: left;
+    text-align: center;
 }
 
 .preferences-container p {
-    font-size: 16px;
+    font-size: 18px;
     margin-bottom: 30px;
-    text-align: left;
+    text-align: center;
 }
 
 form {
@@ -279,7 +279,7 @@ button {
 }
 
 .budget-tagline {
-    font-size: 5px;
+    font-size: 3px;
     color: #666;
     margin-bottom: 0px;
     margin-top: 0px;

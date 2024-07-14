@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import countryList from 'country-list';
-import { City, Country } from 'country-state-city';
+import { City } from 'country-state-city'; // Removed unused 'Country' import
 
 // Transform the country list to match react-select's expected format
 const countries = countryList.getData().map((country) => ({
@@ -99,7 +99,7 @@ const TripDetailPage = () => {
                 id="start-date"
                 required
                 minDate={today}
-                className="custom-date-picker"
+                className="custom-date-picker start-date"
               />
               <span>To</span>
               <DatePicker
@@ -110,7 +110,7 @@ const TripDetailPage = () => {
                 id="end-date"
                 required
                 minDate={startDate || today}
-                className="custom-date-picker"
+                className="custom-date-picker end-date"
               />
             </div>
           </div>
@@ -123,6 +123,7 @@ const TripDetailPage = () => {
               onChange={(e) => setNumberOfPeople(e.target.value)}
               min="1"
               required
+              className="people-count"
             />
           </div>
           <button type="submit" className="next-button">Next</button>

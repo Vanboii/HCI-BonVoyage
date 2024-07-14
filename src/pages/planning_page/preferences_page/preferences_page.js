@@ -98,7 +98,7 @@ const PreferencesPage = () => {
       <TopBanner />
       <main>
         <h1>Personal Preference</h1>
-        <p>Customize your Travel Experience!</p>
+        <p>Customize your own Travel Experience</p>
         <form>
           <div className="form-group">
             <label>Dietary Restrictions:</label>

@@ -64,7 +64,8 @@ div, h1, h2, h3 { /*^ For ensuring Proper Title formatting*/
 }
 
 h1 {        /*^     For homePage */
-    font-size: 120px;
+    font-size: 90px;
+    margin-bottom:20px;
 }
 
 h2 {        /*^     For Page Titles   */
