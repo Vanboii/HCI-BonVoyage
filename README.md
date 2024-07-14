@@ -2,5 +2,6 @@
 
 To run the code, open terminal and proceed to: 
 
-`pip install requirements.txt`
+`pip install requirements.txt`  
+
 `uvicorn main:app --reload`
