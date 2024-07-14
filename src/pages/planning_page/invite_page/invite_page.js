@@ -34,7 +34,7 @@ const InvitePage = () => {
 
   return (
     <div className="invite-container">
-      <TopBanner />
+      {/* <TopBanner /> */}
       <div id="main">
         <h1>Invite and Plan Your Trip Together</h1>
         <p>Invite your friends and loved ones to join in the fun of planning your next adventure together!</p>

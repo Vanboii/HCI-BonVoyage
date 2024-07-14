@@ -4,27 +4,18 @@ import ButtonComponent from "./button";
 import './banner.css';
 import './button.css';
 import { useNavigate } from "react-router-dom";
-import { useGetUserInfo } from "../pages/hooks/useGetUserInfo";
+
+import { useGetUserInfo } from "../hooks/useGetUserInfo";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
 
 
 
 function TopBanner() {
 
-    const [userName, getUsername] = useState("Login")
-    // const [showSettings, toggleSettings] = useState(false);
-    const {name} = useGetUserInfo();
-  
-    useEffect(() => {
-      getUsername(name)
-    },[])
+    const [username, setUsername] = useState("Login")
+ 
 
-    function MouseEnter() {
-      getUsername("Logout")
-    }
-    function MouseLeave() {
-      getUsername(name)
-    }
-    
     //? For the Home icon
     const navigate = useNavigate()
     function handleClick() {
@@ -32,44 +23,45 @@ function TopBanner() {
     }
 
     //? For the Profile Button
+    const listen = () => {
+      if (auth.currentUser) {
+        setUsername(auth.currentUser.displayName)
+      } else {
+        setUsername("Login")
+      }
+    }
 
+    function logout() {
+      signOut(auth);
+      console.log("Logging Out",auth.currentUser)
+    }
+
+    useEffect(() => {
+      listen()
+    })
 
     return (
         <div id="stickyBanner">
             {/* <div className="leftButtons spacer"> */}
             <img src={logo} title="Logo" onClick={handleClick} alt="Logo" />
-            <ButtonComponent text="My Trips" toPage="/mytrips"/>
-            <ButtonComponent text="Community Trips" toPage="/welcome" />
+            <ButtonComponent text="My Trips" toPage="/trips"/>
+            <ButtonComponent text="Community Trips" toPage="/community" />
             <ButtonComponent text="Database" toPage="/database" />
             {/* </div> */}
 
             <div className="spacer"></div>
-            
-            <div className='profile' onMouseEnter={MouseEnter} onMouseLeave={MouseLeave}>
-              <ButtonComponent text={userName} toPage="/test2"/>
-              <div className="rightButtons">
-              <ButtonComponent text="Settings"/>
-              </div>
-              
-            </div>
+          
+            <div className='profile'>
+            <ButtonComponent text={username} toPage="/login"/>
+            {(username != "Login") && <div className="rightButtons">
+              <ButtonComponent text="Logout" action={logout}/>
+            </div>}
+          </div>
             
     
         </div>
 
-        //^ This the previously working layout
-        // <div id="stickyBanner2">
-        //     <div className="leftButtons spacer">
-        //     <img src={logo} title="Logo" onClick={handleClick} alt="Logo" />
-        //     <ButtonComponent text="My Trips" />
-        //     <ButtonComponent text="Community Trips"/>
-        //     <ButtonComponent text="Save Me!"/> /** Extra buttons to test responsiveness */
-        //     <ButtonComponent text="Help Me!"/>
-        //     </div>
-        //     <div className="rightButtons spacer">
-        //     <ButtonComponent text="Profile!" toPage="/login"/>
-        //     </div>
-    
-        // </div>
+
     );
 }
 

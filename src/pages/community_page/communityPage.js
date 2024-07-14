@@ -23,7 +23,7 @@ import CardComponent from "../../components/card";
 import Bali_Image from "../../components/card_images/bali-image.jpg";
 import France_Image from "../../components/card_images/france-image.jpg";
 import Hawaii_Image from "../../components/card_images/hawaii-image.jpg";
-import '../home_page/homePage.css'; 
+import './communityPage.css'; 
 import { useNavigate } from "react-router-dom";
 
 function CommunityPage() {
@@ -58,7 +58,7 @@ function CommunityPage() {
 
     return (
         <div className="community-page">
-            <TopBanner />
+            {/* <TopBanner /> */}
             <div>
                 {/* <div className="halfWidth leftAlign"> */}
 

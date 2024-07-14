@@ -12,7 +12,7 @@ const TripDetailPage = () => {
   const [endDateError, setEndDateError] = useState('');
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     // Validate dates
@@ -44,7 +44,7 @@ const TripDetailPage = () => {
 
   return (
     <div className="trip-detail-container">
-      <TopBanner />
+      {/* <TopBanner /> */}
       <main>
         <h1>Plan your next travel</h1>
         <p>Gateway to Planning Your Next Trip</p>
@@ -63,7 +63,7 @@ const TripDetailPage = () => {
             <label htmlFor="start-date">When?</label>
             <div className="date-group">
               <input
-                type="text"
+                type="text"  // i think the type can be "date" or "datetime"
                 id="start-date"
                 placeholder="Start Date (dd/mm/yyyy)"
                 value={startDate}

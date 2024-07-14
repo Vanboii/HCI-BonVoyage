@@ -13,7 +13,7 @@ const PreferencesPage = () => {
 
   return (
     <div className="preferences-container">
-      <TopBanner />
+      {/* <TopBanner /> */}
       <main>
         <h1>Preferences</h1>
         <p>Customise your Travel Experience!</p>

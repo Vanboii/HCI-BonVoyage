@@ -23,7 +23,7 @@ function WaitingRoom() {
 
   return (
     <>
-      <TopBanner/>
+      {/* <TopBanner/> */}
         <div className="content">
           <div>
             <p className="progress">{users.length}/{maxUsers} has filled in their preference</p>

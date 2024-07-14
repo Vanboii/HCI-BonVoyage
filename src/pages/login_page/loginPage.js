@@ -1,7 +1,6 @@
 import React from "react";
-import TopBanner from "../../../components/banner";
-import ButtonComponent from "../../../components/button";
-import "./homePage.css";
+
+import "../homePage.css";
 import { useNavigate } from "react-router-dom";
 
 
@@ -14,7 +13,7 @@ function LoginPage() {
 
     return (
         <>
-        <TopBanner/>
+        {/* <TopBanner/> */}
         <div id="main">
             <div id="account">
                 <div className="left">

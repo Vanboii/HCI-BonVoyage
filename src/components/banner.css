@@ -48,13 +48,6 @@
 #stickyBanner img:hover {
     border-style: none;
 }
-.rightButtons {
-    height: 100%;
-    display: none;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0);
-    border-style: none;
-}
 
 .profile {
   display: flex;
@@ -62,12 +55,18 @@
   border-style: none;
   gap: 20px;
   margin: 0px;
-
+  
+}
+.rightButtons {
+    height: 100%;
+    display: none;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    border-style: none;
 }
 .profile:hover .rightButtons {
   display: flex;
   margin:0px
-
 }
 
 

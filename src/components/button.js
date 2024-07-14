@@ -10,7 +10,7 @@ import './button.css'
  * @param  onEnter - Text to change to
  * @param  onLeave - redirect path to onClick
  */
-const ButtonComponent = ({className='', text="Click Me!", toPage="", onHover=''}) => {
+const ButtonComponent = ({className='', text="Click Me!", toPage="", action={}, onHover=''}) => {
     
   const [message, setText] = useState(text);
 
@@ -26,14 +26,21 @@ const ButtonComponent = ({className='', text="Click Me!", toPage="", onHover=''}
   // # Page to redirect to
   const navigate = useNavigate();
   function handleClick() {
-    navigate(toPage);
+    if (toPage != "") {
+      navigate(toPage);
+    } else {
+      
+      action()
+    }
+
+
   };
 
   return (
     <button 
       className={className} 
       onClick={handleClick} 
-      onMouseEnter={handleMouseEnter} 
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >{message}</button>
   );

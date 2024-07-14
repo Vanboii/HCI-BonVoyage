@@ -1,57 +1,3 @@
-// import React from "react";
-// import TopBanner from "../../components/banner";
-// import ButtonComponent from "../../components/button";
-// import "./homePage.css";
-
-
-//celest new code (1) - no tabs
-// import React from "react";
-// import TopBanner from "../../components/banner";
-// import CardComponent from "../../components/card";
-// import baliImage from '../../components/card_images/bali-image.jpg';
-// import franceImage from '../../components/card_images/france-image.jpg';
-// import cebuImage from '../../components/card_images/cebu-image.jpg';
-// import hawaiiImage from '../../components/card_images/hawaii-image.jpg';
-// import "./mytripsPage.css";
-
-// function MyTripsPage() {
-//     return (
-//         <div>
-//             <TopBanner />
-//             <div className="page-content">
-//                 <div className="search-filter-bar">
-//                     <input type="text" placeholder="Search Destination" className="search-bar"/>
-//                     <div className="filter">
-//                         <button>Filter</button>
-//                         <div className="filter-options">
-//                             <button>Higher to Lowest Budget</button>
-//                             <button>Lowest to Highest Budget</button>
-//                             <button>Most Liked</button>
-//                             <button>Least Liked</button>
-//                             <button>Manual Filter</button>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <h1>Upcoming Trips</h1>
-//                 <div className="cards-container">
-//                     <CardComponent image={baliImage} location="Bali" priceRange="$200-$700" saves="20"/>
-//                     <CardComponent image={franceImage} location="France" priceRange="$500-$1000" saves="15"/>
-//                 </div>
-//                 <h1>Past Trips</h1>
-//                 <div className="cards-container">
-//                     <CardComponent image={hawaiiImage} location="Hawaii" priceRange="$700-$1500" saves="25"/>
-//                 </div>
-//                 <h1>Saved Trips</h1>
-//                 <div className="cards-container">
-//                     <CardComponent image={cebuImage} location="Cebu" priceRange="$300-$800" saves="10"/>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
-
-// export default MyTripsPage;
-
 
 // celest new code (2) - tabs (WORKING!)
 import React, { useState } from 'react';
@@ -127,73 +73,70 @@ const MyTripsPage = () => {
   };
 
   return (
-    <div>
-      <TopBanner />
-      <div className="page-content">
-        <div className="mytrips-tabs">
-          <div
-            className={`tab ${activeTab === 'upcoming' ? 'active' : ''}`}
-            onClick={() => handleTabClick('upcoming')}
-          >
-            Upcoming Trips
-          </div>
-          <div
-            className={`tab ${activeTab === 'past' ? 'active' : ''}`}
-            onClick={() => handleTabClick('past')}
-          >
-            Past Trips
-          </div>
-          <div
-            className={`tab ${activeTab === 'saved' ? 'active' : ''}`}
-            onClick={() => handleTabClick('saved')}
-          >
-            Saved Trips
-          </div>
+    <div className="page-content">
+      <div className="mytrips-tabs">
+        <div
+          className={`tab ${activeTab === 'upcoming' ? 'active' : ''}`}
+          onClick={() => handleTabClick('upcoming')}
+        >
+          Upcoming Trips
         </div>
-        <div className="title-container">
-          {activeTab === 'upcoming' && <h1 className="title">Upcoming Trips</h1>}
-          {activeTab === 'past' && <h1 className="title">Past Trips</h1>}
-          {activeTab === 'saved' && <h1 className="title">Saved Trips</h1>}
+        <div
+          className={`tab ${activeTab === 'past' ? 'active' : ''}`}
+          onClick={() => handleTabClick('past')}
+        >
+          Past Trips
         </div>
-        <div className="search-filter-container">
-          <input
-            type="text"
-            className="search-bar"
-            placeholder="Search Destination"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <div className="filter">
-            <button>Filter</button>
-            <div className="filter-options">
-              <button onClick={() => handleFilter('highest')}>Highest to Lowest Budget</button>
-              <button onClick={() => handleFilter('lowest')}>Lowest to Highest Budget</button>
-              <div className="slider-container">
-                <label>Budget Slider</label>
-                <div>Maximum Budget ${maxBudget}</div>
-                <input
-                  type="range"
-                  min="0"
-                  max="15000"
-                  value={maxBudget}
-                  onChange={handleSliderChange}
-                />
-              </div>
+        <div
+          className={`tab ${activeTab === 'saved' ? 'active' : ''}`}
+          onClick={() => handleTabClick('saved')}
+        >
+          Saved Trips
+        </div>
+      </div>
+      <div className="title-container">
+        {activeTab === 'upcoming' && <h1 className="title">Upcoming Trips</h1>}
+        {activeTab === 'past' && <h1 className="title">Past Trips</h1>}
+        {activeTab === 'saved' && <h1 className="title">Saved Trips</h1>}
+      </div>
+      <div className="search-filter-container">
+        <input
+          type="text"
+          className="search-bar"
+          placeholder="Search Destination"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+        <div className="filter">
+          <button>Filter</button>
+          <div className="filter-options">
+            <button onClick={() => handleFilter('highest')}>Highest to Lowest Budget</button>
+            <button onClick={() => handleFilter('lowest')}>Lowest to Highest Budget</button>
+            <div className="slider-container">
+              <label>Budget Slider</label>
+              <div>Maximum Budget ${maxBudget}</div>
+              <input
+                type="range"
+                min="0"
+                max="15000"
+                value={maxBudget}
+                onChange={handleSliderChange}
+              />
             </div>
           </div>
         </div>
-        <div className="trips-cards">
-          {filteredTrips.map((trip, index) => (
-            <CardComponent
-              key={index}
-              className="card-component"
-              image={trip.image}
-              location={trip.location}
-              priceRange={trip.priceRange}
-              saves={trip.saves}
-            />
-          ))}
-        </div>
+      </div>
+      <div className="trips-cards">
+        {filteredTrips.map((trip, index) => (
+          <CardComponent
+            key={index}
+            className="card-component"
+            image={trip.image}
+            location={trip.location}
+            priceRange={trip.priceRange}
+            saves={trip.saves}
+          />
+        ))}
       </div>
     </div>
   );
