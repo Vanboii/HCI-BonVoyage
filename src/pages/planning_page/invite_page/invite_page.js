@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './invite_page.css'; // Import the CSS file to style the page
-import TopBanner from '../../../components/banner';  // Correct the path to banner.js
+import TopBanner from '../../../components/banner'; // Correct the path to banner.js
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ const InvitePage = () => {
 
   useEffect(() => {
     // Generate a random invite link on component mount
-    const link = `https://example.com/invite/${Math.random().toString(36).substring(2, 15)}`;
+    const link = `https://bonvoyage.com/invite/${Math.random().toString(36).substring(2, 15)}`;
     setInviteLink(link);
   }, []);
 
@@ -21,6 +22,10 @@ const InvitePage = () => {
       setInvited([...invited, email]);
       setEmail(''); // Clear the email input
     }
+  };
+
+  const deleteInvite = (invite) => {
+    setInvited(invited.filter((i) => i !== invite));
   };
 
   const copyInviteLink = () => {
@@ -35,42 +40,53 @@ const InvitePage = () => {
   return (
     <div className="invite-container">
       <TopBanner />
-      <div id="main">
-        <h1>Invite and Plan Your Trip Together</h1>
-        <p>Invite your friends and loved ones to join in the fun of planning your next adventure together!</p>
+      <main>
+        <h1>Send An Invite</h1>
+        <p>Invite others to plan your next trip together</p>
         <form>
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button type="button" onClick={sendInvite}>Send Invite</button>
+            <label htmlFor="email">Email / Username:</label>
+            <div className="invite-input-group">
+              <input
+                type="text"
+                id="email"
+                placeholder="eg: example@email.com or BonVoyage"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button type="button" className="send-invite-button" onClick={sendInvite}>
+                Send Invite
+                <img src={sendIcon} alt="Send Icon" />
+              </button>
+            </div>
           </div>
           <div className="form-group">
-            <label htmlFor="invited">People with Access:</label>
-            <textarea
-              id="invited"
-              value={invited.join('\n')}
-              readOnly
-            />
+            <label htmlFor="invited">Invites:</label>
+            <ul className="invite-list">
+              {invited.map((invite, index) => (
+                <li key={index} className="invite-item">
+                  {invite}
+                  <button type="button" className="delete-button" onClick={() => deleteInvite(invite)}>
+                    &times;
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="form-group">
+          <div className="form-group invite-link-group">
             <label htmlFor="invite-link">Invite Link:</label>
             <input
               type="text"
               id="invite-link"
               value={inviteLink}
               readOnly
+              className="invite-link"
             />
-            <button type="button" onClick={copyInviteLink}>Copy Invite Link</button>
+            <button type="button" className="copy-link-button" onClick={copyInviteLink}>Copy Link</button>
           </div>
+          <button type="button" className="next-button" onClick={handleNext}>Next</button>
         </form>
-        <button className="next-button" onClick={handleNext}>Next</button>
-      </div>
+      </main>
     </div>
   );
 };

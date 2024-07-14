@@ -7,21 +7,21 @@
 }
 
 main {
-  margin-top: -15px; /* Ensure the content is not hidden behind the fixed banner */
+  margin-top: -15px;
 }
 
 .trip-detail-container h1 {
   font-size: 52px;
   margin-bottom: -10px;
   margin-top: 90px;
-  text-align: left;
+  text-align: center;
 }
 
 .trip-detail-container p {
-  font-size: 18px;
+  font-size: 16px;
   margin-bottom: 40px;
-  font-weight: bold; /* Add this line to make the text bold */
-  text-align: left;
+  font-weight: normal;
+  text-align: center;
 }
 
 .form-group {
@@ -35,16 +35,50 @@ main {
   margin-bottom: 5px;
 }
 
-.form-group input {
-  width: 300px;
+.form-group input,
+.react-datepicker-wrapper,
+.custom-date-picker,
+.location-group .input-container .css-yk16xz-control {
   padding: 10px;
   font-size: 16px;
-  margin: 0 10px 10px 0; /* Adds space between input fields */
+  margin: 0 10px 10px 0;
+  border: 1px solid #ced4da; /* Default border */
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.custom-date-picker:focus,
+.location-group .input-container .css-yk16xz-control--is-focused {
+  border-color: #96b1ad; /* Change border color when focused */
+  outline: none;
+  box-shadow: 0 0 5px rgba(128, 255, 253, 0.5);
+}
+
+.location-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.location-group .input-container {
+  flex: 1;
+  min-width: 300px; /* Adjust this value to increase the minimum width */
+  margin-right: 45px;
 }
 
 .when-group .date-group {
   display: flex;
   align-items: center;
+}
+
+.start-date,
+.end-date {
+  width: 300px!important; /* Adjust the width of start and end date inputs */
+}
+
+.people-count {
+  width: 300px!important; /* Adjust the width of the people count input */
 }
 
 .next-button {
@@ -55,8 +89,8 @@ main {
   cursor: pointer;
   font-size: 18px;
   display: block;
-  margin-top: -100px;
-  margin-left: auto; /* Align the button to the right */
+  margin-top: 10px;
+  margin-left: auto;
 }
 
 .error {
@@ -80,4 +114,21 @@ main {
 
 .date-group span {
   margin: 0 10px;
+}
+
+.custom-date-picker {
+  background: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  transition: border-color 0.3s ease;
+}
+
+.custom-date-picker:focus {
+  border-color: #96B1AD;
+  outline: none;
+  box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
 }
