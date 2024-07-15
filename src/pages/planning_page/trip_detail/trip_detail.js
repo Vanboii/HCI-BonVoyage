@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import countryList from 'country-list';
-import { City } from 'country-state-city'; // Removed unused 'Country' import
+import { City } from 'country-state-city'; 
 
 // Transform the country list to match react-select's expected format
 const countries = countryList.getData().map((country) => ({
@@ -29,18 +29,50 @@ const TripDetailPage = () => {
     setCity(null); // Reset city selection when country changes
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!country || !city || !startDate || !endDate || numberOfPeople < 1) {
       return; // If any required field is missing, prevent form submission
     }
 
-    // Handle form submission
-    console.log({ country: country.label, city: city.label, startDate, endDate, numberOfPeople });
+    const tripDetails = {
+      country: country.label,
+      city: city.label,
+      startDate,
+      endDate,
+      numberOfPeople,
+    };
 
-    // Navigate to invite page
-    navigate('/planning/invite');
+    try {
+      const response = await fetch('http://localhost:5000/save-trip-details', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tripDetails),
+      });
+
+      if (response.ok) {
+        console.log('Trip details saved successfully:', tripDetails);
+        
+        // Fetch the formatted URL
+        const urlResponse = await fetch('http://localhost:5000/get-trip-url');
+        const urlData = await urlResponse.json();
+        
+        console.log('Formatted URL:', urlData.url);
+        
+        // Send the formatted URL to your Python llama
+        // You can use this URL to make a request or pass it to another component/function
+
+        // Navigate to invite page
+        navigate('/planning/invite');
+      } else {
+        console.error('Failed to save trip details');
+      }
+    } catch (error) {
+      console.error('Error saving trip details:', error);
+    }
   };
 
   // Get the list of cities for the selected country
