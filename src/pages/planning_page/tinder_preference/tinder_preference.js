@@ -249,8 +249,8 @@ const TinderPreference = () => {
         <div className="modal">
           <div className="modal-content">
             <h2>Instructions</h2>
-            <p>Click LEFT arrow to DISLIKE and RIGHT arrow to LIKE</p>
-            <p>You can directly press on the buttons to state your preference</p>
+            <p>Press the left or right arrow on your keyboard</p>
+            <p>RIGHT = LIKE and LEFT = DISLIKE</p>
             <p>You need to make at least 15 choices to proceed to the next step.</p>
             <button onClick={closeModal}>Got it!</button>
           </div>
