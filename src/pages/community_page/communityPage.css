@@ -1,63 +1,110 @@
 /* src/pages/communityPage.css */
+/* src/pages/communityPage/communityPage.css */
 .community-page {
     font-family: Arial, sans-serif;
+    padding-top: 80px; /* Adjusted padding to accommodate banner height */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
-.content {
-    padding: 20px;
+.content-community {
+    padding: 60px;
     text-align: center;
 }
 
-.search-bar,
-.filter-bar {
-    width: 300px;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.filter-bar {
+.search-filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center align items horizontally */
     margin-bottom: 20px;
 }
 
+.search-bar {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    max-width: 60%; /* Adjusted max width */
+}
+
+.filter {
+    position: relative;
+    margin-left: 8px; /* Adjusted margin */
+}
+
+.filter-button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    text-align: center;
+    color: #666; /* Grey color for text */
+    width: 100px; /* Adjusted width */
+}
+
+.filter-options {
+    display: none; /* Hide filter options by default */
+    position: absolute;
+    top: 100%;
+    left: 0; /* Shifted to the left */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1;
+    width: 250px;
+    text-align: center;
+    color: black; /* Change text color to black */
+}
+
+.filter:hover .filter-options {
+    display: block; /* Show filter options on hover */
+}
+
+.filter-options button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: center;
+    color: black; /* Change text color to black */
+}
+
+.filter-options button:hover {
+    background-color: #f0f0f0;
+}
+
 .itineraries {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four cards per row */
+    gap: 20px;
+    justify-items: center; /* Center the items horizontally */
+    margin-top: 30px; /* Increase space between heading and cards */
 }
 
 .card-container {
-    margin: 20px;
-    text-align: left;
-}
-
-/* Styles for cards */
-.card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    width: 300px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.card-image {
+    position: relative; /* Ensure relative positioning for absolute button */
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    margin-bottom: 40px; /* Increase space between rows of cards */
+    box-sizing: border-box;
+    text-align: center; /* Center align the button */
 }
 
-.card-details {
-    padding: 10px;
+.card-component {
+    margin-bottom: 10px;
 }
 
-.card-details h2 {
-    margin: 0 0 10px;
-    font-size: 18px;
+.button-component {
+    position: absolute;
+    bottom: 10px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.card-details p {
-    margin: 5px 0;
-    color: #777;
+.card-details .contributors {
+    margin-top: 10px; /* Adjust margin for contributors */
+    font-style: italic; /* Italicize the text */
+    color: #666; /* Grey color for text */
 }
-

@@ -1,4 +1,6 @@
 /* src/components/card.css */
+
+
 .card {
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -15,14 +17,17 @@
 
 .card-details {
     padding: 10px;
+    text-align: left; /* Align text to the left */
 }
 
 .card-details h2 {
-    margin: 0 0 10px;
+    margin: 0 0 10px; /* Increased bottom margin to separate from paragraphs */
     font-size: 18px;
 }
 
 .card-details p {
-    margin: 5px 0;
+    margin: 10px 0; /* Increased vertical margin */
     color: #777;
+    text-align: left; /* Align paragraph text to the left */
+    font-size: 14px;
 }

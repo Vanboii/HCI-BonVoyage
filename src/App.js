@@ -13,6 +13,7 @@ import TinderPreference from './pages/planning_page/tinder_preference/tinder_pre
 import WaitingRoomPage from './pages/planning_page/waiting_room/waitingroomPage';
 // import TopBanner from './components/banner';
 import LoadingPage from './pages/planning_page/loading_page/loadingPage';
+import MyTripsPage from './pages/mytrips_page/mytripsPage';
 
 
 
@@ -32,7 +33,7 @@ function App() {
               <Route exact path='/signup' Component={SignupPage} />
               <Route exact path='/welcome' Component={WelcomePage} />
               <Route exact path='/community' Component={CommunityPage} />
-              <Route exact path='/mytrips' Component = {MyTrips}/>
+              <Route exact path='/mytrips' Component = {MyTripsPage}/>
               <Route path='/planning/trip_detail' element={<TripDetailPage />} />
               <Route path='/planning/invite' element={<InvitePage />} /> {/* Corrected path */}
               <Route path='/preferences' element={<PreferencesPage />} /> {/* Added PreferencesPage route */}
