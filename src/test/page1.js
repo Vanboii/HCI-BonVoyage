@@ -10,31 +10,33 @@ import { useItineraries } from "./useGetItineraries";
 
 export const MYTRIPS = (isAuth) => {
 
-  const { itineraries, query, 
+  const { itineraries,
     getItinerary, addItinerary, 
     updateItinerary, deleteItinerary } = useItineraries()
 
   const [ itinerary, setItinerary ] = useState({})
-  const [text1, setText1] = useState();
-  const [text2, setText2] = useState();
-  const [text3, setText3] = useState();
+  const [itineraryID, setItineraryID] = useState("")
 
-  const [text4, setText4] = useState();
+  const [text1, setText1] = useState();     //^ Title
+  const [text2, setText2] = useState();     //^ Dest
+  const [text3, setText3] = useState();     //^ Pax
 
-  const [text5, setText5] = useState();
-  const [text6, setText6] = useState();
-  const [text7, setText7] = useState();
+  const [text4, setText4] = useState();     //^ Find By ID
+  const [text12, setText12] = useState();   //^ Find By Title
+
+  const [text5, setText5] = useState();     //^ Update Title
+  const [text6, setText6] = useState();     //^ Update Dest
+  const [text7, setText7] = useState();     //^ Update Pax
 
   const [text8, setText8] = useState();
   const [text9, setText9] = useState();
   const [text10, setText10] = useState();
-  // const [text12, setText12] = useState();
 
 
 
-//^template for creating new Itineraries
 
-const newItinerary = () => { 
+  //^template for creating new Itineraries
+  const newItinerary = () => { 
     setItinerary({
       Title: text1,
       Dest: text2,
@@ -46,9 +48,9 @@ const newItinerary = () => {
       Budget: null,
       Likes: 0,
       Public: false,
-
     })
   }
+
   // useEffect(() => {
   //   showItinerary(itinerary)
   // })
@@ -60,7 +62,7 @@ const newItinerary = () => {
   // }
 
 
-//^for displaying full list of itineraries
+  //^for displaying full list of itineraries
   const submit = (e) => { 
     e.preventDefault()
     addItinerary({
@@ -78,9 +80,9 @@ const newItinerary = () => {
     setText1("")
     setText2("")
     setText3("")
-
   }
-//^ for requesting a specific itinerary
+
+  //^ for requesting a specific itinerary
   const submit2 = async (e) => {
     e.preventDefault()
     try {
@@ -96,9 +98,8 @@ const newItinerary = () => {
     } catch (error) {
       console.error(error)
     }
-    
-    
   }
+
   //^ For Updating the selected itinerary
   const submit3 = (e) => {
     e.preventDefault()
@@ -112,33 +113,33 @@ const newItinerary = () => {
     setText7('')
   }
 
-  const onDelete = (id) => {
-
-    deleteItinerary(id)
+  function onDelete(id) {
+    console.log("deleting:",id)
+    // deleteItinerary(id)
   }
+
   const onSelect = (id) => {
     setText4(id)
-    submit2()
+    console.log("selected:",id)
+    // submit2()
   }
-    
-
 
   return (
     <div id="main" className="col centerAlign">
-      <div className="row gap2 padding2">
-        <div className="col centerAlign">
-          <h2>My Itineraries</h2>
-          <div className="row center">
+
+      <div className="row gap2 padding2 ">
+        <div className="col centerAlign padding2 border">
+          <h2>All Itineraries</h2>
+          <div className="col maxWidth gap center">
             <div className="padding gap border">
               {itineraries.map((itinerary) => {
                 const {Title,Dest,Pax,id} = itinerary
                 return (
                   <div className="row border gap justify maxWidth">
-                    <div className="col padding" >
+                    <div className="padding" >
                       <h3>{Title}</h3>
                       <p>{Dest} | {Pax}</p>
                     </div>
-                    <button>Delete</button>
                   </div>
                 )
               })}
@@ -154,14 +155,16 @@ const newItinerary = () => {
             </form>
           </div>
         </div>
-        <div className="col centerAlign border padding">
-        <h2>Update Itinerary</h2>
+        <div className="col centerAlign padding2 border">
+          <h2>Update Itinerary</h2>
           <form onSubmit={submit2} className="row padding border gap">
-              <input type="text" onChange={(e) => {setText4(e.target.value)}}
-                placeholder="ID" value={text4} required />
-              <button type="submit">Get Itinerary</button>
+            <input type="text" onChange={(e) => {setText4(e.target.value)}}
+              placeholder="ID" value={text4} required />
+            <input type="text" onChange={(e) => {setText12(e.target.value)}}
+              placeholder="Title" value={text12} required />
+            <button type="submit">Find Itinerary</button>
           </form>
-          
+
           <div className="col centerAlign border">
             <form onSubmit={submit3} className="col rightAlign padding gap">
               <div className="row center gap">
@@ -179,14 +182,17 @@ const newItinerary = () => {
                 <input type="text" value={text7}
                   onChange={(e) => {setText7(e.target.value)}} required />
               </div>
-              <button type="submit">Update Itinerary</button>
+              <div className="row">
+                <button type="submit">Update Itinerary</button>
+                <button onClick={onDelete(text4)}>Delete</button>
+              </div>
             </form>
-            
           </div>
         </div>
       </div>
-      <div>
-      <form onSubmit={submit3} className="row padding center gap border">
+
+      <div className="maxWidth col leftAlign">
+        <form onSubmit={submit3} className="row padding center gap border">
           <h3>Sort By:</h3>   
           <div className="col centerAlign">
             <label for="Title">Title</label>

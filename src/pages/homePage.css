@@ -27,6 +27,7 @@
 .justify {
   justify-content: space-between;
 }
+
 .border {
   border-style: dashed;
   border-width: 1px;
