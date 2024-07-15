@@ -6,6 +6,7 @@ import LuxuriousIcon from '../../../components/diamonds.png';
 import AdventurousIcon from '../../../components/camping.png';
 import RelaxedIcon from '../../../components/beach-chair.png';
 import { Range, getTrackBackground } from 'react-range';
+import { useNavigate } from 'react-router-dom'; 
 
 const dietaryOptions = [
   'No Restrictions', 'Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Kosher', 'Pescatarian',
@@ -31,6 +32,7 @@ const PreferencesPage = () => {
   const [selectedTravelStyles, setSelectedTravelStyles] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [budget, setBudget] = useState([500, 1250]); // Initial budget range
+  const navigate = useNavigate();
 
   const handleDietaryChange = (option) => {
     setSelectedDietaryRestrictions((prev) =>
@@ -91,6 +93,9 @@ const PreferencesPage = () => {
         console.error('Error:', error);
         // Handle error scenario
       });
+
+      // Navigate to invite page
+    navigate('/Tinderpreference');
   };
 
   return (
