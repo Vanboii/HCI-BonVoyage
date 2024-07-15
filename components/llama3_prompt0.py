@@ -14,7 +14,13 @@ REPLICATE_API_TOKEN = os.environ['REPLICATE_API_TOKEN']
 
 # function to check if it is safe to travel or not
 def check_safety(country):
+    # note that not all countries are accessible
     countrycode = convert_to_countrycode(country.title())
+
+    # if it doesnt exists in travel advisory db, assume no data = safe
+    if countrycode == None:
+        return (["safe"])
+
     travel_advisory_url = "https://www.travel-advisory.info/api?countrycode={}".format(countrycode)
     response = requests.get(travel_advisory_url)
 
