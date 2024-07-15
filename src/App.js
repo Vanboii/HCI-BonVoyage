@@ -19,7 +19,7 @@ import TopBanner from './components/banner';
 function App() {
   return (
     <Router>
-      <TopBanner/>
+      {/* <TopBanner/> */}
       <Routes>
         <Route path="/home" Component={HomePage} />
         <Route path="/login" Component={LoginPage} />

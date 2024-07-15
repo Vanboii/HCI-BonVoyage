@@ -53,7 +53,7 @@ const TripDetailPage = () => {
 
   return (
     <div className="trip-detail-container">
-      {/* <TopBanner /> */}
+      <TopBanner />
       <main>
         <h1>Plan your next travel</h1>
         <p>Gateway to Planning Your Next Trip</p>
