@@ -49,7 +49,7 @@ div, h1, h2, h3 {
 }
 
 h1 {
-    font-size: 120px;
+    font-size: 90px;
     color: white;
     margin-bottom: 20px;
 }
@@ -83,4 +83,31 @@ button.startPlanning:hover {
 
 .signup-page {
     background-color: white; /* Set a specific background color for sign-up page */
+}
+
+/* Keyframes for the slow fade-in effect */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.background-image.visible {
+    opacity: 1;
 }
