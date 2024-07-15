@@ -10,8 +10,7 @@ from localhash.hash_countrycode import convert_to_countrycode
 
 # admin configuation 
 load_dotenv()
-replicate_api_token = os.getenv('replicate_api_token')
-
+replicate_api_token = os.environ['replicate_api_token']
 
 # function to check if it is safe to travel or not
 def check_safety(country):
@@ -115,7 +114,7 @@ def generate_recommendation(city, country):
             
 
 #############################################################
-#print(generate_recommendation("London", "United Kingdom"))
+print(generate_recommendation("London", "United Kingdom"))
 
 # This function returns:
 # {'activities': ['Kid friendly', 'Pet friendly', 
