@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 
 # self-defined libraries
-from components.llama3_prompt0 import generate_recommendation
+#from components.llama3_prompt0 import generate_recommendation
 #from components.llama3_prompt1 import locations_recommendations_url
 
 app = Flask(__name__)

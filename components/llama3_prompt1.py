@@ -6,8 +6,8 @@ import replicate
 
 # admin configuation 
 load_dotenv()
-subscription_key = os.getenv('subscription_key_search', default='')
-replicate_api_token = os.getenv('replicate_api_token')
+BING_SUBSCRIPTION_KEY = os.environ['BING_SUBSCRIPTION_KEY']
+REPLICATE_API_TOKEN = os.environ['REPLICATE_API_TOKEN']
 
 
 # prompt generation
@@ -20,7 +20,7 @@ pre_prompt = """You are a helpful, respectful and honest assistant.
 # declaring bing end-point for search
 def get_results_for(search_term):
     search_url = "https://api.bing.microsoft.com/v7.0/search"
-    headers = {"Ocp-Apim-Subscription-Key": subscription_key}
+    headers = {"Ocp-Apim-Subscription-Key": BING_SUBSCRIPTION_KEY}
     params = {"q": search_term, "textDecorations": True, "textFormat": "HTML"}  ##answerCount filter, count?
 
     response = requests.get(search_url, headers=headers, params=params)
@@ -124,7 +124,7 @@ def summary(location_url):
 def get_images_for(search_term):
     search_url = "https://api.bing.microsoft.com/v7.0/images/search"
 
-    headers = {"Ocp-Apim-Subscription-Key": subscription_key}
+    headers = {"Ocp-Apim-Subscription-Key": BING_SUBSCRIPTION_KEY}
     params = {"q": search_term, "license": "Public", "imageType": "photo"}  ##ADD IMAGE SIZE?
 
     response = requests.get(search_url, headers=headers, params=params)
