@@ -1,0 +1,242 @@
+.resultsPageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .contentContainer {
+    display: flex;
+    width: 100%;
+    margin-top: 80px; /* Adjust this based on your banner height */
+  }
+  
+  .leftContainer {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .leftContainer h1 {
+    font-size: 40px; /* Adjust the font size as needed */
+    margin-bottom: 40px; /* Increase the spacing between City Name and Day 1 */
+    padding-left: 15px;
+  }
+  
+  .dayContainer {
+    margin-bottom: 40px; /* Increase the spacing between days */
+    padding-left: 15px;
+  }
+  
+  .dayContainer h2 {
+    font-size: 30px; /* Adjust the font size as needed */
+    margin-bottom: 20px; /* Increase spacing between day title and activities */
+  }
+  
+  .activityRow {
+    background-color: lightgray;
+    height: 50px;
+    margin-bottom: 10px;
+    width: 80%; /* Adjust the width as needed */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    position: relative; /* Position relative for absolute positioned buttons */
+  }
+  
+  .activityRow input {
+    width: calc(100% - 80px); /* Adjust input width minus button width */
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    padding: 8px; /* Adjust padding as needed */
+  }
+  
+  .activityRow button {
+    background-color: #334b48; /* Dark green shade */
+    color: white; /* Text color */
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .activityRow button:hover {
+    background-color: #2a3e3b; /* Slightly darker shade for hover effect */
+  }
+  
+  .activityRow .deleteButton {
+    background-color: #d9534f; /* Red shade */
+    margin-left: 10px; /* Adjust margin as needed */
+  }
+  
+  .activityRow .deleteButton:hover {
+    background-color: #c9302c; /* Slightly darker red for hover effect */
+  }
+  
+  .activityRow .editButton {
+    background-color: #428bca; /* Blue shade */
+    margin-left: 10px; /* Adjust margin as needed */
+  }
+  
+  .activityRow .editButton:hover {
+    background-color: #3071a9; /* Slightly darker blue for hover effect */
+  }
+  
+  .activityRow .suggestionsButton {
+    background-color: #5cb85c; /* Green shade */
+    margin-left: 10px; /* Adjust margin as needed */
+  }
+  
+  .activityRow .suggestionsButton:hover {
+    background-color: #4cae4c; /* Slightly darker green for hover effect */
+  }
+  
+  .rightContainer {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .rightContainer img {
+    width: 100%; /* Adjust the width as needed */
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .topPicksContainer {
+    margin-top: 20px;
+    text-align: left;
+  }
+  
+  .topPicksContainer h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .topPicksContainer ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .topPickItem {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .plusButton {
+    background-color: #334b48; /* Dark green shade */
+    color: white; /* Text color */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-left: 10px;
+  }
+  
+  .plusButton:hover {
+    background-color: #2a3e3b; /* Slightly darker shade for hover effect */
+  }
+  
+  .dropdownMenu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    margin-top: 5px;
+    padding: 10px;
+    width: 200px; /* Increase the width of the dropdown menu */
+  }
+  
+  .dropdownMenu button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: black; /* Black background */
+    color: white; /* White font */
+    text-align: left;
+    cursor: pointer;
+    margin-bottom: 5px; /* Space between buttons */
+  }
+  
+  .dropdownMenu button:hover {
+    background-color: #333; /* Slightly lighter black for hover effect */
+  }
+  
+  .closeDropdownButton {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: black; /* Black color for the close button */
+    cursor: pointer;
+    float: right;
+    margin-bottom: 10px;
+  }
+  
+  .suggestionsModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .suggestionsContainer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .modalHeader h3 {
+    margin: 0;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .suggestionsContainer ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+  }
+  
+  .suggestionsContainer li {
+    margin-bottom: 10px; /* Adjust spacing between suggestions */
+    
+  }
+  
+  .suggestionsContainer button {
+    background-color: #334b48; /* Dark green shade */
+    color: white; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .suggestionsContainer button:hover {
+    background-color: #2a3e3b; /* Slightly darker shade for hover effect */
+  }
+  
