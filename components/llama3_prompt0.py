@@ -10,7 +10,7 @@ from localhash.hash_countrycode import convert_to_countrycode
 
 # admin configuation 
 load_dotenv()
-replicate_api_token = "r8_KhE0pIRPPM8lD6nlP3ECKTn6dWkwXHu0wIm5q"
+replicate_api_token = "r8_3nT5JU9nXrRnbaHPKbp6OqKxuoUDLRK1PErLI"
 
 # function to check if it is safe to travel or not
 def check_safety(country):
