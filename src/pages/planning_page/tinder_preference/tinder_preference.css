@@ -118,13 +118,15 @@
   justify-content: center;
   height: 100vh;
   background-color: white;
+  z-index: 1;
 }
 
 .preference-container h2 {
-  margin-bottom: 0px;
+  margin-bottom: -50px;
   margin-top: 60px;
   font-size: 24px;
   font-weight: bold;
+  z-index: 2;
 }
 
 .preference-card {
