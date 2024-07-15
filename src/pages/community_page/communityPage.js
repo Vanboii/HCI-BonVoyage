@@ -75,7 +75,7 @@ function CommunityPage() {
 
     return (
         <div className="community-page">
-            <TopBanner />
+            {/* <TopBanner /> */}
             <div className="content-community">
                 <h1>Find Your Next Trip!</h1>
                 <p>Explore other trips created by fellow travelers.</p>

@@ -1,7 +1,7 @@
 import React from "react";
 
 import ButtonComponent from "../../components/button";
-import '../homePage.css';
+// import '../homePage.css';
 
 
 
