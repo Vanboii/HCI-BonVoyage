@@ -62,9 +62,6 @@ const TripDetailPage = () => {
         
         console.log('Formatted URL:', urlData.url);
         
-        // Send the formatted URL to your Python llama
-        // You can use this URL to make a request or pass it to another component/function
-
         // Navigate to invite page
         navigate('/planning/invite');
       } else {
