@@ -114,7 +114,7 @@ def generate_recommendation(city, country):
             
 
 #############################################################
-print(generate_recommendation("London", "United Kingdom"))
+#print(generate_recommendation("London", "United Kingdom"))
 
 # This function returns:
 # {'activities': ['Kid friendly', 'Pet friendly', 
