@@ -1,49 +1,52 @@
-import React, {useState} from "react";
-import { useNavigate } from 'react-router-dom';
+// import React, {useState} from "react";
+// import { useNavigate } from 'react-router-dom';
 
-import './button.css'
+// import './button.css'
 
-/**
- * @param  text - a string to show on the button
- * @param  className - small, large, form, profile
- * @param  toPage - redirect path to onClick
- * @param  onEnter - Text to change to
- * @param  onLeave - redirect path to onClick
- */
-const ButtonComponent = ({className='', text="Click Me!", toPage="", action={}, onHover=''}) => {
+// /**
+//  * @param  text - a string to show on the button
+//  * @param  type - 0 -> small, 1 -> normal, 2 -> large, 3 -> alt
+//  * @param  toPage - a page you want to redirect to onClick
+//  */
+// const ButtonComponent = ({text="Click Me!",type='1',toPage=""}) => {
     
-  const [message, setText] = useState(text);
+//     const types = {
+//         0:"small",
+//         1:"",
+//         2:"large",
+//         3:"form"
+//     };
+    
+//     const navigate = useNavigate();
+//     function handleClick() {
+//         navigate(toPage);
+//     };
 
-  function handleMouseEnter() { //? to change the text on button hover
-    if (onHover !== '') {
-      setText(onHover)
-    }
-  }
-  function handleMouseLeave() { //? to set the text back to original
-    setText(text)
-  }
+//     return (
+//         <button className={types[type]} onClick={handleClick}>{text}</button>
+//     );
+// }
 
-  // # Page to redirect to
-  const navigate = useNavigate();
-  function handleClick() {
-    if (toPage != "") {
-      navigate(toPage);
-    } else {
-      
-      action()
-    }
+// export default ButtonComponent;
 
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './button.css';
 
-  };
+const ButtonComponent = ({ text, toPage, type }) => {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate(toPage);
+    };
 
-  return (
-    <button 
-      className={className} 
-      onClick={handleClick} 
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >{message}</button>
-  );
-}
+    return (
+        <button 
+            onClick={handleClick} 
+            className={type === '2' ? 'startPlanning' : ''}
+        >
+            {text}
+        </button>
+    );
+};
 
 export default ButtonComponent;

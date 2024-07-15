@@ -1,71 +1,37 @@
-import React, { useEffect, useState } from "react";
-import logo from './boat-10.png';
-import ButtonComponent from "./button";
-import './banner.css';
-import './button.css';
-import { useNavigate } from "react-router-dom";
+// banner.js
 
-import { useGetUserInfo } from "../hooks/useGetUserInfo";
-import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
+import React from "react";
+import homepageLogo from './boat_in_white.png'; // Logo for homepage
+import otherPagesLogo from './boat-10.png'; // Logo for other pages
+// import ButtonComponent from "./button";
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation to get the current path
+import './banner.css'; // Ensure correct CSS file is imported
 
+function Banner() {
+    const navigate = useNavigate();
+    const location = useLocation();
 
+    // Determine if the current page is the homepage
+    const isHomepage = location.pathname === '/';
 
-function TopBanner() {
-
-    const [username, setUsername] = useState("Login")
- 
-
-    //? For the Home icon
-    const navigate = useNavigate()
     function handleClick() {
-      navigate('/home');
+        navigate('/'); // Adjust the homepage route if needed
     }
-
-    //? For the Profile Button
-    const listen = () => {
-      if (auth.currentUser) {
-        setUsername(auth.currentUser.displayName)
-      } else {
-        setUsername("Login")
-      }
-    }
-
-    function logout() {
-      signOut(auth);
-      console.log("Logging Out",auth.currentUser)
-    }
-
-    useEffect(() => {
-      listen()
-    })
 
     return (
-        <div id="stickyBanner">
-            {/* <div className="leftButtons spacer"> */}
-            <img src={logo} title="Logo" onClick={handleClick} alt="Logo" />
-            <ButtonComponent text="My Trips" toPage="/trips"/>
-            <ButtonComponent text="Community Trips" toPage="/community" />
-            <ButtonComponent text="Database" toPage="/database" />
-            {/* </div> */}
-
+        <div id="stickyBanner" className={isHomepage ? 'transparent' : 'colored'}>
+            <img src={isHomepage ? homepageLogo : otherPagesLogo} title="Logo" onClick={handleClick} alt="Logo" />
             <div className="spacer"></div>
-          
-            <div className='profile'>
-            <ButtonComponent text={username} toPage="/login"/>
-            {(username != "Login") && <div className="rightButtons">
-              <ButtonComponent text="Logout" action={logout}/>
-            </div>}
-          </div>
-            
-    
+            <div className="rightButtons">
+                <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => navigate('/mytrips')}>My Trips</button>
+                <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => navigate('/community')}>Community Trips</button>
+                <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => navigate('/login')}>Log In</button>
+            </div>
         </div>
-
-
     );
 }
 
 
 
 
-export default TopBanner;
+export default Banner;

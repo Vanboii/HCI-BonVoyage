@@ -1,37 +1,9 @@
-// import React from "react";
-// import ButtonComponent from "../components/button";
-// import "./card.css";
-
-
-
-// const Cardcomponent = ({image='path', location="name", priceRange="xxx-yyy", likes="241"}) => {
-
-//     const caption = "Picture of " + location
-
-//     return (
-//         <>
-//         <img src={image} alt={caption} />
-//         <div className="row">
-//             <h2>{location}</h2>
-//             <p>Likes + 'Heart'</p> 
-//         </div>
-//         </>
-//     );
-
-// }
-
-// export default Cardcomponent;
-
-
-// New code (celest for community page)
-
-// New code (celest for community page)
 import React from "react";
-import ButtonComponent from "../components/button";
 import "./card.css";
 
-const CardComponent = ({ image, location, priceRange, saves }) => {
+const CardComponent = ({ image, location, priceRange, saves, travelers }) => {
     const caption = "Picture of " + location;
+    const travelerText = travelers === 1 ? "traveler" : "travelers";
 
     return (
         <div className="card">
@@ -40,12 +12,14 @@ const CardComponent = ({ image, location, priceRange, saves }) => {
                 <h2>{location}</h2>
                 <p>{priceRange}</p>
                 <p>{saves} Saves</p>
+                <p>{travelers} {travelerText}</p> {/* Display travelers or traveler based on count */}
             </div>
         </div>
     );
 };
 
 export default CardComponent;
+
 
 
 
