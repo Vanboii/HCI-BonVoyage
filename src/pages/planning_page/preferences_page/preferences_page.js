@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './preferences_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
 import BudgetIcon from '../../../components/budget.png'; // Import the images
@@ -32,12 +32,14 @@ const PreferencesPage = () => {
   const [selectedTravelStyles, setSelectedTravelStyles] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [budget, setBudget] = useState([500, 1250]); // Initial budget range
+  const [formError, setFormError] = useState('');
   const navigate = useNavigate();
 
   const handleDietaryChange = (option) => {
     setSelectedDietaryRestrictions((prev) =>
       prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
     );
+    setFormError(''); // Clear the error message when an option is selected
   };
 
   const handleAddCustomDietary = () => {
@@ -59,24 +61,42 @@ const PreferencesPage = () => {
 
   const handleTravelStyleClick = (style) => {
     setSelectedTravelStyles((prev) =>
-      prev.includes(style) ? prev.filter((item) => item !== style) : [...prev, style]
+      prev.includes(style.label) ? prev.filter((item) => item !== style.label) : [...prev, style.label]
     );
+    setFormError(''); // Clear the error message when an option is selected
   };
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prev) =>
       prev.includes(category) ? prev.filter((item) => item !== category) : [...prev, category]
     );
+    setFormError(''); // Clear the error message when an option is selected
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (selectedDietaryRestrictions.length === 0) {
+      setFormError('Please select at least one dietary restriction.');
+      return;
+    }
+    if (selectedTravelStyles.length === 0) {
+      setFormError('Please select at least one travel style.');
+      return;
+    }
+    if (selectedCategories.length === 0) {
+      setFormError('Please select at least one category of activities.');
+      return;
+    }
+
+    // Proceed with the form submission if no errors
     fetch('/save-dietary-options', {
       method: 'POST',
       headers: {
@@ -94,7 +114,7 @@ const PreferencesPage = () => {
         // Handle error scenario
       });
 
-      // Navigate to invite page
+    // Navigate to invite page
     navigate('/Tinderpreference');
   };
 
@@ -104,7 +124,7 @@ const PreferencesPage = () => {
       <main>
         <h1>Personal Preference</h1>
         <p>Customize your own Travel Experience</p>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Dietary Restrictions:</label>
             <div className="dietary-restriction-container">
@@ -123,12 +143,6 @@ const PreferencesPage = () => {
                   value={dietarySearch}
                   onChange={(e) => setDietarySearch(e.target.value)}
                   onFocus={handleSearchFocus}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleAddCustomDietary();
-                    }
-                  }}
                 />
                 {dropdownVisible && (
                   <div className="dropdown-menu">
@@ -160,7 +174,7 @@ const PreferencesPage = () => {
                 <div
                   key={style.label}
                   className={`travel-style-option ${selectedTravelStyles.includes(style.label) ? 'selected' : ''}`}
-                  onClick={() => handleTravelStyleClick(style.label)}
+                  onClick={() => handleTravelStyleClick(style)}
                 >
                   <img src={style.icon} alt={style.label} />
                   <span>{style.label}</span>
@@ -195,6 +209,7 @@ const PreferencesPage = () => {
                   min={0}
                   max={10000}
                   onChange={(e) => setBudget([+e.target.value, budget[1]])}
+                  required
                 />
                 <span> - </span>
                 <input
@@ -203,6 +218,7 @@ const PreferencesPage = () => {
                   min={0}
                   max={10000}
                   onChange={(e) => setBudget([budget[0], +e.target.value])}
+                  required
                 />
                 <label className="range-label">Max</label>
               </div>
@@ -256,7 +272,8 @@ const PreferencesPage = () => {
               />
             </div>
           </div>
-          <button type="button" className="next-button" onClick={handleSubmit}>Next</button>
+          {formError && <div className="error-message">{formError}</div>}
+          <button type="submit" className="next-button">Next</button>
         </form>
       </main>
     </div>
