@@ -173,6 +173,7 @@ const TinderPreference = () => {
   const [dislikes, setDislikes] = useState([]);
   const [animationClass, setAnimationClass] = useState('');
   const [clickCount, setClickCount] = useState(0);
+  const [showModal, setShowModal] = useState(true); // State variable for modal visibility
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
@@ -184,9 +185,9 @@ const TinderPreference = () => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'a') {
+      if (event.key === 'ArrowLeft') {
         handleDislike();
-      } else if (event.key === 'd') {
+      } else if (event.key === 'ArrowRight') {
         handleLike();
       }
     };
@@ -233,6 +234,10 @@ const TinderPreference = () => {
     navigate('/waitingroom'); // Adjust the path to the Preferences page
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   if (places.length === 0) {
     return <div>Loading...</div>;
   }
@@ -240,6 +245,17 @@ const TinderPreference = () => {
   return (
     <>
       <TopBanner />
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Instructions</h2>
+            <p>Click LEFT arrow to DISLIKE and RIGHT arrow to LIKE</p>
+            <p>You can directly press on the buttons to state your preference</p>
+            <p>You need to make at least 15 choices to proceed to the next step.</p>
+            <button onClick={closeModal}>Got it!</button>
+          </div>
+        </div>
+      )}
       <div className="preference-container">
         <h2>Is this to your preference?</h2>
         <div className="preference-card">
