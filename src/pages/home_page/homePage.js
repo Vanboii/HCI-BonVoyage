@@ -30,7 +30,14 @@ function HomePage() {
     return (
         <>
             <TopBanner />
-            <div id="main" style={{ backgroundImage: `url(${images[currentImageIndex]})` }}>
+            <div id="main">
+                {images.map((image, index) => (
+                    <div
+                        key={index}
+                        className={`background-image ${index === currentImageIndex ? "visible" : ""}`}
+                        style={{ backgroundImage: `url(${image})` }}
+                    />
+                ))}
                 <div className="overlay"></div>
                 <div className="col centerAlign">
                     <h1>Bon Voyage</h1>
