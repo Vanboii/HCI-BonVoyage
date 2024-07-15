@@ -32,16 +32,16 @@ def index():
 # accessed via https://<flaskapp>/get-categories?city=london&country=unitedkingdom
 #/get-categories?city=Norfolk Island&country=Norfolk Island
 #/get-categories?city=Balkh&country=Afghanistan
-# @app.route("/get-categories")
-# def get_categories():
-#     city = request.args.get("city")
-#     country = request.args.get("country")
-#     # presence check:
-#     if (city==None) and (country==None):
-#         return "Invalid request", 400
-#     else:
-#         #return (city, country)
-#         return jsonify(generate_recommendation(city, country)), 200
+@app.route("/get-categories")
+def get_categories():
+    city = request.args.get("city")
+    country = request.args.get("country")
+    # presence check:
+    if (city==None) and (country==None):
+        return "Invalid request", 400
+    else:
+        #return (city, country)
+        return jsonify(generate_recommendation(city, country)), 200
 
 
 
