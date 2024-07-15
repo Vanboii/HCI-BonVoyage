@@ -185,6 +185,7 @@ const PreferencesPage = () => {
           <div className="form-group">
             <label>Estimated Budget:</label>
             <p className="budget-tagline">Use Slider or Enter the Min & Max budget</p>
+            <p className="budget-tagline1">*Currency: US Dollar (USD)</p>
             <div className="price-range-container">
               <div className="price-range-inputs">
                 <label className="range-label">Min</label>
