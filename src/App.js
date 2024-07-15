@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from './pages/home_page/homePage';
 import LoginPage from './pages/login_page/loginPage';
 import SignupPage from './pages/signup_page/signupPage';
-import WelcomePage from './pages/trial/welcomePage';
+// import WelcomePage from './pages/trial/welcomePage';
 import MyTrips from './pages/mytrips_page/mytripsPage';
 import CommunityPage from './pages/community_page/communityPage';
 import TripDetailPage from './pages/planning_page/trip_detail/trip_detail';
@@ -21,7 +21,7 @@ function App() {
         <Route path="/home" Component={HomePage} />
         <Route path="/login" Component={LoginPage} />
         <Route path="/signup" Component={SignupPage} />
-        <Route path="/welcome" Component={WelcomePage} />
+        {/* <Route path="/welcome" Component={WelcomePage} /> */}
         <Route path="/community" Component={CommunityPage} />
         <Route path="/mytrips" Component={MyTrips} />
         <Route path="/planning/trip_detail" element={<TripDetailPage />} />

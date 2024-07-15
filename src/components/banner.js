@@ -7,7 +7,7 @@ import otherPagesLogo from './boat-10.png'; // Logo for other pages
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation to get the current path
 import './banner.css'; // Ensure correct CSS file is imported
 
-function Banner() {
+function TopBanner() {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -34,4 +34,4 @@ function Banner() {
 
 
 
-export default Banner;
+export default TopBanner;
