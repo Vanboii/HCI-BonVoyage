@@ -34,10 +34,12 @@ form {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    
 }
 
 label {
     font-weight: bold;
+    
 }
 
 .options {
@@ -182,6 +184,7 @@ button {
 .travel-style-option img {
     width: 50px;
     height: 50px;
+    margin-bottom: 15px;
     transition: filter 0.2s; /* Add transition for filter */
 }
 
@@ -281,9 +284,16 @@ button {
 }
 
 .budget-tagline {
-    font-size: 3px;
-    color: #666;
+    font-size: 14px !important;
+    color: #4c4c4c;
     margin-bottom: 0px;
-    margin-top: 0px;
+    margin-top: -5px;
+}
+
+.budget-tagline1 {
+    font-size: 14px !important;
+    color: #4c4c4c;
+    margin-bottom: 0px;
+    margin-top: -35px;
 }
 
