@@ -110,7 +110,7 @@ const TinderPreference = () => {
         </div>
       )}
       <div className="preference-container">
-        <h2>Is this to your preference?</h2>
+        <h2 style={{ color: "black" }}>Is this to your preference?</h2>
         <div className="preference-card">
           <div className="thumb-icon dislike" onClick={handleDislike}>
             <img src={dislikeIcon} alt="Dislike" />
@@ -134,8 +134,8 @@ const TinderPreference = () => {
         </div>
         <button
           onClick={handleNext}
-          disabled={clickCount < 15}
-          className={`${clickCount < 15 ? 'button-disabled' : ''}`}>
+          disabled={clickCount < 5}
+          className={`${clickCount < 5 ? 'button-disabled' : ''}`}>
           Next
         </button>
       </div>

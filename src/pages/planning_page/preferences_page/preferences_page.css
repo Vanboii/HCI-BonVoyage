@@ -269,7 +269,6 @@ button {
     gap: 10px; /* Reduce gap to make space for min and max labels */
     align-items: center;
     margin-bottom: 20px;
-    border-style: dotted;
 }
 .price-range-inputs span {
   text-align: center;
@@ -286,7 +285,6 @@ button {
     font-weight: bold;
     margin: 0 10px; /* Add space between label and input */
     text-align: center;
-    border-style: dashed;
 }
 
 .budget-tagline {
