@@ -13,8 +13,8 @@ db = firestore.client()
 
 # access db under 'itineraries' collction
 def get_row(destination_id):
-    query = db.collection('itineraries').where("Destination_id", "==", destination_id).get()
-
+    itinerary = db.collection('itineraries').where("Destination_id", "==", destination_id).get()
+    users = itinerary.collection('userPreferences').get()
     # extract a the whole row from each document
     for doc in query:
         #all_documents.append(doc.to_dict())

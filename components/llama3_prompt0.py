@@ -104,6 +104,16 @@ def generate_recommendation(city, country):
     for item in response:
         full_response += item
 
+    print(full_response.split('\n'))
+
+
+    # filter through and check if each category exists
+    category_activity = ["Kid-friendly", "Pet-friendly", "Wheelchair-friendly",
+                        "Shopping", "Amusement Park", "Museum", "Parks & Scenic Place",
+                        "Theatre & Cultural", "Historical Site", "Food Galore"]
+    
+
+
     # formatting 2: only capturing those from "places listed:..." format
     def format_0(full_response):
         for item in full_response.split("\n\n"):
@@ -113,14 +123,45 @@ def generate_recommendation(city, country):
 
         for i in range(len(item)):
             item[i] = item[i].replace("*", "").strip()
+        return item
 
-        return {"activities": item}
+    # formatting 2.1: only collect those that are "confirmed categories" up till ""
+    def format_1(full_response):
+        item = []
+        collect = False
+        full_response = full_response.split('\n')
+        for i in range (len(full_response)):
+            # finding the end point
+            if collect:
+                # this is the response we want
+                if "*" in full_response[i]:
+                    processed = full_response[i].replace("*", "").strip()
+                    processed = processed.split(" ") # deletes any content after category activity
+                    print(processed[0])
+                    item.append(processed[0])
+
+                # ignore the empty lines
+                elif "" == full_response[i]:
+                    pass
+
+                # any other lines is the end-point
+                else:
+                    collect = False
+                        
+
+            # finding the start point
+            if ("confirmed" in full_response[i]) or ("Confirmed" in full_response[i]):
+                collect = True
             
-    return format_0(full_response)
+        return item
+
+    #json wrapper   
+    return {"status": "safe",
+            "reply": format_1(full_response)}
             
 
 #############################################################
-#print(generate_recommendation("London", "United Kingdom"))
+print(generate_recommendation("London", "United Kingdom"))
 
 # This function returns:
 # {'activities': ['Kid friendly', 'Pet friendly', 

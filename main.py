@@ -33,8 +33,6 @@ def index():
 
 # to query available activities through Llama
 # accessed via https://<flaskapp>/get-categories?city=london&country=United Kingdom
-#/get-categories?city=Norfolk Island&country=Norfolk Island
-#/get-categories?city=Balkh&country=Afghanistan
 @app.route("/get-categories")
 def get_categories():
     city = request.args.get("city")
@@ -61,3 +59,11 @@ def get_recommendations():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
+
+
+# API 0:
+#/get-categories?city=Balkh&country=Afghanistan
+# /get-categories?city=Jakarta&country=Indonesia
+# /get-categories?city=Vancouver&country=Canada
+# /get-categories?city=Sydney&country=Australia
+#/get-categories?city=Norfolk Island&country=Norfolk Island
