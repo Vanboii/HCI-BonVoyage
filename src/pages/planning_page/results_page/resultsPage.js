@@ -310,7 +310,7 @@ const ResultsPage = () => {
         <div className="contentContainer">
           <div className="leftContainer">
             <div className="pageHeader">
-              <h1>Trip to South Korea</h1>
+            <h1 style={{ color: 'black' }}>Trip to South Korea</h1>
               <p>Click on attraction to view more information.<br />
               Drag & Drop to adjust attraction in your itinerary timeline.<br />
               Hover over location for preview</p>
@@ -328,7 +328,7 @@ const ResultsPage = () => {
                       alt="Arrow"
                     />
                   </span>
-                  <h2>{dayPlan.day}</h2>
+                  <h2 style={{ color: 'black' }} >{dayPlan.day}</h2>
                 </div>
                 {expandedDays.includes(dayIndex) && (
                   <div className="activitiesContainer">
