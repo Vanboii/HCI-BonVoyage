@@ -51,15 +51,17 @@
 
 
 //THIS WORKS EXCEPT SAVES +1 /-1
+// src/components/card.js
+// src/components/card.js
 import React from "react";
 import "./card.css";
 
-const CardComponent = ({ image, location, priceRange, saves, travelers, showSaveButton, showDeleteButton, onSave, onDelete }) => {
+const CardComponent = ({ image, location, priceRange, saves, travelers, showSaveButton, showDeleteButton, onSave, onDelete, onClick }) => {
     const caption = "Picture of " + location;
     const travelerText = travelers === 1 ? "traveler" : "travelers";
 
     return (
-        <div className="card">
+        <div className="card" onClick={onClick}>
             <img src={image} alt={caption} className="card-image" />
             <div className="card-details">
                 <h2>{location}</h2>
@@ -74,6 +76,3 @@ const CardComponent = ({ image, location, priceRange, saves, travelers, showSave
 };
 
 export default CardComponent;
-
-
-

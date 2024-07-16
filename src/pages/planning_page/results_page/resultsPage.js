@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Add this import
 import TopBanner from '../../../components/banner';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -7,7 +8,10 @@ import binIcon from '../../../components/bin.png';
 import dragIcon from '../../../components/drag.png';
 import calendarIcon from '../../../components/calendar.png'; // Import the calendar icon
 import arrowDownIcon from '../../../components/arrow-down.png';
-import arrowRightIcon from '../../../components/arrow-right.png'; 
+import arrowRightIcon from '../../../components/arrow-right.png';
+import Modal from 'react-modal'; // Import react-modal
+
+Modal.setAppElement('#root'); // Set the app element for accessibility
 
 const ItemTypes = {
   ACTIVITY: 'activity',
@@ -234,6 +238,8 @@ const ResultsPage = () => {
   const [selectedActivityIndex, setSelectedActivityIndex] = useState(null);
   const [currentSuggestions, setCurrentSuggestions] = useState([...suggestedPlaces.slice(0, 15)]);
   const [expandedDays, setExpandedDays] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Optional: You can fetch initial itinerary from an API or another source here
@@ -296,11 +302,26 @@ const ResultsPage = () => {
   };
 
   const handleSaveAndExit = () => {
-    // Save itinerary to local storage or API
-    localStorage.setItem('savedItinerary', JSON.stringify(itinerary));
+    // Save itinerary to local storage
+    const upcomingTrips = JSON.parse(localStorage.getItem('upcomingTrips')) || [];
+    const newTrip = {
+      image: 'https://via.placeholder.com/200', // Replace with a suitable image URL or logic to determine the image
+      location: 'Custom Trip', // Replace with logic to determine the location
+      priceRange: '$1000 - $3000', // Replace with logic to determine the price range
+      saves: 0,
+      travelers: 1,
+      itinerary: itinerary
+    };
+    upcomingTrips.push(newTrip);
+    localStorage.setItem('upcomingTrips', JSON.stringify(upcomingTrips));
 
-    // Redirect to 'My Trips' page
-    window.location.href = '/my-trips'; // Adjust this URL as needed
+    // Show success modal
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    navigate('/mytrips'); // Adjust this URL as needed
   };
 
   return (
@@ -316,7 +337,7 @@ const ResultsPage = () => {
               Hover over location for preview</p>
               <div className="tripDetails">
                 <img src={calendarIcon} alt="Calendar" className="calendarIcon" />
-                <span className="tripDates">7/24 - 8/15</span>
+                <span className="tripDates">24 July - 29 July</span>
               </div>
             </div>
             {itinerary.map((dayPlan, dayIndex) => (
@@ -377,6 +398,16 @@ const ResultsPage = () => {
           </div>
         )}
         <button className="saveExitButton" onClick={handleSaveAndExit}>Save and Exit</button>
+        <Modal
+          isOpen={showModal}
+          onRequestClose={closeModal}
+          contentLabel="Itinerary Saved"
+          className="customModal"
+          overlayClassName="customOverlay"
+        >
+          <h2>Itinerary Saved Successfully in My Trips!</h2>
+          <button onClick={closeModal}>OK</button>
+        </Modal>
       </div>
     </DndProvider>
   );

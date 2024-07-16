@@ -79,13 +79,13 @@ function App() {
         <Route path="/home" Component={HomePage} />
         <Route path="/login" Component={LoginPage} />
         <Route path="/signup" Component={SignupPage} />
-        <Route 
-          path="/community" 
-          element={<CommunityPage addTripToSaved={addTripToSaved} />} 
+        <Route
+          path="/community"
+          element={<CommunityPage addTripToSaved={addTripToSaved} />}
         />
-        <Route 
-          path="/mytrips" 
-          element={<MyTrips savedTrips={savedTrips} />} 
+        <Route
+          path="/mytrips"
+          element={<MyTrips savedTrips={savedTrips} />}
         />
         <Route path="/planning/trip_detail" element={<TripDetailPage />} />
         <Route path="/planning/invite" element={<InvitePage />} />
