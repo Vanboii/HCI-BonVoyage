@@ -391,24 +391,9 @@ const MyTripsPage = () => {
 
   const handleDelete = (index) => {
     const updatedTrips = [...savedTrips];
-    const tripToRemove = updatedTrips[index];
-
-    if (!tripToRemove) {
-      console.error("Trip not found at index:", index);
-      return;
-    }
-
-    // Decrement saves count and update local storage for community trips
-    tripToRemove.saves -= 1;
-    let communityTrips = JSON.parse(localStorage.getItem('communityTrips')) || [];
-    communityTrips = [...communityTrips, tripToRemove];
-    localStorage.setItem('communityTrips', JSON.stringify(communityTrips));
-
-    // Remove the trip from saved trips
     updatedTrips.splice(index, 1);
     setSavedTrips(updatedTrips);
     setFilteredTrips(updatedTrips);
-
     localStorage.setItem('savedTrips', JSON.stringify(updatedTrips));
   };
 
