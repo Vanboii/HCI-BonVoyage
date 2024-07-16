@@ -164,7 +164,7 @@ const ResultsPage = () => {
 
   return (
     <div className="resultsPageContainer">
-      <TopBanner />
+      <TopBanner showAlertOnNavigate={true} />
       <div className="contentContainer">
         <div className="leftContainer">
           <h1>City Name: Seoul, South Korea</h1>

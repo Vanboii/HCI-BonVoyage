@@ -97,7 +97,7 @@ const TinderPreference = () => {
 
   return (
     <>
-      <TopBanner />
+      <TopBanner showAlertOnNavigate={true} />
       {showModal && (
         <div className="modal">
           <div className="modal-content">

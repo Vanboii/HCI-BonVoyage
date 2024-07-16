@@ -47,7 +47,7 @@ const InvitePage = () => {
 
   return (
     <div className="invite-container">
-      <TopBanner />
+      <TopBanner showAlertOnNavigate={true} />
       <main>
         <h1>Send An Invite</h1>
         <p>Invite others to plan your next trip together</p>

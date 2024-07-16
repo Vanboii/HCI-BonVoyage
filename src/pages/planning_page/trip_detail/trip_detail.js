@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import TopBanner from '../../../components/banner';
 import Select from 'react-select';
 import countryList from 'country-list';
-import { City } from 'country-state-city'; // Removed unused 'Country' import
+import { City } from 'country-state-city'; 
 import './trip_detail.css';
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 import { useItineraries } from '../../../test/useGetItineraries';
@@ -45,19 +45,10 @@ const TripDetailPage = ({setID}) => {
     }
 
     // Handle form submission
-    console.log({ country: country.label, city: city.label, startDate: startDate, endDate : endDate, numberOfPeople : numberOfPeople });
-    const id = await addItinerary({  //Adds the itinerary to the database
-      country: country.label, 
-      city: city.label, 
-      startDate: startDate, 
-      endDate : endDate,
-      numberOfPeople : numberOfPeople 
-    })
-    setID(id)
-    console.log("Itinerary ID:", id)
+    console.log({ country: country.label, city: city.label, startDate, endDate, numberOfPeople });
 
     // Navigate to invite page
-    navigate(`/planning/invite/${id}`);
+    navigate('/planning/invite');
   };
 
   // Get the list of cities for the selected country
@@ -70,7 +61,7 @@ const TripDetailPage = ({setID}) => {
 
   return (
     <div className="trip-detail-container">
-      <TopBanner />
+      <TopBanner showAlertOnNavigate={true}/>
       <main>
         <h1>Plan your next travel</h1>
         <p>Gateway to Planning Your Next Trip</p>

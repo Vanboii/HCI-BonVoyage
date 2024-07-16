@@ -33,19 +33,18 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './button.css';
 
-const ButtonComponent = ({ text, toPage, type }) => {
+const ButtonComponent = ({ text, toPage, type, onClick }) => {
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate(toPage);
+        if (onClick) {
+            onClick();
+        } else if (toPage) {
+            navigate(toPage);
+        }
     };
 
     return (
-        <button 
-            onClick={handleClick} 
-            className={type === '2' ? 'startPlanning' : ''}
-        >
-            {text}
-        </button>
+        <button className={type} onClick={handleClick}>{text}</button> // Assuming `type` is a string like 'white-text' or 'black-text'
     );
 };
 
