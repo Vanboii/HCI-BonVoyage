@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import './trip_detail.css';
-import { useNavigate } from 'react-router-dom';
-import TopBanner from '../../../components/banner';
 import DatePicker from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import countryList from 'country-list';
 import { City } from 'country-state-city'; // Removed unused 'Country' import
+import './trip_detail.css';
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+import { useItineraries } from '../../../test/useGetItineraries';
+
 
 // Transform the country list to match react-select's expected format
 const countries = countryList.getData().map((country) => ({
@@ -14,7 +16,12 @@ const countries = countryList.getData().map((country) => ({
   label: country.name,
 }));
 
-const TripDetailPage = () => {
+const TripDetailPage = ({setID}) => {
+
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  const { addItinerary } = useItineraries()
+  // const [ itineraryID, setItineraryID] = useState("")
+
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
   const [startDate, setStartDate] = useState(null);
@@ -29,7 +36,7 @@ const TripDetailPage = () => {
     setCity(null); // Reset city selection when country changes
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!country || !city || !startDate || !endDate || numberOfPeople < 1) {
@@ -37,10 +44,19 @@ const TripDetailPage = () => {
     }
 
     // Handle form submission
-    console.log({ country: country.label, city: city.label, startDate, endDate, numberOfPeople });
+    console.log({ country: country.label, city: city.label, startDate: startDate, endDate : endDate, numberOfPeople : numberOfPeople });
+    const id = await addItinerary({  //Adds the itinerary to the database
+      country: country.label, 
+      city: city.label, 
+      startDate: startDate, 
+      endDate : endDate,
+      numberOfPeople : numberOfPeople 
+    })
+    setID(id)
+    console.log("Itinerary ID:", id)
 
     // Navigate to invite page
-    navigate('/planning/invite');
+    navigate(`/planning/invite/${id}`);
   };
 
   // Get the list of cities for the selected country
@@ -120,7 +136,7 @@ const TripDetailPage = () => {
               type="number"
               id="number-of-people"
               value={numberOfPeople}
-              onChange={(e) => setNumberOfPeople(e.target.value)}
+              onChange={(e) => setNumberOfPeople(e.target.valueAsNumber)}
               min="1"
               required
               className="people-count"

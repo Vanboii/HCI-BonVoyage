@@ -8,7 +8,7 @@ export const useItineraries = () => {
   const [ queries,     setQueries     ] = useState([]);
   const [ itinerary,   setItinerary   ] = useState({});
 
-  const [id, setID] = useState()
+  const [id, setID] = useState("")
   const [title,setTitle] = useState("")
   const [dest, setDest] = useState("")
   const [contri,setContri] = useState("")
@@ -23,6 +23,7 @@ export const useItineraries = () => {
           {id: doc.id, ...doc.data()}
         ));
         setItineraries(itinerariesList);
+        console.log("All Itineraries:",itinerariesList)
       },
       (error) => {
         console.error("Error Getting Itineraries:",error);
@@ -46,7 +47,6 @@ export const useItineraries = () => {
     if (contri !== "") {
         queryRef = query(queryRef, where("Contributers", "array-contains", contri));
     }
-
     // queryRef = query(collectionRef,
     //   (itineraryID != "") && where("id", '==', itineraryID),
     //   (title != "") && where("Title", "==", title),
@@ -77,8 +77,6 @@ export const useItineraries = () => {
     }
   },[])
 
-
-
   const getItinerary = async (id) => {
     const docSnap = await getDoc(doc(db, 'testPrac', id))
     if (docSnap.exists()) {
@@ -102,14 +100,28 @@ export const useItineraries = () => {
   }
 
   const addItinerary = async (itinerary) => {
+    let docRef
     try {
-      const docRef = await addDoc(collectionRef, itinerary)
+      docRef = await addDoc(collectionRef, itinerary)
       await updateDoc(docRef, {id: docRef.id})
       console.log("Itinerary Added:",itinerary)
     } catch (error) {
       console.error("Error Adding Itinerary:",error)
     }
+    return docRef.id
   };
+
+  const updateItinerary = async (itineraryID, itinerary) => {
+    console.log("Attempting to update:",itineraryID, itinerary)
+    try {
+      const docRef = doc(db,"testPrac", itineraryID)
+      await updateDoc(docRef, itinerary)
+      console.log("Itinerary Updated")
+      // getItinerary(itineraryID)
+    } catch (error) {
+      console.error("Error Updating Itinerary:",error)
+    }
+  }
 
   const deleteItinerary = async (itineraryID) => {
     try {
@@ -121,17 +133,7 @@ export const useItineraries = () => {
     }
   };
 
-  const updateItinerary = async (itineraryID, itinerary) => {
-    try {
-      const docRef = doc(db,"testPrac", itineraryID)
-      await updateDoc(docRef, itinerary)
-      console.log("Itinerary Updated")
-    } catch (error) {
-      console.error("Error Updating Itinerary:",error)
-    }
-  }
-
   
 
-  return { itineraries, query, getItinerary, addItinerary, updateItinerary, deleteItinerary}
+  return { itineraries, queries, getItinerary, addItinerary, updateItinerary, deleteItinerary}
 }

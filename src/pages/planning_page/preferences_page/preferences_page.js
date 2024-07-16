@@ -6,7 +6,12 @@ import LuxuriousIcon from '../../../components/diamonds.png';
 import AdventurousIcon from '../../../components/camping.png';
 import RelaxedIcon from '../../../components/beach-chair.png';
 import { Range, getTrackBackground } from 'react-range';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom'; 
+
+//^^^^^^^^^^^^^^^^^^^^^^
+import { useItineraries } from '../../../test/useGetItineraries';
+import { AuthenticationPopup } from '../../login_page/loginPopup';
+
 
 const dietaryOptions = [
   'No Restrictions', 'Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Kosher', 'Pescatarian',
@@ -25,7 +30,16 @@ const categories = [
   'Pet-Friendly', 'Wheelchair Friendly', 'Parks & Scenic Plane', 'Theater & Cultural', 'Food Galore'
 ];
 
+
 const PreferencesPage = () => {
+
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  const {id} = useParams()
+  console.log("id:",id)
+  const { updateItinerary}  = useItineraries();
+  const { Popup } = AuthenticationPopup()
+
+
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
   const [dietarySearch, setDietarySearch] = useState('');
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -77,25 +91,35 @@ const PreferencesPage = () => {
   }, []);
 
   const handleSubmit = () => {
-    fetch('/save-dietary-options', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ dietaryOptions: selectedDietaryRestrictions }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
-        // Handle success scenario
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        // Handle error scenario
-      });
+    console.log("Handling submit...")
+    updateItinerary(id, {
+      diet: selectedDietaryRestrictions,
+      categories: selectedCategories,
+      travelStyles: selectedTravelStyles,
+      budget: budget
+    }
+    )
+    console.log("done")
 
-      // Navigate to invite page
-    navigate('/Tinderpreference');
+    // fetch('/save-dietary-options', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ dietaryOptions: selectedDietaryRestrictions }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log('Success:', data);
+    //     // Handle success scenario
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //     // Handle error scenario
+    //   });
+
+    //# Navigate to invite page
+    navigate(`/Tinderpreference/${id}`);
   };
 
   return (
@@ -193,16 +217,16 @@ const PreferencesPage = () => {
                   type="number"
                   value={budget[0]}
                   min={0}
-                  max={10000}
-                  onChange={(e) => setBudget([+e.target.value, budget[1]])}
+                  max={10000|| budget[1]}
+                  onChange={(e) => setBudget([+e.target.valueAsNumber, budget[1]])}
                 />
                 <span> - </span>
                 <input
                   type="number"
                   value={budget[1]}
-                  min={0}
+                  min={0 || budget[0]}
                   max={10000}
-                  onChange={(e) => setBudget([budget[0], +e.target.value])}
+                  onChange={(e) => setBudget([budget[0], +e.target.valueAsNumber])}
                 />
                 <label className="range-label">Max</label>
               </div>

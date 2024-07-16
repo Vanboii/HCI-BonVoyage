@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TopBanner from '../../components/homepagebanner';
 import ButtonComponent from '../../components/button';
 import './homePage.css';
-
+import HomePageBanner from "../../components/homepagebanner";
 // Import SVG files as URLs
 const images = [
     {
@@ -64,7 +64,7 @@ function HomePage() {
 
     return (
         <>
-            <TopBanner />
+            {/* <TopBanner /> */}
             <div id="main">
                 {images.map((image, index) => (
                     <div

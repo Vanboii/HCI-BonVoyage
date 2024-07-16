@@ -3,11 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import './tinder_preference.css';
 import TopBanner from "../../../components/banner";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate for navigation
 
 // Import images for dislike and like icons
 import dislikeIcon from '../../../components/Tinder_img_test/no.png';
 import likeIcon from '../../../components/Tinder_img_test/yes.png';
+
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+import { useItineraries } from '../../../test/useGetItineraries';
 
 const TinderPreference = () => {
   const [places, setPlaces] = useState([]);
@@ -18,6 +21,10 @@ const TinderPreference = () => {
   const [clickCount, setClickCount] = useState(0);
   const [showModal, setShowModal] = useState(true); // State variable for modal visibility
   const navigate = useNavigate(); // Initialize the useNavigate hook
+
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  const { id } = useParams()
+  const {updateItinerary} = useItineraries();
 
   useEffect(() => {
     fetch('/places.json')  // Path relative to the public directory
@@ -74,9 +81,12 @@ const TinderPreference = () => {
   };
 
   const handleNext = () => {
-    navigate('/waitingroom'); // Adjust the path to the Preferences page
-  };
 
+//^^^^^^^^^^^^^^^^^^^^^^^^^
+  updateItinerary(id, {likes: likes, dislikes: dislikes})
+
+    navigate(`waitingroom/${id}`); // Adjust the path to the Preferences page
+  };
   const closeModal = () => {
     setShowModal(false);
   };
@@ -93,7 +103,7 @@ const TinderPreference = () => {
           <div className="modal-content">
             <h2>Instructions</h2>
             <p>Press the left or right arrow on your keyboard</p>
-            <p>RIGHT = LIKE and LEFT = DISLIKE</p>
+            <p>LEFT = DISLIKE   and   RIGHT = LIKE</p>
             <p>You need to make at least 15 choices to proceed to the next step.</p>
             <button onClick={closeModal}>Got it!</button>
           </div>

@@ -8,7 +8,7 @@ import { serverTimestamp } from "firebase/firestore";
 import { useItineraries } from "./useGetItineraries";
 
 
-export const MYTRIPS = (isAuth) => {
+export const MYTRIPS = () => {
 
   const { itineraries,
     getItinerary, addItinerary, 
@@ -43,8 +43,6 @@ export const MYTRIPS = (isAuth) => {
       Pax: text3,
       Creater: null,
       Contributers: [],
-      CreatedAt: serverTimestamp(),
-      EditedAt: serverTimestamp(),
       Budget: null,
       Likes: 0,
       Public: false,
@@ -87,14 +85,13 @@ export const MYTRIPS = (isAuth) => {
     e.preventDefault()
     try {
       const data = await getItinerary(text4)
-      data.CreatedAt = Date(data.CreatedAt)
-      data.EditedAt = Date(data.EditedAt)
+
       console.log(data)
       
-      const {Title, Dest, Pax,} = data
-      setText5(Title)
-      setText6(Dest)
-      setText7(Pax)
+      const {country, city, numberOfPeople,} = data
+      setText5(country)
+      setText6(city)
+      setText7(numberOfPeople)
     } catch (error) {
       console.error(error)
     }
@@ -104,9 +101,9 @@ export const MYTRIPS = (isAuth) => {
   const submit3 = (e) => {
     e.preventDefault()
     updateItinerary(text4,{
-      Title: text5,
-      Dest: text6,
-      Pax: text7,
+      country: text5,
+      city: text6,
+      numberOfPeople: text7,
     })
     setText5('')
     setText6('')
@@ -115,7 +112,7 @@ export const MYTRIPS = (isAuth) => {
 
   function onDelete(id) {
     console.log("deleting:",id)
-    // deleteItinerary(id)
+    deleteItinerary(id)
   }
 
   const onSelect = (id) => {
@@ -133,12 +130,12 @@ export const MYTRIPS = (isAuth) => {
           <div className="col maxWidth gap center">
             <div className="padding gap border">
               {itineraries.map((itinerary) => {
-                const {Title,Dest,Pax,id} = itinerary
+                const {city,country,numberOfPeople,id} = itinerary
                 return (
                   <div className="row border gap justify maxWidth">
                     <div className="padding" >
-                      <h3>{Title}</h3>
-                      <p>{Dest} | {Pax}</p>
+                      <h3>{country}</h3>
+                      <p>{city} | {numberOfPeople}</p>
                     </div>
                   </div>
                 )
@@ -184,9 +181,9 @@ export const MYTRIPS = (isAuth) => {
               </div>
               <div className="row">
                 <button type="submit">Update Itinerary</button>
-                <button onClick={onDelete(text4)}>Delete</button>
               </div>
             </form>
+                <button onClick={() => onDelete(text4)}>Delete</button>
           </div>
         </div>
       </div>

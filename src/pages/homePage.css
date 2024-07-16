@@ -11,7 +11,7 @@
 * {
   box-sizing: border-box;
   margin: 0px;
-  min-width: fit-content;
+  /* min-width: fit-content; */
 }
 
 /*^ DELETE THIS AFTER */

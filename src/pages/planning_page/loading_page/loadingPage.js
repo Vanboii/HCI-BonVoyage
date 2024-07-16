@@ -98,7 +98,7 @@ const LoadingPage = () => {
 
   return (
     <>
-      <TopBanner />
+      {/* <TopBanner /> */}
       <div className="loading-container">
         <h1>Generating Your Itinerary<span className={`dots ${isComplete ? 'complete' : ''}`}>.</span></h1>
         <div className="progress-container">

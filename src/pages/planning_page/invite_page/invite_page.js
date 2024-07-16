@@ -4,6 +4,9 @@ import TopBanner from '../../../components/banner'; // Correct the path to banne
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
 
+
+import { useParams } from 'react-router-dom';
+
 const InvitePage = () => {
   const [email, setEmail] = useState('');
   const [invited, setInvited] = useState([]);
@@ -11,9 +14,12 @@ const InvitePage = () => {
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^
+  const { id } = useParams()
+
   useEffect(() => {
     // Generate a random invite link on component mount
-    const link = `https://bonvoyage.com/invite/${Math.random().toString(36).substring(2, 15)}`;
+    const link = `hci-bonvoyage.web.app/planning/invite//${id}`;
     setInviteLink(link);
   }, []);
 
@@ -34,7 +40,9 @@ const InvitePage = () => {
   };
 
   const handleNext = () => {
-    navigate('/preferences'); // Adjust the path to the Preferences page
+    //# Should do something to handle the emails in the invite box.
+
+    navigate(`/preferences/${id}`); // Adjust the path to the Preferences page
   };
 
   return (
@@ -55,13 +63,13 @@ const InvitePage = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
               <button type="button" className="send-invite-button" onClick={sendInvite}>
-                Send Invite
+                Add 
                 <img src={sendIcon} alt="Send Icon" />
               </button>
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="invited">Invites:</label>
+            <label htmlFor="invited">Invites: </label>
             <ul className="invite-list">
               {invited.map((invite, index) => (
                 <li key={index} className="invite-item">
@@ -72,6 +80,10 @@ const InvitePage = () => {
                 </li>
               ))}
             </ul>
+            <button type="button" className="send-invite-button">
+              Send Invite
+              {/* <img src={sendIcon} alt="Send Icon" /> */}
+              </button>
           </div>
           <div className="form-group invite-link-group">
             <label htmlFor="invite-link">Invite Link:</label>
