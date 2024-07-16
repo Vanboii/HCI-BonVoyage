@@ -170,6 +170,8 @@ import Select from 'react-select';
 import countryList from 'country-list';
 import './trip_detail.css';
 import Cookies from 'js-cookie';
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+import { useItineraries } from '../../../test/useGetItineraries';
 
 const countries = countryList.getData().map((country) => ({
   value: country.code,
@@ -181,7 +183,12 @@ const monthNames = [
   "July", "August", "September", "October", "November", "December"
 ];
 
-const TripDetailPage = () => {
+const TripDetailPage = ({setID}) => {
+
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  const { addItinerary } = useItineraries()
+  // const [ itineraryID, setItineraryID] = useState("")
+
   const [countriesData, setCountriesData] = useState([]);
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
@@ -214,6 +221,18 @@ const TripDetailPage = () => {
       return;
     }
 
+    // Handle form submission
+    console.log({ country: country.label, city: city.label, startDate: startDate, endDate : endDate, numberOfPeople : numberOfPeople });
+    const id = await addItinerary({  //Adds the itinerary to the database
+      country: country.label, 
+      city: city.label, 
+      startDate: startDate, 
+      endDate : endDate,
+      numberOfPeople : numberOfPeople 
+    })
+    setID(id)
+    console.log("Itinerary ID:", id)
+
     const encodedCity = encodeURIComponent(city.label);
     const encodedCountry = encodeURIComponent(country.label);
     const startMonth = monthNames[startDate.getMonth()]; // Convert start month to words
@@ -230,7 +249,7 @@ const TripDetailPage = () => {
       Cookies.set('tripData', JSON.stringify(data), { expires: 7 });
       Cookies.set('tripUrl', url, { expires: 7 });
 
-      navigate(`/planning/invite?city=${encodedCity}&country=${encodedCountry}`);
+      navigate(`/planning/invite/${id}?city=${encodedCity}&country=${encodedCountry}`);
     } catch (error) {
       console.error('Error fetching trip data:', error);
     }

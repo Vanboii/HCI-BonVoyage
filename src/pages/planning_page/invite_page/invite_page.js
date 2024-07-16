@@ -15,7 +15,7 @@ const InvitePage = () => {
 
   useEffect(() => {
     // Generate a random invite link on component mount
-    const link = `hci-bonvoyage.web.app/planning/invite/${id}`;
+    const link = `hci-bonvoyage.web.app/planning/invite//${id}`;
     setInviteLink(link);
   }, [id]);
 
@@ -43,7 +43,7 @@ const InvitePage = () => {
     //# Should do something to handle the emails in the invite box.
     const encodedCity = encodeURIComponent(city);
     const encodedCountry = encodeURIComponent(country);
-    navigate(`/preferences?city=${encodedCity}&country=${encodedCountry}`); // Adjust the path to the Preferences page
+    navigate(`/preferences/${id}?city=${encodedCity}&country=${encodedCountry}`); // Adjust the path to the Preferences page
   };
 
   return (

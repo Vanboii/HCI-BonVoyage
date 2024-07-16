@@ -7,7 +7,7 @@ import './banner.css'; // Ensure correct CSS file is imported
 import Alert from './alert'; // Make sure the path to Alert is correct
 
 import { auth } from "../firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
 import { AuthenticationPopup } from "../pages/login_page/loginPopup";
 
 function TopBanner({ showAlertOnNavigate }) {
@@ -30,7 +30,7 @@ function TopBanner({ showAlertOnNavigate }) {
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
+      await signOut(auth)
       console.log("User signed out");
       navigate('/'); // Optionally navigate to the home page
     } catch (error) {
@@ -41,16 +41,16 @@ function TopBanner({ showAlertOnNavigate }) {
   useEffect(() => {
     // Set up an observer for changes to the user's sign-in state
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in
-        setUser({
-          username: user.displayName,
-          email: user.email,
-          id: user.uid,
-        });
+        if (user) {
+          // User is signed in
+          setUser({
+            username: user.displayName,
+            email: user.email,
+            id: user.uid,
+          });
       } else {
-        // User is signed out
-        setUser(null);
+          // User is signed out
+          setUser(null);
       }
     });
     // Clean up the subscription
@@ -59,19 +59,19 @@ function TopBanner({ showAlertOnNavigate }) {
 
   const profile = () => {
     if (user) {
-      let show = user.username;
+      let show = user.username
       if (hover) {
-        show = "Log Out";
+        show = "Log Out"
       }
       return (
         <button className={isHomepage ? 'white-text' : 'black-text'} onClick={handleSignOut}
           onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>{show}</button>
-      );
+      )
     }
     return (
       <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => toggleViewable(true)}>Log In</button>
-    );
-  };
+    )
+  }
 
   const handleLogoClick = () => {
     if (showAlertOnNavigate) {
