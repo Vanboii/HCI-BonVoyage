@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "hci-bonvoyage",
+    "private_key_id": "b1a2c3f1c05f2852460b5f3f1cc3e1a068435fc9",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCvk9TOGpjLeNCX\nfkdwBkqnvQkxQjObz/sNg5wMaqaqsRgtU5cEwN4xKFsp1TYoHLvvfLtyYiRKnjgz\nQmTeb2M9H9/yKkiWmd2jSSnJFG3aZdYGBY94zYhjJAMTL/m1BeHZZi/VAxQHztaQ\n5LwxildxwxqEMHKTNgf2mEQUoNjnwTxeqCwa6FBcuqzQOFp6XEuAh7kVoDUlC5vJ\nEGQnsQHAWjGxbN5LWt7Kip5Qwz1jmp+dzpdu+OB0tstIir5v9rmvV8pIZrIMoz5Y\n/twPxDDZkXr8HM4jfWgDU0HVMvjWsMJPkU/8XMzMgGFsQROZvvNP270PBLeBci4p\nap9KQJmFAgMBAAECggEABbgm6E3VKK+h+oVaYLZRFpS2/hvzdWxkIlplVMGL9fx4\ngVAl7Q7hTgWhWUQA6clB1U52sVusEKLbHs8CB9LmDywreIZ9wIDOR6Q5pbtczA6h\ngacLDOWDv1hWzKMKmyXQEmux5tpHppd2GtiF9DEsTGA4IWfjRj4DgA9mtwCkVYGX\n8GTeiI/VHcCvINCY7OBV1w9l8wfZLTpOPo1JDVxLNy18yTjtA9XEWGnXT9Yie6DZ\ntDsjP5f8fGoje7keLT+umR14bPkEaYfamrBc44Px7Dmm4l4sZJhHEPd7A5hyHP1/\nuS4Qx5UgrLDih2GbFHdYLgLlYaQR8gUX2IDoTI3RcwKBgQDak6s25FZtSE19iEXM\n8/AAZkqMh8tmxIHW3jlcLD4733ORGdVrvhPNH9834nnmNTAo0ZY4q2qKoLkI4uK/\nNJ/bPnTZvzXoJ2XCVQsgRQfaZdUqXzFk4wXKR6DUEj6x3oeFWzsL/jB+ZJQNpWrl\nO/B0G1ClsHPGFewoRYK5XXxnqwKBgQDNo3qZJWsDU6+cvoRciu23Zh30cSfc5dOZ\nw8irNb7uJ1O3B/y1MZaXaTaTQgtEEC1Y3ndjabDmwhGjPFArt23UxaidnvtrhB3U\nm6Y9HZjuFcXQqRqliYkQhe3eiHrq4b5Owq1ehDW/sCUuT6Twvbpu+VX7Q8VV+n+V\navDGjTMTjwKBgQCgVbZAe9rSKzl8nhvlrgMdp+uDjpEr/3Xm8fhNnr7AGLejdrnR\nYQsRaxHI4r7cmaOMLcHuK//pVOCmnhgKfkXNA9GfcN3QQCYrGUsiDsEl+ZEWleGb\nydSTf1uAdSm8PCpZLoTv1TQpYwofwHnbUc6evPK5t+gVJDuphuPPqb36JQKBgCR6\nvcLxOlyqudqKiZyJIMaKHQJCGJo9Qx5h9vU4YZiJ7XXoutHB7D8L8RyKeMkoPYMo\nY/GEzFcDUnGsv2Qh9B/suI7NpzhZhZkzy3fIClsiDaeIeCupjGEcASia+YM1bLc4\nHd1IguhwbQgcJNx4K9yH6tLaIOWxvHRbNj9iyQ7NAoGAHi93J9ewb6SgrxsnAq5Y\nxOq2w8tnA1ncOVIjrVDBkbnMhjTg1aVUWJYtWvvhkxslVOdAt6HxZ00iX4TIvqvG\nkd9EQrV6WJaV+U5WGfcGNNKvSQkMDCSWxeaghKyO0yd3TvjTUFOGLavyH/QlZIP8\nR18TYzsrta9K7d9U9z2wb5k=\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-llh9e@hci-bonvoyage.iam.gserviceaccount.com",
+    "client_id": "101123621425778959870",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-llh9e%40hci-bonvoyage.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }

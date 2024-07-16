@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 # self-defined libraries
 from components.llama3_prompt0 import generate_recommendation
 from components.llama3_prompt1 import generate_location_recommendation
 
 app = Flask(__name__)
+CORS(app) # enables CORS for all routes
+
 
 @app.route("/")
 def index():
