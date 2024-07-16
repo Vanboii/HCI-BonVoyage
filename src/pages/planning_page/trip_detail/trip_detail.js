@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
+import TopBanner from '../../../components/banner';
 import Select from 'react-select';
 import countryList from 'country-list';
 import { City } from 'country-state-city'; // Removed unused 'Country' import
@@ -69,7 +70,7 @@ const TripDetailPage = ({setID}) => {
 
   return (
     <div className="trip-detail-container">
-      {/* <TopBanner /> */}
+      <TopBanner />
       <main>
         <h1>Plan your next travel</h1>
         <p>Gateway to Planning Your Next Trip</p>

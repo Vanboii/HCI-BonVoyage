@@ -124,7 +124,7 @@ const PreferencesPage = () => {
 
   return (
     <div className="preferences-container">
-      {/* <TopBanner /> */}
+      <TopBanner />
       <main>
         <h1>Personal Preference</h1>
         <p>Customize your own Travel Experience</p>

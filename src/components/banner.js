@@ -23,8 +23,8 @@ function TopBanner() {
   }
 
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const { Popup } = AuthenticationPopup()
-  const [showPopUp, togglePopUp] = useState(false)
+  const { Popup, viewable, toggleViewable} = AuthenticationPopup()
+
   const [user, setUser] = useState(null)
   const [hover, setHover] = useState(false)
 
@@ -71,7 +71,7 @@ function TopBanner() {
       )
     }
     return (
-      <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => togglePopUp(true)}>Log In</button>
+      <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => toggleViewable(true)}>Log In</button>
     )
   }
   
@@ -86,7 +86,7 @@ function TopBanner() {
             <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => navigate('/community')}>Community Trips</button>
             {profile()}
           </div>
-          {showPopUp && Popup()}
+          {viewable && Popup()}
         </div>
     );
 }

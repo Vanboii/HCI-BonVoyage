@@ -27,7 +27,7 @@ function App() {
 
   return (
     <Router>
-      <TopBanner/>
+      {/* <TopBanner/> */}
       <Routes>
         <Route path="/home" Component={HomePage} />
         <Route path="login" Component={LoginPage} />
@@ -42,7 +42,7 @@ function App() {
         <Route path="loading" Component={LoadingPage} />
         <Route path="results" Component={ResultsPage} />   {/* Add ResultsPage route */}
 
-        <Route path="/bitch" Component={MYTRIPS} />         {/* Delete this after */}
+        <Route path="/bitch" Component={MYTRIPS} />       
 
         <Route path="*" element={<HomePage />} />
       </Routes>

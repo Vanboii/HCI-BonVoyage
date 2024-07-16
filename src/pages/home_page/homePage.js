@@ -64,7 +64,7 @@ function HomePage() {
 
     return (
         <>
-            {/* <TopBanner /> */}
+            <TopBanner />
             <div id="main">
                 {images.map((image, index) => (
                     <div

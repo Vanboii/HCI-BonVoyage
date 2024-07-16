@@ -3,7 +3,7 @@
 
 
 import React, { useState, useEffect } from "react"; 
-import "../pages/homePage.css"
+// import "../pages/homePage.css"
 import { serverTimestamp } from "firebase/firestore";
 import { useItineraries } from "./useGetItineraries";
 

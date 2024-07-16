@@ -51,7 +51,6 @@
 }
 .rightButtons {
     height: 100%;
-    display: none;
     align-items: center;
     flex-grow: 0;
     gap: 16px; /* Increased spacing between buttons */

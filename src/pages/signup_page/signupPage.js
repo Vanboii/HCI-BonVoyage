@@ -1,7 +1,7 @@
 import React from "react";
-
+import TopBanner from "../../components/banner";
 import ButtonComponent from "../../components/button";
-import '../homePage.css';
+// import '../homePage.css';
 
 
 
@@ -9,7 +9,7 @@ function SignupPage() {
 
   return (
     <>
-    {/* <TopBanner/> */}
+    <TopBanner/>
     <div id="main">
       <div id="account">
         <div className="left">
