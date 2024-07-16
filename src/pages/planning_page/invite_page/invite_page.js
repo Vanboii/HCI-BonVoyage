@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-import { useParams } from 'react-router-dom';
 import { useUsers } from '../../../test/useGetUsers';
 
 //#

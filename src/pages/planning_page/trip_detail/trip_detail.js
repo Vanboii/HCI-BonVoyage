@@ -18,7 +18,7 @@ const countries = countryList.getData().map((country) => ({
   label: country.name,
 }));
 
-const TripDetailPage = ({setID}) => {
+const TripDetailPage = () => {
 
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   const { addItinerary } = useItineraries()
@@ -54,10 +54,8 @@ const TripDetailPage = ({setID}) => {
       endDate : endDate,
       numberOfPeople : numberOfPeople, // maybe change number of people to PAX?
       owner : auth.currentUser.uid,
-
-
     })
-    setID(id)
+
     console.log("Itinerary ID:", id)
 
     // Navigate to invite page

@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import TopBanner from './components/banner';
 
 import HomePage from './pages/home_page/homePage';
 import LoginPage from './pages/login_page/loginPage';
@@ -21,20 +19,16 @@ import { MYTRIPS } from './test/page1';
 
 function App() {
 
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const [id, setID] = useState("");
-
-
   return (
     <Router>
-      {/* <TopBanner/> */}
+
       <Routes>
         <Route path="/home" Component={HomePage} />
         <Route path="login" Component={LoginPage} />
         <Route path="signup" Component={SignupPage} />
         <Route path="community" Component={CommunityPage} />
         <Route path="mytrips" Component={MyTrips} />
-        <Route path="planning/trip_detail" element={<TripDetailPage setID={setID} />} />
+        <Route path="planning/trip_detail" element={<TripDetailPage />} />
         <Route path="planning/invite/:id" element={<InvitePage />} />
         <Route path="preferences/:id" element={<PreferencesPage/>} />
         <Route path="tinderpreference/:id" element={<TinderPreference/>} />

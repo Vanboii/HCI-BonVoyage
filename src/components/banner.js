@@ -1,11 +1,10 @@
-// banner.js
 
 import React, { useEffect, useState } from "react";
 import homepageLogo from './boat_in_white.png'; // Logo for homepage
 import otherPagesLogo from './boat-10.png'; // Logo for other pages
-// import ButtonComponent from "./button";
+
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation to get the current path
-import './banner.css'; // Ensure correct CSS file is imported+
+import './banner.css'; // Ensure correct CSS file is imported
 
 import { auth } from "../firebase";
 import { onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
@@ -55,7 +54,6 @@ function TopBanner() {
     // Clean up the subscription
     return () => unsubscribe();
   }, []);
-
 
   const profile = () => {
 

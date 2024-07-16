@@ -11,15 +11,11 @@ function WaitingRoom() {
   const [maxUsers , setMax] = useState();
   const [Users, setUsers] = useState([]);
 
-
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   const { id } = useParams()
   const navigate = useNavigate();
   const { getItinerary, getPreferences } = useItineraries()
 
-
-
-  
   const getPax = async () => {
     const doc = await getItinerary(id)
     const max = doc.numberOfPeople
@@ -39,8 +35,6 @@ function WaitingRoom() {
     
     getDone()
 
-    
-
     // const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
     // setUsers(storedUsers);
     // if (storedUsers.length >= maxUsers) {
@@ -52,7 +46,6 @@ function WaitingRoom() {
   Users.forEach((user, index) => {
     userStatuses[index] = `${user.displayName} is ready for the trip!`;
   });
-
 
   return (
     <>
