@@ -46,19 +46,26 @@ def create_search_term_recommendations(acitivities_json):
                                                                 acitivities_json["month"],)
 
         bing_results = get_results_for(search_term)
-        #print(bing_results)
+        print(bing_results)
 
         # process each of the 5 results by:
         for res in bing_results:
             # ensuring that the siteName isn't in the omitted sites
-            if res["siteName"] not in omit:
-                # serialise it into site-name & url
-                #results.append({'siteName': res["siteName"],
-                #                'url': res["url"]})
-                #results[category[index]] = res["url"]
+            site = res.get("siteName")
+            # if the site url is not None
+            if site:
+                # check if it should be omitted
+                if site not in omit:
+                    # serialise it into site-name & url
+                    #results.append({'siteName': res["siteName"],
+                    #                'url': res["url"]})
+                    #results[category[index]] = res["url"]
+                    results.append(res["url"])
+                    # only get the first url
+                    break
+            # else just add url
+            else:
                 results.append(res["url"])
-                # only get the first url
-                break
 
     #print(results)
     return results
@@ -198,5 +205,14 @@ def generate_location_recommendation(chosen_acitivities_json):
 #locations_recommendations_url = create_search_term_recommendations(acitivities_json)
 #print(locations_recommendations_url)
 
-# data = generate_location_recommendation(acitivities_json)
-# print(data)
+acitivities_json = {"country": "Albania",
+ "city": "Fier",
+"category": [
+        "Food Galore"
+    ],
+ "month": "July",
+ "budget": "$1250"
+} # "Amusement Parks", "Museums"
+
+data = generate_location_recommendation(acitivities_json)
+print(data)
