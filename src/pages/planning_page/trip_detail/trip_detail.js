@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -23,6 +23,7 @@ const TripDetailPage = ({setID}) => {
   const { addItinerary } = useItineraries()
   // const [ itineraryID, setItineraryID] = useState("")
 
+  const [countriesData, setCountriesData] = useState([]);
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
   const [startDate, setStartDate] = useState(null);
@@ -32,6 +33,23 @@ const TripDetailPage = ({setID}) => {
   const navigate = useNavigate();
   const today = new Date();
 
+  // Fetch the countries and cities data from the JSON file
+  useEffect(() => {
+    fetch('/countries_cities.json')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Countries data fetched:', data.countries);
+        setCountriesData(data.countries);
+      })
+      .catch(error => console.error('Error fetching countries and cities data:', error));
+  }, []);
+
+  // Transform the countries data to match react-select's expected format
+  const countries = countriesData.map(country => ({
+    value: country.code,
+    label: country.name,
+  }));
+
   const handleCountryChange = (selectedCountry) => {
     setCountry(selectedCountry);
     setCity(null); // Reset city selection when country changes
@@ -40,23 +58,55 @@ const TripDetailPage = ({setID}) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log('Form submission started');
+    console.log('Country:', country);
+    console.log('City:', city);
+    console.log('Start Date:', startDate);
+    console.log('End Date:', endDate);
+    console.log('Number of People:', numberOfPeople);
+
     if (!country || !city || !startDate || !endDate || numberOfPeople < 1) {
+      console.log('Form submission blocked due to missing required fields');
       return; // If any required field is missing, prevent form submission
     }
 
-    // Handle form submission
-    console.log({ country: country.label, city: city.label, startDate, endDate, numberOfPeople });
+    const tripDetails = {
+      country: country.label,
+      city: city.label,
+      startDate,
+      endDate,
+      numberOfPeople,
+    };
 
+    // Mock the server response
+    console.log('Mock saving trip details:', tripDetails);
+
+    console.log({ country: country.label, city: city.label, startDate: startDate, endDate : endDate, numberOfPeople : numberOfPeople });
+    const id = await addItinerary({  //Adds the itinerary to the database
+      country: country.label, 
+      city: city.label, 
+      startDate: startDate, 
+      endDate : endDate,
+      numberOfPeople : numberOfPeople 
+    })
+    setID(id)
+    console.log("Itinerary ID:", id)
+
+    // Mock fetching the formatted URL
+    const urlData = { url: 'http://localhost:3000/invite-link' };
+    console.log('Mock formatted URL:', urlData.url);
+    
     // Navigate to invite page
-    navigate('/planning/invite');
+    navigate(`/planning/invite/${id}`);
+
   };
 
   // Get the list of cities for the selected country
   const cityOptions = country
-    ? City.getCitiesOfCountry(country.value).map((city) => ({
-        value: city.name,
-        label: city.name,
-      }))
+    ? countriesData.find(c => c.code === country.value)?.cities.map(city => ({
+        value: city,
+        label: city,
+      })) || []
     : [];
 
   return (
