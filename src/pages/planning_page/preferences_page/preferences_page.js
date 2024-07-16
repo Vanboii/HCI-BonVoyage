@@ -24,9 +24,14 @@ const travelStyles = [
   { label: 'Relaxed', icon: RelaxedIcon },
 ];
 
-const categories = [
+const allCategories = [
   'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-Friendly',
   'Pet-Friendly', 'Wheelchair Friendly', 'Parks & Scenic Plane', 'Theater & Cultural', 'Food Galore'
+];
+
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
 ];
 
 const PreferencesPage = () => {
@@ -42,7 +47,7 @@ const PreferencesPage = () => {
   const [budget, setBudget] = useState([500, 1250]);
   const [formError, setFormError] = useState('');
   const [availableCategories, setAvailableCategories] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const params = new URLSearchParams(search);
@@ -100,20 +105,20 @@ const PreferencesPage = () => {
 
       try {
         const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${city}&country=${country}`);
-        const availableCategories = response.data.activities;
+        const availableCategories = response.data.reply;
         console.log('Fetched categories:', availableCategories);
         setAvailableCategories(availableCategories);
-        setLoading(false); // Set loading to false after fetching data
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching categories:', error);
-        setLoading(false); // Set loading to false even if there is an error
+        setLoading(false);
       }
     };
 
     fetchCategories();
   }, [city, country]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (selectedDietaryRestrictions.length === 0) {
@@ -129,14 +134,33 @@ const PreferencesPage = () => {
       return;
     }
 
-    updateItinerary({
-      diet: selectedDietaryRestrictions,
-      categories: selectedCategories,
-      travelStyles: selectedTravelStyles,
-      budget: budget
-    });
+    const currentDate = new Date();
+    const month = monthNames[currentDate.getMonth()];
 
-    navigate(`/Tinderpreference`);
+    const itineraryData = {
+      country: country,
+      city: city,
+      month: month,
+      category: selectedCategories,
+      budget: `$${budget[1]}`
+    };
+
+    console.log('Sending data:', itineraryData);
+
+    // Try POST request
+    try {
+      const response = await axios.post('https://bonvoyage-api.azurewebsites.net/get-recommendations', itineraryData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const recommendations = response.data;
+      console.log('Recommendations fetched (POST):', recommendations);
+
+      navigate(`/Tinderpreference`);
+    } catch (error) {
+      console.error('Error fetching recommendations (POST):', error);
+    }
   };
 
   if (loading) {
@@ -218,7 +242,7 @@ const PreferencesPage = () => {
           <div className="form-group">
             <label>Category of Activities:</label>
             <div className="options">
-              {categories.map((category) => (
+              {allCategories.map((category) => (
                 <div
                   key={category}
                   className={`option-button ${selectedCategories.includes(category) ? 'selected' : ''}`}
@@ -315,5 +339,3 @@ const PreferencesPage = () => {
 };
 
 export default PreferencesPage;
-
-

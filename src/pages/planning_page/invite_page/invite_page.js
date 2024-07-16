@@ -43,7 +43,7 @@ const InvitePage = () => {
     //# Should do something to handle the emails in the invite box.
     const encodedCity = encodeURIComponent(city);
     const encodedCountry = encodeURIComponent(country);
-    navigate(`/preferences/${id}?city=${encodedCity}&country=${encodedCountry}`); // Adjust the path to the Preferences page
+    navigate(`/preferences?city=${encodedCity}&country=${encodedCountry}`); // Adjust the path to the Preferences page
   };
 
   return (
