@@ -4,8 +4,13 @@ import TopBanner from '../../../components/banner'; // Correct the path to banne
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
 
-
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 import { useParams } from 'react-router-dom';
+import { useUsers } from '../../../test/useGetUsers';
+
+//#
+import { db } from '../../../firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
@@ -16,15 +21,42 @@ const InvitePage = () => {
 
   //^^^^^^^^^^^^^^^^^^^^^^^^^^
   const { id } = useParams()
+  const {findUsers, findUsers2} = useUsers()
 
   useEffect(() => {
     // Generate a random invite link on component mount
-    const link = `hci-bonvoyage.web.app/planning/invite//${id}`;
+    const link = `hci-bonvoyage.web.app/preferences/${id}`;
     setInviteLink(link);
   }, []);
 
-  const sendInvite = () => {
+  const findEmail = async () => {
+    const results = await findUsers2("email",email)
+    let emails = []
+    results.forEach((result) => {
+      emails.push(result.email)
+    })
+    console.log("Find1:", results, emails)
+    return emails
+  }
+  const findName = async () => {
+    const results = await findUsers2("displayName",email)
+    let names = []
+    results.forEach((result) => {
+      names.push(result.displayName)
+    })
+    console.log("Find2", results, names )
+    return names
+  }
+  useEffect( () => {
+    findEmail()
+    findName()
+      
+  },[email])
+
+
+  const addInvite = () => {
     if (email) {
+
       setInvited([...invited, email]);
       setEmail(''); // Clear the email input
     }
@@ -33,6 +65,16 @@ const InvitePage = () => {
   const deleteInvite = (invite) => {
     setInvited(invited.filter((i) => i !== invite));
   };
+  const addNewCollectionTest = async (collectionName, activity) => {
+    const activityRef = collection(db,collectionName)
+    const docRef = await addDoc(activityRef, activity)
+  
+    console.log("Activity Added:", docRef,activity)
+  }
+  const sendInvites =  () => {
+    addNewCollectionTest("bobby",{hi:"hello",leave:"bye"})
+    console.log("Done")
+  }
 
   const copyInviteLink = () => {
     navigator.clipboard.writeText(inviteLink);
@@ -62,7 +104,7 @@ const InvitePage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <button type="button" className="send-invite-button" onClick={sendInvite}>
+              <button type="button" className="send-invite-button" onClick={addInvite}>
                 Add 
                 <img src={sendIcon} alt="Send Icon" />
               </button>
@@ -80,7 +122,7 @@ const InvitePage = () => {
                 </li>
               ))}
             </ul>
-            <button type="button" className="send-invite-button">
+            <button type="button" className="send-invite-button" onClick={sendInvites}>
               Send Invite
               {/* <img src={sendIcon} alt="Send Icon" /> */}
               </button>

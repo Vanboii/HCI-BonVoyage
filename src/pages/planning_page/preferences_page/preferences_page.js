@@ -9,8 +9,9 @@ import { Range, getTrackBackground } from 'react-range';
 import { useNavigate, useParams } from 'react-router-dom'; 
 
 //^^^^^^^^^^^^^^^^^^^^^^
+import { auth } from '../../../firebase';
 import { useItineraries } from '../../../test/useGetItineraries';
-import { AuthenticationPopup } from '../../login_page/loginPopup';
+// import { AuthenticationPopup } from '../../login_page/loginPopup';
 
 
 const dietaryOptions = [
@@ -34,10 +35,11 @@ const categories = [
 const PreferencesPage = () => {
 
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  const User = auth.currentUser
   const {id} = useParams()
   console.log("id:",id)
-  const { updateItinerary}  = useItineraries();
-  const { Popup } = AuthenticationPopup()
+  const { addPreferences } = useItineraries();
+  // const { Popup } = AuthenticationPopup() //# Add 
 
 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
@@ -92,14 +94,19 @@ const PreferencesPage = () => {
 
   const handleSubmit = () => {
     console.log("Handling submit...")
-    updateItinerary(id, {
-      diet: selectedDietaryRestrictions,
-      categories: selectedCategories,
-      travelStyles: selectedTravelStyles,
-      budget: budget
+    try {
+      addPreferences(id, User.uid, {
+        displayName: User.displayName,
+        budget: budget,
+        categories: selectedCategories,
+        diet: selectedDietaryRestrictions,
+        travelStyles: selectedTravelStyles,
+      });
+      console.log("Done. Preferences Submitted")
+    } catch (error) {
+      console.error(error)
     }
-    )
-    console.log("done")
+    
 
     // fetch('/save-dietary-options', {
     //   method: 'POST',

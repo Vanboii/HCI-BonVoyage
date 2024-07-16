@@ -6,7 +6,7 @@ export const useActivities = () => {
 
   const [ activities, setActivities ] = useState()
 
-  const collectionRef = collection(db,"testPrac")
+  const collectionRef = collection(db,"testPrac2")
 
   const getActivities = (id) => {
     const activityRef = collection(collectionRef, id, "activities")
@@ -29,7 +29,7 @@ export const useActivities = () => {
   },[])
 
   const getActivity = async (iID,aID) => {
-    const docSnap = await getDoc(doc(db, 'testPrac', iID, 'activities', aID))
+    const docSnap = await getDoc(doc(db, 'testPrac2', iID, 'activities', aID))
     if (docSnap.exists()) {
       const activity = docSnap.data()
       console.log( iID,"/",aID,"=>",activity)
@@ -42,7 +42,7 @@ export const useActivities = () => {
 
   const addActivity = async(iID, activity) => {
     try {
-      const activityRef = collection(db,'testPrac', iID, "activities")
+      const activityRef = collection(db,'testPrac2', iID, "activities")
       const docRef = await addDoc(activityRef, activity)
       await updateDoc(docRef, {id: docRef.id})
       console.log("Activity Added:", activity)
@@ -53,7 +53,7 @@ export const useActivities = () => {
 
   const updateActivity = async (iID, aID, act) => {
     try {
-      const docRef = doc(db,"testPrac", iID, "activities",aID)
+      const docRef = doc(db,"testPrac2", iID, "activities",aID)
       await updateDoc(docRef, act)
       console.log("Activity Updated")
     } catch (error) {
@@ -63,7 +63,7 @@ export const useActivities = () => {
 
   const deleteActivity = async (iID,aID) => {
     try {
-      const docRef = doc(db,"testPrac", iID,"activities", aID)
+      const docRef = doc(db,"testPrac2", iID,"activities", aID)
       await deleteDoc(docRef)
       console.log("Document",aID,"Deleted")
     } catch (error) {

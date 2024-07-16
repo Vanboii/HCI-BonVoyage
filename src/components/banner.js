@@ -43,7 +43,7 @@ function TopBanner() {
         if (user) {
             // User is signed in
             setUser({
-              username: user.displayName,
+              displayName: user.displayName,
               email: user.email,
               id: user.uid,
             });
@@ -56,12 +56,12 @@ function TopBanner() {
     return () => unsubscribe();
   }, []);
 
-  
 
   const profile = () => {
 
     if (user) {
-      let show = user.username
+      let show = user.displayName
+      console.log("show:",show)
       if (hover) {
         show = "Log Out"
       }

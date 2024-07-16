@@ -14,7 +14,7 @@ export const AuthenticationPopup = () => {
   const [ username, setUsername ] = useState("")
   const [ LoginSignUp, toggleLoginSignUp] = useState(true);
   const [ viewable, toggleViewable ] = useState(false)
-  const { createUser } = useUsers();
+  const { createUser,getUser } = useUsers();
 
   const handleChange = () => {
     setPassword("")
@@ -22,18 +22,38 @@ export const AuthenticationPopup = () => {
   }
 
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault()
     try {
       const userCredentail = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredentail.user
+      const User = userCredentail.user
 
-      console.log(user.displayName,"logged in.",userCredentail.user)
+      try {
+        const { user } = getUser(User.uid)
+        if (user) {
+          console.log("Welcome")
+        }
+      } catch (error) {
+        console.error(error)
+        createUser({
+          uID: User.uid,
+          email: email,
+          displayName: User.displayName,
+          fname: "",
+          lname: "",
+        })
+        console.log("User Added")
+      }
+
+      console.log(User.displayName,"logged in.",User)
+      toggleViewable(false)
     } catch (error) {
       console.error(error)
     }
   }
 
-  const handlCreate = async () => {
+  const handlCreate = async (e) => {
+    e.preventDefault()
     try {
       const userCredentail = await createUserWithEmailAndPassword(auth, email, password);
       const User = userCredentail.user
@@ -43,11 +63,14 @@ export const AuthenticationPopup = () => {
 
       createUser({
         uID:User.uid,
-        displayName:username,
+        email: email,
+        displayName: username,
         fname:fname,
         lname:lname,
       })
-      console.log(User.displayName,"logged in.",userCredentail.user)
+      console.log(User.displayName,"logged in.", User)
+
+      toggleViewable(false)
     } catch (error) {
       console.error(error)
     }

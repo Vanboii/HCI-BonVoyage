@@ -42,7 +42,32 @@ export const useUsers = () => {
     try {
       const querySnapshot = await getDocs(userQuery);
       querySnapshot.forEach((doc) => {
-        users.push(doc.data());
+        users.push({ id:doc.id, ...doc.data() });
+      });
+      setUserList(users)
+      console.log(`Users Found: ${users}`)
+    } catch (error) {
+      console.error(error)
+    }
+    return users
+  }
+
+  const findUsers2 = async ( type, input) => {
+    let users = []
+    let userQuery = userRef
+    if (type in ["email","displayName","lname","fname"] && input) {
+      if (type === "email") {
+        userQuery = query(userRef, where(type, "==", input));
+      } else {
+        userQuery = query(userRef, where(type, ">=", input));
+      }
+    } 
+  
+    console.log("Finding Users ...")
+    try {
+      const querySnapshot = await getDocs(userQuery);
+      querySnapshot.forEach((doc) => {
+        users.push({ id:doc.id, ...doc.data() });
       });
       setUserList(users)
       console.log(`Users Found: ${users}`)
@@ -98,5 +123,5 @@ export const useUsers = () => {
     }
   }
 
-  return { createUser, getUser, findUsers, updateUser, addFriend }
+  return { userList, createUser, getUser, findUsers, findUsers2, updateUser, addFriend }
 }

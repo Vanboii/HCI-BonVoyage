@@ -9,6 +9,7 @@ import { City } from 'country-state-city'; // Removed unused 'Country' import
 import './trip_detail.css';
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 import { useItineraries } from '../../../test/useGetItineraries';
+import { auth } from '../../../firebase';
 
 
 // Transform the country list to match react-select's expected format
@@ -51,7 +52,10 @@ const TripDetailPage = ({setID}) => {
       city: city.label, 
       startDate: startDate, 
       endDate : endDate,
-      numberOfPeople : numberOfPeople 
+      numberOfPeople : numberOfPeople, // maybe change number of people to PAX?
+      owner : auth.currentUser.uid,
+
+
     })
     setID(id)
     console.log("Itinerary ID:", id)

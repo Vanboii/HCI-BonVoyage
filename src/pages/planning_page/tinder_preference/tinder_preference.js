@@ -11,6 +11,8 @@ import likeIcon from '../../../components/Tinder_img_test/yes.png';
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 import { useItineraries } from '../../../test/useGetItineraries';
+import { auth } from '../../../firebase';
+
 
 const TinderPreference = () => {
   const [places, setPlaces] = useState([]);
@@ -24,7 +26,8 @@ const TinderPreference = () => {
 
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   const { id } = useParams()
-  const {updateItinerary} = useItineraries();
+  const { updatePreferences } = useItineraries();
+  const User = auth.currentUser
 
   useEffect(() => {
     fetch('/places.json')  // Path relative to the public directory
@@ -67,25 +70,25 @@ const TinderPreference = () => {
     }, 500); // Match with animation duration
   };
 
-  const handleExport = () => {
-    const data = { likes, dislikes };
-    const json = JSON.stringify(data, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'preferences.json';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  // const handleExport = () => {
+  //   const data = { likes, dislikes };
+  //   const json = JSON.stringify(data, null, 2);
+  //   const blob = new Blob([json], { type: 'application/json' });
+  //   const url = URL.createObjectURL(blob);
+  //   const link = document.createElement('a');
+  //   link.href = url;
+  //   link.download = 'preferences.json';
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
 
   const handleNext = () => {
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^
-  updateItinerary(id, {likes: likes, dislikes: dislikes})
+  updatePreferences(id, User.uid, {likes: likes, dislikes: dislikes})
 
-    navigate(`waitingroom/${id}`); // Adjust the path to the Preferences page
+    navigate(`/waitingroom/${id}`); // Adjust the path to the Preferences page
   };
   const closeModal = () => {
     setShowModal(false);

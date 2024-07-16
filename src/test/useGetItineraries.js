@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { collection, addDoc, updateDoc, deleteDoc, onSnapshot, doc, getDoc, query, where, getDocs, } from "firebase/firestore";
+import { collection, addDoc, updateDoc, deleteDoc, onSnapshot, doc, getDoc, query, where, getDocs, limit, setDoc, } from "firebase/firestore";
 
 export const useItineraries = () => {
 
@@ -13,7 +13,7 @@ export const useItineraries = () => {
   const [dest, setDest] = useState("")
   const [contri,setContri] = useState("")
 
-  const collectionRef = collection(db, "testPrac")
+  const collectionRef = collection(db, "testPrac2")
 
   const getItineraries = () => {
 
@@ -78,7 +78,8 @@ export const useItineraries = () => {
   },[])
 
   const getItinerary = async (id) => {
-    const docSnap = await getDoc(doc(db, 'testPrac', id))
+    console.log("Getting Itinerary:",id)
+    const docSnap = await getDoc(doc(db, 'testPrac2', id))
     if (docSnap.exists()) {
       const itinerary = docSnap.data();
       console.log(id,"=>",itinerary)
@@ -114,7 +115,7 @@ export const useItineraries = () => {
   const updateItinerary = async (itineraryID, itinerary) => {
     console.log("Attempting to update:",itineraryID, itinerary)
     try {
-      const docRef = doc(db,"testPrac", itineraryID)
+      const docRef = doc(db,"testPrac2", itineraryID)
       await updateDoc(docRef, itinerary)
       console.log("Itinerary Updated")
       // getItinerary(itineraryID)
@@ -133,7 +134,45 @@ export const useItineraries = () => {
     }
   };
 
-  
+  const addPreferences = async (itineraryID, uID, data) => {
+    try {
+      const docRef = doc(db,"testPrac2", itineraryID, "userPreferences",uID)
+      await setDoc(docRef, data)
+      console.log("Document uploaded",data)
+    } catch (error) {
+      console.error("Error Adding Preferences:",error)
+    }
+  }
 
-  return { itineraries, queries, getItinerary, addItinerary, updateItinerary, deleteItinerary}
+  const updatePreferences = async (itineraryID, uID, data) => {
+    console.log(`Updating ${itineraryID}\nWith ${uID} Preferences: ${data}`)
+    try {
+      const docRef = doc(db,"testPrac2", itineraryID, "userPreferences", uID)
+      await updateDoc(docRef, data)
+      console.log("User Preferences Updated:", data)
+    } catch (error) {
+      console.error("Error Updating Preferences:",error)
+    }
+  }
+
+  const getPreferences = async (itineraryID) => {
+    console.log("Getting list of users who completed.")
+    try {
+      let docs = [];
+      const collRef = collection(db,"testPrac2", itineraryID, "userPreferences")
+      const snapshot = await getDocs(collRef)
+      snapshot.forEach((doc) => {
+        docs.push({uid: doc.id, ...doc.data()})
+      })
+      console.log("User Preferences collected:", snapshot.size)
+      return docs
+    } catch (error) {
+      console.error("Error collecting Preferences:",error)
+    }
+
+  }
+
+  return { itineraries, queries, getItinerary, 
+    addItinerary, updateItinerary, deleteItinerary, 
+    addPreferences, getPreferences, updatePreferences}
 }
