@@ -49,7 +49,7 @@ def get_categories():
 # to query a list of suggested locations through Bing and Llama APIs
 # accessed by client-side's POST method 
 # (react-gives a json of selected activities)
-@app.route("/get-recommendations")
+@app.route("/get-recommendations", methods=['GET'])
 def get_recommendations():
     preferences_json = request.get_json()
     #return jsonify(preferences_json)

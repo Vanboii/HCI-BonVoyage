@@ -65,16 +65,16 @@ def generate_recommendation(city, country):
 
     # Outputs which of the 10 categories are possible in the country
     prompt_input = """Can you categorise {}, {} as one of the following:
-                        - Kid friendly
-                        - Pet friendly
-                        - Wheelchair friendly
+                        - Kid-friendly
+                        - Pet-friendly
+                        - Wheelchair-friendly
                         - Shopping
-                        - Amusement parks
-                        - Museums
-                        - Parks and scenic place
-                        - Theatre & Cultural activities
-                        - Historical sites
-                        - Food galore
+                        - Amusement Park
+                        - Museum
+                        - Parks & Scenic Place
+                        - Theatre & Cultural
+                        - Historical Site
+                        - Food Galore
 
                         Once you categorised it, you only need to return the activities that exist in the city.
                         You do not need to explain or give examples. 

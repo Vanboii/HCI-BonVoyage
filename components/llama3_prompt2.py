@@ -11,10 +11,13 @@ except ValueError:
 
 db = firestore.client()
 
-test = db.collection('testPrac').get()
+# access db under 'itineraries' collction
+def get_row(destination_id):
+    query = db.collection('itineraries').where("Destination_id", "==", destination_id).get()
 
-# Extract data from each document
-all_documents = []
-for doc in test:
-    #all_documents.append(doc.to_dict())
-    print(doc.to_dict())
+    # extract a the whole row from each document
+    for doc in query:
+        #all_documents.append(doc.to_dict())
+        print(doc.to_dict())
+
+get_row("China")
