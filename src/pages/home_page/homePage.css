@@ -1,121 +1,159 @@
-
-/* ^    Pls read this for styling standardisation
-
-    #   h1 headers are only for the Bon Voyage Title of the Main Page
-    #   h2 headers are for Page titles like "Log in","Sign Up","Community Trips" and the likes.
-
-    *   Other elements can be styled under here 
-
-
-
-*/
-
-
-
-
+/* homePage.css */
 
 * {
     box-sizing: border-box;
 }
 
-/*^ DELETE THIS AFTER */
-/* *:hover {
-    border-style: dotted;
-    border-width: .5px;
-} */
-
-
-/**         For global Use       */
-#main {     /*^ This is for the Main div containing the Web page contents.*/
+/** For global Use **/
+#main {
+    position: relative;
     width: 100%;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;            /*#align horizontally */
-    justify-content: center;        /*#align vertically */
-    overflow-x: hidden;
-    overflow-y: auto;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
 }
-.leftAlign {    /*^     For aligning Elemts to the left edge of parent container*/
-    align-items: flex-start;
-}
-.rightAlign {   /*^     For aligning Elemts to the right edge of parent container*/
-    align-items: flex-end;
-}
+
 .centerAlign {
-    align-items:center;
+    align-items: center;
+    z-index: 2;
 }
-.halfWidth {    /*^     For sizing Elemts to half the width of parent container*/
-    width: 50%;
-}
-.row {          /*^     For arranging Elemts horizontally*/
+
+.row {
     display: flex;
     flex-direction: row;
 }
-.col {          /*^     For arranging Elemts vertically*/
+
+.col {
     display: flex;
     flex-direction: column;
 }
 
-
-div, h1, h2, h3 { /*^ For ensuring Proper Title formatting*/
+div, h1, h2, h3 {
     margin: 0px;
     text-transform: capitalize;
 }
 
-h1 {        /*^     For homePage */
-    font-size: 120px;
+h1 {
+    font-size: 100px;
+    color: white;
+    margin-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
 }
 
-h2 {        /*^     For Page Titles   */
-    font-size: 72px;
+h2 {
+    font-size: 18px;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
 }
-#account {
-    /* border-style: dashed; */
-    height: auto;
-    width: 25%;
-    min-width: 250px;
-    max-width: 400px;
+
+button.startPlanning {
+    background-color: #334B48;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin-top: 6px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+button.startPlanning:hover {
+    background-color: #2B3E3A;
+}
+
+#stickyBanner {
+    z-index: 3;
+}
+
+/* Specific styles for login and sign-up pages */
+.login-page {
+    background-color: white; /* Set a specific background color for login page */
+}
+
+.signup-page {
+    background-color: white; /* Set a specific background color for sign-up page */
+}
+
+/* Keyframes for the slow fade-in effect */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.background-image.visible {
+    opacity: 1;
+}
+
+.place-name {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0);
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 3;
+    text-align: right;
+    font-size: 10px !important; /* Decreased font size with !important */
+    font-family: 'Open Sans', sans-serif !important; /* Changed font to Open Sans with !important */
+}
+
+.navigation-container {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    justify-content: center ;
-    /* gap: 10px; */
-}
-p.subtitle {
-    text-align: left;
-    margin: 0px;
-    padding: 0px;
+    align-items: center;
+    z-index: 3;
 }
 
-input {
-    width: 100%;
-    border-radius: 5px;
-    border-style: solid;
-    border-color: grey;
-    padding: 5px;
-    margin: 5px 0px;
-    
-}
-input.submit {
-    width: 100%;
-    min-width: fit-content;
-    background-color: antiquewhite;
-    align-self: right;
+.nav-button {
+    background: none;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
 }
 
-/* @media only screen and (max-width:500px) {
-    #account {
-        width: 80%;
-        min-width: 200px;
-        
-    }
+.nav-line {
+    width: 2px;
+    height: 100px;
+    background: white;
+    margin: 10px 0;
 }
-
-@media only screen and (min-width:500px) and (max-width:800px) {
-    #account {
-        width: 50%;
-        min-width: 400px;
-        
-    }
-} */

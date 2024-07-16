@@ -1,121 +1,107 @@
 .page-content {
-    padding: 80px;
-  }
-  
-  .mytrips-tabs {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 50px;
-  }
-  
-  .tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: white;
-    transition: background-color 0.3s;
-  }
-  
-  .tab.active {
-    background-color: #f0f0f0;
-  }
-  
-  .title-container {
-    text-align: center;
-    margin-bottom: 20px; /* Space between title and search/filter container */
-  }
-  
-  .title {
-    font-size: 32px;
-    font-weight: bold;
-  }
-  
-  .search-filter-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 100px;
-  }
-  
-  .search-bar {
-    flex-grow: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    max-width: 70%;
-  }
-  
-  .filter {
-    position: relative;
-    padding-left: 100px;
-  }
-  
-  .filter select {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: white;
-    cursor: pointer;
-    text-align: center;
-  }
-  
-  .filter-options {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    overflow: hidden;
-    z-index: 1;
-    width: 250px;
-    text-align: center;
-  }
-  
-  .filter:hover .filter-options {
-    display: block;
-  }
-  
-  .slider-container {
-    padding: 10px;
-  }
-  
-  .slider-container input[type="range"] {
-    width: 100%;
-  }
-  
-  .trips-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: flex-start;
-  }
-  
-  .card-component {
-    flex: 1 1 calc(25% - 20px);
-    box-sizing: border-box;
-    max-width: calc(25% - 20px);
-  }
-  
-  .card-component img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-  }
-  
-  @media (max-width: 768px) {
-    .card-component {
-      flex: 1 1 calc(50% - 20px);
-      max-width: calc(50% - 20px);
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .card-component {
-      flex: 1 1 100%;
-      max-width: 100%;
-    }
-  }
-  
+  padding: 80px;
+}
+
+.mytrips-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 50px;
+  width: 100%;
+}
+
+.tab {
+  flex: 1;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  color: black;
+  font-size: 18px;
+  border-bottom: 3px solid transparent;
+  transition: color 0.3s, border-bottom 0.3s, font-size 0.3s;
+}
+
+.tab.active {
+  color: #334B48;
+  border-bottom: 3px solid #334B48;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.search-filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.search-bar {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  max-width: 70%;
+}
+
+.filter {
+  position: relative;
+  padding-left: 100px;
+}
+
+.filter select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  text-align: center;
+}
+
+.filter-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 1;
+  width: 250px;
+  text-align: center;
+}
+
+.filter:hover .filter-options {
+  display: block;
+}
+
+.slider-container {
+  padding: 10px;
+}
+
+.slider-container input[type="range"] {
+  width: 100%;
+}
+
+.trips-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; /* Center the cards */
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.card-component {
+  flex: 1 1 calc(33.333% - 20px);
+}
+
+/* New CSS rule to ensure location text color is black */
+.card-component .location {
+  color: black;
+}
+
+/* Override the color of the location text inside card-details */
+.card .card-details h2 {
+  color: black;
+}
+

@@ -1,46 +1,55 @@
 import React, { useState } from 'react';
-import './trip_detail.css'; // Import the CSS file to style the page
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-import TopBanner from '../../../components/banner';  // Correct the path to banner.js
+import './trip_detail.css';
+import { useNavigate } from 'react-router-dom';
+import TopBanner from '../../../components/banner';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import Select from 'react-select';
+import countryList from 'country-list';
+import { City } from 'country-state-city'; // Removed unused 'Country' import
+
+// Transform the country list to match react-select's expected format
+const countries = countryList.getData().map((country) => ({
+  value: country.code,
+  label: country.name,
+}));
 
 const TripDetailPage = () => {
-  const [destination, setDestination] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [country, setCountry] = useState(null);
+  const [city, setCity] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [numberOfPeople, setNumberOfPeople] = useState(1);
-  const [startDateError, setStartDateError] = useState('');
-  const [endDateError, setEndDateError] = useState('');
 
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate();
+  const today = new Date();
+
+  const handleCountryChange = (selectedCountry) => {
+    setCountry(selectedCountry);
+    setCity(null); // Reset city selection when country changes
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Validate dates
-    if (!isValidDate(startDate)) {
-      setStartDateError('Invalid date format or out of range. Use dd/mm/yyyy');
-      return;
-    } else {
-      setStartDateError('');
-    }
 
-    if (!isValidDate(endDate)) {
-      setEndDateError('Invalid date format or out of range. Use dd/mm/yyyy');
-      return;
-    } else {
-      setEndDateError('');
+    if (!country || !city || !startDate || !endDate || numberOfPeople < 1) {
+      return; // If any required field is missing, prevent form submission
     }
 
     // Handle form submission
-    console.log({ destination, startDate, endDate, numberOfPeople });
+    console.log({ country: country.label, city: city.label, startDate, endDate, numberOfPeople });
 
     // Navigate to invite page
-    navigate('/planning/invite'); // Adjust the path as needed
+    navigate('/planning/invite');
   };
 
-  const isValidDate = (date) => {
-    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(202[4-9]|20[3-9][0-9]|2100)$/;
-    return regex.test(date);
-  };
+  // Get the list of cities for the selected country
+  const cityOptions = country
+    ? City.getCitiesOfCountry(country.value).map((city) => ({
+        value: city.name,
+        label: city.name,
+      }))
+    : [];
 
   return (
     <div className="trip-detail-container">
@@ -50,49 +59,71 @@ const TripDetailPage = () => {
         <p>Gateway to Planning Your Next Trip</p>
         <form onSubmit={handleSubmit} className="form-container">
           <div className="form-group">
-            <label htmlFor="destination">Where?</label>
-            <input
-              type="text"
-              id="destination"
-              placeholder="Select your Destination"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            />
+            <label htmlFor="country">Where?</label>
+            <div className="location-group">
+              <div className="input-container">
+                <Select
+                  id="country"
+                  placeholder="Enter Country"
+                  value={country}
+                  onChange={handleCountryChange}
+                  options={countries}
+                  isClearable
+                  isSearchable
+                  required
+                />
+              </div>
+              <div className="input-container">
+                <Select
+                  id="city"
+                  placeholder="Enter City"
+                  value={city}
+                  onChange={setCity}
+                  options={cityOptions}
+                  isClearable
+                  isSearchable
+                  isDisabled={!country}
+                  required
+                />
+              </div>
+            </div>
           </div>
           <div className="form-group when-group">
             <label htmlFor="start-date">When?</label>
             <div className="date-group">
-              <input
-                type="text"
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                dateFormat="dd/MM/yyyy"
+                placeholderText="Start Date"
                 id="start-date"
-                placeholder="Start Date (dd/mm/yyyy)"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(202[4-9]|20[3-9][0-9]|2100)"
                 required
+                minDate={today}
+                className="custom-date-picker start-date"
               />
               <span>To</span>
-              <input
-                type="text"
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                dateFormat="dd/MM/yyyy"
+                placeholderText="End Date"
                 id="end-date"
-                placeholder="End Date (dd/mm/yyyy)"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(202[4-9]|20[3-9][0-9]|2100)"
                 required
+                minDate={startDate || today}
+                className="custom-date-picker end-date"
               />
             </div>
-            {startDateError && <p className="error">{startDateError}</p>}
-            {endDateError && <p className="error">{endDateError}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="number-of-people">How Many People Are Going?</label>
+            <label htmlFor="number-of-people">How many people are going?</label>
             <input
               type="number"
               id="number-of-people"
               value={numberOfPeople}
               onChange={(e) => setNumberOfPeople(e.target.value)}
               min="1"
+              required
+              className="people-count"
             />
           </div>
           <button type="submit" className="next-button">Next</button>

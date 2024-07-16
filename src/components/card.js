@@ -1,37 +1,62 @@
 // import React from "react";
-// import ButtonComponent from "../components/button";
 // import "./card.css";
 
-
-
-// const Cardcomponent = ({image='path', location="name", priceRange="xxx-yyy", likes="241"}) => {
-
-//     const caption = "Picture of " + location
+// const CardComponent = ({ image, location, priceRange, saves, travelers }) => {
+//     const caption = "Picture of " + location;
+//     const travelerText = travelers === 1 ? "traveler" : "travelers";
 
 //     return (
-//         <>
-//         <img src={image} alt={caption} />
-//         <div className="row">
-//             <h2>{location}</h2>
-//             <p>Likes + 'Heart'</p> 
+//         <div className="card">
+//             <img src={image} alt={caption} className="card-image" />
+//             <div className="card-details">
+//                 <h2>{location}</h2>
+//                 <p>{priceRange}</p>
+//                 <p>{saves} Saves</p>
+//                 <p>{travelers} {travelerText}</p> {/* Display travelers or traveler based on count */}
+//             </div>
 //         </div>
-//         </>
 //     );
+// };
 
-// }
-
-// export default Cardcomponent;
+// export default CardComponent;
 
 
-// New code (celest for community page)
 
-// New code (celest for community page)
+
+//new card that has save to saved trips button- working functions, wrong layout
+// card.js
+// import React from "react";
+// import "./card.css";
+
+// const CardComponent = ({ image, location, priceRange, saves, travelers, onSave }) => {
+//     const caption = "Picture of " + location;
+//     const travelerText = travelers === 1 ? "traveler" : "travelers";
+
+//     return (
+//         <div className="card">
+//             <img src={image} alt={caption} className="card-image" />
+//             <div className="card-details">
+//                 <h2>{location}</h2>
+//                 <p>{priceRange}</p>
+//                 <p>{saves} Saves</p>
+//                 <p>{travelers} {travelerText}</p> {/* Display travelers or traveler based on count */}
+//                 <button onClick={onSave}>Save to My Trips</button>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default CardComponent;
+
+
+
+//THIS WORKS EXCEPT SAVES +1 /-1
 import React from "react";
-import ButtonComponent from "../components/button";
 import "./card.css";
 
-const CardComponent = ({ image, location, priceRange, saves }) => {
+const CardComponent = ({ image, location, priceRange, saves, travelers, showSaveButton, showDeleteButton, onSave, onDelete }) => {
     const caption = "Picture of " + location;
+    const travelerText = travelers === 1 ? "traveler" : "travelers";
 
     return (
         <div className="card">
@@ -40,13 +65,15 @@ const CardComponent = ({ image, location, priceRange, saves }) => {
                 <h2>{location}</h2>
                 <p>{priceRange}</p>
                 <p>{saves} Saves</p>
+                <p>{travelers} {travelerText}</p>
+                {showSaveButton && <button onClick={onSave}>Save to My Trips</button>}
+                {showDeleteButton && <button onClick={onDelete}>Delete from Saved Trips</button>}
             </div>
         </div>
     );
 };
 
 export default CardComponent;
-
 
 
 

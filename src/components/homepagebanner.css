@@ -1,0 +1,68 @@
+* {
+    box-sizing: border-box;
+}
+
+#stickyBanner {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    min-height: 60px;
+    max-height: 80px;
+    padding: 1vh;
+    gap: 1vw;
+    display: flex;
+    align-items: center;
+    background-color: transparent; /* Ensure transparent background */
+    z-index: 3; /* Ensure the banner stays on top */
+}
+
+.spacer {
+    display: flex;
+    flex-grow: 1;
+}
+
+#stickyBanner img {
+    min-height: 30px;
+    height: 5vh;
+    max-height: 40px;
+    width: auto;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+#stickyBanner img:hover {
+    border-style: none;
+}
+
+.rightButtons {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    gap: 8px; /* Increase the spacing between buttons */
+}
+
+.rightButtons button {
+    background-color: transparent; /* Make button background transparent */
+    color: white; /* Set text color to white */
+    border: none; /* Remove border */
+    cursor: pointer; /* Change cursor to pointer */
+    font-size: 16px; /* Adjust font size if necessary */
+}
+
+.rightButtons button:hover {
+    text-decoration: underline; /* Optional: underline text on hover */
+}
+
+@media only screen and (max-width: 500px) {
+    #stickyBanner {
+        padding: 8px;
+        height: 10%;
+        gap: 4px;
+    }
+    #stickyBanner img {
+        height: 8vh;
+        padding-right: 5px;
+    }
+}
