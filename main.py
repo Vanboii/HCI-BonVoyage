@@ -47,7 +47,7 @@ def get_categories():
 # to query a list of suggested locations through Bing and Llama APIs
 # accessed by client-side's POST method 
 # (react-gives a json of selected activities)
-@app.route("/get-recommendations", methods=['GET'])
+@app.route("/get-recommendations", methods=['GET', 'POST'])
 def get_recommendations():
     preferences_json = request.get_json()
     #return jsonify(preferences_json)
@@ -66,4 +66,5 @@ if __name__ == "__main__":
 # /get-categories?city=Jakarta&country=Indonesia
 # /get-categories?city=Vancouver&country=Canada
 # /get-categories?city=Sydney&country=Australia
+#/get-categories?city=Norfolk Island&country=Norfolk Island
 #/get-categories?city=Norfolk Island&country=Norfolk Island
