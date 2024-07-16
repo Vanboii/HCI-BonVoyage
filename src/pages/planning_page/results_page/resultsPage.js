@@ -306,13 +306,24 @@ const ResultsPage = () => {
     const upcomingTrips = JSON.parse(localStorage.getItem('upcomingTrips')) || [];
     const newTrip = {
       image: 'https://via.placeholder.com/200', // Replace with a suitable image URL or logic to determine the image
-      location: 'Custom Trip', // Replace with logic to determine the location
+      location: 'South Korea', // Replace with logic to determine the location
       priceRange: '$1000 - $3000', // Replace with logic to determine the price range
       saves: 0,
       travelers: 1,
-      itinerary: itinerary
+      itinerary: itinerary,
     };
-    upcomingTrips.push(newTrip);
+
+    // Check if the itinerary already exists and update it if found
+    const existingTripIndex = upcomingTrips.findIndex(trip => trip.location === newTrip.location);
+
+    if (existingTripIndex !== -1) {
+      // Replace existing itinerary
+      upcomingTrips[existingTripIndex] = newTrip;
+    } else {
+      // Add new itinerary
+      upcomingTrips.push(newTrip);
+    }
+
     localStorage.setItem('upcomingTrips', JSON.stringify(upcomingTrips));
 
     // Show success modal
@@ -321,7 +332,7 @@ const ResultsPage = () => {
 
   const closeModal = () => {
     setShowModal(false);
-    navigate('/mytrips'); // Adjust this URL as needed
+    navigate('/mytrips'); // Redirect to My Trips page after closing the modal
   };
 
   return (
@@ -406,7 +417,7 @@ const ResultsPage = () => {
           overlayClassName="customOverlay"
         >
           <h2>Itinerary Saved Successfully in My Trips!</h2>
-          <button onClick={closeModal}>OK</button>
+          <button className="modal-close-button" onClick={closeModal}>OK</button>
         </Modal>
       </div>
     </DndProvider>
