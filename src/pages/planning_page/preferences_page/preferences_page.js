@@ -147,7 +147,6 @@ const PreferencesPage = () => {
 
     console.log('Sending data:', itineraryData);
 
-    // Try POST request
     try {
       const response = await axios.post('https://bonvoyage-api.azurewebsites.net/get-recommendations', itineraryData, {
         headers: {
@@ -157,7 +156,7 @@ const PreferencesPage = () => {
       const recommendations = response.data;
       console.log('Recommendations fetched (POST):', recommendations);
 
-      navigate(`/Tinderpreference`);
+      navigate('/Tinderpreference', { state: { recommendations: recommendations.data } });
     } catch (error) {
       console.error('Error fetching recommendations (POST):', error);
     }
@@ -339,3 +338,5 @@ const PreferencesPage = () => {
 };
 
 export default PreferencesPage;
+
+
