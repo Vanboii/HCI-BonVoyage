@@ -6,7 +6,7 @@ import LuxuriousIcon from '../../../components/diamonds.png';
 import AdventurousIcon from '../../../components/camping.png';
 import RelaxedIcon from '../../../components/beach-chair.png';
 import { Range, getTrackBackground } from 'react-range';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation,useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import { useItineraries } from '../../../test/useGetItineraries';
@@ -25,8 +25,8 @@ const travelStyles = [
 ];
 
 const allCategories = [
-  'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-Friendly',
-  'Pet-Friendly', 'Wheelchair Friendly', 'Parks & Scenic Plane', 'Theater & Cultural', 'Food Galore'
+  'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
+  'Pet-friendly', 'Wheelchair-friendly', 'Parks & Scenic Place', 'Theatre & Cultural', 'Food Galore'
 ];
 
 const monthNames = [
@@ -36,8 +36,11 @@ const monthNames = [
 
 const PreferencesPage = () => {
   const { search } = useLocation();
-  const { updateItinerary } = useItineraries();
-  const { Popup } = AuthenticationPopup();
+   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   const {id} = useParams()
+   console.log("id:",id)
+   const { updateItinerary}  = useItineraries();
+   const { Popup } = AuthenticationPopup()
 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
   const [dietarySearch, setDietarySearch] = useState('');
@@ -156,10 +159,28 @@ const PreferencesPage = () => {
       const recommendations = response.data;
       console.log('Recommendations fetched (POST):', recommendations);
 
-      navigate('/Tinderpreference', { state: { recommendations: recommendations.data } });
+      navigate(`/Tinderpreference/${id}`, { state: { recommendations: recommendations.data } });
     } catch (error) {
       console.error('Error fetching recommendations (POST):', error);
     }
+    //THIS IS FOR DEMO PURPOSES IF POST FAIL ON THE DAY ITSELF
+    try {
+      const localResponse = await axios.get('/places.json'); // Path relative to public folder
+      const localRecommendations = localResponse.data;
+      console.log('Recommendations fetched (local):', localRecommendations);
+
+      navigate(`/Tinderpreference/${id}`, { state: { recommendations: localRecommendations } });
+    } catch (localError) {
+      console.error('Error fetching local recommendations:', localError);
+    }
+
+    console.log("Handling submit...")
+    updateItinerary(id, {
+      diet: selectedDietaryRestrictions,
+      categories: selectedCategories,
+      travelStyles: selectedTravelStyles,
+      budget: budget})
+      console.log("done")
   };
 
   if (loading) {

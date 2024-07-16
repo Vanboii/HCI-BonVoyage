@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './tinder_preference.css';
 import TopBanner from "../../../components/banner";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import dislikeIcon from '../../../components/Tinder_img_test/no.png';
 import likeIcon from '../../../components/Tinder_img_test/yes.png';
 import { useItineraries } from '../../../test/useGetItineraries';
+
 
 // Function to shuffle an array
 const shuffleArray = (array) => {
@@ -26,6 +27,7 @@ const TinderPreference = () => {
   const [showModal, setShowModal] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  const { id } = useParams();
   const { updateItinerary } = useItineraries();
 
   useEffect(() => {
@@ -37,6 +39,15 @@ const TinderPreference = () => {
     } else {
       // Handle case where recommendations are not passed
       console.error('No recommendations found in location state.');
+      //FOR DUMMY DATA REMOVE WHEN AI IS FIXED
+      fetch('/places.json')
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Using local places data:', data);
+          const shuffledPlaces = shuffleArray(data);
+          setPlaces(shuffledPlaces);
+          setCurrentIndex(0);
+        })
     }
   }, [location]);
 
@@ -82,7 +93,11 @@ const TinderPreference = () => {
     const id = 'your_itinerary_id'; // Replace with your actual logic to get itinerary ID
     console.log('Updating itinerary with likes and dislikes:', { likes, dislikes });
     updateItinerary(id, { likes: likes, dislikes: dislikes });
-    navigate(`waitingroom/${id}`);
+
+    // navigate(`/waitingroom/${id}`);
+    
+    //FAKE ONE
+    navigate(`/loading`);
   };
 
   const closeModal = () => {
@@ -100,9 +115,9 @@ const TinderPreference = () => {
         <div className="modal">
           <div className="modal-content">
             <h2>Instructions</h2>
-            <p>Press the left or right arrow on your keyboard</p>
-            <p>LEFT = DISLIKE   and   RIGHT = LIKE</p>
-            <p>You need to make at least 15 choices to proceed to the next step.</p>
+            <p>On your keyboard</p>
+            <p>PRESS LEFT = DISLIKE   and   PRESS RIGHT = LIKE</p>
+            <p>You need to make at least 5 choices to proceed to the next step.</p>
             <button onClick={closeModal}>Got it!</button>
           </div>
         </div>
@@ -117,7 +132,9 @@ const TinderPreference = () => {
           {currentIndex < places.length ? (
             <div className={`picture-placeholder ${animationClass}`}>
               <img
-                src={places[currentIndex].image_url[0]} // Assuming image_url is an array of URLs
+              //REMOVE WHEN AI IS FIXED AND UNCOMMENT THE SRC
+                src={places[currentIndex].image_url}
+                // src={places[currentIndex].image_url[0]} // Assuming image_url is an array of URLs
                 alt={places[currentIndex].location}
                 onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/default-image.png'; }}
               />
