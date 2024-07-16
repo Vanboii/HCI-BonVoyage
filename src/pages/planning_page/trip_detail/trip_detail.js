@@ -5,46 +5,32 @@ import 'react-datepicker/dist/react-datepicker.css';
 import TopBanner from '../../../components/banner';
 import Select from 'react-select';
 import countryList from 'country-list';
-import { City } from 'country-state-city'; 
 import './trip_detail.css';
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 import { useItineraries } from '../../../test/useGetItineraries';
 
-
-// Transform the country list to match react-select's expected format
 const countries = countryList.getData().map((country) => ({
   value: country.code,
   label: country.name,
 }));
 
-const TripDetailPage = ({setID}) => {
-
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const { addItinerary } = useItineraries()
-  // const [ itineraryID, setItineraryID] = useState("")
-
+const TripDetailPage = ({ setID }) => {
+  const { addItinerary } = useItineraries();
   const [countriesData, setCountriesData] = useState([]);
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [numberOfPeople, setNumberOfPeople] = useState(1);
-
   const navigate = useNavigate();
   const today = new Date();
 
-  // Fetch the countries and cities data from the JSON file
   useEffect(() => {
     fetch('/countries_cities.json')
       .then(response => response.json())
-      .then(data => {
-        console.log('Countries data fetched:', data.countries);
-        setCountriesData(data.countries);
-      })
+      .then(data => setCountriesData(data.countries))
       .catch(error => console.error('Error fetching countries and cities data:', error));
   }, []);
 
-  // Transform the countries data to match react-select's expected format
   const countries = countriesData.map(country => ({
     value: country.code,
     label: country.name,
@@ -52,56 +38,31 @@ const TripDetailPage = ({setID}) => {
 
   const handleCountryChange = (selectedCountry) => {
     setCountry(selectedCountry);
-    setCity(null); // Reset city selection when country changes
+    setCity(null);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log('Form submission started');
-    console.log('Country:', country);
-    console.log('City:', city);
-    console.log('Start Date:', startDate);
-    console.log('End Date:', endDate);
-    console.log('Number of People:', numberOfPeople);
-
     if (!country || !city || !startDate || !endDate || numberOfPeople < 1) {
-      console.log('Form submission blocked due to missing required fields');
-      return; // If any required field is missing, prevent form submission
+      return;
     }
 
-    const tripDetails = {
-      country: country.label,
-      city: city.label,
-      startDate,
-      endDate,
-      numberOfPeople,
-    };
-
-    // Mock the server response
-    console.log('Mock saving trip details:', tripDetails);
-
-    console.log({ country: country.label, city: city.label, startDate: startDate, endDate : endDate, numberOfPeople : numberOfPeople });
-    const id = await addItinerary({  //Adds the itinerary to the database
+    const id = await addItinerary({ 
       country: country.label, 
       city: city.label, 
       startDate: startDate, 
-      endDate : endDate,
-      numberOfPeople : numberOfPeople 
-    })
-    setID(id)
-    console.log("Itinerary ID:", id)
+      endDate: endDate,
+      numberOfPeople: numberOfPeople 
+    });
+    setID(id);
 
-    // Mock fetching the formatted URL
-    const urlData = { url: 'http://localhost:3000/invite-link' };
-    console.log('Mock formatted URL:', urlData.url);
+    const encodedCity = encodeURIComponent(city.label);
+    const encodedCountry = encodeURIComponent(country.label);
     
-    // Navigate to invite page
-    navigate(`/planning/invite/${id}`);
-
+    navigate(`/planning/invite/${id}?city=${encodedCity}&country=${encodedCountry}`);
   };
 
-  // Get the list of cities for the selected country
   const cityOptions = country
     ? countriesData.find(c => c.code === country.value)?.cities.map(city => ({
         value: city,

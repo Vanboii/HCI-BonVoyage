@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate, useParams, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
-
-
-import { useParams } from 'react-router-dom';
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
@@ -13,15 +10,18 @@ const InvitePage = () => {
   const [inviteLink, setInviteLink] = useState('');
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
-
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const { id } = useParams()
+  const { id } = useParams();
+  const { search } = useLocation();
 
   useEffect(() => {
     // Generate a random invite link on component mount
-    const link = `hci-bonvoyage.web.app/planning/invite//${id}`;
+    const link = `hci-bonvoyage.web.app/planning/invite/${id}`;
     setInviteLink(link);
-  }, []);
+  }, [id]);
+
+  const params = new URLSearchParams(search);
+  const city = params.get('city');
+  const country = params.get('country');
 
   const sendInvite = () => {
     if (email) {
@@ -41,8 +41,9 @@ const InvitePage = () => {
 
   const handleNext = () => {
     //# Should do something to handle the emails in the invite box.
-
-    navigate(`/preferences/${id}`); // Adjust the path to the Preferences page
+    const encodedCity = encodeURIComponent(city);
+    const encodedCountry = encodeURIComponent(country);
+    navigate(`/preferences/${id}?city=${encodedCity}&country=${encodedCountry}`); // Adjust the path to the Preferences page
   };
 
   return (
@@ -104,3 +105,4 @@ const InvitePage = () => {
 };
 
 export default InvitePage;
+

@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import './preferences_page.css'; // Import the CSS file to style the page
-import TopBanner from '../../../components/banner'; // Correct the path to banner.js
-import BudgetIcon from '../../../components/budget.png'; // Import the images
+import './preferences_page.css';
+import TopBanner from '../../../components/banner';
+import BudgetIcon from '../../../components/budget.png';
 import LuxuriousIcon from '../../../components/diamonds.png';
 import AdventurousIcon from '../../../components/camping.png';
 import RelaxedIcon from '../../../components/beach-chair.png';
 import { Range, getTrackBackground } from 'react-range';
-import { useNavigate, useParams } from 'react-router-dom'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
-//^^^^^^^^^^^^^^^^^^^^^^
 import { useItineraries } from '../../../test/useGetItineraries';
 import { AuthenticationPopup } from '../../login_page/loginPopup';
-
 
 const dietaryOptions = [
   'No Restrictions', 'Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Kosher', 'Pescatarian',
@@ -30,30 +29,31 @@ const categories = [
   'Pet-Friendly', 'Wheelchair Friendly', 'Parks & Scenic Plane', 'Theater & Cultural', 'Food Galore'
 ];
 
-
 const PreferencesPage = () => {
-
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const {id} = useParams()
-  console.log("id:",id)
-  const { updateItinerary}  = useItineraries();
-  const { Popup } = AuthenticationPopup()
-
+  const { search } = useLocation();
+  const { updateItinerary } = useItineraries();
+  const { Popup } = AuthenticationPopup();
 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
   const [dietarySearch, setDietarySearch] = useState('');
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedTravelStyles, setSelectedTravelStyles] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [budget, setBudget] = useState([500, 1250]); // Initial budget range
+  const [budget, setBudget] = useState([500, 1250]);
   const [formError, setFormError] = useState('');
+  const [availableCategories, setAvailableCategories] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
+
+  const params = new URLSearchParams(search);
+  const city = params.get('city');
+  const country = params.get('country');
 
   const handleDietaryChange = (option) => {
     setSelectedDietaryRestrictions((prev) =>
       prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
     );
-    setFormError(''); // Clear the error message when an option is selected
+    setFormError('');
   };
 
   const handleAddCustomDietary = () => {
@@ -77,14 +77,14 @@ const PreferencesPage = () => {
     setSelectedTravelStyles((prev) =>
       prev.includes(style.label) ? prev.filter((item) => item !== style.label) : [...prev, style.label]
     );
-    setFormError(''); // Clear the error message when an option is selected
+    setFormError('');
   };
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prev) =>
       prev.includes(category) ? prev.filter((item) => item !== category) : [...prev, category]
     );
-    setFormError(''); // Clear the error message when an option is selected
+    setFormError('');
   };
 
   useEffect(() => {
@@ -93,6 +93,25 @@ const PreferencesPage = () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      if (!city || !country) return;
+
+      try {
+        const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${city}&country=${country}`);
+        const availableCategories = response.data.activities;
+        console.log('Fetched categories:', availableCategories);
+        setAvailableCategories(availableCategories);
+        setLoading(false); // Set loading to false after fetching data
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setLoading(false); // Set loading to false even if there is an error
+      }
+    };
+
+    fetchCategories();
+  }, [city, country]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -110,37 +129,27 @@ const PreferencesPage = () => {
       return;
     }
 
-    // Proceed with the form submission if no errors
-    console.log("Handling submit...")
-    updateItinerary(id, {
+    updateItinerary({
       diet: selectedDietaryRestrictions,
       categories: selectedCategories,
       travelStyles: selectedTravelStyles,
       budget: budget
-    }
-    )
-    console.log("done")
+    });
 
-    // fetch('/save-dietary-options', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ dietaryOptions: selectedDietaryRestrictions }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('Success:', data);
-    //     // Handle success scenario
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //     // Handle error scenario
-    //   });
-
-    //# Navigate to invite page
-    navigate(`/Tinderpreference/${id}`);
+    navigate(`/Tinderpreference`);
   };
+
+  if (loading) {
+    return (
+      <div className="preferences-container">
+        <TopBanner showAlertOnNavigate={true} />
+        <main>
+          <h1>Loading...</h1>
+          <p>Please wait while we fetch the available categories.</p>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="preferences-container">
@@ -214,6 +223,7 @@ const PreferencesPage = () => {
                   key={category}
                   className={`option-button ${selectedCategories.includes(category) ? 'selected' : ''}`}
                   onClick={() => handleCategoryClick(category)}
+                  style={{ display: availableCategories.includes(category) ? 'block' : 'none' }}
                 >
                   {category}
                 </div>
@@ -231,7 +241,7 @@ const PreferencesPage = () => {
                   type="number"
                   value={budget[0]}
                   min={0}
-                  max={10000|| budget[1]}
+                  max={10000 || budget[1]}
                   onChange={(e) => setBudget([+e.target.valueAsNumber, budget[1]])}
                   required
                 />
@@ -305,3 +315,5 @@ const PreferencesPage = () => {
 };
 
 export default PreferencesPage;
+
+
