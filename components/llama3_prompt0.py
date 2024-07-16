@@ -135,10 +135,12 @@ def generate_recommendation(city, country):
             if collect:
                 # this is the response we want
                 if "*" in full_response[i]:
-                    processed = full_response[i].replace("*", "").strip()
-                    processed = processed.split(" ") # deletes any content after category activity
-                    print(processed[0])
-                    item.append(processed[0])
+                    # we check if a specific keyword exists
+                    for cat in category_activity:
+                        # if keyword found, append & break
+                        if cat in full_response[i]:
+                            item.append(cat)
+                            break
 
                 # ignore the empty lines
                 elif "" == full_response[i]:
