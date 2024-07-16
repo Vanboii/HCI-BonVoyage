@@ -38,14 +38,15 @@ def create_search_term_recommendations(acitivities_json):
     results = []
 
     # unpacking the activities json to send to API
-    category = acitivities_json[0]["category"]
+    category = acitivities_json["category"]
     for index in range(len(category)):
         search_term = "Search for {} places in {} {} on {}".format(category[index], 
-                                                                acitivities_json[0]["city"], 
-                                                                acitivities_json[0]["country"],
-                                                                acitivities_json[0]["month"],)
+                                                                acitivities_json["city"], 
+                                                                acitivities_json["country"],
+                                                                acitivities_json["month"],)
 
         bing_results = get_results_for(search_term)
+        #print(bing_results)
 
         # process each of the 5 results by:
         for res in bing_results:
@@ -59,7 +60,7 @@ def create_search_term_recommendations(acitivities_json):
                 # only get the first url
                 break
 
-    print(results)
+    #print(results)
     return results
 
 
@@ -114,7 +115,7 @@ def summary(location_url):
                 #print(item.split("\n*"))
                 return item.split("\n*")
             
-    print(full_response)
+    #print(full_response)
     return format_3(full_response)
 
 
@@ -127,11 +128,17 @@ def get_images_for(search_term):
     headers = {"Ocp-Apim-Subscription-Key": BING_SUBSCRIPTION_KEY}
     params = {"q": search_term, "license": "Public", "imageType": "photo"}  ##ADD IMAGE SIZE?
 
-    response = requests.get(search_url, headers=headers, params=params)
-    response.raise_for_status()
-    search_results = response.json()
-    thumbnail_urls = [img["contentUrl"] for img in search_results["value"][:1]] # only retrieve the first one # contentUrl
-    return thumbnail_urls
+    try:
+        response = requests.get(search_url, headers=headers, params=params)
+        response.raise_for_status()
+        search_results = response.json()
+        thumbnail_urls = [img["contentUrl"] for img in search_results["value"][:1]] # only retrieve the first one # contentUrl
+        return thumbnail_urls
+    except requests.HTTPError as e:
+        #429 Client Error: Too Many Requests for url
+        if e.response.status_code == 429:
+            pass
+
 
 
 # getting the response
@@ -166,9 +173,10 @@ def generate_location_recommendation(chosen_acitivities_json):
                 locations_recommendations.append({"location": location, #"index": length, 
                                                 "description": description,
                                                 "image_url": img_url})
-                
+                places_list.append(location)
                 length += 1
 
+    print(places_list)
     return({"length": length, 
             "data": locations_recommendations})
            
@@ -176,14 +184,19 @@ def generate_location_recommendation(chosen_acitivities_json):
 
 #############################################################
 # taken from react-server, activities preferences
-acitivities_json = [{'country': "United Kingdom",
-               'city': "London",
-               'category':["Kid friendly", "Shopping", "Wheelchair friendly"],
-               'month': "January",
-               'budget': "$1000"}] # "Amusement Parks", "Museums"
+# acitivities_json = {
+#     "budget": "$1000",
+#     "category": [
+#         "Kid friendly",
+#         "Shopping",
+#         "Wheelchair friendly"
+#     ],
+#     "city": "London",
+#     "country": "United Kingdom",
+#     "month": "January"} # "Amusement Parks", "Museums"
 
 #locations_recommendations_url = create_search_term_recommendations(acitivities_json)
 #print(locations_recommendations_url)
 
-data = generate_location_recommendation(acitivities_json)
-print(data)
+# data = generate_location_recommendation(acitivities_json)
+# print(data)

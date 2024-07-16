@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 
 # self-defined libraries
 from components.llama3_prompt0 import generate_recommendation
-#from components.llama3_prompt1 import locations_recommendations_url
+from components.llama3_prompt1 import generate_location_recommendation
 
 app = Flask(__name__)
 
@@ -28,8 +28,8 @@ def index():
 # 503: server could not handle request, due to maintenance or overloaad
 ####
 
-# to query available activities through llama
-# accessed via https://<flaskapp>/get-categories?city=london&country=unitedkingdom
+# to query available activities through Llama
+# accessed via https://<flaskapp>/get-categories?city=london&country=United Kingdom
 #/get-categories?city=Norfolk Island&country=Norfolk Island
 #/get-categories?city=Balkh&country=Afghanistan
 @app.route("/get-categories")
@@ -40,10 +40,20 @@ def get_categories():
     if (city==None) and (country==None):
         return "Invalid request", 400
     else:
-        #return (city, country)
         return jsonify(generate_recommendation(city, country)), 200
 
 
+# to query a list of suggested locations through Bing and Llama APIs
+# accessed by client-side's POST method 
+# (react-gives a json of selected activities)
+@app.route("/get-recommendations")
+def get_recommendations():
+    preferences_json = request.get_json()
+    #return jsonify(preferences_json)
+    #print(preferences_json)
+    result = generate_location_recommendation(preferences_json)
+    #print(result)
+    return jsonify(result), 201
 
 
 if __name__ == "__main__":
