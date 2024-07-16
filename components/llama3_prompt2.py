@@ -11,13 +11,20 @@ except ValueError:
 
 db = firestore.client()
 
-# access db under 'itineraries' collction
-def get_row(destination_id):
+# access db under 'itineraries' collection
+def get_all_preferences(destination_id):
     itinerary = db.collection('itineraries').where("Destination_id", "==", destination_id).get()
     users = itinerary.collection('userPreferences').get()
-    # extract a the whole row from each document
-    for doc in query:
+    preferences_list = []
+    locations_list = []
+
+    # for each user, only extract the preferences (like)
+    # eg: userPreferences:{"UserA": , "likes":, "dislikes":}, {"UserB": , "likes":, "dislikes":}
+    # likes:[{location1: , imgURL: , 'description': }, {location2: , imgURL: , 'description': }, {location3: , imgURL: , 'description': }]
+    for user in users:
         #all_documents.append(doc.to_dict())
-        print(doc.to_dict())
+        preferences_list.expand(user.get("likes"))
+
+        # ask llama to create itenenary for each user
 
 get_row("China")

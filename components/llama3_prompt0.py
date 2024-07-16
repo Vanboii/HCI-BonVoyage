@@ -150,7 +150,7 @@ def generate_recommendation(city, country):
                         
 
             # finding the start point
-            if ("confirmed" in full_response[i]) or ("Confirmed" in full_response[i]):
+            if ("confirmed" in full_response[i]) or ("Confirmed" in full_response[i]) or ("can be categorized" in full_response[i]):
                 collect = True
             
         return item

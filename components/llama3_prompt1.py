@@ -156,7 +156,6 @@ def generate_location_recommendation(chosen_acitivities_json):
         # summary(url) gives us: ['* The British Museum - explore ancient civilizations through interactive exhibits and artifacts', ' The Natural History Museum - discover dinosaurs, fossils, and the natural world through interactive exhibits and displays']
         summary_list = summary(url)
 
-
         # unpack the summary list and format it into a dictionary
         # query an image
         for loc in summary_list:
@@ -166,15 +165,16 @@ def generate_location_recommendation(chosen_acitivities_json):
             description = description[0].upper() + description[1:]
 
             img_url = get_images_for(location)
-
-            # if it is not in the placeholder, create a json and store it,
-            # else, discard repeated locations
-            if location not in places_list:
-                locations_recommendations.append({"location": location, #"index": length, 
-                                                "description": description,
-                                                "image_url": img_url})
-                places_list.append(location)
-                length += 1
+            # due to errors, remove img so it wont be None
+            if img_url != None:
+                # if it is not in the placeholder, create a json and store it,
+                # else, discard repeated locations
+                if location not in places_list:
+                    locations_recommendations.append({"location": location, #"index": length, 
+                                                    "description": description,
+                                                    "image_url": img_url})
+                    places_list.append(location)
+                    length += 1
 
     print(places_list)
     return({"length": length, 
