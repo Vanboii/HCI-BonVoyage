@@ -159,8 +159,24 @@ const PreferencesPage = () => {
       navigate('/Tinderpreference', { state: { recommendations: recommendations.data } });
     } catch (error) {
       console.error('Error fetching recommendations (POST):', error);
+
+    // Fallback to GET request
+     try {
+      const getResponse = await axios.get('https://bonvoyage-api.azurewebsites.net/get-recommendations', {
+        params: {
+          city: itineraryData.city,
+          country: itineraryData.country
+        }
+      });
+      const getRecommendations = getResponse.data;
+      console.log('Recommendations fetched (GET):', getRecommendations);
+
+      navigate('/Tinderpreference', { state: { recommendations: getRecommendations.data } });
+    } catch (getError) {
+      console.error('Error fetching recommendations (GET):', getError);
     }
-  };
+  }
+};
 
   if (loading) {
     return (

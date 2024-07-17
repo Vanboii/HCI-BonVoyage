@@ -230,6 +230,10 @@ const TripDetailPage = () => {
       Cookies.set('tripData', JSON.stringify(data), { expires: 7 });
       Cookies.set('tripUrl', url, { expires: 7 });
 
+      // Save the dates in cookies
+      Cookies.set('startDate', startDate.toISOString(), { expires: 7 });
+      Cookies.set('endDate', endDate.toISOString(), { expires: 7 });
+
       navigate(`/planning/invite?city=${encodedCity}&country=${encodedCountry}`);
     } catch (error) {
       console.error('Error fetching trip data:', error);
