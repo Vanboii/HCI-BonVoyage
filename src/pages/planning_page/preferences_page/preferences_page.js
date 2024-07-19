@@ -180,7 +180,7 @@ const PreferencesPage = () => {
 
   if (loading) {
     return (
-      <div className="preferences-container">
+      <div className="loading-container">
         <TopBanner showAlertOnNavigate={true} />
         <main>
           <h1>Loading...</h1>

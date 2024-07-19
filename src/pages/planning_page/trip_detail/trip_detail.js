@@ -93,11 +93,11 @@ const TripDetailPage = () => {
     <div className="trip-detail-container">
       <TopBanner showAlertOnNavigate={true}/>
       <main>
-        <h1>Plan your next travel</h1>
-        <p>Gateway to Planning Your Next Trip</p>
+        <h1>Enter your Trip Details</h1>
+        <p>Gateway to Planning Your Ideal Itinerary</p>
         <form onSubmit={handleSubmit} className="form-container">
           <div className="form-group">
-            <label htmlFor="country">Where?</label>
+            <label htmlFor="country">Location</label>
             <div className="location-group">
               <div className="input-container">
                 <Select
@@ -127,13 +127,13 @@ const TripDetailPage = () => {
             </div>
           </div>
           <div className="form-group when-group">
-            <label htmlFor="start-date">When?</label>
+            <label htmlFor="start-date">Dates</label>
             <div className="date-group">
               <DatePicker
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
                 dateFormat="dd/MM/yyyy"
-                placeholderText="Start Date"
+                placeholderText="Check In"
                 id="start-date"
                 required
                 minDate={today}
@@ -144,7 +144,7 @@ const TripDetailPage = () => {
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 dateFormat="dd/MM/yyyy"
-                placeholderText="End Date"
+                placeholderText="Check Out"
                 id="end-date"
                 required
                 minDate={startDate || today}
@@ -153,7 +153,7 @@ const TripDetailPage = () => {
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="number-of-people">How many people are going?</label>
+            <label htmlFor="number-of-people">Number of People Going</label>
             <input
               type="number"
               id="number-of-people"

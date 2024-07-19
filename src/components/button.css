@@ -23,6 +23,23 @@ button.large {
   font-size: 36px;
   padding: 12px 32px;
 }
+/* For the Homepage */
+button.startPlanning {
+  background-color: transparent !important; /* Remove the background color */
+  border: 2px solid white !important; /* Add a white border */
+  color: white !important; /* Keep the text color white */
+  padding: 10px 20px !important;
+  font-size: 24px !important;
+  cursor: pointer !important;
+  margin-top: 6px !important;
+  font-family: 'Instrument Sans', sans-serif !important; /* Ensure the font is consistent */
+  transition: background-color 0.3s, color 0.3s !important; /* Smooth transition for hover effects */
+}
+
+button.startPlanning:hover {
+  background-color: white !important; /* Optional: Add a white background on hover */
+  color: #334B48 !important; /* Optional: Change text color on hover */
+}
 
 /* #For the form filling on the Login/SignUp page */
 button.form {
