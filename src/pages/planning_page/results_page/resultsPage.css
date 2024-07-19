@@ -49,6 +49,14 @@
   margin-left: 20px;
 }
 
+.citySubheading {
+  font-size: 28px; /* Adjust the size as needed */
+  margin-top: 0.5rem; /* Adjust the spacing as needed */
+  margin-left: 18px;
+  color: #555; /* Adjust the color as needed */
+}
+
+
 .tripDetails {
   display: flex;
   justify-content: flex-end;

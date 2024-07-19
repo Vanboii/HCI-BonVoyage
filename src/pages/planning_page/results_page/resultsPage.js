@@ -1,3 +1,4 @@
+
 // import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import TopBanner from '../../../components/banner';
@@ -72,7 +73,7 @@
 // const ResultsPage = () => {
 //   const initialItinerary = [
 //     {
-//       day: 'Day 1: Wednesday, 24 July',
+//       day: 'Day 1: Placeholder',
 //       activities: [
 //         {
 //           name: 'Gyeongbokgung Palace',
@@ -95,7 +96,7 @@
 //       ],
 //     },
 //     {
-//       day: 'Day 2: Thursday, 25 July',
+//       day: 'Day 2: Placeholder',
 //       activities: [
 //         {
 //           name: 'Myeongdong Shopping Street',
@@ -117,98 +118,7 @@
 //         },
 //       ],
 //     },
-//     {
-//       day: 'Day 3: Friday, 26 July',
-//       activities: [
-//         {
-//           name: 'DMZ Tour',
-//           description: 'Tour to the Demilitarized Zone between North and South Korea.',
-//           hours: 'Tours at specific times',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//         {
-//           name: 'War Memorial of Korea',
-//           description: 'Memorial to the military history of Korea.',
-//           hours: 'Open 9AM - 6PM',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//         {
-//           name: 'Hongdae',
-//           description: 'Vibrant area known for its indie music scene and nightlife.',
-//           hours: 'Open 24 hours',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//       ],
-//     },
-//     {
-//       day: 'Day 4: Saturday, 27 July',
-//       activities: [
-//         {
-//           name: 'Lotte World',
-//           description: 'Major recreation complex with an amusement park, mall, and more.',
-//           hours: 'Open 9:30AM - 10PM',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//         {
-//           name: 'Seoul City Hall',
-//           description: 'Government complex with a library and various events.',
-//           hours: 'Open 9AM - 6PM',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//         {
-//           name: 'Gangnam District',
-//           description: 'Upscale area known for its nightlife and entertainment.',
-//           hours: 'Open 24 hours',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//       ],
-//     },
-//     {
-//       day: 'Day 5: Sunday, 28 July',
-//       activities: [
-//         {
-//           name: 'Hongdae',
-//           description: 'Vibrant area known for its indie music scene and nightlife.',
-//           hours: 'Open 24 hours',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//         {
-//           name: 'Itaewon',
-//           description: 'Diverse district known for its international restaurants and shops.',
-//           hours: 'Open 24 hours',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//         {
-//           name: 'Gwangjang Market',
-//           description: 'Historic market famous for its street food and textiles.',
-//           hours: 'Open 9AM - 10PM',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//       ],
-//     },
-//     {
-//       day: 'Day 6: Monday, 29 July',
-//       activities: [
-//         {
-//           name: 'War Memorial of Korea',
-//           description: 'Memorial to the military history of Korea.',
-//           hours: 'Open 9AM - 6PM',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//         {
-//           name: 'Insadong',
-//           description: 'Popular street for traditional Korean culture and crafts.',
-//           hours: 'Open 10AM - 9PM',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//         {
-//           name: 'Dongdaemun Design Plaza',
-//           description: 'Major urban development landmark with a futuristic design.',
-//           hours: 'Open 10AM - 7PM',
-//           image: 'https://via.placeholder.com/150',
-//         },
-//       ],
-//     },
+//     // Additional placeholder days...
 //   ];
 
 //   const suggestedPlaces = [
@@ -230,7 +140,6 @@
 //       hours: 'Open 10AM - 10PM',
 //       image: 'https://via.placeholder.com/150',
 //     },
-//     // Add more places as needed
 //   ];
 
 //   const [itinerary, setItinerary] = useState(initialItinerary);
@@ -247,9 +156,28 @@
 //   const tripDates = startDate && endDate ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}` : 'Unknown dates';
 
 //   useEffect(() => {
-//     // Optional: You can fetch initial itinerary from an API or another source here
-//     // fetchItineraryFromAPI();
-//   }, []);
+//     if (startDate && endDate) {
+//       const updatedItinerary = generateItineraryDates(startDate, endDate, itinerary);
+//       setItinerary(updatedItinerary);
+//     }
+//   }, [startDate, endDate]);
+
+//   const generateItineraryDates = (start, end, itinerary) => {
+//     const dayMilliseconds = 24 * 60 * 60 * 1000;
+//     const numberOfDays = Math.ceil((end - start) / dayMilliseconds) + 1;
+//     const updatedItinerary = Array.from({ length: numberOfDays }).map((_, index) => {
+//       const date = new Date(start.getTime() + index * dayMilliseconds);
+//       const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+//       const monthName = date.toLocaleDateString('en-US', { month: 'long' });
+//       const dayNumber = date.getDate();
+//       const formattedDate = `${dayName}, ${dayNumber} ${monthName}`;
+//       return {
+//         day: `Day ${index + 1}: ${formattedDate}`,
+//         activities: itinerary[index] ? itinerary[index].activities : [],
+//       };
+//     });
+//     return updatedItinerary;
+//   };
 
 //   const toggleExpandDay = (dayIndex) => {
 //     setExpandedDays((prev) =>
@@ -580,6 +508,8 @@ const ResultsPage = () => {
 
   const startDate = Cookies.get('startDate') ? new Date(Cookies.get('startDate')) : null;
   const endDate = Cookies.get('endDate') ? new Date(Cookies.get('endDate')) : null;
+  const city = Cookies.get('city') || '';
+  const country = Cookies.get('country') || '';
   const tripDates = startDate && endDate ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}` : 'Unknown dates';
 
   useEffect(() => {
@@ -665,25 +595,26 @@ const ResultsPage = () => {
     const upcomingTrips = JSON.parse(localStorage.getItem('upcomingTrips')) || [];
     const newTrip = {
       image: 'https://via.placeholder.com/200',
-      location: 'Custom Trip',
+      location: `${city}, ${country}`, // Update location to include city and country
       priceRange: '$1000 - $3000',
       saves: 0,
       travelers: 1,
       itinerary: itinerary,
     };
-
+  
     const existingTripIndex = upcomingTrips.findIndex(trip => trip.location === newTrip.location);
-
+  
     if (existingTripIndex !== -1) {
       upcomingTrips[existingTripIndex] = newTrip;
     } else {
       upcomingTrips.push(newTrip);
     }
-
+  
     localStorage.setItem('upcomingTrips', JSON.stringify(upcomingTrips));
-
+  
     setShowModal(true);
   };
+  
 
   const closeModal = () => {
     setShowModal(false);
@@ -697,7 +628,7 @@ const ResultsPage = () => {
         <div className="contentContainer">
           <div className="leftContainer">
             <div className="pageHeader">
-              <h1>Trip to South Korea</h1>
+              <h1>Trip to {city}, {country}</h1>
               <p>Click on attraction to view more information.<br />
               Drag & Drop to adjust attraction in your itinerary timeline.<br />
               Hover over location for preview</p>
@@ -780,3 +711,4 @@ const ResultsPage = () => {
 };
 
 export default ResultsPage;
+
