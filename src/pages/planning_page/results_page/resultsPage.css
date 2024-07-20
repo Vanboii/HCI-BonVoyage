@@ -24,18 +24,21 @@
 }
 
 .pageHeader {
+  position: relative; /* Ensure the button is positioned within the header */
   width: 100%;
   color: black;
   text-align: left;
   padding: 20px 0;
   margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #4b4b4b;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .pageHeader h1 {
   margin: 0;
   color: black;
-  font-size: 56px; /* Adjust font size as needed */
+  font-size: 58px!important; /* Adjust font size as needed */
   margin-top: 20px;
   margin-bottom: 10px!important;
 }
@@ -56,10 +59,8 @@
   color: #555; /* Adjust the color as needed */
 }
 
-
 .tripDetails {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   margin-top: 10px;
   font-size: 16px;
@@ -68,12 +69,14 @@
 .calendarIcon {
   width: 24px; /* Adjust size as needed */
   height: 24px;
-  margin-right: 8px;
+  margin-right: 10px;
+  margin-bottom: 6px;
 }
 
 .tripDates {
   display: flex;
   align-items: center;
+  margin-bottom: 6px;
 }
 
 .leftContainer h1 {
@@ -317,10 +320,10 @@
   cursor: pointer;
   border-radius: 4px;
   font-size: 16px;
-  position: fixed; /* Fix the button at the bottom */
-  bottom: 20px; /* Adjust as needed */
-  right: 20px; /* Adjust as needed */
-  z-index: 1000; /* Ensure it stays on top of other elements */
+  position: absolute; /* Fix the button within the header */
+  bottom: 0; /* Adjust as needed to position the button below the header */
+  right: 0; /* Adjust as needed */
+  margin-bottom: 15px;
 }
 
 .saveExitButton:hover {
@@ -363,4 +366,34 @@
 
 .customModal button:hover {
   background-color: #2a3e3b; /* Slightly darker shade for hover effect */
+}
+
+.peopleDetails {
+  display: flex;
+  align-items: center;
+  margin-right: 10px; /* Add some space between peopleDetails and tripDetails */
+  margin-top: 5px;
+  margin-bottom: -10px;
+}
+
+.personIcon {
+  width: 24px; /* Adjust size as needed */
+  height: 24px; /* Adjust size as needed */
+  margin-left: 16px; /* Adjust spacing as needed */
+  margin-bottom: -6px;
+}
+
+
+.numberOfPeople {
+  font-size: 16px; /* Adjust size as needed */
+  margin-left: 8px; /* Adjust spacing as needed */
+  margin-right: 20px;
+  margin-bottom: -6px;
+}
+
+.headerDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }

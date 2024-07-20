@@ -69,11 +69,15 @@ const TripDetailPage = () => {
       Cookies.set('tripData', JSON.stringify(data), { expires: 7 });
       Cookies.set('tripUrl', url, { expires: 7 });
   
-      // Save the dates, city, and country in cookies
-      Cookies.set('startDate', startDate.toISOString(), { expires: 7 });
-      Cookies.set('endDate', endDate.toISOString(), { expires: 7 });
-      Cookies.set('city', city.label, { expires: 7 });
-      Cookies.set('country', country.label, { expires: 7 });
+      // Save the trip details in a single cookie
+      const tripDetails = {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        city: city.label,
+        country: country.label,
+        numberOfPeople
+      };
+      Cookies.set('tripDetails', JSON.stringify(tripDetails), { expires: 7 });
   
       navigate(`/planning/invite?city=${encodedCity}&country=${encodedCountry}`);
     } catch (error) {

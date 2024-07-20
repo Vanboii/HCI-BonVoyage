@@ -365,6 +365,7 @@ import dragIcon from '../../../components/drag.png';
 import calendarIcon from '../../../components/calendar.png'; 
 import arrowDownIcon from '../../../components/arrow-down.png';
 import arrowRightIcon from '../../../components/arrow-right.png';
+import personIcon from '../../../components/person.png';
 import Modal from 'react-modal';
 import Cookies from 'js-cookie';
 
@@ -506,15 +507,13 @@ const ResultsPage = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const startDate = Cookies.get('startDate') ? new Date(Cookies.get('startDate')) : null;
-  const endDate = Cookies.get('endDate') ? new Date(Cookies.get('endDate')) : null;
-  const city = Cookies.get('city') || '';
-  const country = Cookies.get('country') || '';
-  const tripDates = startDate && endDate ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}` : 'Unknown dates';
+  const tripDetails = Cookies.get('tripDetails') ? JSON.parse(Cookies.get('tripDetails')) : {};
+  const { startDate, endDate, city, country, numberOfPeople } = tripDetails;
+  const tripDates = startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates';
 
   useEffect(() => {
     if (startDate && endDate) {
-      const updatedItinerary = generateItineraryDates(startDate, endDate, itinerary);
+      const updatedItinerary = generateItineraryDates(new Date(startDate), new Date(endDate), itinerary);
       setItinerary(updatedItinerary);
     }
   }, [startDate, endDate]);
@@ -598,7 +597,7 @@ const ResultsPage = () => {
       location: `${city}, ${country}`, // Update location to include city and country
       priceRange: '$1000 - $3000',
       saves: 0,
-      travelers: 1,
+      travelers: numberOfPeople,
       itinerary: itinerary,
     };
   
@@ -632,9 +631,16 @@ const ResultsPage = () => {
               <p>Click on attraction to view more information.<br />
               Drag & Drop to adjust attraction in your itinerary timeline.<br />
               Hover over location for preview</p>
-              <div className="tripDetails">
-                <img src={calendarIcon} alt="Calendar" className="calendarIcon" />
-                <span className="tripDates">{tripDates}</span>
+              <div className="headerDetails">
+                <div className="peopleDetails">
+                  <img src={personIcon} alt="Person" className="personIcon" />
+                  <span className="numberOfPeople">{numberOfPeople} People</span>
+                  <div className="tripDetails">
+                    <img src={calendarIcon} alt="Calendar" className="calendarIcon" />
+                    <span className="tripDates">{tripDates}</span>
+                  </div>
+                </div>
+                <button className="saveExitButton" onClick={handleSaveAndExit}>Save and Exit</button>
               </div>
             </div>
             {itinerary.map((dayPlan, dayIndex) => (
@@ -643,7 +649,7 @@ const ResultsPage = () => {
                   <span className="dayArrow">
                     <img
                       src={expandedDays.includes(dayIndex) ? arrowDownIcon : arrowRightIcon}
-                      alt="Arrow"
+                        alt="Arrow"
                     />
                   </span>
                   <h2>{dayPlan.day}</h2>
@@ -694,7 +700,6 @@ const ResultsPage = () => {
             </div>
           </div>
         )}
-        <button className="saveExitButton" onClick={handleSaveAndExit}>Save and Exit</button>
         <Modal
           isOpen={showModal}
           onRequestClose={closeModal}
@@ -711,4 +716,3 @@ const ResultsPage = () => {
 };
 
 export default ResultsPage;
-
