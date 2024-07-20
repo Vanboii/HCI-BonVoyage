@@ -287,30 +287,61 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
+  color: #000000; /* Set the color to black */
 }
 
-.suggestionsContainer ul {
-  list-style-type: none; /* Remove bullet points */
-  padding: 0;
+
+  .suggestionItem { 
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa; 
+  padding: 10px;
+  height: 160px;
+  margin-bottom: 10px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+  position: relative; /* Ensure positioning of delete icon */
+  width: 400px; /* Adjust the width as needed */
 }
 
-.suggestionsContainer li {
-  margin-bottom: 10px; /* Adjust spacing between suggestions */
+.suggestionItem .activityInfo {
+  flex: 3;
 }
 
-.suggestionsContainer button {
-  background-color: #334b48;/* Dark green shade */
-  color: white; /* Text color */
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 16px;
+.suggestionItem .activityInfo h3 {
+  margin: 0 0 10px 0;
+  margin-top: 10px;
+  font-size: 18px;
 }
 
-.suggestionsContainer button:hover {
-  background-color: #334b48; /* Slightly darker shade for hover effect */
+.suggestionItem .activityInfo p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
 }
+
+.suggestionItem .activityDetails {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.suggestionItem .activityDetails span {
+  margin-right: 10px;
+}
+
+.suggestionItem .activityImage {
+  display: flex;
+  align-items: center;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.suggestionItem .activityImage img {
+  max-width: 100px; /* Adjust the size as needed */
+  height: auto;
+  border-radius: 8px; /* Rounded corners */
+}
+
 
 .saveExitButton {
   background-color: #334b48; /* Dark green shade */

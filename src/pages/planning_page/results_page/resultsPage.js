@@ -688,15 +688,22 @@ const ResultsPage = () => {
                   &#10005;
                 </button>
               </div>
-              <ul className="suggestionsList">
+              <div className="suggestionsList">
                 {currentSuggestions.map((place, index) => (
-                  <li key={index} className="suggestionItem">
-                    <button className="suggestionButton" onClick={() => handleSuggestionSelect(place)}>
-                      {place.name}
-                    </button>
-                  </li>
+                  <div className="suggestionItem" key={index} onClick={() => handleSuggestionSelect(place)}>
+                    <div className="activityInfo">
+                      <h3>{place.name}</h3>
+                      <p>{place.description}</p>
+                      <div className="activityDetails">
+                        <span>{place.hours}</span>
+                      </div>
+                    </div>
+                    <div className="activityImage">
+                      <img src={place.image} alt={place.name} />
+                    </div>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
         )}
