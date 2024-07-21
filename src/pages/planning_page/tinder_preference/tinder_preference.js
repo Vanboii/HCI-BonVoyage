@@ -82,7 +82,7 @@ const TinderPreference = () => {
     const id = 'your_itinerary_id'; // Replace with your actual logic to get itinerary ID
     console.log('Updating itinerary with likes and dislikes:', { likes, dislikes });
     updateItinerary(id, { likes: likes, dislikes: dislikes });
-    navigate(`waitingroom/${id}`);
+    navigate(`/waitingroom/${id}`);
   };
 
   const closeModal = () => {

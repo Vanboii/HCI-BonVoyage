@@ -47,7 +47,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import TopBanner from './components/banner';
 
 import HomePage from './pages/home_page/homePage';
 import LoginPage from './pages/login_page/loginPage';
@@ -99,13 +98,13 @@ function App() {
           path="mytrips" 
           element={<MyTrips savedTrips={savedTrips} />} 
         />
-        <Route path="planning/trip_detail" element={<TripDetailPage setID={setID} />} />
-        <Route path="planning/invite/:id" element={<InvitePage />} />
-        <Route path="preferences/:id" element={<PreferencesPage/>} />
-        <Route path="tinderpreference/:id" element={<TinderPreference/>} />
-        <Route path="waitingroom/:id" element={<WaitingRoomPage/>} />
-        <Route path="loading" Component={LoadingPage} />
-        <Route path="results" Component={ResultsPage} />   {/* Add ResultsPage route */}
+        <Route path="/planning/trip_detail" element={<TripDetailPage setID={setID} />} />
+        <Route path="/planning/invite/:id" element={<InvitePage />} />
+        <Route path="/preferences/:id" element={<PreferencesPage/>} />
+        <Route path="/tinderpreference/:id" element={<TinderPreference/>} />
+        <Route path="/waitingroom/:id" element={<WaitingRoomPage/>} />
+        <Route path="/loading" Component={LoadingPage} />
+        <Route path="/results" Component={ResultsPage} />   {/* Add ResultsPage route */}
         <Route path="/bitch" Component={MYTRIPS} />   
         <Route path="*" element={<HomePage />} />
       </Routes>
