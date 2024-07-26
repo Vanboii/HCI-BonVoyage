@@ -6,7 +6,6 @@ import dislikeIcon from '../../../components/Tinder_img_test/no.png';
 import likeIcon from '../../../components/Tinder_img_test/yes.png';
 import { useItineraries } from '../../../test/useGetItineraries';
 
-
 // Function to shuffle an array
 const shuffleArray = (array) => {
   let shuffledArray = [...array];
@@ -93,11 +92,7 @@ const TinderPreference = () => {
     const id = 'your_itinerary_id'; // Replace with your actual logic to get itinerary ID
     console.log('Updating itinerary with likes and dislikes:', { likes, dislikes });
     updateItinerary(id, { likes: likes, dislikes: dislikes });
-
-    // navigate(`/waitingroom/${id}`);
-    
-    //FAKE ONE
-    navigate(`/loading`);
+    navigate(`/waitingroom/${id}`);
   };
 
   const closeModal = () => {
@@ -132,9 +127,7 @@ const TinderPreference = () => {
           {currentIndex < places.length ? (
             <div className={`picture-placeholder ${animationClass}`}>
               <img
-              //REMOVE WHEN AI IS FIXED AND UNCOMMENT THE SRC
-                src={places[currentIndex].image_url}
-                // src={places[currentIndex].image_url[0]} // Assuming image_url is an array of URLs
+                src={places[currentIndex].image_url[0]} // Assuming image_url is an array of URLs
                 alt={places[currentIndex].location}
                 onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/default-image.png'; }}
               />
