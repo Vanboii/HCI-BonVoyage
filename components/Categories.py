@@ -1,7 +1,7 @@
 from dotenv import load_dotenv # obtains information inside .ini or .env
 import os
 import replicate
-
+import ast
 
 # admin configuation 
 load_dotenv()
@@ -59,12 +59,16 @@ def generate_activities(city, country, prompt_input=prompt_input):
             },
         ):
             # raw output:
-            #print(str(event), end="")
+            # print(str(event))
 
-            result += str(event)
+            result += str(event).strip()
         
-        # format it in suitable json
-        return result
+        # format it in suitable dict/json\
+        start = result.find("{")
+        end = result.find("}")
+
+        # return(result[start:end+1])
+        return ast.literal_eval(result[start:end+1])
     
     except:
         return None
@@ -73,6 +77,7 @@ def generate_activities(city, country, prompt_input=prompt_input):
 #############################################################
 # print(generate_activities("Amsterdam", "Netherlands"))
 # print(generate_activities("Jakarta", "Indonesia"))
+# print(generate_activities("Sydney", "Australia"))
 
 # This function returns:
 # {'categories': ['Kid-friendly', 'Pet-friendly', 

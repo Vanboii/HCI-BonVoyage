@@ -4,7 +4,7 @@ from flask_cors import CORS
 # self-defined libraries
 from components.llama3_prompt0 import generate_recommendation
 from components.llama3_prompt1 import generate_location_recommendation
-from components.TravelCheck import check_safety
+from components import TravelCheck
 from components.Categories import generate_activities
 
 app = Flask(__name__)
@@ -13,13 +13,15 @@ CORS(app) # enables CORS for all routes
 
 @app.route("/")
 def index():
-    return "Hello"
+    #return "Hello"
+    route_dict = {rule.endpoint: rule.rule for rule in app.url_map.iter_rules()}
+    return jsonify(route_dict)
 
 
 #######
 # dummy API points
 @app.route("/dummy-categories-passed")
-def get_categories():
+def return_category():
     return jsonify({"status": "safe",
         "reply": ["Kid-friendly", "Pet-friendly", 
                                    "Wheelchair-friendly", "Shopping", 
@@ -27,7 +29,7 @@ def get_categories():
                                    "Historical Site", "Food Galore"]}), 200
 
 @app.route("/dummy-categories-failed")
-def get_categories():
+def return_categoryfailed():
     return jsonify({
     "reply": "<Country> has a current risk level of 5 (out of 5). We advise: It is not safe to travel Afghanistan.",
     "status": "unsafe"
@@ -64,12 +66,13 @@ def get_categories():
         return "Invalid request", 400
 
     # check if it is safe to travel to or not
-    status, reply = check_safety(country)
+    status, reply = TravelCheck.check_safety(country)
     if status == "safe":
         reply = generate_activities(city, country)
         # returns None if it failed?
         if reply == None:
             reply = "Error, could not generate activities"
+            status = "error"
 
 
     return jsonify({"reply": reply,
@@ -93,10 +96,9 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
 
 
-# API 0:
+# API 1:
 #/get-categories?city=Balkh&country=Afghanistan
 # /get-categories?city=Jakarta&country=Indonesia
 # /get-categories?city=Vancouver&country=Canada
 # /get-categories?city=Sydney&country=Australia
-#/get-categories?city=Norfolk Island&country=Norfolk Island
 #/get-categories?city=Norfolk Island&country=Norfolk Island
