@@ -69,11 +69,9 @@ function HomePage() {
                 <div className="col centerAlign">
                     <h1>Bon Voyage</h1>
                     <p className="tagline">
-                        Personalized Itineraries, AI-Powered Adventures <br />
+                        Customized Itineraries, AI-Powered Adventures <br />
                     </p>
-                    <p className="description">
-                        Your personal cicerone in the world of travels. AI-crafted itineraries based on your heartfelt preferences. Whether it's discovering hidden beaches or experiencing vibrant cityscapes, we've got you covered!
-                    </p>
+                
                     <ButtonComponent type="startPlanning" text="Start Planning" toPage="/planning/trip_detail" />
                 </div>
                 <div className="place-name">
