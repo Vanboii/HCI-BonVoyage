@@ -51,6 +51,8 @@
 
 
 //THIS WORKS EXCEPT SAVES +1 /-1
+// src/components/card.js
+// src/components/card.js
 import React from "react";
 import "./card.css";
 
@@ -74,6 +76,3 @@ const CardComponent = ({ image, location, priceRange, saves, travelers, showSave
 };
 
 export default CardComponent;
-
-
-

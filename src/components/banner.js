@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import homepageLogo from './boat_in_white.png'; // Logo for homepage
-import otherPagesLogo from './boat-10.png'; // Logo for other pages
+import PageLogo from './boat_in_white.png'; // Use the white logo for all pages
 import ButtonComponent from "./button";
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation to get the current path
 import './banner.css'; // Ensure correct CSS file is imported
@@ -101,7 +100,7 @@ function TopBanner({ showAlertOnNavigate }) {
 
   return (
     <div id="stickyBanner" className={isHomepage ? 'transparent' : 'colored'}>
-      <img src={isHomepage ? homepageLogo : otherPagesLogo} title="Logo" onClick={isHomepage ? handleClick : handleLogoClick} alt="Logo" />
+      <img src={PageLogo} title="Logo" onClick={isHomepage ? handleClick : handleLogoClick} alt="Logo" />
       <div className="spacer"></div>
       <div className="rightButtons">
         <ButtonComponent

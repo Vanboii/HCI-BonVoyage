@@ -29,11 +29,12 @@
 
 // export default ButtonComponent;
 
+// button.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './button.css';
 
-const ButtonComponent = ({ text, toPage, type, onClick }) => {
+const ButtonComponent = ({ text, toPage, type, onClick, className }) => {
     const navigate = useNavigate();
     const handleClick = () => {
         if (onClick) {
@@ -44,7 +45,7 @@ const ButtonComponent = ({ text, toPage, type, onClick }) => {
     };
 
     return (
-        <button className={type} onClick={handleClick}>{text}</button> // Assuming `type` is a string like 'white-text' or 'black-text'
+        <button className={`${type} ${className}`} onClick={handleClick}>{text}</button>
     );
 };
 

@@ -28,12 +28,10 @@
 }
 
 #stickyBanner img {
-    min-height: 30px;
-    height: 10vh;
-    max-height: 50px;
+    min-height: 50px!important;
+    height: 50px!important;
+    max-height: 50px!important;
     width: auto;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0);
     margin-left: 20px;
 }
 
@@ -75,12 +73,13 @@
     color: white; /* White text color for buttons on homepage */
 }
 
+
 .colored {
-    background-color: #96b1ad !important; /* Colored background for other pages */
+    background-color: #1a4a4f !important; /* Colored background for other pages */
 }
 
 .colored .rightButtons button {
-    color: black; /* Black text color for buttons on other pages */
+    color: rgb(255, 255, 255); /* Black text color for buttons on other pages */
 }
 
 @media only screen and (max-width: 500px) {
