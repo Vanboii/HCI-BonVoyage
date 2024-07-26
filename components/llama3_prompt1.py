@@ -46,7 +46,7 @@ def create_search_term_recommendations(acitivities_json):
                                                                 acitivities_json["month"],)
 
         bing_results = get_results_for(search_term)
-        print(bing_results)
+        # print(bing_results)
 
         # process each of the 5 results by:
         for res in bing_results:
@@ -183,7 +183,7 @@ def generate_location_recommendation(chosen_acitivities_json):
                     places_list.append(location)
                     length += 1
 
-    print(places_list)
+    # print(places_list)
     return({"length": length, 
             "data": locations_recommendations})
            
@@ -205,14 +205,14 @@ def generate_location_recommendation(chosen_acitivities_json):
 #locations_recommendations_url = create_search_term_recommendations(acitivities_json)
 #print(locations_recommendations_url)
 
-acitivities_json = {"country": "Albania",
- "city": "Fier",
-"category": [
-        "Food Galore"
-    ],
- "month": "July",
- "budget": "$1250"
-} # "Amusement Parks", "Museums"
+# acitivities_json = {"country": "Albania",
+#  "city": "Fier",
+# "category": [
+#         "Food Galore"
+#     ],
+#  "month": "July",
+#  "budget": "$1250"
+# } # "Amusement Parks", "Museums"
 
-data = generate_location_recommendation(acitivities_json)
-print(data)
+# data = generate_location_recommendation(acitivities_json)
+# print(data)

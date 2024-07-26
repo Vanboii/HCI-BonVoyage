@@ -4,6 +4,8 @@ from flask_cors import CORS
 # self-defined libraries
 from components.llama3_prompt0 import generate_recommendation
 from components.llama3_prompt1 import generate_location_recommendation
+from components.TravelCheck import check_safety
+from components.Categories import generate_activities
 
 app = Flask(__name__)
 CORS(app) # enables CORS for all routes
@@ -12,6 +14,25 @@ CORS(app) # enables CORS for all routes
 @app.route("/")
 def index():
     return "Hello"
+
+
+#######
+# dummy API points
+@app.route("/dummy-categories-passed")
+def get_categories():
+    return jsonify({"status": "safe",
+        "reply": ["Kid-friendly", "Pet-friendly", 
+                                   "Wheelchair-friendly", "Shopping", 
+                                   "Parks & Scenic Place", "Museum", 
+                                   "Historical Site", "Food Galore"]}), 200
+
+@app.route("/dummy-categories-failed")
+def get_categories():
+    return jsonify({
+    "reply": "<Country> has a current risk level of 5 (out of 5). We advise: It is not safe to travel Afghanistan.",
+    "status": "unsafe"
+}), 200
+#######
 
 
 ####
@@ -37,24 +58,35 @@ def index():
 def get_categories():
     city = request.args.get("city")
     country = request.args.get("country")
+
     # presence check:
     if (city==None) and (country==None):
         return "Invalid request", 400
-    else:
-        return jsonify(generate_recommendation(city, country)), 200
+
+    # check if it is safe to travel to or not
+    status, reply = check_safety(country)
+    if status == "safe":
+        reply = generate_activities(city, country)
+        # returns None if it failed?
+        if reply == None:
+            reply = "Error, could not generate activities"
+
+
+    return jsonify({"reply": reply,
+                    "status": status}), 200
 
 
 # to query a list of suggested locations through Bing and Llama APIs
 # accessed by client-side's POST method 
 # (react-gives a json of selected activities)
-@app.route("/get-recommendations", methods=['GET', 'POST'])
-def get_recommendations():
-    preferences_json = request.get_json()
-    #return jsonify(preferences_json)
-    #print(preferences_json)
-    result = generate_location_recommendation(preferences_json)
-    #print(result)
-    return jsonify(result), 201
+# @app.route("/get-recommendations", methods=['GET', ])
+# def get_recommendations():
+#     preferences_json = request.get_json()
+#     #return jsonify(preferences_json)
+#     #print(preferences_json)
+#     result = generate_location_recommendation(preferences_json)
+#     #print(result)
+#     return jsonify(result), 201
 
 
 if __name__ == "__main__":
