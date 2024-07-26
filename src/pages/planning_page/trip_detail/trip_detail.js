@@ -24,7 +24,6 @@ const monthNames = [
 
 const TripDetailPage = ({setID}) => {
 
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   const { addItinerary } = useItineraries()
   // const [ itineraryID, setItineraryID] = useState("")
 
