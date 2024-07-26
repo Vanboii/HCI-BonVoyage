@@ -248,6 +248,10 @@ const TripDetailPage = ({setID}) => {
 
       Cookies.set('tripData', JSON.stringify(data), { expires: 7 });
       Cookies.set('tripUrl', url, { expires: 7 });
+      
+      // Save the dates in cookies
+      Cookies.set('startDate', startDate.toISOString(), { expires: 7 });
+      Cookies.set('endDate', endDate.toISOString(), { expires: 7 });
 
       navigate(`/planning/invite/${id}?city=${encodedCity}&country=${encodedCountry}`);
     } catch (error) {
