@@ -2,6 +2,7 @@ from dotenv import load_dotenv # obtains information inside .ini or .env
 import os
 import replicate
 import ast
+import re
 
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -53,30 +54,41 @@ pre_prompt = """You are a helpful, respectful and honest assistant.
 
 
 prompt_input = """Summarise this website(s) %s
-                And give me a list of at most 9 locations that are %s
+                And give me a list of at least 9 locations, if possible, that are %s and it fits my %s budget
                 Return a python list in the following format: 
                 Combined list: [destination 1, destination 2, destination 3]
 
                 Return a list ['error, no page found'] if the url given does not work"""
 
 def get_lonelyplanet_url(country, city, activity):
+    link1 = "https://www.lonelyplanet.com/{}/{}"
+    link2 = "https://www.lonelyplanet.com/{}/{}/{}"
+    country = country.lower()
+    city = city.lower()
+    
     if activity == "Shopping":
-         return "https://www.lonelyplanet.com/{}/{}/shopping".format(country, city)
+        if country == city:
+            return link1.format(country, "shopping")
+        return link2.format(country, city, "shopping")
     
     elif activity == "Night-life":
-        return "https://www.lonelyplanet.com/{}/{}/nightlife".format(country, city)
+        if country == city:
+             return link1.format(country, "nightlife")
+        return link2.format(country, city, "nightlife")
     
     elif activity == "Food Galore":
-        return "https://www.lonelyplanet.com/{}/{}/restaurants".format(country, city)
+        if country == city:
+             return link1.format(country, "restaurants")
+        return link2.format(country, city, "restaurants")
     
     else:
-        link1 = "https://www.lonelyplanet.com/{}/{}/attractions".format(country, city)
-        link2 = "https://www.lonelyplanet.com/{}/{}/entertainment".format(country, city)
-        return (link1, link2)
+        if country == city:
+             return link1.format(country, "attractions"), link1.format(country, "entertainment"),
+        return link2.format(country, city, "attractions"), link2.format(country, city, "entertainment")
     
 
-def get_llama_summary(site, activities, pre_prompt=pre_prompt, prompt_input=prompt_input):
-    prompt_input = prompt_input % (site, activities)
+def get_llama_summary(site, activities, budget, pre_prompt=pre_prompt, prompt_input=prompt_input):
+    prompt_input = prompt_input % (site, activities, budget)
     result = ""
 
     try:
@@ -101,14 +113,34 @@ def get_llama_summary(site, activities, pre_prompt=pre_prompt, prompt_input=prom
             # print(str(event), end="")
             result += str(event)
 
-        return result
+        # formatting by finding where Combined list:
+        # print(result)
+        match = re.search(r'\b' + re.escape('Combined list') + r'\b', result)
+        if match:
+            index = match.end()
+            result = result[index+1:].strip()
+            index = result.find(']')
+            # finalised list but string form "[..., ..., ...]"
+            result = result[:index+1].replace("*", "").strip()
+            # print('finalised list:', result)
+            # need to remove the brackets & make it into a list
+            result = result[1:-1].split(",")
+            finalised_result = []
+            for res in result:
+                finalised_result.append(res.strip().replace("\'", ""))
+            return finalised_result
+        else:
+            # Llama generation error
+            print("Invalid URL", site)
+            return None
 
     except:
         # if error
+        print("Failed to generate any prompt")
         return None
 
 
-def summary(itenirary_id):
+def summary(itinerary_id=None):
     # access db for the following:
     user_data = {"city": "Cairo",
                  "country": "Egypt",
@@ -121,13 +153,14 @@ def summary(itenirary_id):
     city = user_data["city"]
     country = user_data["country"]
     activities_list = user_data["activities"]
+    budget = user_data["budget"]
     location_list = []
 
     # website lists from lonely planet
     if "Shopping" in activities_list:
         site = get_lonelyplanet_url(country, city, "Shopping")
         # outputs at most 9 locations for each activity => list form
-        llama_summary = get_llama_summary(site, "Shopping")
+        llama_summary = get_llama_summary(site, "Shopping", budget)
         if llama_summary:
             location_list.extend(llama_summary)
         # remove activity from the list
@@ -136,7 +169,7 @@ def summary(itenirary_id):
     elif "Night-life" in activities_list:
         site = get_lonelyplanet_url(country, city, "Night-life")
         # outputs at most 9 locations for each activity => list form
-        llama_summary = get_llama_summary(site, "Night-life")
+        llama_summary = get_llama_summary(site, "Night-life", budget)
         if llama_summary:
             location_list.extend(llama_summary)
         # remove activity from the list
@@ -145,19 +178,19 @@ def summary(itenirary_id):
     elif "Food Galore" in activities_list:
         site = get_lonelyplanet_url(country, city, "Food Galore")
         # outputs at most 9 locations for each activity => list form
-        llama_summary = get_llama_summary(site, "Food Galore")
+        llama_summary = get_llama_summary(site, "Food Galore", budget)
         if llama_summary:
             location_list.extend(llama_summary)
         # remove activity from the list
         activities_list.remove("Food Galore")
 
     if activities_list:
-        llama_summary = get_llama_summary(site, activities_list)
+        llama_summary = get_llama_summary(site, activities_list, budget)
         if llama_summary:
             location_list.extend(llama_summary)
 
 
-    return activities_list
+    return location_list
     
 
 
@@ -168,29 +201,10 @@ def summary(itenirary_id):
 
 
 #############################################################
-# taken from react-server, activities preferences
-acitivities_json = {
-    "budget": "$1000",
-    "category": [
-        "Kid friendly",
-        "Shopping",
-        "Wheelchair friendly"
-    ],
-    "city": "London",
-    "country": "United Kingdom",
-    "month": "January"} # "Amusement Parks", "Museums"
+# this function is just to get a list of destinations
+# print(get_llama_summary("https://www.lonelyplanet.com/singapore/attractions", 
+#                         ["Museum", "Historical Site", "Theater & Cultural"],
+#                         "High"))
 
-# locations_recommendations_url = create_search_term_recommendations(acitivities_json)
-# print(locations_recommendations_url)
-
-# acitivities_json = {"country": "Albania",
-#  "city": "Fier",
-# "category": [
-#         "Food Galore"
-#     ],
-#  "month": "July",
-#  "budget": "$1250"
-# } # "Amusement Parks", "Museums"
-
-data = generate_location_recommendation(acitivities_json)
-print(data)
+# this function accounts for db input
+print(summary())
