@@ -1,7 +1,7 @@
 from dotenv import load_dotenv # obtains information inside .ini or .env
 import os
-import requests
 import replicate
+import ast
 
 
 # admin configuation 
@@ -14,7 +14,7 @@ REPLICATE_API_TOKEN = os.environ['REPLICATE_API_TOKEN']
 pre_prompt = """You are a helpful, respectful and honest assistant. 
                 Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. 
                 Please ensure that your responses are socially unbiased and positive in nature.
-                """
+                Return a python list in the following format: [list of potential categories]"""
 
 
 # declaring bing end-point for search

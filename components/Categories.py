@@ -32,8 +32,18 @@ prompt_input = """Can you categorise %s, %s as one of the following:
                 If the city is known for Shopping instead, then include it in a list of potential {catgeogries: \'categories\': [list of potential categories]} as output."""
 
 
+# to double check formatting for those with spaces
+actual_list = {"Amusement": "Amusement Park",
+               "Parks": "Parks & Scenic Place",
+                "Parks&": "Parks & Scenic Place",
+                "Theatre": "Theatre & Cultural",
+                "Theatre&": "Theatre & Cultural",
+                "HistoricalSite": "Historical Site",
+                "FoodGalore": "Food Galore"}
+
+
 # getting the response
-def generate_activities(city, country, prompt_input=prompt_input):
+def generate_activities(city, country, prompt_input=prompt_input, actual_list=actual_list):
     # If country is safe, proceed to llama API
 
     # Outputs which of the 10 categories are possible in the country
@@ -63,12 +73,23 @@ def generate_activities(city, country, prompt_input=prompt_input):
 
             result += str(event).strip()
         
-        # format it in suitable dict/json\
+        # format it in suitable dict/json
         start = result.find("{")
         end = result.find("}")
+        result = ast.literal_eval(result[start:end+1])
 
-        # return(result[start:end+1])
-        return ast.literal_eval(result[start:end+1])
+        # fix formatting once more to add proper spacing
+        content = result["categories"]
+        print(content)
+        for i in range (len(content)):
+            if actual_list.get(content[i]):
+                content[i] = actual_list.get(content[i])
+                print(actual_list.get(content[i]))
+                #print(content)
+
+        result["categories"] = content
+
+        return result
     
     except:
         return None

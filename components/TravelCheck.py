@@ -264,8 +264,9 @@ def check_safety(country):
     if response.status_code == 200:
         json_data = response.json()
         safety_index = json_data["data"][countrycode]["advisory"]["score"]
-        if safety_index >= 4.5:
-            return ("unsafe", "{} has a high risk level alert. We advise not to travel to {}".format(country, country))
+        safety_msg = json_data["data"][countrycode]["advisory"]["message"]
+        if safety_index >= 3.5:
+            return (safety_index, safety_msg)
         else:
             return ("safe", "")
     else:
