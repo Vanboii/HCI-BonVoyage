@@ -6,7 +6,7 @@ import LuxuriousIcon from '../../../components/diamonds.png';
 import AdventurousIcon from '../../../components/camping.png';
 import RelaxedIcon from '../../../components/beach-chair.png';
 import { Range, getTrackBackground } from 'react-range';
-import { useNavigate, useLocation,useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import { useItineraries } from '../../../test/useGetItineraries';
@@ -36,11 +36,9 @@ const monthNames = [
 
 const PreferencesPage = () => {
   const { search } = useLocation();
-   
-   const {id} = useParams()
-   console.log("id:",id)
-   const { updateItinerary}  = useItineraries();
-   const { Popup } = AuthenticationPopup()
+  const { id } = useParams();
+  const { updateItinerary } = useItineraries();
+  const { Popup } = AuthenticationPopup();
 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
   const [dietarySearch, setDietarySearch] = useState('');
@@ -58,14 +56,24 @@ const PreferencesPage = () => {
   const country = params.get('country');
 
   const handleDietaryChange = (option) => {
-    setSelectedDietaryRestrictions((prev) =>
-      prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
-    );
+    if (option === 'No Restrictions') {
+      setSelectedDietaryRestrictions([option]);
+    } else {
+      setSelectedDietaryRestrictions((prev) =>
+        prev.includes(option)
+          ? prev.filter((item) => item !== option)
+          : [...prev.filter((item) => item !== 'No Restrictions'), option]
+      );
+    }
     setFormError('');
   };
 
   const handleAddCustomDietary = () => {
-    if (dietarySearch && !dietaryOptions.includes(dietarySearch) && !selectedDietaryRestrictions.includes(dietarySearch)) {
+    if (
+      dietarySearch &&
+      !dietaryOptions.includes(dietarySearch) &&
+      !selectedDietaryRestrictions.includes(dietarySearch)
+    ) {
       setSelectedDietaryRestrictions([...selectedDietaryRestrictions, dietarySearch]);
       setDietarySearch('');
     }
@@ -163,40 +171,42 @@ const PreferencesPage = () => {
     } catch (error) {
       console.error('Error fetching recommendations (POST):', error);
 
-    // Fallback to GET request
-     try {
-      const getResponse = await axios.get('https://bonvoyage-api.azurewebsites.net/get-recommendations', {
-        params: {
-          city: itineraryData.city,
-          country: itineraryData.country
-        }
-      });
-      const getRecommendations = getResponse.data;
-      console.log('Recommendations fetched (GET):', getRecommendations);
+      // Fallback to GET request
+      try {
+        const getResponse = await axios.get('https://bonvoyage-api.azurewebsites.net/get-recommendations', {
+          params: {
+            city: itineraryData.city,
+            country: itineraryData.country
+          }
+        });
+        const getRecommendations = getResponse.data;
+        console.log('Recommendations fetched (GET):', getRecommendations);
 
-      navigate('/Tinderpreference', { state: { recommendations: getRecommendations.data } });
-    } catch (getError) {
-      console.error('Error fetching recommendations (GET):', getError);
+        navigate(`/Tinderpreference/${id}`, { state: { recommendations: getRecommendations.data } });
+      } catch (getError) {
+        console.error('Error fetching recommendations (GET):', getError);
+      }
+
+      // THIS IS FOR DEMO PURPOSES IF POST FAILS ON THE DAY ITSELF
+      try {
+        const localResponse = await axios.get('/places.json'); // Path relative to public folder
+        const localRecommendations = localResponse.data;
+        console.log('Recommendations fetched (local):', localRecommendations);
+
+        navigate(`/Tinderpreference/${id}`, { state: { recommendations: localRecommendations } });
+      } catch (localError) {
+        console.error('Error fetching local recommendations:', localError);
+      }
     }
-    //THIS IS FOR DEMO PURPOSES IF POST FAIL ON THE DAY ITSELF
-    try {
-      const localResponse = await axios.get('/places.json'); // Path relative to public folder
-      const localRecommendations = localResponse.data;
-      console.log('Recommendations fetched (local):', localRecommendations);
 
-      navigate(`/Tinderpreference/${id}`, { state: { recommendations: localRecommendations } });
-    } catch (localError) {
-      console.error('Error fetching local recommendations:', localError);
-    }
-
-    console.log("Handling submit...")
+    console.log("Handling submit...");
     updateItinerary(id, {
       diet: selectedDietaryRestrictions,
       categories: selectedCategories,
       travelStyles: selectedTravelStyles,
-      budget: budget})
-      console.log("done")
-    };
+      budget: budget
+    });
+    console.log("done");
   }
 
   if (loading) {
@@ -301,7 +311,7 @@ const PreferencesPage = () => {
                   type="number"
                   value={budget[0]}
                   min={0}
-                  max={10000 || budget[1]}
+                  max={budget[1]}
                   onChange={(e) => setBudget([+e.target.valueAsNumber, budget[1]])}
                   required
                 />
@@ -309,7 +319,7 @@ const PreferencesPage = () => {
                 <input
                   type="number"
                   value={budget[1]}
-                  min={0 || budget[0]}
+                  min={budget[0]}
                   max={10000}
                   onChange={(e) => setBudget([budget[0], +e.target.valueAsNumber])}
                   required
