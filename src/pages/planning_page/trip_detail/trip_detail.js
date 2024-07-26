@@ -98,7 +98,7 @@ const TripDetailPage = ({setID}) => {
       };
       Cookies.set('tripDetails', JSON.stringify(tripDetails), { expires: 7 });
   
-      navigate(`/planning/invite?city=${encodedCity}&country=${encodedCountry}`);
+      navigate(`/planning/invite/${id}?city=${encodedCity}&country=${encodedCountry}`);
     } catch (error) {
       console.error('Error fetching trip data:', error);
     }

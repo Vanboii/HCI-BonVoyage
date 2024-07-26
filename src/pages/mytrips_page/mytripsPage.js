@@ -181,10 +181,10 @@ import TopBanner from '../../components/banner';
 import CardComponent from '../../components/card';
 import './mytripsPage.css';
 
-const upcomingTrips = [
-  { image: Cebu_Image, location: 'Cebu, Philippines', priceRange: '$700 - $1500', saves: 2, travelers: 1 },
-  { image: Finland_Image, location: 'Finland', priceRange: '$4000 - $8800', saves: 5, travelers: 2 },
-];
+// const upcomingTrips = [
+//   { image: Cebu_Image, location: 'Cebu, Philippines', priceRange: '$700 - $1500', saves: 2, travelers: 1 },
+//   { image: Finland_Image, location: 'Finland', priceRange: '$4000 - $8800', saves: 5, travelers: 2 },
+// ];
 
 
 const pastTrips = [
@@ -198,13 +198,11 @@ const pastTrips = [
 
 const MyTripsPage = () => {
   const navigate = useNavigate();
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('upcoming');
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTrips, setFilteredTrips] = useState([]);
   const [maxBudget, setMaxBudget] = useState(20000);
   const [savedTrips, setSavedTrips] = useState(JSON.parse(localStorage.getItem('savedTrips')) || []);
-  const [allTrips, setAllTrips] = useState(upcomingTrips);
   const [allTrips, setAllTrips] = useState([]);
 
   useEffect(() => {
