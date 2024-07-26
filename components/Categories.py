@@ -25,6 +25,7 @@ prompt_input = """Can you categorise %s, %s as one of the following:
                     - Theatre & Cultural
                     - Historical Site
                     - Food Galore
+                    - Night-life
 
                 Once you categorised it, you only need to return the activities that exist in the city.
                 You do not need to explain or give examples. 

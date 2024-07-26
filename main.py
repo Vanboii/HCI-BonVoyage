@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 # self-defined libraries
-from components.llama3_prompt0 import generate_recommendation
-from components.llama3_prompt1 import generate_location_recommendation
+# from components.llama3_prompt0 import generate_recommendation
+# from components.llama3_prompt1 import generate_location_recommendation
 from components import TravelCheck
 from components.Categories import generate_activities
 
