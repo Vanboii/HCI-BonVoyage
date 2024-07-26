@@ -46,14 +46,19 @@ const TripDetailPage = () => {
     }
 
     // Handle form submission
-    console.log({ country: country.label, city: city.label, startDate: startDate, endDate : endDate, numberOfPeople : numberOfPeople });
+    console.log({ country: country.label, 
+                  city: city.label, 
+                  startDate: startDate, 
+                  endDate : endDate, 
+                  numberOfPeople : numberOfPeople,
+                });
     const id = await addItinerary({  //Adds the itinerary to the database
       country: country.label, 
       city: city.label, 
       startDate: startDate, 
-      endDate : endDate,
-      numberOfPeople : numberOfPeople, // maybe change number of people to PAX?
-      owner : auth.currentUser.uid,
+      endDate : endDate, 
+      numberOfPeople : numberOfPeople,  // maybe change number of people to PAX?
+      owner : {uid: auth.currentUser.uid, displayName: auth.currentUser.displayName},
     })
 
     console.log("Itinerary ID:", id)
