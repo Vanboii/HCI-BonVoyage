@@ -36,7 +36,7 @@ const monthNames = [
 
 const PreferencesPage = () => {
   const { search } = useLocation();
-   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   
    const {id} = useParams()
    console.log("id:",id)
    const { updateItinerary}  = useItineraries();
@@ -196,7 +196,8 @@ const PreferencesPage = () => {
       travelStyles: selectedTravelStyles,
       budget: budget})
       console.log("done")
-  };
+    };
+  }
 
   if (loading) {
     return (
