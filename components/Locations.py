@@ -17,113 +17,65 @@ pre_prompt = """You are a helpful, respectful and honest assistant.
                 Return a python list in the following format: [list of potential categories]"""
 
 
-# declaring bing end-point for search
-def get_results_for(search_term):
-    search_url = "https://api.bing.microsoft.com/v7.0/search"
-    headers = {"Ocp-Apim-Subscription-Key": BING_SUBSCRIPTION_KEY}
-    params = {"q": search_term, "textDecorations": True, "textFormat": "HTML"}  ##answerCount filter, count?
+prompt_input = """Summarise this website(s) {}
+                And give me a list of at most 9 locations that are {}
+                Return a python list in the following format: 
+                Combined list: [destination 1, destination 2, destination 3]
 
-    response = requests.get(search_url, headers=headers, params=params)
-    response.raise_for_status()
-    # we limit our results to first relevant 5 searches
-    search_results = response.json()["webPages"]["value"][:5]
-    return search_results
+                Return a list ['error, no page found'] if the url given does not work"""
 
 
-# creating a pipeline for quering potential places to show the swipping mechanism
-def create_search_term_recommendations(acitivities_json):
-    # sites we want to omit as the robustness of data is bad
-    omit = ["Tripadvisor"]
-
-    results = []
-
-    # unpacking the activities json to send to API
-    category = acitivities_json["category"]
-    for index in range(len(category)):
-        search_term = "Search for {} places in {} {} on {}".format(category[index], 
-                                                                acitivities_json["city"], 
-                                                                acitivities_json["country"],
-                                                                acitivities_json["month"],)
-
-        bing_results = get_results_for(search_term)
-        # print(bing_results)
-
-        # process each of the 5 results by:
-        for res in bing_results:
-            # ensuring that the siteName isn't in the omitted sites
-            site = res.get("siteName")
-            # if the site url is not None
-            if site:
-                # check if it should be omitted
-                if site not in omit:
-                    # serialise it into site-name & url
-                    #results.append({'siteName': res["siteName"],
-                    #                'url': res["url"]})
-                    #results[category[index]] = res["url"]
-                    results.append(res["url"])
-                    # only get the first url
-                    break
-            # else just add url
-            else:
-                results.append(res["url"])
-
-    #print(results)
-    return results
-
-
-def summary(location_url):
+def summary(pre_prompt=pre_prompt, prompt_input=prompt_input):
     # Outputs individual places with description
-    prompt_input = """Please summarise the following website: 
-                    {}
-                    Create a combined list of 8 destinations found from the site above.
-                    Give a brief description for each destination presented. 
-                    It must be in a single line separated by commas. 
-                    Format your output in the form of "Places listed: 
-                    * place 1 - description of place 1
-                    * place 2 - description of place 2
-                    * place 3 - description of place 3
-                    ...."
-                    """.format(location_url)
+    # If country is safe, proceed to llama API
 
+    # Outputs which of the 10 categories are possible in the country
+    prompt_input = prompt_input % (city, country)
+    result = ""
 
-    response = replicate.run(
-        "meta/llama-2-13b-chat",
-        input={
-            "seed": 2,
-            "top_k": 0,
-            "top_p": 1,
-            "prompt": prompt_input,
-            "max_tokens": 612,  # increase this to generate more results  ##SOURCE OF ERROR??
-            "temperature": 0.75,
-            "system_prompt": pre_prompt,
-            "length_penalty": 1,
-            "prompt_template": "<s>[INST] <<SYS>>\n{system_prompt}\n<</SYS>>\n\n{prompt} [/INST]",
-            "presence_penalty": 0.5,
-            "log_performance_metrics": False
-        },
-    )
+    try:
+        for event in replicate.stream(
+            "meta/meta-llama-3-8b-instruct",
+            input={
+                "seed": 2,
+                "top_k": 0,
+                "top_p": 0.95,
+                "prompt": prompt_input,
+                "max_tokens": 500,  # decrease this to generate less texts
+                "temperature": 0.7,
+                "system_prompt": pre_prompt,
+                "length_penalty": 1,
+                "stop_sequences": "<|end_of_text|>,<|eot_id|>",
+                "prompt_template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+                "presence_penalty": 0,
+                "log_performance_metrics": False
+            },
+        ):
+            # raw output:
+            # print(str(event))
 
-    # formatting 1: turning it into a whole paragraph
-    full_response = ''
-    for item in response:
-        full_response += item
+            result += str(event).strip()
+        
+        # format it in suitable dict/json
+        start = result.find("{")
+        end = result.find("}")
+        result = ast.literal_eval(result[start:end+1])
 
-    # formatting 2: only capturing those from "places listed:..." format
-    def format_2(full_response):
-        for item in full_response.split("\n"):
-            if "Places listed:" in item:
-                return item.strip("Places listed:").split(',')
-    #return format_2(full_response)
+        # fix formatting once more to add proper spacing
+        content = result["categories"]
+        print(content)
+        for i in range (len(content)):
+            if actual_list.get(content[i]):
+                content[i] = actual_list.get(content[i])
+                print(actual_list.get(content[i]))
+                #print(content)
 
-    # format 3: same as format_2 but to be used with descriptions
-    def format_3(full_response):
-        for item in full_response.split("\n\n"):
-            if "*" in item: # they would be given in a "* Place - Description" format
-                #print(item.split("\n*"))
-                return item.split("\n*")
-            
-    #print(full_response)
-    return format_3(full_response)
+        result["categories"] = content
+
+        return result
+    
+    except:
+        return None
 
 
 

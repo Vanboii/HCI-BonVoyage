@@ -67,16 +67,15 @@ def get_categories():
 
     # check if it is safe to travel to or not
     status, reply = TravelCheck.check_safety(country)
-    if status == "safe":
-        reply = generate_activities(city, country)
-        # returns None if it failed?
-        if reply == None:
-            reply = "Error, could not generate activities"
+    # generate an categories of activity regardless
+    categories = generate_activities(city, country)
+    if categories == None:
+            categories = "Error, could not generate potential activity list"
             status = "error"
 
-
-    return jsonify({"reply": reply,
-                    "status": status}), 200
+    return jsonify({"data": categories,
+                    "reply": reply,
+                    "safety_status": status}), 200
 
 
 # to query a list of suggested locations through Bing and Llama APIs
