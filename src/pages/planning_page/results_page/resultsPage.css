@@ -1,242 +1,430 @@
 .resultsPageContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .contentContainer {
-    display: flex;
-    width: 100%;
-    margin-top: 80px; /* Adjust this based on your banner height */
-  }
-  
-  .leftContainer {
-    flex: 1;
-    padding: 20px;
-  }
-  
-  .leftContainer h1 {
-    font-size: 40px; /* Adjust the font size as needed */
-    margin-bottom: 40px; /* Increase the spacing between City Name and Day 1 */
-    padding-left: 15px;
-  }
-  
-  .dayContainer {
-    margin-bottom: 40px; /* Increase the spacing between days */
-    padding-left: 15px;
-  }
-  
-  .dayContainer h2 {
-    font-size: 30px; /* Adjust the font size as needed */
-    margin-bottom: 20px; /* Increase spacing between day title and activities */
-  }
-  
-  .activityRow {
-    background-color: lightgray;
-    height: 50px;
-    margin-bottom: 10px;
-    width: 80%; /* Adjust the width as needed */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
-    position: relative; /* Position relative for absolute positioned buttons */
-  }
-  
-  .activityRow input {
-    width: calc(100% - 80px); /* Adjust input width minus button width */
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    padding: 8px; /* Adjust padding as needed */
-  }
-  
-  .activityRow button {
-    background-color: #334b48; /* Dark green shade */
-    color: white; /* Text color */
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .activityRow button:hover {
-    background-color: #2a3e3b; /* Slightly darker shade for hover effect */
-  }
-  
-  .activityRow .deleteButton {
-    background-color: #d9534f; /* Red shade */
-    margin-left: 10px; /* Adjust margin as needed */
-  }
-  
-  .activityRow .deleteButton:hover {
-    background-color: #c9302c; /* Slightly darker red for hover effect */
-  }
-  
-  .activityRow .editButton {
-    background-color: #428bca; /* Blue shade */
-    margin-left: 10px; /* Adjust margin as needed */
-  }
-  
-  .activityRow .editButton:hover {
-    background-color: #3071a9; /* Slightly darker blue for hover effect */
-  }
-  
-  .activityRow .suggestionsButton {
-    background-color: #5cb85c; /* Green shade */
-    margin-left: 10px; /* Adjust margin as needed */
-  }
-  
-  .activityRow .suggestionsButton:hover {
-    background-color: #4cae4c; /* Slightly darker green for hover effect */
-  }
-  
-  .rightContainer {
-    flex: 1;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .rightContainer img {
-    width: 100%; /* Adjust the width as needed */
-    height: auto;
-    margin-bottom: 20px;
-  }
-  
-  .topPicksContainer {
-    margin-top: 20px;
-    text-align: left;
-  }
-  
-  .topPicksContainer h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .topPicksContainer ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .topPickItem {
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .plusButton {
-    background-color: #334b48; /* Dark green shade */
-    color: white; /* Text color */
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-left: 10px;
-  }
-  
-  .plusButton:hover {
-    background-color: #2a3e3b; /* Slightly darker shade for hover effect */
-  }
-  
-  .dropdownMenu {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    margin-top: 5px;
-    padding: 10px;
-    width: 200px; /* Increase the width of the dropdown menu */
-  }
-  
-  .dropdownMenu button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: black; /* Black background */
-    color: white; /* White font */
-    text-align: left;
-    cursor: pointer;
-    margin-bottom: 5px; /* Space between buttons */
-  }
-  
-  .dropdownMenu button:hover {
-    background-color: #333; /* Slightly lighter black for hover effect */
-  }
-  
-  .closeDropdownButton {
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: black; /* Black color for the close button */
-    cursor: pointer;
-    float: right;
-    margin-bottom: 10px;
-  }
-  
-  .suggestionsModal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .suggestionsContainer {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 80%;
-    max-height: 80%;
-    overflow-y: auto;
-  }
-  
-  .modalHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .modalHeader h3 {
-    margin: 0;
-  }
-  
-  .closeButton {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  .suggestionsContainer ul {
-    list-style-type: none; /* Remove bullet points */
-    padding: 0;
-  }
-  
-  .suggestionsContainer li {
-    margin-bottom: 10px; /* Adjust spacing between suggestions */
-    
-  }
-  
-  .suggestionsContainer button {
-    background-color: #334b48; /* Dark green shade */
-    color: white; /* Text color */
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .suggestionsContainer button:hover {
-    background-color: #2a3e3b; /* Slightly darker shade for hover effect */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contentContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 20px; /* Adjust this based on your header height */
+}
+
+.leftContainer {
+  flex: 1;
+  padding: 20px;
+  max-width: 50%;
+}
+
+.rightContainer {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  max-width: 50%;
+}
+
+.pageHeader {
+  position: relative; /* Ensure the button is positioned within the header */
+  width: 100%;
+  color: black;
+  text-align: left;
+  padding: 20px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #4b4b4b;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pageHeader h1 {
+  margin: 0;
+  color: black;
+  font-size: 58px!important; /* Adjust font size as needed */
+  margin-top: 20px;
+  margin-bottom: 10px!important;
+}
+
+.pageHeader p {
+  margin: 10px 0 0;
+  color: black;
+  font-size: 14px; /* Adjust font size as needed */
+  white-space: pre-line; /* Preserve line breaks in the content */
+  line-height: 1.5; /* Adjust line height as needed */
+  margin-left: 20px;
+}
+
+.citySubheading {
+  font-size: 28px; /* Adjust the size as needed */
+  margin-top: 0.5rem; /* Adjust the spacing as needed */
+  margin-left: 18px;
+  color: #555; /* Adjust the color as needed */
+}
+
+.tripDetails {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.calendarIcon {
+  width: 24px; /* Adjust size as needed */
+  height: 24px;
+  margin-right: 10px;
+  margin-bottom: 6px;
+}
+
+.tripDates {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.leftContainer h1 {
+  font-size: 40px; /* Adjust the font size as needed */
+  margin-bottom: 40px; /* Increase the spacing between City Name and Day 1 */
+  padding-left: 15px;
+}
+
+.dayContainer {
+  margin-bottom: 10px; /* Increase the spacing between days */
+  padding-left: 15px;
+  border-bottom: 1px solid #ddd; /* Add a bottom border */
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  color: black;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.dayHeader h2 {
+  font-size: 21px; /* Adjust the font size as needed */
+  color: black;
+  margin: 0 10px; /* Space between arrow and day title */
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.dayArrow img {
+  width: 16px; /* Adjust the size as needed */
+  height: 16px; /* Adjust the size as needed */
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.activitiesContainer {
+  margin-left: 34px; /* Align activities with day title */
+}
+
+.activityRow {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa; /* Light gray for better contrast */
+  padding: 10px;
+  height: 160px;
+  margin-bottom: 10px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+  position: relative; /* Ensure positioning of delete icon */
+}
+
+.activityInfo {
+  flex: 3;
+}
+
+.activityInfo h3 {
+  margin: 0 0 10px 0;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.activityInfo p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.activityDetails {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.activityDetails span {
+  margin-right: 10px;
+}
+
+.activityDetails a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.activityDetails a:hover {
+  text-decoration: underline;
+}
+
+.activityImage {
+  display: flex;
+  align-items: center;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.activityImage img {
+  max-width: 100px; /* Adjust the size as needed */
+  height: auto;
+  border-radius: 8px; /* Rounded corners */
+}
+
+.deleteIcon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.dragHandle {
+  width: 20px;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.dragHandle img {
+  width: 20px; /* Adjust the size as needed */
+  height: auto;
+}
+
+.activityButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.suggestionsButton {
+  background-color: #334b48; /* Blue */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 10px; /* Move button to the bottom */
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  width: fit-content;
+  font-size: 14px;
+}
+
+.activityButtons button:hover {
+  opacity: 0.8;
+}
+
+.addActivityButton {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #334b48;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.addActivityButton:hover {
+  background-color: #334b48a5;
+}
+
+.rightContainer img {
+  width: 100%; /* Adjust the width as needed */
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.suggestionsModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.671);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.suggestionsContainer {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modalHeader h3 {
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000000; /* Set the color to black */
+}
+
+
+  .suggestionItem { 
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa; 
+  padding: 10px;
+  height: 160px;
+  margin-bottom: 10px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+  position: relative; /* Ensure positioning of delete icon */
+  width: 400px; /* Adjust the width as needed */
+}
+
+.suggestionItem .activityInfo {
+  flex: 3;
+}
+
+.suggestionItem .activityInfo h3 {
+  margin: 0 0 10px 0;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.suggestionItem .activityInfo p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.suggestionItem .activityDetails {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.suggestionItem .activityDetails span {
+  margin-right: 10px;
+}
+
+.suggestionItem .activityImage {
+  display: flex;
+  align-items: center;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.suggestionItem .activityImage img {
+  max-width: 100px; /* Adjust the size as needed */
+  height: auto;
+  border-radius: 8px; /* Rounded corners */
+}
+
+
+.saveExitButton {
+  background-color: #334b48; /* Dark green shade */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  position: absolute; /* Fix the button within the header */
+  bottom: 0; /* Adjust as needed to position the button below the header */
+  right: 0; /* Adjust as needed */
+  margin-bottom: 15px;
+}
+
+.saveExitButton:hover {
+  background-color: #2a3e3b; /* Slightly darker shade for hover effect */
+}
+
+.customModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.customOverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.customModal h2 {
+  margin-bottom: 20px;
+  color: rgb(0, 0, 0);
+}
+
+.customModal button {
+  background-color: #334b48; /* Dark green shade */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.customModal button:hover {
+  background-color: #2a3e3b; /* Slightly darker shade for hover effect */
+}
+
+.peopleDetails {
+  display: flex;
+  align-items: center;
+  margin-right: 10px; /* Add some space between peopleDetails and tripDetails */
+  margin-top: 5px;
+  margin-bottom: -10px;
+}
+
+.personIcon {
+  width: 24px; /* Adjust size as needed */
+  height: 24px; /* Adjust size as needed */
+  margin-left: 16px; /* Adjust spacing as needed */
+  margin-bottom: -6px;
+}
+
+
+.numberOfPeople {
+  font-size: 16px; /* Adjust size as needed */
+  margin-left: 8px; /* Adjust spacing as needed */
+  margin-right: 20px;
+  margin-bottom: -6px;
+}
+
+.headerDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

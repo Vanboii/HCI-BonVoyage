@@ -8,7 +8,7 @@ import { useItineraries } from "../../../test/useGetItineraries";
 
 function WaitingRoom() {
 
-  const [maxUsers , setMax] = useState();
+  const [maxUsers, setMax] = useState();
   const [Users, setUsers] = useState([]);
 
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -45,13 +45,18 @@ function WaitingRoom() {
 
   Users.forEach((user, index) => {
     userStatuses[index] = `${user.displayName} is ready for the trip!`;
+  Users.forEach((user, index) => {
+    userStatuses[index] = `${user.displayName} is ready for the trip!`;
   });
+
 
   return (
     <>
       <TopBanner/>
+      <TopBanner/>
         <div className="content">
           <div>
+            <p className="progress">{Users.length}/{maxUsers} has filled in their preference</p>
             <p className="progress">{Users.length}/{maxUsers} has filled in their preference</p>
           </div>
           <div className="status">

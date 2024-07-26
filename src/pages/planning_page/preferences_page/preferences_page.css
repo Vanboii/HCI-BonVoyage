@@ -301,3 +301,28 @@ button {
     margin-top: -35px;
 }
 
+/* Error Message */
+.error-message {
+    color: red;
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Add this to your CSS file */
+
+.loading-container h1{
+    font-size: 96px;
+    margin-top: 70px;
+    margin-bottom: 0px;
+    text-align: center;
+    color: #0c0c0c;
+    
+}
+
+.loading-container p{
+    font-size: 24px;
+    margin-top: -100px;
+    text-align: center;
+}
+  

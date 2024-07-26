@@ -1,0 +1,48 @@
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+  }
+  
+  .alert-popup {
+    background: white;
+    padding: 30px; /* Increased padding for better spacing */
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+  }
+  
+  .alert-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .alert-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* Gap between buttons */
+    margin-top: 20px; /* More space above the buttons */
+  }
+  
+  .alert-buttons button {
+    padding: 10px 20px; /* Button padding */
+    font-size: 16px; /* Font size for better readability */
+    border: none; /* Remove default border */
+    background-color: #000; /* Background color */
+    color: #fff; /* Text color */
+    border-radius: 3px; /* Slight border radius */
+    cursor: pointer; /* Pointer cursor on hover */
+  }
+  
+  .alert-buttons button:hover {
+    background-color: #444; /* Darker background on hover */
+  }
+  

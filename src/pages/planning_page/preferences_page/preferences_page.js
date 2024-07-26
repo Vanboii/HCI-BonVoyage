@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
-import './preferences_page.css'; // Import the CSS file to style the page
-import TopBanner from '../../../components/banner'; // Correct the path to banner.js
-import BudgetIcon from '../../../components/budget.png'; // Import the images
+import React, { useState, useEffect } from 'react';
+import './preferences_page.css';
+import TopBanner from '../../../components/banner';
+import BudgetIcon from '../../../components/budget.png';
 import LuxuriousIcon from '../../../components/diamonds.png';
 import AdventurousIcon from '../../../components/camping.png';
 import RelaxedIcon from '../../../components/beach-chair.png';
 import { Range, getTrackBackground } from 'react-range';
-import { useNavigate, useParams } from 'react-router-dom'; 
+import { useNavigate, useLocation,useParams } from 'react-router-dom';
+import axios from 'axios';
 
 //^^^^^^^^^^^^^^^^^^^^^^
 import { auth } from '../../../firebase';
 import { useItineraries } from '../../../test/useGetItineraries';
-// import { AuthenticationPopup } from '../../login_page/loginPopup';
-
 
 const dietaryOptions = [
   'No Restrictions', 'Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Kosher', 'Pescatarian',
@@ -26,34 +25,44 @@ const travelStyles = [
   { label: 'Relaxed', icon: RelaxedIcon },
 ];
 
-const categories = [
-  'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-Friendly',
-  'Pet-Friendly', 'Wheelchair Friendly', 'Parks & Scenic Plane', 'Theater & Cultural', 'Food Galore'
+const allCategories = [
+  'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
+  'Pet-friendly', 'Wheelchair-friendly', 'Parks & Scenic Place', 'Theatre & Cultural', 'Food Galore'
 ];
 
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 const PreferencesPage = () => {
-
+ 
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const User = auth.currentUser
   const {id} = useParams()
   console.log("id:",id)
   const { addPreferences } = useItineraries();
-  // const { Popup } = AuthenticationPopup() //# Add 
-
+  const { Popup } = AuthenticationPopup()
 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
   const [dietarySearch, setDietarySearch] = useState('');
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedTravelStyles, setSelectedTravelStyles] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [budget, setBudget] = useState([500, 1250]); // Initial budget range
+  const [budget, setBudget] = useState([500, 1250]);
+  const [formError, setFormError] = useState('');
+  const [availableCategories, setAvailableCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const params = new URLSearchParams(search);
+  const city = params.get('city');
+  const country = params.get('country');
 
   const handleDietaryChange = (option) => {
     setSelectedDietaryRestrictions((prev) =>
       prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
     );
+    setFormError('');
   };
 
   const handleAddCustomDietary = () => {
@@ -75,24 +84,112 @@ const PreferencesPage = () => {
 
   const handleTravelStyleClick = (style) => {
     setSelectedTravelStyles((prev) =>
-      prev.includes(style) ? prev.filter((item) => item !== style) : [...prev, style]
+      prev.includes(style.label) ? prev.filter((item) => item !== style.label) : [...prev, style.label]
     );
+    setFormError('');
   };
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prev) =>
       prev.includes(category) ? prev.filter((item) => item !== category) : [...prev, category]
     );
+    setFormError('');
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    const fetchCategories = async () => {
+      if (!city || !country) return;
+
+      try {
+        const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${city}&country=${country}`);
+        const availableCategories = response.data.reply;
+        console.log('Fetched categories:', availableCategories);
+        setAvailableCategories(availableCategories);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, [city, country]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (selectedDietaryRestrictions.length === 0) {
+      setFormError('Please select at least one dietary restriction.');
+      return;
+    }
+    if (selectedTravelStyles.length === 0) {
+      setFormError('Please select at least one travel style.');
+      return;
+    }
+    if (selectedCategories.length === 0) {
+      setFormError('Please select at least one category of activities.');
+      return;
+    }
+
+    const currentDate = new Date();
+    const month = monthNames[currentDate.getMonth()];
+
+    const itineraryData = {
+      country: country,
+      city: city,
+      month: month,
+      category: selectedCategories,
+      budget: `$${budget[1]}`
+    };
+
+    console.log('Sending data:', itineraryData);
+
+    try {
+      const response = await axios.post('https://bonvoyage-api.azurewebsites.net/get-recommendations', itineraryData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const recommendations = response.data;
+      console.log('Recommendations fetched (POST):', recommendations);
+
+      navigate(`/Tinderpreference/${id}`, { state: { recommendations: recommendations.data } });
+    } catch (error) {
+      console.error('Error fetching recommendations (POST):', error);
+
+    // Fallback to GET request
+     try {
+      const getResponse = await axios.get('https://bonvoyage-api.azurewebsites.net/get-recommendations', {
+        params: {
+          city: itineraryData.city,
+          country: itineraryData.country
+        }
+      });
+      const getRecommendations = getResponse.data;
+      console.log('Recommendations fetched (GET):', getRecommendations);
+
+      navigate('/Tinderpreference', { state: { recommendations: getRecommendations.data } });
+    } catch (getError) {
+      console.error('Error fetching recommendations (GET):', getError);
+    }
+    //THIS IS FOR DEMO PURPOSES IF POST FAIL ON THE DAY ITSELF
+    try {
+      const localResponse = await axios.get('/places.json'); // Path relative to public folder
+      const localRecommendations = localResponse.data;
+      console.log('Recommendations fetched (local):', localRecommendations);
+
+      navigate(`/Tinderpreference/${id}`, { state: { recommendations: localRecommendations } });
+    } catch (localError) {
+      console.error('Error fetching local recommendations:', localError);
+    }
+
     console.log("Handling submit...")
     try {
       addPreferences(id, User.uid, {
@@ -131,11 +228,11 @@ const PreferencesPage = () => {
 
   return (
     <div className="preferences-container">
-      <TopBanner />
+      <TopBanner showAlertOnNavigate={true} />
       <main>
         <h1>Personal Preference</h1>
         <p>Customize your own Travel Experience</p>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Dietary Restrictions:</label>
             <div className="dietary-restriction-container">
@@ -154,12 +251,6 @@ const PreferencesPage = () => {
                   value={dietarySearch}
                   onChange={(e) => setDietarySearch(e.target.value)}
                   onFocus={handleSearchFocus}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleAddCustomDietary();
-                    }
-                  }}
                 />
                 {dropdownVisible && (
                   <div className="dropdown-menu">
@@ -191,7 +282,7 @@ const PreferencesPage = () => {
                 <div
                   key={style.label}
                   className={`travel-style-option ${selectedTravelStyles.includes(style.label) ? 'selected' : ''}`}
-                  onClick={() => handleTravelStyleClick(style.label)}
+                  onClick={() => handleTravelStyleClick(style)}
                 >
                   <img src={style.icon} alt={style.label} />
                   <span>{style.label}</span>
@@ -202,11 +293,12 @@ const PreferencesPage = () => {
           <div className="form-group">
             <label>Category of Activities:</label>
             <div className="options">
-              {categories.map((category) => (
+              {allCategories.map((category) => (
                 <div
                   key={category}
                   className={`option-button ${selectedCategories.includes(category) ? 'selected' : ''}`}
                   onClick={() => handleCategoryClick(category)}
+                  style={{ display: availableCategories.includes(category) ? 'block' : 'none' }}
                 >
                   {category}
                 </div>
@@ -224,8 +316,9 @@ const PreferencesPage = () => {
                   type="number"
                   value={budget[0]}
                   min={0}
-                  max={10000|| budget[1]}
+                  max={10000 || budget[1]}
                   onChange={(e) => setBudget([+e.target.valueAsNumber, budget[1]])}
+                  required
                 />
                 <span> - </span>
                 <input
@@ -234,6 +327,7 @@ const PreferencesPage = () => {
                   min={0 || budget[0]}
                   max={10000}
                   onChange={(e) => setBudget([budget[0], +e.target.valueAsNumber])}
+                  required
                 />
                 <label className="range-label">Max</label>
               </div>
@@ -287,7 +381,8 @@ const PreferencesPage = () => {
               />
             </div>
           </div>
-          <button type="button" className="next-button" onClick={handleSubmit}>Next</button>
+          {formError && <div className="error-message">{formError}</div>}
+          <button type="submit" className="next-button">Next</button>
         </form>
       </main>
     </div>

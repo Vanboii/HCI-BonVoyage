@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
-import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate, useParams, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
 
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-import { useUsers } from '../../../test/useGetUsers';
 
-//#
-import { db } from '../../../firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
@@ -17,10 +13,8 @@ const InvitePage = () => {
   const [inviteLink, setInviteLink] = useState('');
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
-
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const { id } = useParams()
-  const {findUsers, findUsers2} = useUsers()
+  const { id } = useParams();
+  const { search } = useLocation();
 
   useEffect(() => {
     // Generate a random invite link on component mount
@@ -28,32 +22,7 @@ const InvitePage = () => {
     setInviteLink(link);
   }, []);
 
-  const findEmail = async () => {
-    const results = await findUsers2("email",email)
-    let emails = []
-    results.forEach((result) => {
-      emails.push(result.email)
-    })
-    console.log("Find1:", results, emails)
-    return emails
-  }
-  const findName = async () => {
-    const results = await findUsers2("displayName",email)
-    let names = []
-    results.forEach((result) => {
-      names.push(result.displayName)
-    })
-    console.log("Find2", results, names )
-    return names
-  }
-  useEffect( () => {
-    findEmail()
-    findName()
-      
-  },[email])
-
-
-  const addInvite = () => {
+  const sendInvite = () => {
     if (email) {
 
       setInvited([...invited, email]);
@@ -82,13 +51,14 @@ const InvitePage = () => {
 
   const handleNext = () => {
     //# Should do something to handle the emails in the invite box.
-
-    navigate(`/preferences/${id}`); // Adjust the path to the Preferences page
+    const encodedCity = encodeURIComponent(city);
+    const encodedCountry = encodeURIComponent(country);
+    navigate(`/preferences/${id}?city=${encodedCity}&country=${encodedCountry}`); // Adjust the path to the Preferences page
   };
 
   return (
     <div className="invite-container">
-      <TopBanner />
+      <TopBanner showAlertOnNavigate={true} />
       <main>
         <h1>Send An Invite</h1>
         <p>Invite others to plan your next trip together</p>
@@ -145,3 +115,4 @@ const InvitePage = () => {
 };
 
 export default InvitePage;
+

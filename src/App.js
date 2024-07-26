@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import TopBanner from './components/banner';
+
 import HomePage from './pages/home_page/homePage';
 import LoginPage from './pages/login_page/loginPage';
 import SignupPage from './pages/signup_page/signupPage';
@@ -14,6 +16,7 @@ import WaitingRoomPage from './pages/planning_page/waiting_room/waitingroomPage'
 import LoadingPage from './pages/planning_page/loading_page/loadingPage';
 import ResultsPage from './pages/planning_page/results_page/resultsPage'; // Import ResultsPage
 
+
 import { MYTRIPS } from './test/page1';
 
 
@@ -21,9 +24,9 @@ function App() {
 
   return (
     <Router>
-
+      {/* <TopBanner/> */}
       <Routes>
-        <Route path="/home" Component={HomePage} />
+        <Route path="home" Component={HomePage} />
         <Route path="login" Component={LoginPage} />
         <Route path="signup" Component={SignupPage} />
         <Route path="community" Component={CommunityPage} />
