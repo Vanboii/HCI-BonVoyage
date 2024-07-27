@@ -99,11 +99,11 @@ def get_llama_summary(site, activities, budget, pre_prompt=pre_prompt, prompt_in
             "top_k": 0,
             "top_p": 0.95,
             "prompt": prompt_input,
-            "max_tokens": 512,
+            "max_tokens": 700,
             "temperature": 0.7,
             "system_prompt": pre_prompt,
             "length_penalty": 1,
-            "max_new_tokens": 512,
+            "max_new_tokens": 700,
             "stop_sequences": "<|end_of_text|>,<|eot_id|>",
             "prompt_template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
             "presence_penalty": 0,
@@ -189,8 +189,13 @@ def summary(itinerary_id=None):
         if llama_summary:
             location_list.extend(llama_summary)
 
+    if location_list:
+        # for each location, generate a description and an image
+        for loc in location_list:
+            pass
 
-    return location_list
+    else:
+        return "error"
     
 
 

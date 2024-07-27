@@ -2,10 +2,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 # self-defined libraries
-# from components.llama3_prompt0 import generate_recommendation
 # from components.llama3_prompt1 import generate_location_recommendation
 from components import TravelCheck
 from components.Categories import generate_activities
+from components.GenerateFoodGalore import get_llama_foodgalore
 
 app = Flask(__name__)
 CORS(app) # enables CORS for all routes
@@ -54,9 +54,9 @@ def return_categoryfailed():
 # 503: server could not handle request, due to maintenance or overloaad
 ####
 
-# to query available activities through Llama
+
 # accessed via https://<flaskapp>/get-categories?city=london&country=United Kingdom
-@app.route("/get-categories")
+@app.route("/get-categories", methods=['GET'])
 def get_categories():
     city = request.args.get("city")
     country = request.args.get("country")
@@ -78,11 +78,50 @@ def get_categories():
                     "safety_status": status}), 200
 
 
-# to query a list of suggested locations through Bing and Llama APIs
 # accessed by client-side's POST method 
-# (react-gives a json of selected activities)
-# @app.route("/get-recommendations", methods=['GET', ])
-# def get_recommendations():
+@app.route("/get-recommendations", methods=['GET'])
+def get_recommendations():
+    #  itineraryID = request.args.get("itineraryID")
+
+     # access db for the following information
+     preplanning_data = {"city": "Cairo",
+                        "country": "Egypt"}
+     
+     userpreferences_data = {"dietaryRestriction": "Halal",
+                             "travelStyle": ["Compact", "Tourist"],
+                             "categoryActivities": ["Food Galore"],
+                            # "categoryActivities": ["Shopping", "Kid-friendly", "Amusement Park"],
+                            "budgetRange": "Low"}
+     
+     activities = userpreferences_data.get("categoryActivities")
+     budget = userpreferences_data.get("budgetRange")
+     city = preplanning_data.get("city")
+     country = preplanning_data.get("country")
+     recommendation_list = []
+
+     if "Food Galore" in activities:
+          # outputs at most 9 locations for each activity => list form
+        llama_summary = get_llama_foodgalore(city, country, budget, userpreferences_data.get("dietaryRestriction"))
+        if "error" not in llama_summary[0]:
+            recommendation_list.extend(llama_summary)
+        # remove activity from the list
+        activities.remove("Food Galore")
+
+     return recommendation_list
+
+     
+     
+
+
+
+
+
+
+
+
+
+
+
 #     preferences_json = request.get_json()
 #     #return jsonify(preferences_json)
 #     #print(preferences_json)

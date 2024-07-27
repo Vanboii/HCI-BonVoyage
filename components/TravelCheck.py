@@ -1,7 +1,6 @@
 import requests
 
 
-# self-defined libraries
 # from Hash_countrycode import convert_to_countrycode
 
 countries = {'Andorra': 'AD', 
