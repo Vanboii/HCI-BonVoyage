@@ -6,6 +6,7 @@ from flask_cors import CORS
 from components import TravelCheck
 from components.Categories import generate_activities
 from components.GenerateFoodGalore import get_llama_foodgalore
+from components.GenerateShopping import get_llama_shopping
 
 app = Flask(__name__)
 CORS(app) # enables CORS for all routes
@@ -89,7 +90,7 @@ def get_recommendations():
      
      userpreferences_data = {"dietaryRestriction": "Halal",
                              "travelStyle": ["Compact", "Tourist"],
-                             "categoryActivities": ["Food Galore"],
+                             "categoryActivities": ["Shopping"],
                             # "categoryActivities": ["Shopping", "Kid-friendly", "Amusement Park"],
                             "budgetRange": "Low"}
      
@@ -107,7 +108,17 @@ def get_recommendations():
         # remove activity from the list
         activities.remove("Food Galore")
 
+     elif "Shopping" in activities:
+          # outputs at most 9 locations for each activity => list form
+        llama_summary = get_llama_shopping(city, country)
+        if "error" not in llama_summary[0]:
+            recommendation_list.extend(llama_summary)
+        # remove activity from the list
+        activities.remove("Shopping")
+
      return recommendation_list
+
+
 
      
      
