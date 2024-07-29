@@ -19,8 +19,8 @@ def get_lonelyplanet_url(city, country):
     city = city.lower()
     
     if country == city:
-        return link1.format(country, "restaurants")
-    return link2.format(country, city, "restaurants")
+        return link1.format(country, "nightlife")
+    return link2.format(country, city, "nightlife")
     
 
 
@@ -37,15 +37,15 @@ prompt_input = """Summarise this website %s
 
                 If the url is invalid, you are free to give alternatives from the internet, especially from local blogs as long as it is in %s, %s.
 
-                Give me a list of 9 restaurant, if you can, along with 2-3 sentences of description for each restaurant. The restaurants given should fit within the %s budget.
-                Do not recommend restaurants that are unfit for my %s dietary restrictions (if any).
+                Give me a list of 9 location, if you can, along with 2-3 sentences of description for each location. The location given should fit within a %s budget.
+                Do not recommend location that are unfit for my %s dietary restrictions (if any).
 
-                The description could entail about the dish they are well known for. It could also be about the restaurant's historical significance or a fun fact and why people should eat there.
+                The description could entail about the overall vibe of the location and the genres played, if possible. For instance, it is a high-energy nightclub or a cozy jazz club. And whether they can order a cocktail or a street food if it is a night market.
 
                 Please also give a budget range if possible that is within a price range in USD. Else infer from it and give it a "low", "medium" or "high"
 
-                Return a python dictionary, contained in a list in the following format: 
-                Combined list: [{destination 1 name: "", destination 1 description: "", "destination 1 budget": ""}, {"destination 2 name": "", "destination 2 description": "", "destination 2  budget": ""}]"""
+                Return a python dictionary, contained in a list in the following format, in which double qotes are used: 
+                Combined list: [{"name": , "description": ,"budget":}]"""
 
 
 
@@ -64,11 +64,11 @@ def get_llama_nightlife(city, country, budget, dietary_restrictions, pre_prompt=
             "top_k": 0,
             "top_p": 0.95,
             "prompt": prompt_input,
-            "max_tokens": 750,
+            "max_tokens": 900,
             "temperature": 0.7,
             "system_prompt": pre_prompt,
-            "length_penalty": 1,
-            "max_new_tokens": 750,
+            "length_penalty": 0.7,
+            "max_new_tokens": 900,
             "stop_sequences": "<|end_of_text|>,<|eot_id|>",
             "prompt_template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
             "presence_penalty": 0,
@@ -86,10 +86,10 @@ def get_llama_nightlife(city, country, budget, dietary_restrictions, pre_prompt=
         result = result[index_start:index_end+1].strip()
 
         # formatting it as json
-        restaurant_list = json.loads(result)
+        nightlife_list = json.loads(result)
         # add image url
-        if restaurant_list:
-            return get_bing_images(restaurant_list, city, country)
+        if nightlife_list:
+            return get_bing_images(nightlife_list, city, country)
         else:
             return ["Error, failed to format the prompt"]
         
@@ -108,7 +108,7 @@ def get_bing_images(data, city, country):
 
         for d in data:
             # d is a dictionary with {"name": , "description":, "budget":}
-            search_term = d.get("name") + " restaurant ambience in {} {} site: tripadvisor.com".format(city, country)
+            search_term = d.get("name") + " nightlife vibrant atmosphere in {} {}".format(city, country)
             if search_term:
                 params = {"q": search_term, "imageType": "photo"}  ##ADD IMAGE SIZE?
 
@@ -122,26 +122,23 @@ def get_bing_images(data, city, country):
             except requests.HTTPError as e:
                 print(e)
                 d["imageURL"] = None
-                #429 Client Error: Too Many Requests for url
-                # if e.response.status_code == 429:
-                #     pass
 
         return data
 
 #####################
-city, country = "Cairo", "Egypt"
+# city, country = "Cairo", "Egypt"
 # city, country = "Singapore", "Singapore"
 # city, country = "Sydney", "Australia"
 
 # budget = "low"
-budget = "medium"
+# budget = "medium"
 # budget = "high"
 
-dietary_restrictions = "NIL"
+# dietary_restrictions = "NIL"
 # dietary_restrictions = "Halal"
 
-print(get_llama_nightlife(city, country, budget, dietary_restrictions))
+# print(get_llama_nightlife(city, country, budget, dietary_restrictions))
 
 ### for bing query images
-# data = [{'name': 'Koshari Abou Tarek', 'description': "This casual eatery is famous for its koshari, a popular Egyptian dish made with pasta, lentils, tomato sauce, and fried onions. It's a must-try when in Cairo.", 'budget': 'medium', 'imageURL': ['https://4.bp.blogspot.com/-hRO0diZIjBU/WkXUY6p8Q9I/AAAAAAACMtI/ZHTgO4iph1QvGeFY6c14TJo8fpoGBUadQCLcBGAs/s1600/L1180999-001.jpg']}, {'name': 'Abou El Sid', 'description': 'This cozy restaurant serves traditional Egyptian cuisine with a modern twist. Try their famous mahshi (stuffed grape leaves) and falafel.', 'budget': 'medium', 'imageURL': ['https://www.alamy.com/aggregator-api/download?url=https://c8.alamy.com/comp/B5A7NB/the-bar-in-abou-el-sid-restaurant-located-in-zamalek-district-on-the-B5A7NB.jpg']}, {'name': 'Lebanese House', 'description': 'This family-run restaurant offers a wide range of Lebanese and Middle Eastern dishes. Their shawarma and kebabs are highly recommended.', 'budget': 'medium', 'imageURL': ['https://i.pinimg.com/originals/ec/9d/3d/ec9d3d43619430c08d2af36536e56f25.jpg']}, {'name': 'Café Riche', 'description': "This historic café has been a Cairo institution since 1908. It's a great place to try traditional Egyptian coffee and pastries.", 'budget': 'low', 'imageURL': ['http://inspiration.rehlat.com/wp-content/uploads/2019/08/Cafe-Riche-newsweek.jpg']}, {'name': 'Mama Shoula', 'description': 'This popular restaurant serves a variety of Egyptian and international dishes. Try their famous shawarma and Egyptian-style pizza.', 'budget': 'medium', 'imageURL': ['https://assets.cairo360.com/app/uploads/2018/09/8034B-2PPFILTER-1.jpg']}, {'name': 'El Fishawy', 'description': 'This casual eatery is famous for its traditional Egyptian street food, including falafel, koshari, and shawarma.', 'budget': 'low', 'imageURL': ['https://c8.alamy.com/comp/C746DN/famous-el-fishawy-cafe-in-cairo-souk-egypt-C746DN.jpg']}, {'name': 'Zamalek Fish Market', 'description': 'This seafood restaurant offers a wide range of fresh fish dishes. Try their grilled fish and seafood platters.', 'budget': 'medium', 'imageURL': ['https://assets.cairo360.com/app/uploads/2023/09/03/Snapinsta.app_369973170_320203407121288_5514185405957238898_n_1080-612x226.jpg']}, {'name': 'Bistro 33', 'description': 'This trendy bistro serves a mix of international and Egyptian dishes. Try their famous burgers and salads.', 'budget': 'medium', 'imageURL': ['https://10619-2.s.cdn12.com/rests/small/w550/h367/410_503505138.jpg']}, {'name': 'Wahab', 'description': 'This popular restaurant serves traditional Egyptian cuisine with a modern twist. Try their famous koshari and shawarma.', 'budget': 'medium', 'imageURL': ['https://assets.cairo360.com/app/uploads/2014/02/article_original_6692_20140217_530221e9b9682-675x323.jpg']}]
-# print (get_bing_images(  data, city, country))
+# data = [{'name': 'The Tap East', 'description': 'A popular pub with a lively atmosphere, playing a mix of rock, pop, and sports games. They have a wide selection of beers and cocktails.', 'budget': 'medium', 'imageURL': 'https://img.traveltriangle.com/blog/wp-content/uploads/2019/06/The-Tap1-400x246.jpg'}, {'name': 'The Greek Club', 'description': 'A cozy club playing Greek music, with a relaxed atmosphere and a variety of cocktails. They also serve Greek-inspired street food.', 'budget': 'medium', 'imageURL': 'https://scenenow.com/Content/editor_api/images/250660343_609235507106316_7277425122652005439_n-f0f803b8-a7b9-4798-98a3-73f5a5f46531.jpg'}, {'name': 'The Drunken Camel', 'description': 'A laid-back bar with a mix of rock, pop, and indie music, serving a range of beers and cocktails. They also have a selection of pub grub.', 'budget': 'medium', 'imageURL': 'https://egyptianstreets.com/wp-content/uploads/2016/07/IMG_6929.jpg'}, {'name': 'Bierhaus', 'description': 'A German-inspired beer hall with a lively atmosphere, playing rock and pop music. They have a wide selection of beers and sausages.', 'budget': 'medium', 'imageURL': 'https://image.jimcdn.com/app/cms/image/transf/none/path/s5744a0dce02319b4/image/id81c34c378b69f2f/version/1494587002/image.jpg'}, {'name': "The Nile Ritz-Carlton's Zitao", 'description': 'An upscale rooftop bar with stunning views of the Nile, playing a mix of lounge and electronic music. They serve cocktails and canapés.', 'budget': 'high', 'imageURL': 'https://ak-d.tripcdn.com/images/0223r1200084a9zukF79C.jpg'}, {'name': "The Grand Hotel's O Bar", 'description': 'A stylish bar with a sophisticated atmosphere, playing jazz and lounge music. They serve cocktails and canapés.', 'budget': 'high', 'imageURL': 'https://image.jimcdn.com/app/cms/image/transf/none/path/s5744a0dce02319b4/image/id81c34c378b69f2f/version/1494587002/image.jpg'}, {'name': 'The Groove', 'description': 'A popular club playing a mix of hip-hop, R&B, and electronic music, with a high-energy atmosphere. They also have a selection of cocktails.', 'budget': 'medium', 'imageURL': 'http://egyptianstreets.com/wp-content/uploads/2016/07/IMG_6929.jpg'}, {'name': 'Felfela', 'description': 'A lively bar with a mix of rock, pop, and Arabic music, serving a range of beers and cocktails. They also have a selection of street food.', 'budget': 'medium', 'imageURL': 'https://c8.alamy.com/comp/MN93E7/cairo-egypt-felfela-restaurant-highly-popular-restaurant-with-tourists-and-locals-alike-MN93E7.jpg'}, {'name': 'The Irish House', 'description': 'A cozy pub with a relaxed atmosphere, playing a mix of rock, pop, and sports games. They have a wide selection of beers and cocktails, as well as pub grub.', 'budget': 'medium', 'imageURL': 'http://egyptianstreets.com/wp-content/uploads/2016/07/IMG_6929.jpg'}]
+# print (get_bing_images(data, city, country))

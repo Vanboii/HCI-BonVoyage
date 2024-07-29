@@ -60,11 +60,11 @@ def get_llama_shopping(city, country, pre_prompt=pre_prompt, prompt_input=prompt
             "top_k": 0,
             "top_p": 0.95,
             "prompt": prompt_input,
-            "max_tokens": 750,
+            "max_tokens": 900,
             "temperature": 0.7,
             "system_prompt": pre_prompt,
-            "length_penalty": 1,
-            "max_new_tokens": 750,
+            "length_penalty": 0.7,
+            "max_new_tokens": 900,
             "stop_sequences": "<|end_of_text|>,<|eot_id|>",
             "prompt_template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
             "presence_penalty": 0,
@@ -85,10 +85,10 @@ def get_llama_shopping(city, country, pre_prompt=pre_prompt, prompt_input=prompt
             # print(result)
 
             # formatting it as json
-            restaurant_list = json.loads(result)
+            shopping_list = json.loads(result)
             # add image url
-            if restaurant_list:
-                return get_bing_images(restaurant_list, city, country)
+            if shopping_list:
+                return get_bing_images(shopping_list, city, country)
         except:
                 return ["Error, failed to format the prompt"]
         
@@ -121,9 +121,6 @@ def get_bing_images(data, city, country):
             except requests.HTTPError as e:
                 print(e)
                 d["imageURL"] = None
-                #429 Client Error: Too Many Requests for url
-                # if e.response.status_code == 429:
-                #     pass
 
         return data
 
@@ -143,4 +140,4 @@ def get_bing_images(data, city, country):
 
 ### for bing query images
 # data = [{'name': 'Citystars Mall', 'description': "Located in the Heliopolis district, Citystars Mall is one of the largest shopping centers in Egypt. It features a wide range of luxury brands such as Louis Vuitton, Gucci, and Chanel, as well as local brands like Cotton Club and La Marquise. The mall also has an IMAX theater, a bowling alley, and a kids' play area.", 'imageURL': ['https://media-cdn.tripadvisor.com/media/photo-s/01/19/60/5a/caption.jpg']}, {'name': 'Cairo Festival City Mall', 'description': 'Situated in the Nasr City district, Cairo Festival City Mall is a popular destination for shopping and entertainment. It features a mix of local and international brands like Zara, H&M, and Marks & Spencer, as well as Egyptian brands like Maison Thomas and Hoss Intezar. The mall also has a cinema complex, an ice skating rink, and a games area.', 'imageURL': ['https://media-cdn.tripadvisor.com/media/photo-s/1a/d5/e4/28/restaurant-s-interior.jpg']}, {'name': 'The Mall of Egypt', 'description': 'Located in the 6th of October City, The Mall of Egypt is a modern shopping destination that features a mix of local and international brands. It has a large food court, a cinema complex, and an amusement park with rides and games. Some of the luxury brands available include Cartier, Tiffany & Co., and Hermès.', 'imageURL': ['https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/6b/8e/fa/caption.jpg?w=1200&h=-1&s=1']}, {'name': 'Khan el-Khalili', 'description': "Khan el-Khalili is one of the oldest and most famous bazaars in the Middle East. It's a great place to find unique souvenirs, traditional clothing, and local handicrafts. The bazaar is filled with the sounds of merchants calling out their wares and the smells of spices and coffee.", 'imageURL': ['https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/34/c6/07/khan-al-khalili.jpg?w=1200&h=1200&s=1']}, {'name': 'AUC New Campus', 'description': "The American University in Cairo's (AUC) new campus has a small shopping area with a mix of local and international brands. It's a great place to find gifts, souvenirs, and everyday items. The campus also has a food court and a few restaurants.", 'imageURL': ['https://media-cdn.tripadvisor.com/media/photo-s/1a/fb/9c/09/brunch.jpg']}, {'name': 'The Gate of Cairo', 'description': 'Located in the Maadi district, The Gate of Cairo is a modern shopping center that features a mix of local and international brands. It has a large food court, a cinema complex, and a games area. Some of the luxury brands available include Swarovski and Fossil.', 'imageURL': ['https://media-cdn.tripadvisor.com/media/photo-s/21/99/3a/6d/generic-shot.jpg']}, {'name': 'Maadi Mall', 'description': 'Maadi Mall is a popular shopping destination in the Maadi district. It features a mix of local and international brands like Zara, H&M, and Marks & Spencer, as well as Egyptian brands like Maison Thomas and Hoss Intezar. The mall also has a cinema complex and a food court.', 'imageURL': ['https://media-cdn.tripadvisor.com/media/daodao/photo-s/0e/26/01/77/caption.jpg']}, {'name': 'Point 90', 'description': "Point 90 is a shopping and entertainment complex located in the Heliopolis district. It features a mix of local and international brands, as well as a cinema complex, a bowling alley, and a kids' play area.", 'imageURL': ['https://media-cdn.tripadvisor.com/media/photo-s/14/4e/ec/84/ta-img-20180825-171417.jpg']}, {'name': 'Azbakeya Mall', 'description': 'Azbakeya Mall is a small shopping center located in the Azbakeya district. It features a mix of local and international brands, as well as a food court and a few restaurants. The mall is a great place to find everyday items and gifts.', 'imageURL': ['https://media-cdn.tripadvisor.com/media/photo-s/15/07/7f/a5/20181013-150521-largejpg.jpg']}]
-# print (get_bing_images(  data, city, country))
+# print (get_bing_images(data, city, country))

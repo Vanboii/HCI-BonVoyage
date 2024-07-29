@@ -1,12 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import random
 
 # self-defined libraries
-# from components.llama3_prompt1 import generate_location_recommendation
 from components import TravelCheck
 from components.Categories import generate_activities
 from components.GenerateFoodGalore import get_llama_foodgalore
 from components.GenerateShopping import get_llama_shopping
+from components.GenerateNightLife import get_llama_nightlife
+from components.GenerateCulture import get_llama_culture
+from components.GenerateOther import get_llama_others
 
 app = Flask(__name__)
 CORS(app) # enables CORS for all routes
@@ -21,20 +24,7 @@ def index():
 
 #######
 # dummy API points
-@app.route("/dummy-categories-passed")
-def return_category():
-    return jsonify({"status": "safe",
-        "reply": ["Kid-friendly", "Pet-friendly", 
-                                   "Wheelchair-friendly", "Shopping", 
-                                   "Parks & Scenic Place", "Museum", 
-                                   "Historical Site", "Food Galore"]}), 200
 
-@app.route("/dummy-categories-failed")
-def return_categoryfailed():
-    return jsonify({
-    "reply": "<Country> has a current risk level of 5 (out of 5). We advise: It is not safe to travel Afghanistan.",
-    "status": "unsafe"
-}), 200
 #######
 
 
@@ -83,6 +73,7 @@ def get_categories():
 @app.route("/get-recommendations", methods=['GET'])
 def get_recommendations():
     #  itineraryID = request.args.get("itineraryID")
+    # userID = request.args.get("userID")
 
      # access db for the following information
      preplanning_data = {"city": "Cairo",
@@ -90,8 +81,8 @@ def get_recommendations():
      
      userpreferences_data = {"dietaryRestriction": "Halal",
                              "travelStyle": ["Compact", "Tourist"],
-                             "categoryActivities": ["Shopping"],
-                            # "categoryActivities": ["Shopping", "Kid-friendly", "Amusement Park"],
+                            #  "categoryActivities": ["Shopping"],
+                            "categoryActivities": ["Shopping", "Kid-friendly", "Amusement Park"],
                             "budgetRange": "Low"}
      
      activities = userpreferences_data.get("categoryActivities")
@@ -101,44 +92,52 @@ def get_recommendations():
      recommendation_list = []
 
      if "Food Galore" in activities:
-          # outputs at most 9 locations for each activity => list form
+        # outputs at most 9 locations for each activity => list form
         llama_summary = get_llama_foodgalore(city, country, budget, userpreferences_data.get("dietaryRestriction"))
-        if "error" not in llama_summary[0]:
+        if "Error" not in llama_summary[0]:
             recommendation_list.extend(llama_summary)
         # remove activity from the list
         activities.remove("Food Galore")
 
      elif "Shopping" in activities:
-          # outputs at most 9 locations for each activity => list form
+        # outputs at most 9 locations for each activity => list form
         llama_summary = get_llama_shopping(city, country)
-        if "error" not in llama_summary[0]:
+        if "Error" not in llama_summary[0]:
             recommendation_list.extend(llama_summary)
         # remove activity from the list
         activities.remove("Shopping")
 
-     return recommendation_list
+     elif "Night-life" in activities:
+        # outputs at most 9 locations for each activity => list form
+        llama_summary = get_llama_nightlife(city, country, budget, userpreferences_data.get("dietaryRestriction"))
+        if "Error" not in llama_summary[0]:
+            recommendation_list.extend(llama_summary)
+        # remove activity from the list
+        activities.remove("Night-life")
+
+     elif "Theatre & Cultural" in activities:
+        # outputs at most 9 locations for each activity => list form
+        llama_summary = get_llama_culture(city, country, budget, activities)
+        if "Error" not in llama_summary[0]:
+            recommendation_list.extend(llama_summary)
+        # remove activity from the list
+        activities.remove("Theatre & Cultural")
+
+     if activities:
+        # outputs at most 9 locations for each activity => list form
+        llama_summary = get_llama_others(city, country, budget, activities)
+        if "Error" not in llama_summary[0]:
+            recommendation_list.extend(llama_summary)
+
+     random.shuffle(recommendation_list)
+     # remains empty if there is no output
+     return jsonify({"data": recommendation_list}), 201  
+
 
 
 
      
-     
 
-
-
-
-
-
-
-
-
-
-
-#     preferences_json = request.get_json()
-#     #return jsonify(preferences_json)
-#     #print(preferences_json)
-#     result = generate_location_recommendation(preferences_json)
-#     #print(result)
-#     return jsonify(result), 201
 
 
 if __name__ == "__main__":
@@ -151,3 +150,5 @@ if __name__ == "__main__":
 # /get-categories?city=Vancouver&country=Canada
 # /get-categories?city=Sydney&country=Australia
 #/get-categories?city=Norfolk Island&country=Norfolk Island
+
+# API 2s:
