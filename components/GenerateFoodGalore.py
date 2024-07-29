@@ -111,11 +111,11 @@ def get_llama_foodgalore(city, country, budget, dietary_restrictions, pre_prompt
             "top_k": 0,
             "top_p": 0.95,
             "prompt": prompt_input,
-            "max_tokens": 1000,
+            "max_tokens": 1500,
             "temperature": 0.7,
             "system_prompt": pre_prompt,
             "length_penalty": 0.7,
-            "max_new_tokens": 1000,
+            "max_new_tokens": 1500,
             "stop_sequences": "<|end_of_text|>,<|eot_id|>",
             "prompt_template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
             "presence_penalty": 0,
@@ -136,7 +136,7 @@ def get_llama_foodgalore(city, country, budget, dietary_restrictions, pre_prompt
         restaurant_list = json.loads(result)
         # add image url
         if restaurant_list:
-            return get_bing_images(restaurant_list, city, country)
+            return get_bing_images(restaurant_list, city, country, dietary_restrictions)
         else:
             return ["Error, failed to format the prompt"]
         
@@ -148,13 +148,18 @@ def get_llama_foodgalore(city, country, budget, dietary_restrictions, pre_prompt
     
 
 # loops through any form of data from llama api and gives images
-def get_bing_images(data, city, country):
+def get_bing_images(data, city, country, dietary_restrictions):
     if data:
         search_url = "https://api.bing.microsoft.com/v7.0/images/search"
         headers = {"Ocp-Apim-Subscription-Key": BING_SUBSCRIPTION_KEY}
 
         for d in data:
-            # d is a dictionary with {"name": , "description":, "budget":}
+            # d is a dictionary with {"name": , "description":, "budget": ...}
+
+            # add any restrictions
+            if dietary_restrictions:
+                d["dietaryRestrictions"] = dietary_restrictions
+
             search_term = d.get("name") + " restaurant ambience in {} {} site: tripadvisor.com".format(city, country)
             if search_term:
                 params = {"q": search_term, "imageType": "photo"}  ##ADD IMAGE SIZE?

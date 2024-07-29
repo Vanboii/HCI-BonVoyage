@@ -22,12 +22,6 @@ def index():
     return jsonify(route_dict)
 
 
-#######
-# dummy API points
-
-#######
-
-
 ####
 # Get: request data from a specified source
 # Post: create a new resource, user submits a json
