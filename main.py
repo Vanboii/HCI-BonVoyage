@@ -72,7 +72,7 @@ def get_categories():
 # accessed by client-side's POST method 
 @app.route("/get-recommendations", methods=['GET'])
 def get_recommendations():
-    #  itineraryID = request.args.get("itineraryID")
+    # itineraryID = request.args.get("itineraryID")
     # userID = request.args.get("userID")
 
      # access db for the following information

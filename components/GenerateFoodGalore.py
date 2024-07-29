@@ -9,6 +9,30 @@ import requests
 load_dotenv()
 REPLICATE_API_TOKEN = os.environ['REPLICATE_API_TOKEN']
 BING_SUBSCRIPTION_KEY = os.environ['BING_SUBSCRIPTION_KEY']
+GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
+
+
+# get geolocation returns {"lat": ...., "lng":...}
+def get_location(name, city, country, API_KEY=GOOGLE_API_KEY):
+    address = name + " " + city + " " + country
+    base_url = "https://maps.googleapis.com/maps/api/geocode/json?"
+
+    params = {
+    'key': API_KEY,
+    'address': address
+    }
+
+    response = requests.get(base_url, params=params).json()
+
+    if response.get("status") == "OK":
+        # geometry = response.get("results")[0].get("geometry")
+        # lat = geometry.get('location').get('lat')
+        # lng = geometry.get('location').get('lng')
+        return response.get("results")[0].get("geometry").get("location")
+
+    else:
+        print("error in google maps api")
+        return None
 
 
 # URL/references
@@ -113,11 +137,17 @@ def get_bing_images(data, city, country):
                 params = {"q": search_term, "imageType": "photo"}  ##ADD IMAGE SIZE?
 
             try:
+                # get image
                 response = requests.get(search_url, headers=headers, params=params)
                 response.raise_for_status()
                 search_results = response.json()
                 thumbnail_urls = [img["contentUrl"] for img in search_results["value"][:1]] # only retrieve the first one # contentUrl
                 d["imageURL"] = thumbnail_urls[0]
+
+                # get geolocation
+                location = get_location(d.get("name"), city, country)
+                if location:
+                    d["location"] = location
             
             except requests.HTTPError as e:
                 print(e)
