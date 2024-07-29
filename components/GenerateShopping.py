@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from dotenv import load_dotenv # obtains information inside .ini or .env
 import os
 import replicate
@@ -10,6 +11,7 @@ load_dotenv()
 REPLICATE_API_TOKEN = os.environ['REPLICATE_API_TOKEN']
 BING_SUBSCRIPTION_KEY = os.environ['BING_SUBSCRIPTION_KEY']
 GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
+
 
 
 # get geolocation returns {"lat": ...., "lng":...}
@@ -25,14 +27,34 @@ def get_location(name, city, country, API_KEY=GOOGLE_API_KEY):
     response = requests.get(base_url, params=params).json()
 
     if response.get("status") == "OK":
-        # geometry = response.get("results")[0].get("geometry")
-        # lat = geometry.get('location').get('lat')
-        # lng = geometry.get('location').get('lng')
-        return response.get("results")[0].get("geometry").get("location")
+        location = response.get("results")[0].get("geometry").get("location")
+        place_id = response.get("results")[0].get("place_id")
+        return location, place_id
 
     else:
-        print("error in google maps api")
+        print("error in google maps geoencoder api")
         return None
+
+
+
+def get_website(place_id, API_KEY=GOOGLE_API_KEY):
+    base_url = "https://maps.googleapis.com/maps/api/place/details/json?"
+
+    params = {
+    'key': API_KEY,
+    'place_id': place_id
+    }
+
+    response = requests.get(base_url, params=params).json()
+
+    if response.get("status") == "OK":
+        # returns none if no website found
+        return response.get("result").get("address_components")[0].get("website")
+
+    else:
+        print("error in google maps websites api")
+        return None
+
 
 
 # URL/references
@@ -52,8 +74,8 @@ pre_prompt = """You are a helpful, respectful and honest assistant.
                 Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. 
                 Please ensure that your responses are socially unbiased and positive in nature.
                 Return a python dictionary, contained in a list in the following format: 
-                Combined list: [{destination 1 name: "", destination 1 description: "", "destination 1 budget": ""}, 
-                                {"destination 2 name": "", "destination 2 description": "", "destination 2  budget": ""}]"""
+                Combined list: [{destination 1 name: "", destination 1 description: "", "destination 1 budget": "", "destination 1 openingHours": "", "destination 1 website": ""}, 
+                                {"destination 2 name": "", "destination 2 description": "", "destination 2  budget": "", "destination 2 openingHours": "", "destination 2 website": ""}]"""
 
 
 prompt_input = """Summarise this website %s
@@ -63,9 +85,10 @@ prompt_input = """Summarise this website %s
                 Give me a list of 9 shopping malls or districts, if you can, along with 2-3 sentences of description for each mall. 
 
                 The description could entail about what luxury brands or well-known local brands in the mall and its ambience. If the mall or shopping district have other activities such as an IMAX theatre or a ice skating ring, include that as well.
+                As well as its opening hours and its website, if it exists, else leave it as empty string.
 
-                Return a python dictionary, contained in a list in the following format, in which double qotes are used: 
-                Combined list: [{"name": , "description": }]"""
+                Return a python dictionary, contained in a list in the following format, in which double quotes are used: 
+                Combined list: [{"name": , "description":, "budget": "openingHours": , "website":}]"""
 
 
 
@@ -84,11 +107,11 @@ def get_llama_shopping(city, country, pre_prompt=pre_prompt, prompt_input=prompt
             "top_k": 0,
             "top_p": 0.95,
             "prompt": prompt_input,
-            "max_tokens": 900,
+            "max_tokens": 1000,
             "temperature": 0.7,
             "system_prompt": pre_prompt,
             "length_penalty": 0.7,
-            "max_new_tokens": 900,
+            "max_new_tokens": 1000,
             "stop_sequences": "<|end_of_text|>,<|eot_id|>",
             "prompt_template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
             "presence_penalty": 0,
@@ -144,9 +167,17 @@ def get_bing_images(data, city, country):
                 d["imageURL"] = thumbnail_urls[0]
 
                 # get geolocation
-                location = get_location(d.get("name"), city, country)
+                location, place_id = get_location(d.get("name"), city, country)
                 if location:
-                    d["location"] = location
+                    d["latitude"] = location.get("lat")
+                    d["longitude"] = location.get("lng")
+
+                    # update website if needed, ie: when llama has no website given
+                    d["place_id"] = location.get("place_id")
+                    if d.get("website") == "" or d.get("website") == None:
+                        google_website = get_website(place_id)
+                        if google_website:
+                            d["website"] = google_website
             
             except requests.HTTPError as e:
                 print(e)
@@ -162,9 +193,6 @@ def get_bing_images(data, city, country):
 # budget = "low"
 # budget = "medium"
 # budget = "high"
-
-# dietary_restrictions = "NIL"
-# dietary_restrictions = "Halal"
 
 # print(get_llama_shopping(city, country))
 
