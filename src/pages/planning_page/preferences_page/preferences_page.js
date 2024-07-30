@@ -196,6 +196,7 @@ const PreferencesPage = () => {
       travelStyles: selectedTravelStyles,
       budget: budget})
       console.log("done")
+    };
   };
 
   if (loading) {

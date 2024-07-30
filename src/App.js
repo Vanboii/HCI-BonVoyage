@@ -60,6 +60,7 @@ import TinderPreference from './pages/planning_page/tinder_preference/tinder_pre
 import WaitingRoomPage from './pages/planning_page/waiting_room/waitingroomPage';
 import LoadingPage from './pages/planning_page/loading_page/loadingPage';
 import ResultsPage from './pages/planning_page/results_page/resultsPage'; // Import ResultsPage
+import InviteStart from './pages/planning_page/start_invite_page/start_invite'; 
 
 
 import { MYTRIPS } from './test/page1';
@@ -101,12 +102,15 @@ function App() {
         <Route path="/planning/trip_detail" element={<TripDetailPage setID={setID} />} />
         <Route path="/planning/invite/:id" element={<InvitePage />} />
         <Route path="/preferences/:id" element={<PreferencesPage/>} />
-        <Route path="/tinderpreference/:id" element={<TinderPreference/>} />
+        {/* <Route path="/tinderpreference/:id" element={<TinderPreference/>} /> */}
+        <Route path="/tinderpreference" element={<TinderPreference/>} />
         <Route path="/waitingroom/:id" element={<WaitingRoomPage/>} />
         <Route path="/loading" Component={LoadingPage} />
         <Route path="/results" Component={ResultsPage} />   {/* Add ResultsPage route */}
         <Route path="/bitch" Component={MYTRIPS} />   
         <Route path="*" element={<HomePage />} />
+        <Route path="/planning/invitestart/:id" element={<InviteStart/>} />
+        
       </Routes>
     </Router>
   );

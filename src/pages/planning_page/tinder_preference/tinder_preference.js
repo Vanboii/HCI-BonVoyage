@@ -127,8 +127,8 @@ const TinderPreference = () => {
           {currentIndex < places.length ? (
             <div className={`picture-placeholder ${animationClass}`}>
               <img
-                src={places[currentIndex].image_url[0]} // Assuming image_url is an array of URLs
-                alt={places[currentIndex].location}
+                src={places[currentIndex].imageURL} // Updated to match the JSON structure
+                alt={places[currentIndex].name}
                 onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/default-image.png'; }}
               />
             </div>
@@ -140,8 +140,9 @@ const TinderPreference = () => {
           <div className="place-info">
             {currentIndex < places.length && (
               <>
-                <h3>{places[currentIndex].location}</h3>
-                <p>{places[currentIndex].description}</p>
+                <h3>{places[currentIndex].name}</h3> {/* Updated to display the name */}
+                <p>{places[currentIndex].description}</p> {/* Updated to display the description */}
+                <p>Budget: {places[currentIndex].budget}</p> {/* Updated to display the budget */}
               </>
             )}
           </div>
@@ -162,5 +163,3 @@ const TinderPreference = () => {
 };
 
 export default TinderPreference;
-
-

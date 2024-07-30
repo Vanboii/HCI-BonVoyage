@@ -16,7 +16,8 @@ const InvitePage = () => {
   useEffect(() => {
     // Generate a random invite link on component mount
     const link = `hci-bonvoyage.web.app/planning/invite//${id}`;
-    setInviteLink(link);
+    const link2 = `localhost:3000/planning/invitestart/${id}`;
+    setInviteLink(link2);
   }, [id]);
 
   const params = new URLSearchParams(search);
