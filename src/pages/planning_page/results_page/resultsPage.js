@@ -74,107 +74,472 @@ const Activity = ({ activity, index, moveActivity, dayIndex, handleEdit, handleD
 const ResultsPage = () => {
   const initialItinerary = [
     {
-      day: 'Day 1: Placeholder',
+      day: 'Day 1: December 1',
       activities: [
         {
-          name: 'Gyeongbokgung Palace',
-          description: 'Historical palace with guided tours and cultural events.',
-          hours: 'Open 9AM - 5PM',
+          name: 'Senso-ji Temple',
+          description: 'Tokyo\'s oldest temple located in Asakusa, a must-see for its traditional architecture and bustling surrounding market.',
+          hours: 'Open 6AM - 5PM',
           image: 'https://via.placeholder.com/150',
-          lat: 37.579617,
-          lng: 126.977041,
+          lat: 35.714765,
+          lng: 139.796655,
           placeId: ''
         },
         {
-          name: 'Bukchon Hanok Village',
-          description: 'Traditional village showcasing historic Korean homes.',
-          hours: 'Open 10AM - 6PM',
+          name: 'Ueno Park and Zoo',
+          description: 'A large public park that houses a zoo, museums, and beautiful seasonal foliage.',
+          hours: 'Park open 5AM - 11PM, Zoo open 9:30AM - 5PM',
           image: 'https://via.placeholder.com/150',
-          lat: 37.582576,
-          lng: 126.985648,
+          lat: 35.715098,
+          lng: 139.774448,
           placeId: ''
         },
         {
-          name: 'Insadong',
-          description: 'Popular street for traditional Korean culture and crafts.',
-          hours: 'Open 10AM - 9PM',
+          name: 'Akihabara',
+          description: 'Famous for electronics shops, anime, and manga stores. A paradise for tech enthusiasts and otaku culture fans.',
+          hours: 'Stores generally open 10AM - 9PM',
           image: 'https://via.placeholder.com/150',
-          lat: 37.572768,
-          lng: 126.986632,
+          lat: 35.698683,
+          lng: 139.774219,
           placeId: ''
         },
       ],
     },
     {
-      day: 'Day 2: Placeholder',
+      day: 'Day 2: December 2',
       activities: [
         {
-          name: 'Myeongdong Shopping Street',
-          description: 'Bustling shopping area with a variety of stores and eateries.',
-          hours: 'Open 10AM - 10PM',
+          name: 'Tokyo Skytree',
+          description: 'A broadcasting tower with an observation deck offering panoramic views of Tokyo.',
+          hours: 'Open 8AM - 10PM',
           image: 'https://via.placeholder.com/150',
-          lat: 37.560970,
-          lng: 126.985032,
+          lat: 35.710062,
+          lng: 139.810700,
           placeId: ''
         },
         {
-          name: 'N Seoul Tower',
-          description: 'Iconic tower offering panoramic views of Seoul.',
-          hours: 'Open 10AM - 11PM',
+          name: 'Asakusa',
+          description: 'Historic district with Senso-ji Temple, Nakamise shopping street, and traditional Japanese culture.',
+          hours: 'Open 24 hours (shops generally open 9AM - 7PM)',
           image: 'https://via.placeholder.com/150',
-          lat: 37.551169,
-          lng: 126.988227,
+          lat: 35.711835,
+          lng: 139.796838,
           placeId: ''
         },
         {
-          name: 'Cheonggyecheon Stream',
-          description: 'Modern public recreation space along a historic stream.',
-          hours: 'Open 24 hours',
+          name: 'Odaiba',
+          description: 'A futuristic island with shopping malls, entertainment complexes, and the famous Rainbow Bridge.',
+          hours: 'Open 24 hours (attractions generally open 10AM - 9PM)',
           image: 'https://via.placeholder.com/150',
-          lat: 37.569273,
-          lng: 126.977047,
+          lat: 35.627222,
+          lng: 139.777778,
           placeId: ''
         },
       ],
     },
-    // Additional placeholder days...
+    {
+      day: 'Day 3: December 3',
+      activities: [
+        {
+          name: 'Shibuya Crossing',
+          description: 'The world\'s busiest pedestrian crossing located in front of Shibuya Station.',
+          hours: 'Open 24 hours',
+          image: 'https://via.placeholder.com/150',
+          lat: 35.659494,
+          lng: 139.700533,
+          placeId: ''
+        },
+        {
+          name: 'Meiji Shrine',
+          description: 'A Shinto shrine dedicated to Emperor Meiji and Empress Shoken, set in a large forested area.',
+          hours: 'Open 5AM - 6PM',
+          image: 'https://via.placeholder.com/150',
+          lat: 35.676397,
+          lng: 139.699326,
+          placeId: ''
+        },
+        {
+          name: 'Harajuku',
+          description: 'Known for its quirky fashion shops and street culture, as well as the serene Yoyogi Park.',
+          hours: 'Open 24 hours (shops generally open 11AM - 8PM)',
+          image: 'https://via.placeholder.com/150',
+          lat: 35.670259,
+          lng: 139.702573,
+          placeId: ''
+        },
+      ],
+    },
   ];
 
   const suggestedPlaces = [
-    {
-      name: 'Coex Mall',
-      description: 'Large shopping mall with numerous stores, restaurants, and attractions.',
-      hours: 'Open 10AM - 10PM',
-      image: 'https://via.placeholder.com/150',
-      lat: 37.511017,
-      lng: 127.059544,
-      placeId: ''
-    },
-    {
-      name: 'Coex Sea Aquarium',
-      description: 'Popular aquarium with a variety of marine life exhibits.',
-      hours: 'Open 10AM - 8PM',
-      image: 'https://via.placeholder.com/150',
-      lat: 37.511557,
-      lng: 127.059899,
-      placeId: ''
-    },
-    {
-      name: 'Butter Store',
-      description: 'Trendy store offering a wide range of lifestyle products.',
-      hours: 'Open 10AM - 10PM',
-      image: 'https://via.placeholder.com/150',
-      lat: 37.570558,
-      lng: 126.992528,
-      placeId: ''
-    },
+      {
+        name: 'Tsukiji Outer Market',
+        description: 'Famous for fresh seafood and delicious street food.',
+        hours: 'Open 5AM - 2PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Tsukiji_Outer_Market.jpg',
+        lat: 35.6652,
+        lng: 139.7706,
+        placeId: ''
+      },
+      {
+        name: 'Roppongi Hills and Mori Art Museum',
+        description: 'Modern complex with shopping, dining, and a contemporary art museum.',
+        hours: 'Open 10AM - 10PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Roppongi_Hills.jpg',
+        lat: 35.6605,
+        lng: 139.7292,
+        placeId: ''
+      },
+      {
+        name: 'Tokyo Disneyland',
+        description: 'Popular theme park with classic Disney attractions.',
+        hours: 'Open 8AM - 10PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/6/69/Tokyo_Disneyland.jpg',
+        lat: 35.6318,
+        lng: 139.8804,
+        placeId: ''
+      },
+      {
+        name: 'Tokyo DisneySea',
+        description: 'Unique Disney park with a nautical theme.',
+        hours: 'Open 8AM - 10PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Tokyo_DisneySea.jpg',
+        lat: 35.6264,
+        lng: 139.8824,
+        placeId: ''
+      },
+      {
+        name: 'Yoyogi Park',
+        description: 'Large park ideal for picnics, jogging, and people-watching.',
+        hours: 'Open 24 hours',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/9/97/Yoyogi_Park.jpg',
+        lat: 35.6712,
+        lng: 139.6949,
+        placeId: ''
+      },
+      {
+        name: 'Odaiba',
+        description: 'Man-made island with shopping, entertainment, and scenic views.',
+        hours: 'Open 10AM - 10PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Odaiba.jpg',
+        lat: 35.6256,
+        lng: 139.7764,
+        placeId: ''
+      },
+      {
+        name: 'TeamLab Borderless',
+        description: 'Immersive digital art museum with interactive exhibits.',
+        hours: 'Open 10AM - 7PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/4/4b/TeamLab_Borderless.jpg',
+        lat: 35.6249,
+        lng: 139.7804,
+        placeId: ''
+      },
+      {
+        name: 'Edo-Tokyo Museum',
+        description: 'Museum showcasing Tokyo\'s history from Edo period to present.',
+        hours: 'Open 9:30AM - 5:30PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Edo-Tokyo_Museum.jpg',
+        lat: 35.6966,
+        lng: 139.7985,
+        placeId: ''
+      },
+      {
+        name: 'Ryogoku Kokugikan',
+        description: 'Sumo wrestling arena with matches and museum.',
+        hours: 'Open 9AM - 5PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Ryogoku_Kokugikan.jpg',
+        lat: 35.6966,
+        lng: 139.7938,
+        placeId: ''
+      },
+      {
+        name: 'Sumida Aquarium',
+        description: 'Modern aquarium with diverse marine life.',
+        hours: 'Open 9AM - 9PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Sumida_Aquarium.jpg',
+        lat: 35.7101,
+        lng: 139.8107,
+        placeId: ''
+      },
+      {
+        name: 'Shinjuku Gyoen National Garden',
+        description: 'Sprawling park with traditional Japanese gardens.',
+        hours: 'Open 9AM - 4:30PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Shinjuku_Gyoen.jpg',
+        lat: 35.6852,
+        lng: 139.7101,
+        placeId: ''
+      },
+      {
+        name: 'Kabukicho',
+        description: 'Lively entertainment district known for nightlife and dining.',
+        hours: 'Open 24 hours',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Kabukicho.jpg',
+        lat: 35.6963,
+        lng: 139.7031,
+        placeId: ''
+      },
+      {
+        name: 'Nezu Museum',
+        description: 'Art museum with a beautiful Japanese garden.',
+        hours: 'Open 10AM - 5PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Nezu_Museum.jpg',
+        lat: 35.6641,
+        lng: 139.7174,
+        placeId: ''
+      },
+      {
+        name: 'Tokyo Metropolitan Government Building',
+        description: 'Observation decks offering panoramic views of Tokyo.',
+        hours: 'Open 9:30AM - 10PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Tokyo_Metropolitan_Government_Building.jpg',
+        lat: 35.6895,
+        lng: 139.6917,
+        placeId: ''
+      },
+      {
+        name: 'Nihonbashi',
+        description: 'Historic commercial district with traditional shops and modern stores.',
+        hours: 'Open 10AM - 8PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Nihonbashi.jpg',
+        lat: 35.6848,
+        lng: 139.7740,
+        placeId: ''
+      },
+      {
+        name: 'Hamarikyu Gardens',
+        description: 'Beautiful landscape garden with a traditional tea house.',
+        hours: 'Open 9AM - 5PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/e/e3/Hamarikyu_Gardens.jpg',
+        lat: 35.6595,
+        lng: 139.7631,
+        placeId: ''
+      },
+      {
+        name: 'Ueno Zoo',
+        description: 'Oldest zoo in Japan, located in Ueno Park.',
+        hours: 'Open 9:30AM - 5PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Ueno_Zoo.jpg',
+        lat: 35.7178,
+        lng: 139.7714,
+        placeId: ''
+      },
+      {
+        name: 'Tokyo Dome City',
+        description: 'Entertainment complex with amusement park, shopping, and dining.',
+        hours: 'Open 10AM - 9PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/5/56/Tokyo_Dome_City.jpg',
+        lat: 35.7042,
+        lng: 139.7524,
+        placeId: ''
+      },
+      {
+        name: 'Asakusa Culture and Tourist Information Center',
+        description: 'Information center with a free observation deck.',
+        hours: 'Open 9AM - 8PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Asakusa_Culture_and_Tourist_Information_Center.jpg',
+        lat: 35.7114,
+        lng: 139.7960,
+        placeId: ''
+      },
+      {
+        name: 'Kappabashi Street',
+        description: 'Street known for its stores selling kitchenware and restaurant supplies.',
+        hours: 'Open 10AM - 6PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/5/52/Kappabashi_Street.jpg',
+        lat: 35.7135,
+        lng: 139.7845,
+        placeId: ''
+      },
+
+      {
+        name: 'Rainbow Bridge',
+        description: 'Iconic suspension bridge with stunning night views.',
+        hours: 'Open 24 hours',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/6/6c/Rainbow_Bridge_2014.jpg',
+        lat: 35.6368,
+        lng: 139.7635,
+        placeId: ''
+      },
+      {
+        name: 'Zojoji Temple',
+        description: 'Historic Buddhist temple located near Tokyo Tower.',
+        hours: 'Open 6AM - 5PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Zojoji_Temple.jpg',
+        lat: 35.6586,
+        lng: 139.7488,
+        placeId: ''
+      },
+      {
+        name: 'Yanaka Ginza',
+        description: 'Old-fashioned shopping street with a retro atmosphere.',
+        hours: 'Open 10AM - 7PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Yanaka_Ginza.jpg',
+        lat: 35.7273,
+        lng: 139.7708,
+        placeId: ''
+      },
+      {
+        name: 'Kyu Shiba Rikyu Garden',
+        description: 'Beautifully landscaped garden near Hamamatsucho Station.',
+        hours: 'Open 9AM - 5PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/5/59/Kyu_Shiba_Rikyu_Garden.jpg',
+        lat: 35.6567,
+        lng: 139.7585,
+        placeId: ''
+      },
+      {
+        name: 'Tokyo Character Street',
+        description: 'Shopping area in Tokyo Station selling popular character goods.',
+        hours: 'Open 10AM - 8PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Tokyo_Character_Street.jpg',
+        lat: 35.6814,
+        lng: 139.7670,
+        placeId: ''
+      },
+      {
+        name: 'Koishikawa Korakuen Garden',
+        description: 'Historic Japanese garden with beautiful seasonal flowers.',
+        hours: 'Open 9AM - 5PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Koishikawa_Korakuen.jpg',
+        lat: 35.7074,
+        lng: 139.7519,
+        placeId: ''
+      },
+      {
+        name: 'Shinagawa Aquarium',
+        description: 'Aquarium featuring a wide range of marine life exhibits.',
+        hours: 'Open 10AM - 5PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/9/91/Shinagawa_Aquarium.jpg',
+        lat: 35.6058,
+        lng: 139.7384,
+        placeId: ''
+      },
+      {
+        name: 'Tokyo Joypolis',
+        description: 'Indoor amusement park with virtual reality and arcade games.',
+        hours: 'Open 10AM - 10PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/8/84/Tokyo_Joypolis.jpg',
+        lat: 35.6272,
+        lng: 139.7736,
+        placeId: ''
+      },
+      {
+        name: 'Hie Shrine',
+        description: 'Beautiful Shinto shrine with impressive torii gates.',
+        hours: 'Open 6AM - 5PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/3/34/Hie_Shrine.jpg',
+        lat: 35.6748,
+        lng: 139.7387,
+        placeId: ''
+      },
+      {
+        name: 'Ghibli Museum',
+        description: 'Museum dedicated to the works of Studio Ghibli.',
+        hours: 'Open 10AM - 6PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/5/5d/Ghibli_Museum.jpg',
+        lat: 35.6961,
+        lng: 139.5702,
+        placeId: ''
+      },
+      {
+        name: 'Oedo Onsen Monogatari',
+        description: 'Hot spring theme park offering a traditional Japanese bathhouse experience.',
+        hours: 'Open 11AM - 9AM (next day)',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Oedo_Onsen_Monogatari.jpg',
+        lat: 35.6194,
+        lng: 139.7786,
+        placeId: ''
+      },
+      {
+        name: 'Mount Takao',
+        description: 'Popular hiking destination with scenic views and temples.',
+        hours: 'Open 24 hours',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Mount_Takao.jpg',
+        lat: 35.6258,
+        lng: 139.2436,
+        placeId: ''
+      },
+      {
+        name: 'Tokyo Tower',
+        description: 'Iconic landmark offering panoramic views of the city.',
+        hours: 'Open 9AM - 11PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Tokyo_Tower.jpg',
+        lat: 35.6586,
+        lng: 139.7454,
+        placeId: ''
+      },
+      {
+        name: 'Samurai Museum',
+        description: 'Museum showcasing samurai armor, weapons, and history.',
+        hours: 'Open 10:30AM - 9PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/e/e1/Samurai_Museum.jpg',
+        lat: 35.6954,
+        lng: 139.7021,
+        placeId: ''
+      },
+      {
+        name: 'Shibuya Sky',
+        description: 'Observation deck offering 360-degree views of Tokyo.',
+        hours: 'Open 9AM - 11PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Shibuya_Sky.jpg',
+        lat: 35.6595,
+        lng: 139.7004,
+        placeId: ''
+      },
+      {
+        name: 'Tokyo Ramen Street',
+        description: 'Famous street in Tokyo Station dedicated to ramen shops.',
+        hours: 'Open 11AM - 10PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Tokyo_Ramen_Street.jpg',
+        lat: 35.6814,
+        lng: 139.7670,
+        placeId: ''
+      },
+      {
+        name: 'Yanaka Cemetery',
+        description: 'Historic cemetery known for its peaceful atmosphere and cherry blossoms.',
+        hours: 'Open 24 hours',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/6/66/Yanaka_Cemetery.jpg',
+        lat: 35.7251,
+        lng: 139.7656,
+        placeId: ''
+      },
+      {
+        name: 'Meguro River',
+        description: 'Scenic river known for its beautiful cherry blossoms in spring.',
+        hours: 'Open 24 hours',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/8/84/Meguro_River.jpg',
+        lat: 35.6422,
+        lng: 139.7093,
+        placeId: ''
+      },
+      {
+        name: 'Tokyo Midtown',
+        description: 'Modern complex with shopping, dining, and cultural facilities.',
+        hours: 'Open 11AM - 9PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/7/71/Tokyo_Midtown.jpg',
+        lat: 35.6656,
+        lng: 139.7301,
+        placeId: ''
+      },
+      {
+        name: 'Kichijoji',
+        description: 'Vibrant neighborhood known for shopping, dining, and Inokashira Park.',
+        hours: 'Open 10AM - 9PM',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/6/6c/Kichijoji.jpg',
+        lat: 35.7033,
+        lng: 139.5786,
+        placeId: ''
+      }
   ];
 
   const [itinerary, setItinerary] = useState(initialItinerary);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedDayIndex, setSelectedDayIndex] = useState(null);
   const [selectedActivityIndex, setSelectedActivityIndex] = useState(null);
-  const [currentSuggestions] = useState([...suggestedPlaces.slice(0, 15)]);
+  const [currentSuggestions] = useState([...suggestedPlaces]);
   const [expandedDays, setExpandedDays] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -280,16 +645,27 @@ const ResultsPage = () => {
   };
 
   const handleAddGreyBox = (dayIndex) => {
+    const name = prompt('Enter the name of the new activity:', `New Activity ${itinerary[dayIndex].activities.length + 1}`);
+    if (!name) return;
+  
+    const description = prompt('Enter the description for the new activity:') || '';
+  
     const newItinerary = [...itinerary];
     const newActivity = {
-      name: `New Activity ${newItinerary[dayIndex].activities.length + 1}`,
-      description: 'Placeholder description for the new activity.',
-      hours: 'Open hours for the new activity.',
+      name: name,
+      description: description,
       image: 'https://via.placeholder.com/150',
       lat: 37.5665,
       lng: 126.9780,
       placeId: ''
     };
+    
+    // const handleAddGreyBox = (dayIndex) => {
+    // const newItinerary = [...itinerary];
+    // const newActivity = {
+    //   name: `New Activity ${newItinerary[dayIndex].activities.length + 1}`,
+    //   description: 'Placeholder description for the new activity.',
+    // };
     newItinerary[dayIndex].activities.push(newActivity);
     setItinerary(newItinerary);
   };
@@ -342,8 +718,8 @@ const ResultsPage = () => {
   };
 
   const center = {
-    lat: 37.5665,
-    lng: 126.9780,
+    lat: 35.7042,
+    lng: 139.7524,
   };
 
   const locations = itinerary.flatMap((day, dayIndex) =>

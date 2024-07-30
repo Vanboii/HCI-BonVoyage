@@ -129,7 +129,7 @@ const TripDetailPage = ({ setID }) => {
         setModalContent(data.reply);
         setModalVisible(true);
       } else {
-        navigate(`/planning/invite/${id}?city=${encodedCity}&country=${encodedCountry}`);
+        navigate(`/results`);
       }
     } catch (error) {
       console.error('Error fetching trip data:', error);
@@ -157,7 +157,7 @@ const TripDetailPage = ({ setID }) => {
       <TopBanner showAlertOnNavigate={true} />
       <main>
         <h1>Enter Your Trip Details</h1>
-        <p className="description">Gateway to Planning Your Ideal Itinerary</p>
+        <p className="description-tripdetail">Gateway to Planning Your Ideal Itinerary</p>
         <div className="form-box">
           <form onSubmit={handleSubmit} className="form-container">
             <div className="form-group">
