@@ -3,9 +3,8 @@ import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
 import { useNavigate, useParams, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
-
-
-import { useParams } from 'react-router-dom';
+import { db } from '../../../firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
@@ -22,9 +21,12 @@ const InvitePage = () => {
     setInviteLink(link);
   }, []);
 
-  const sendInvite = () => {
-    if (email) {
+  const params = new URLSearchParams(search);
+  const city = params.get('city');
+  const country = params.get('country');
 
+  const addInvite = () => {
+    if (email) {
       setInvited([...invited, email]);
       setEmail(''); // Clear the email input
     }
@@ -36,7 +38,6 @@ const InvitePage = () => {
   const addNewCollectionTest = async (collectionName, activity) => {
     const activityRef = collection(db,collectionName)
     const docRef = await addDoc(activityRef, activity)
-  
     console.log("Activity Added:", docRef,activity)
   }
   const sendInvites =  () => {

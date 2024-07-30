@@ -6,7 +6,7 @@ import axios from 'axios';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBanner from '../../../components/banner';
 import Select from 'react-select';
-import countryList from 'country-list';
+// import countryList from 'country-list';
 import './trip_detail.css';
 import Cookies from 'js-cookie';
 
@@ -18,10 +18,10 @@ import { auth } from '../../../firebase';
 //   label: country.name,
 // }));
 
-// const monthNames = [
-//   "January", "February", "March", "April", "May", "June",
-//   "July", "August", "September", "October", "November", "December"
-// ];
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 const TripDetailPage = () => {
 

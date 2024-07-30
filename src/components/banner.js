@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import homepageLogo from './boat_in_white.png'; // Logo for homepage
 import otherPagesLogo from './boat-10.png'; // Logo for other pages
-
+import ButtonComponent from "./button";
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation to get the current path
 import './banner.css'; // Ensure correct CSS file is imported
 import Alert from './alert'; // Make sure the path to Alert is correct
 
 import { auth } from "../firebase";
-import { onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { AuthenticationPopup } from "../pages/login_page/loginPopup";
 
 function TopBanner({ showAlertOnNavigate }) {
@@ -23,7 +23,7 @@ function TopBanner({ showAlertOnNavigate }) {
     navigate('/'); // Adjust the homepage route if needed
   }
 
-  const { Popup, viewable, toggleViewable } = AuthenticationPopup();
+  const { popupWindow, popUp, togglePopup } = AuthenticationPopup();
 
   const [user, setUser] = useState(null);
   const [hover, setHover] = useState(false);
@@ -60,7 +60,6 @@ function TopBanner({ showAlertOnNavigate }) {
   const profile = () => {
     if (user) {
       let show = user.displayName
-      console.log("show:",show)
       if (hover) {
         show = "Log Out"
       }
@@ -70,16 +69,16 @@ function TopBanner({ showAlertOnNavigate }) {
       )
     }
     return (
-      <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => toggleViewable(true)}>Log In</button>
+      <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => togglePopup(true)}>Log In</button>
     )
   }
 
   const handleLogoClick = () => {
     if (showAlertOnNavigate) {
-      setNavigateTo('/Home');
+      setNavigateTo('/');
       setShowAlert(true);
     } else {
-      navigate('/Home');
+      navigate('/');
     }
   };
 
@@ -102,7 +101,7 @@ function TopBanner({ showAlertOnNavigate }) {
 
   return (
     <div id="stickyBanner" className={isHomepage ? 'transparent' : 'colored'}>
-      <img src={PageLogo} title="Logo" onClick={isHomepage ? handleClick : handleLogoClick} alt="Logo" />
+      <img src={isHomepage ? homepageLogo : otherPagesLogo} title="Logo" onClick={isHomepage ? handleClick : handleLogoClick} alt="Logo" />
       <div className="spacer"></div>
       <div className="rightButtons">
         <ButtonComponent
@@ -137,7 +136,7 @@ function TopBanner({ showAlertOnNavigate }) {
           showAlert={showAlert}
         />
       )}
-      {viewable && Popup()}
+      {popUp && popupWindow()}
     </div>
   );
 }

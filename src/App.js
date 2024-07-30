@@ -1,10 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import TopBanner from './components/banner';
-
 import HomePage from './pages/home_page/homePage';
-import LoginPage from './pages/login_page/loginPage';
+// import LoginPage from './pages/login_page/loginPage';
 import SignupPage from './pages/signup_page/signupPage';
 import MyTrips from './pages/mytrips_page/mytripsPage';
 import CommunityPage from './pages/community_page/communityPage';
@@ -17,8 +15,6 @@ import LoadingPage from './pages/planning_page/loading_page/loadingPage';
 import ResultsPage from './pages/planning_page/results_page/resultsPage'; // Import ResultsPage
 
 
-import { MYTRIPS } from './test/page1';
-
 
 function App() {
 
@@ -27,7 +23,7 @@ function App() {
       {/* <TopBanner/> */}
       <Routes>
         <Route path="home" Component={HomePage} />
-        <Route path="login" Component={LoginPage} />
+        {/* <Route path="login" Component={LoginPage} /> */}
         <Route path="signup" Component={SignupPage} />
         <Route path="community" Component={CommunityPage} />
         <Route path="mytrips" Component={MyTrips} />
@@ -38,8 +34,6 @@ function App() {
         <Route path="waitingroom/:id" element={<WaitingRoomPage/>} />
         <Route path="loading" Component={LoadingPage} />
         <Route path="results" Component={ResultsPage} />   {/* Add ResultsPage route */}
-
-        <Route path="/bitch" Component={MYTRIPS} />       
 
         <Route path="*" element={<HomePage />} />
       </Routes>

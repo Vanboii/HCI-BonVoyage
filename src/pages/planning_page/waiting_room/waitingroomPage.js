@@ -45,14 +45,11 @@ function WaitingRoom() {
 
   Users.forEach((user, index) => {
     userStatuses[index] = `${user.displayName} is ready for the trip!`;
-  Users.forEach((user, index) => {
-    userStatuses[index] = `${user.displayName} is ready for the trip!`;
   });
 
 
   return (
     <>
-      <TopBanner/>
       <TopBanner/>
         <div className="content">
           <div>

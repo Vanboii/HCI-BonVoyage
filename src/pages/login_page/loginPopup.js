@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { auth } from "../../firebase";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useUsers } from "../../test/useGetUsers";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, signOut } from "firebase/auth";
+import { useUsers } from "../../test/useUsers";
 
 import './loginPopup.css'
 
@@ -9,25 +9,23 @@ export const AuthenticationPopup = () => {
 
   const [ email, setEmail] = useState("")
   const [ password, setPassword ] = useState("")
-  const [ fname, setFname] = useState("")
-  const [ lname, setLname] = useState("")
   const [ username, setUsername ] = useState("")
+  
   const [ LoginSignUp, toggleLoginSignUp] = useState(true);
-  const [ viewable, toggleViewable ] = useState(false)
+  const [ popUp, togglePopup ] = useState(false)
   const { createUser,getUser } = useUsers();
 
-  const handleChange = () => {
+  const handleChange = (e) => {
+    e.preventDefault()
     setPassword("")
     toggleLoginSignUp(!LoginSignUp)
   }
-
 
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
       const userCredentail = await signInWithEmailAndPassword(auth, email, password);
       const User = userCredentail.user
-
       try {
         const { user } = getUser(User.uid)
         if (user) {
@@ -36,17 +34,16 @@ export const AuthenticationPopup = () => {
       } catch (error) {
         console.error(error)
         createUser({
-          uID: User.uid,
+          uid: User.uid,
           email: email,
           displayName: User.displayName,
-          fname: "",
-          lname: "",
+
         })
         console.log("User Added")
       }
 
       console.log(User.displayName,"logged in.",User)
-      toggleViewable(false)
+      togglePopup(false)
     } catch (error) {
       console.error(error)
     }
@@ -60,29 +57,27 @@ export const AuthenticationPopup = () => {
       await updateProfile(User, {
         displayName: username
       })
-
       createUser({
-        uID:User.uid,
+        uid:User.uid,
         email: email,
         displayName: username,
-        fname:fname,
-        lname:lname,
       })
+      
       console.log(User.displayName,"logged in.", User)
 
-      toggleViewable(false)
+      togglePopup(false)
     } catch (error) {
       console.error(error)
     }
   }    
 
-  const Popup = () => {
-    if (viewable) {
+  const popupWindow = () => {
+    if (popUp) {
       if (LoginSignUp) {
         return (
           <div id="popup" className="col centerAlign">
             <div className="content">
-              <div className="topCross" onClick={() => toggleViewable(false)}>X</div>
+              <div className="topCross" onClick={() => togglePopup(false)}>X</div>
               <h2>Login</h2>
               <form onSubmit={handleLogin} className="col centerAlign border">
                 <input type="text" onChange={(e) => {setEmail(e.target.value)}}
@@ -99,15 +94,9 @@ export const AuthenticationPopup = () => {
         return (
           <div id="popup" className="col centerAlign">
             <div className="content">
-              <div className="topCross" onClick={() => toggleViewable(false)}>X</div>
+              <div className="topCross" onClick={() => togglePopup(false)}>X</div>
               <h2>Create Account</h2>
               <form onSubmit={handlCreate} className="col centerAlign border">
-                <div className="names">
-                  <input type="text" onChange={(e) => {setFname(e.target.value)}}
-                    placeholder="First Name" required />
-                  <input type="text" onChange={(e) => {setLname(e.target.value)}}
-                    placeholder="Last Name" required />
-                </div>
                 <input type="text" onChange={(e) => {setUsername(e.target.value)}}
                   placeholder="Username" required />
                 <input type="text" onChange={(e) => {setEmail(e.target.value)}}
@@ -125,5 +114,5 @@ export const AuthenticationPopup = () => {
     
   }
 
-  return {  viewable, toggleViewable, Popup }
+  return { popupWindow, togglePopup, popUp }
 }

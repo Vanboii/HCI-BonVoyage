@@ -6,7 +6,7 @@ import LuxuriousIcon from '../../../components/diamonds.png';
 import AdventurousIcon from '../../../components/camping.png';
 import RelaxedIcon from '../../../components/beach-chair.png';
 import { Range, getTrackBackground } from 'react-range';
-import { useNavigate, useLocation,useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 //^^^^^^^^^^^^^^^^^^^^^^
@@ -26,7 +26,7 @@ const travelStyles = [
 ];
 
 const allCategories = [
-  'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
+  'None Avaliable','Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
   'Pet-friendly', 'Wheelchair-friendly', 'Parks & Scenic Place', 'Theatre & Cultural', 'Food Galore'
 ];
 
@@ -41,7 +41,8 @@ const PreferencesPage = () => {
   const {id} = useParams()
   console.log("id:",id)
   const { addPreferences } = useItineraries();
-  const { Popup } = AuthenticationPopup()
+  // const { Popup } = AuthenticationPopup()
+  const User = auth.currentUser
 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
   const [dietarySearch, setDietarySearch] = useState('');
@@ -50,10 +51,11 @@ const PreferencesPage = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [budget, setBudget] = useState([500, 1250]);
   const [formError, setFormError] = useState('');
-  const [availableCategories, setAvailableCategories] = useState([]);
+  const [availableCategories, setAvailableCategories] = useState(['None Avaliable']);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const {search} = useLocation()
   const params = new URLSearchParams(search);
   const city = params.get('city');
   const country = params.get('country');
@@ -106,12 +108,16 @@ const PreferencesPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       if (!city || !country) return;
-
+      var availCategories
       try {
         const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${city}&country=${country}`);
-        const availableCategories = response.data.reply;
-        console.log('Fetched categories:', availableCategories);
-        setAvailableCategories(availableCategories);
+        availCategories = response.data.reply;
+        if (availCategories.length>0) {
+          console.log('Fetched categories:', availCategories)
+          setAvailableCategories(availCategories);
+        } else {
+          console.log('No avaliable categories')
+        }
         setLoading(false);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -163,6 +169,7 @@ const PreferencesPage = () => {
       navigate(`/Tinderpreference/${id}`, { state: { recommendations: recommendations.data } });
     } catch (error) {
       console.error('Error fetching recommendations (POST):', error);
+    };
 
     // Fallback to GET request
      try {
