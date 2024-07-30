@@ -13,6 +13,8 @@ import arrowRightIcon from '../../../components/arrow-right.png';
 import personIcon from '../../../components/person.png';
 import Modal from 'react-modal';
 import Cookies from 'js-cookie';
+import { useTrip } from '../../../useHooks/useTrips';
+
 
 Modal.setAppElement('#root');
 
@@ -183,6 +185,9 @@ const ResultsPage = () => {
   const mapRef = useRef(null);
   const navigate = useNavigate();
 
+  const {addTrip} = useTrip()
+  const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
+
   const tripDetails = Cookies.get('tripDetails') ? JSON.parse(Cookies.get('tripDetails')) : {};
   const { startDate, endDate, city, country, numberOfPeople } = tripDetails;
   const tripDates = startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates';
@@ -327,6 +332,7 @@ const ResultsPage = () => {
     }
 
     localStorage.setItem('upcomingTrips', JSON.stringify(upcomingTrips));
+    addTrip(id, itinerary)
 
     setShowModal(true);
   };

@@ -4,9 +4,12 @@ import { getIdToken } from "firebase/auth";
 
 export const useTrip = () => {
   const collectionName = "main-Trips"
-  const Options = {merge: true}
 
-
+  /**
+   * @param {string} id - Itinerary/Preferences/Trip ID
+   * @param {object} data Trip Details
+   * @returns {boolean} 
+   */
   const addTrip = (id, data) => {
     setDoc(doc(db, collectionName, id), data).then(
       () => {
@@ -19,8 +22,8 @@ export const useTrip = () => {
   };
 
   /**
-   * @param {string} id  - itinerary ID
-   * @returns Object or null type
+   * @param {string} id - itinerary ID
+   * @returns {object|null} 
    */
   const getTrip = async (id) => {
     const docSnap = await getDoc(doc(db, collectionName, id))
@@ -62,5 +65,8 @@ export const useTrip = () => {
   }
 
 
-  return {addTrip, getTrip, updateTrip, deleteTrip}
+  return {addTrip, 
+          getTrip, 
+          // updateTrip, 
+          deleteTrip}
 }
