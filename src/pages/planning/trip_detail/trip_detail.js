@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
+import TopBanner from '../../../components/banner';
+import { AuthenticationPopup } from '../../login_page/loginPopup';
+import { auth } from '../../../firebase';
+import { useNavigate } from 'react-router-dom';
+import { useItinerary } from '../../../useHooks/useItineraries';
+import axios from 'axios';
 import Select from 'react-select';
 import countryList from 'country-list';
-import 'react-datepicker/dist/react-datepicker.css';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import DatePicker from 'react-datepicker';
 import './trip_detail.css';
-import TopBanner from '../../../components/banner';
-import { useItineraries } from '../../../test/useGetItineraries';
-import Cookies from 'js-cookie';
+import 'react-datepicker/dist/react-datepicker.css';
+
+
+
 
 const timeOptions = [
   { value: 'early_morning', label: '0000-0859 (Early Morning)' },
@@ -27,8 +31,11 @@ const monthNames = [
   "July", "August", "September", "October", "November", "December"
 ];
 
-const TripDetailPage = ({ setID }) => {
-  const { addItinerary } = useItineraries();
+const TripDetailPage = () => {
+  const User = auth.currentUser
+  const { addItinerary } = useItinerary();
+  const { viewable, Popup } = AuthenticationPopup();
+
   const [countriesData, setCountriesData] = useState([]);
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
@@ -63,7 +70,7 @@ const TripDetailPage = ({ setID }) => {
     setCity(null);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
   
     if (!country || !city || !startDate || !endDate || !arrivalTime || !departureTime || numberOfPeople < 1) {
@@ -78,26 +85,30 @@ const TripDetailPage = ({ setID }) => {
     
 
     // Handle form submission
-    // console.log({
-    //   country: country.label, 
-    //   city: city.label, 
-    //   startDate: startDate, 
-    //   endDate : endDate, 
-    //   numberOfPeople : numberOfPeople,
-    // });
-    const id = await addItinerary({  //Adds the itinerary to the database
+    console.log({
+      country: country.label, 
+      city: city.label, 
+      startDate: startDate, 
+      endDate : endDate, 
+      numberOfPeople : numberOfPeople,
+    });
+    let id =  addItinerary({  //Adds the itinerary to the database
       country: country.label, 
       city: city.label, 
       startDate: startDate, 
       endDate : endDate,
       numberOfPeople : numberOfPeople,
       owner : "UserID"
-    })
-    setID(id)
-    console.log("Itinerary ID:", id)
+    });
+    setItineraryId(id);
+    if (id) {
+      navigate(`/planning/invite/${id}`);
+    } else {
+      console.error("Failed",itineraryId)
+    }
 
     // Navigate to invite page
-    navigate(`/planning/invite/${id}`);
+    
   };
 
   // Get the list of cities for the selected country
@@ -120,6 +131,7 @@ const TripDetailPage = ({ setID }) => {
   return (
     <div className="trip-detail-container">
       <TopBanner showAlertOnNavigate={true} />
+      {/* {!User && Popup()} */}
       <main>
         <h1>Enter Your Trip Details</h1>
         <p className="description">Gateway to Planning Your Ideal Itinerary</p>

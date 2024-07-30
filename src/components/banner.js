@@ -19,7 +19,7 @@ function TopBanner({ showAlertOnNavigate }) {
   const isHomepage = location.pathname === '/';
 
   function handleClick() {
-    navigate('/'); // Adjust the homepage route if needed
+    navigate('/home'); // Adjust the homepage route if needed
   }
 
   const { Popup, viewable, toggleViewable } = AuthenticationPopup();
@@ -54,13 +54,12 @@ function TopBanner({ showAlertOnNavigate }) {
     });
     // Clean up the subscription
     return () => unsubscribe();
-  }, []);
+  }, [auth.currentUser]);
 
 
   const profile = () => {
     if (user) {
       let show = user.displayName
-      console.log("show:",show)
       if (hover) {
         show = "Log Out"
       }
@@ -76,20 +75,19 @@ function TopBanner({ showAlertOnNavigate }) {
 
   const handleLogoClick = () => {
     if (showAlertOnNavigate) {
-      setNavigateTo('/Home');
+      setNavigateTo('/home');
       setShowAlert(true);
-    } else {
-      navigate('/Home');
     }
+    navigate('/home');
   };
 
   const handleButtonClick = (toPage) => {
     if (showAlertOnNavigate) {
       setNavigateTo(toPage);
       setShowAlert(true);
-    } else {
-      navigate(toPage);
+      return
     }
+    navigate(toPage);
   };
 
   const handleCloseAlert = () => {

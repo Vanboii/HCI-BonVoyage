@@ -12,11 +12,12 @@
 
 
   > .content {
+    position: relative;
     background-color: antiquewhite;
-    width: fit-content;
-    height: fit-content;
-    min-width: fit-content;
-    min-height: fit-content;
+    width: 60%;
+    height: 60%;
+    min-width: 280px;
+    min-height: calc(fit-content + 50px);
     display: flex;
     flex-direction: column;
     border-radius: 16px;
@@ -24,14 +25,16 @@
     justify-content: center;
     padding: auto;
 
+
+
   }
-  * {
-    margin: 0px;
-  }
+
+
 
   input {
     width: 80%;
     min-width: 250px;
+    max-width: 300px;
     padding: 15px;
     border-style: solid;
     border-radius: 5px;
@@ -40,13 +43,13 @@
     width: 100%;
   }
   .topCross {
+    position: absolute;
     top: 10px;
     right: 10px;
     color: black;
-    border-style: dotted;
-    align-self: flex-end;
-    padding: 2px 4px;
-
+    &:hover {
+      cursor: pointer;
+    }
   }
   .names {
     display: flex;

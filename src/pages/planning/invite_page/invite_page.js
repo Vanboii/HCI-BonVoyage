@@ -25,21 +25,11 @@ const InvitePage = () => {
   const country = params.get('country');
 
   const findEmail = async () => {
-    const results = await findUsers2("email",email)
     let emails = []
-    results.forEach((result) => {
-      emails.push(result.email)
-    })
-    console.log("Find1:", results, emails)
     return emails
   }
   const findName = async () => {
-    const results = await findUsers2("displayName",email)
     let names = []
-    results.forEach((result) => {
-      names.push(result.displayName)
-    })
-    console.log("Find2", results, names )
     return names
   }
   useEffect( () => {
@@ -60,15 +50,9 @@ const InvitePage = () => {
   const deleteInvite = (invite) => {
     setInvited(invited.filter((i) => i !== invite));
   };
-  const addNewCollectionTest = async (collectionName, activity) => {
-    const activityRef = collection(db,collectionName)
-    const docRef = await addDoc(activityRef, activity)
   
-    console.log("Activity Added:", docRef,activity)
-  }
-  const sendInvites =  () => {
-    addNewCollectionTest("bobby",{hi:"hello",leave:"bye"})
-    console.log("Done")
+  const sendInvites = () => {
+    return
   }
 
   const copyInviteLink = () => {
