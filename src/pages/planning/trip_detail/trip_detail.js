@@ -70,7 +70,7 @@ const TripDetailPage = () => {
     setCity(null);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
   
     if (!country || !city || !startDate || !endDate || !arrivalTime || !departureTime || numberOfPeople < 1) {
@@ -92,7 +92,7 @@ const TripDetailPage = () => {
       endDate : endDate, 
       numberOfPeople : numberOfPeople,
     });
-    let id =  addItinerary({  //Adds the itinerary to the database
+    let id = await addItinerary({  //Adds the itinerary to the database
       country: country.label, 
       city: city.label, 
       startDate: startDate, 

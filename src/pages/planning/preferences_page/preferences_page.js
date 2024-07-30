@@ -32,7 +32,7 @@ const travelStyles = [
 ];
 
 const allCategories = [
-  'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
+  'null', 'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
   'Pet-friendly', 'Wheelchair-friendly', 'Parks & Scenic Place', 'Theatre & Cultural', 'Food Galore'
 ];
 
@@ -46,6 +46,7 @@ const PreferencesPage = () => {
   // modules
   const { search } = useLocation();
   const { id } = useParams();
+  const User = auth.currentUser
   const { addPreference } = usePreference();
 
   // useState 
@@ -56,7 +57,7 @@ const PreferencesPage = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [budget, setBudget] = useState([500, 1250]);
   const [formError, setFormError] = useState('');
-  const [availableCategories, setAvailableCategories] = useState([]);
+  const [availableCategories, setAvailableCategories] = useState(["None"]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -165,6 +166,8 @@ const PreferencesPage = () => {
       budget: `$${budget[1]}`
     };
 
+    
+
     console.log('Sending data:', preferenceData);
 
     try {
@@ -209,11 +212,15 @@ const PreferencesPage = () => {
     }
 
     console.log("Handling submit...");
-    addPreference(id, { 
-      diet: selectedDietaryRestrictions,
-      categories: selectedCategories,
-      travelStyles: selectedTravelStyles,
-      budget: budget
+    addPreference(id, {
+      [`${User.uid}`] : {
+        displayName: User.displayName,
+        diet: selectedDietaryRestrictions,
+        categories: selectedCategories,
+        travelStyles: selectedTravelStyles,
+        budget: budget,
+        isdone: false
+      }
     });
     console.log("done");
   }

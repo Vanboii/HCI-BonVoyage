@@ -11,14 +11,13 @@ export const useItinerary = () => {
    * @param {object} data - info to be stored
    * @returns {string | null} itinerary ID
    */
-  const addItinerary = (data) => {
-    addDoc(collectionRef, data).then(
-      (ref) => {
-        return (ref.id)
-      }, (error) => {
-        console.error(error)
-        return null
-      })
+  const addItinerary = async (data) => {
+    const ref = await addDoc(collectionRef, data);
+    if (ref) {
+      return ref.id
+    }
+    return null
+      
   }
 
 
