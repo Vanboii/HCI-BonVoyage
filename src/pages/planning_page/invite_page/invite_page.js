@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate, useParams, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
-
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-import { useParams } from 'react-router-dom';
-import { useUsers } from '../../../test/useGetUsers';
-
-//#
-import { db } from '../../../firebase';
-import { collection, addDoc } from 'firebase/firestore';
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
@@ -18,16 +10,19 @@ const InvitePage = () => {
   const [inviteLink, setInviteLink] = useState('');
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
-
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const { id } = useParams()
-  const {findUsers, findUsers2} = useUsers()
+  const { id } = useParams();
+  const { search } = useLocation();
 
   useEffect(() => {
     // Generate a random invite link on component mount
     const link = `hci-bonvoyage.web.app/preferences/${id}`;
     setInviteLink(link);
-  }, []);
+  }, [id]);
+
+
+  const params = new URLSearchParams(search);
+  const city = params.get('city');
+  const country = params.get('country');
 
   const findEmail = async () => {
     const results = await findUsers2("email",email)
@@ -83,13 +78,14 @@ const InvitePage = () => {
 
   const handleNext = () => {
     //# Should do something to handle the emails in the invite box.
-
-    navigate(`/preferences/${id}`); // Adjust the path to the Preferences page
+    const encodedCity = encodeURIComponent(city);
+    const encodedCountry = encodeURIComponent(country);
+    navigate(`/preferences/${id}?city=${encodedCity}&country=${encodedCountry}`); // Adjust the path to the Preferences page
   };
 
   return (
     <div className="invite-container">
-      <TopBanner />
+      <TopBanner showAlertOnNavigate={true} />
       <main>
         <h1>Send An Invite</h1>
         <p>Invite others to plan your next trip together</p>
@@ -146,3 +142,4 @@ const InvitePage = () => {
 };
 
 export default InvitePage;
+

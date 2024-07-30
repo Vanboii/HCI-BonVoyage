@@ -98,9 +98,9 @@ const LoadingPage = () => {
 
   return (
     <>
-      {/* <TopBanner /> */}
+      <TopBanner showAlertOnNavigate={true} />
       <div className="loading-container">
-        <h1>Generating Your Itinerary<span className={`dots ${isComplete ? 'complete' : ''}`}>.</span></h1>
+        <h1 style={{color: "black"}}>Generating Your Itinerary<span className={`dots ${isComplete ? 'complete' : ''}`}>.</span></h1>
         <div className="progress-container">
           <div className="progress-bar">
             <div className="progress-bar-inner" style={{ width: `${progress}%` }}></div>

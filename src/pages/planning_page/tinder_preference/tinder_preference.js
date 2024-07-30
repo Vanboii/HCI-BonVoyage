@@ -1,18 +1,20 @@
-
-// keyboard and pressing of button 
 import React, { useState, useEffect } from 'react';
 import './tinder_preference.css';
 import TopBanner from "../../../components/banner";
-import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate for navigation
-
-// Import images for dislike and like icons
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import dislikeIcon from '../../../components/Tinder_img_test/no.png';
 import likeIcon from '../../../components/Tinder_img_test/yes.png';
-
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 import { useItineraries } from '../../../test/useGetItineraries';
-import { auth } from '../../../firebase';
 
+// Function to shuffle an array
+const shuffleArray = (array) => {
+  let shuffledArray = [...array];
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+  }
+  return shuffledArray;
+};
 
 const TinderPreference = () => {
   const [places, setPlaces] = useState([]);
@@ -21,20 +23,32 @@ const TinderPreference = () => {
   const [dislikes, setDislikes] = useState([]);
   const [animationClass, setAnimationClass] = useState('');
   const [clickCount, setClickCount] = useState(0);
-  const [showModal, setShowModal] = useState(true); // State variable for modal visibility
-  const navigate = useNavigate(); // Initialize the useNavigate hook
-
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const { id } = useParams()
-  const { updatePreferences } = useItineraries();
-  const User = auth.currentUser
+  const [showModal, setShowModal] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = useParams();
+  const { updateItinerary } = useItineraries();
 
   useEffect(() => {
-    fetch('/places.json')  // Path relative to the public directory
-      .then((response) => response.json())
-      .then((data) => setPlaces(data))
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+    if (location.state && location.state.recommendations) {
+      console.log('Recommendations received:', location.state.recommendations);
+      const shuffledPlaces = shuffleArray(location.state.recommendations); // Shuffle the recommendations
+      setPlaces(shuffledPlaces); // Set the shuffled array
+      setCurrentIndex(0); // Reset currentIndex when new recommendations are fetched
+    } else {
+      // Handle case where recommendations are not passed
+      console.error('No recommendations found in location state.');
+      //FOR DUMMY DATA REMOVE WHEN AI IS FIXED
+      fetch('/places.json')
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Using local places data:', data);
+          const shuffledPlaces = shuffleArray(data);
+          setPlaces(shuffledPlaces);
+          setCurrentIndex(0);
+        })
+    }
+  }, [location]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -51,45 +65,36 @@ const TinderPreference = () => {
   }, [places, currentIndex]);
 
   const handleDislike = () => {
-    setAnimationClass('swipe-left');
-    setTimeout(() => {
-      setDislikes([...dislikes, places[currentIndex]]);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % places.length);
-      setAnimationClass('');
-      setClickCount(clickCount + 1);
-    }, 500); // Match with animation duration
+    if (places.length > 0 && currentIndex < places.length) {
+      setAnimationClass('swipe-left');
+      setTimeout(() => {
+        setDislikes([...dislikes, places[currentIndex]]);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+        setAnimationClass('');
+        setClickCount(clickCount + 1);
+      }, 500);
+    }
   };
 
   const handleLike = () => {
-    setAnimationClass('swipe-right');
-    setTimeout(() => {
-      setLikes([...likes, places[currentIndex]]);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % places.length);
-      setAnimationClass('');
-      setClickCount(clickCount + 1);
-    }, 500); // Match with animation duration
+    if (places.length > 0 && currentIndex < places.length) {
+      setAnimationClass('swipe-right');
+      setTimeout(() => {
+        setLikes([...likes, places[currentIndex]]);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+        setAnimationClass('');
+        setClickCount(clickCount + 1);
+      }, 500);
+    }
   };
-
-  // const handleExport = () => {
-  //   const data = { likes, dislikes };
-  //   const json = JSON.stringify(data, null, 2);
-  //   const blob = new Blob([json], { type: 'application/json' });
-  //   const url = URL.createObjectURL(blob);
-  //   const link = document.createElement('a');
-  //   link.href = url;
-  //   link.download = 'preferences.json';
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // };
 
   const handleNext = () => {
-
-//^^^^^^^^^^^^^^^^^^^^^^^^^
-  updatePreferences(id, User.uid, {likes: likes, dislikes: dislikes})
-
-    navigate(`/waitingroom/${id}`); // Adjust the path to the Preferences page
+    const id = 'your_itinerary_id'; // Replace with your actual logic to get itinerary ID
+    console.log('Updating itinerary with likes and dislikes:', { likes, dislikes });
+    updateItinerary(id, { likes: likes, dislikes: dislikes });
+    navigate(`/waitingroom/${id}`);
   };
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -100,14 +105,14 @@ const TinderPreference = () => {
 
   return (
     <>
-      <TopBanner />
+      <TopBanner showAlertOnNavigate={true} />
       {showModal && (
         <div className="modal">
           <div className="modal-content">
             <h2>Instructions</h2>
-            <p>Press the left or right arrow on your keyboard</p>
-            <p>LEFT = DISLIKE   and   RIGHT = LIKE</p>
-            <p>You need to make at least 15 choices to proceed to the next step.</p>
+            <p>On your keyboard</p>
+            <p>PRESS LEFT = DISLIKE   and   PRESS RIGHT = LIKE</p>
+            <p>You need to make at least 5 choices to proceed to the next step.</p>
             <button onClick={closeModal}>Got it!</button>
           </div>
         </div>
@@ -119,16 +124,26 @@ const TinderPreference = () => {
             <img src={dislikeIcon} alt="Dislike" />
             <span>Dislike</span>
           </div>
-          <div className={`picture-placeholder ${animationClass}`}>
-            <img
-              src={places[currentIndex].image_url}
-              alt={places[currentIndex].name}
-              onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/default-image.png'; }} // Add default image path
-            />
-          </div>
+          {currentIndex < places.length ? (
+            <div className={`picture-placeholder ${animationClass}`}>
+              <img
+                src={places[currentIndex].image_url[0]} // Assuming image_url is an array of URLs
+                alt={places[currentIndex].location}
+                onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/default-image.png'; }}
+              />
+            </div>
+          ) : (
+            <div className="no-more-images">
+              <h3>No more images to show</h3>
+            </div>
+          )}
           <div className="place-info">
-            <h3>{places[currentIndex].name}</h3>
-            <p>{places[currentIndex].description}</p>
+            {currentIndex < places.length && (
+              <>
+                <h3>{places[currentIndex].location}</h3>
+                <p>{places[currentIndex].description}</p>
+              </>
+            )}
           </div>
           <div className="thumb-icon like" onClick={handleLike}>
             <img src={likeIcon} alt="Like" />
@@ -147,3 +162,5 @@ const TinderPreference = () => {
 };
 
 export default TinderPreference;
+
+

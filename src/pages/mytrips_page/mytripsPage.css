@@ -94,3 +94,14 @@
 .card-component {
   flex: 1 1 calc(33.333% - 20px);
 }
+
+/* New CSS rule to ensure location text color is black */
+.card-component .location {
+  color: black;
+}
+
+/* Override the color of the location text inside card-details */
+.card .card-details h2 {
+  color: black;
+}
+

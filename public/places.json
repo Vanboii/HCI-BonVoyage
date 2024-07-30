@@ -1,122 +1,42 @@
 [
     {
-        "name": "Gyeongbokgung Palace",
-        "location": "Seoul",
+        "location": "Gyeongbokgung Palace",
         "description": "A grand royal palace of the Joseon dynasty, known for its beautiful architecture and gardens.",
-        "image_url": "https://images.pexels.com/photos/14673134/pexels-photo-14673134.jpeg"
+        "image_url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcTt4LKErPBU-An6TjFBeWNAHbSU4yvihBajY0dGQMvxH8u2df-Vr7GlTC3BMpddgJ-6l1OlTR_qYWVt3xOuqDGHdfnaQRd5Qv2J_rk9T20"
     },
     {
-        "name": "N Seoul Tower",
-        "location": "Seoul",
+        "location": "N Seoul Tower",
         "description": "An iconic tower offering panoramic views of Seoul, especially beautiful at night.",
-        "image_url": "https://images.pexels.com/photos/14243521/pexels-photo-14243521.jpeg"
+        "image_url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRReL7FL2O9KGhD9hQg1pJ1q_KKcaKnPRhQ4JptEDKZ7j80sHAqczEDHqq4UJM5l9Fy4HUEUJOazwhZv90ho8AoN2Jz4DNPfMDlxXifuQ"
     },
     {
-        "name": "Bukchon Hanok Village",
-        "location": "Seoul",
+        "location": "Bukchon Hanok Village",
         "description": "A traditional Korean village with hanok houses, showcasing the architecture of the Joseon dynasty.",
-        "image_url": "https://images.pexels.com/photos/2725112/pexels-photo-2725112.jpeg"
+        "image_url": "https://img.freepik.com/premium-photo/sunrise-bukchon-hanok-village-seoul_40171-5.jpg"
     },
     {
-        "name": "Jeju Island",
-        "location": "Jeju",
-        "description": "A popular island destination known for its volcanic landscapes, beautiful beaches, and unique culture.",
-        "image_url": "https://images.pexels.com/photos/462020/pexels-photo-462020.jpeg"
+        "location": "Myeongdong Shopping Street",
+        "description": "A vibrant shopping district known for its street food, cosmetics shops, and fashion boutiques.",
+        "image_url": "https://images.pexels.com/photos/247937/pexels-photo-247937.jpeg"
     },
     {
-        "name": "Seoraksan National Park",
-        "location": "Gangwon Province",
-        "description": "A stunning national park with majestic mountains, clear streams, and diverse flora and fauna.",
-        "image_url": "https://images.pexels.com/photos/6050623/pexels-photo-6050623.jpeg"
-    },
-    {
-        "name": "Changdeokgung Palace",
-        "location": "Seoul",
+        "location": "Changdeokgung Palace",
         "description": "A UNESCO World Heritage site known for its beautiful garden, Huwon, also known as the Secret Garden.",
-        "image_url": "https://images.pexels.com/photos/14184421/pexels-photo-14184421.jpeg"
+        "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/19/5e/41/entrance.jpg?w=1200&h=-1&s=1"
     },
     {
-        "name": "Busan Haeundae Beach",
-        "location": "Busan",
-        "description": "A famous beach in Busan, known for its soft sand, vibrant nightlife, and annual festivals.",
-        "image_url": "https://images.pexels.com/photos/14396577/pexels-photo-14396577.jpeg"
-    },
-    {
-        "name": "Lotte World",
-        "location": "Seoul",
-        "description": "A major recreation complex with the world's largest indoor theme park, an outdoor amusement park, and shopping malls.",
-        "image_url": "https://images.pexels.com/photos/269353/pexels-photo-269353.jpeg"
-    },
-    {
-        "name": "DMZ (Demilitarized Zone)",
-        "location": "Paju",
-        "description": "A unique tourist attraction offering a glimpse into the tension between North and South Korea.",
-        "image_url": "https://images.pexels.com/photos/2068418/pexels-photo-2068418.jpeg"
-    },
-    {
-        "name": "Hwaseong Fortress",
-        "location": "Suwon",
-        "description": "A UNESCO World Heritage site known for its impressive walls and structures, reflecting the military architecture of the late Joseon period.",
-        "image_url": "https://images.pexels.com/photos/3994578/pexels-photo-3994578.jpeg"
-    },
-    {
-        "name": "Everland",
-        "location": "Yongin",
-        "description": "A large theme park offering various rides, attractions, and seasonal festivals.",
-        "image_url": "https://images.pexels.com/photos/105632/pexels-photo-105632.jpeg"
-    },
-    {
-        "name": "Jinhae Cherry Blossom Festival",
-        "location": "Changwon",
-        "description": "An annual festival famous for its stunning cherry blossoms and picturesque scenery.",
-        "image_url": "https://images.pexels.com/photos/206741/pexels-photo-206741.jpeg"
-    },
-    {
-        "name": "Bulguksa Temple",
-        "location": "Gyeongju",
-        "description": "A historic temple and UNESCO World Heritage site known for its beautiful architecture and serene surroundings.",
-        "image_url": "https://images.pexels.com/photos/239520/pexels-photo-239520.jpeg"
-    },
-    {
-        "name": "Hahoe Folk Village",
-        "location": "Andong",
-        "description": "A traditional village preserving the cultural heritage and lifestyle of the Joseon dynasty.",
-        "image_url": "https://images.pexels.com/photos/2555503/pexels-photo-2555503.jpeg"
-    },
-    {
-        "name": "Namdaemun Market",
-        "location": "Seoul",
-        "description": "A bustling market offering a wide variety of goods, from food to clothing to souvenirs.",
-        "image_url": "https://images.pexels.com/photos/4050191/pexels-photo-4050191.jpeg"
-    },
-    {
-        "name": "Cheonggyecheon Stream",
-        "location": "Seoul",
-        "description": "A scenic urban stream and recreational space in the heart of Seoul.",
-        "image_url": "https://images.pexels.com/photos/3053689/pexels-photo-3053689.jpeg"
-    },
-    {
-        "name": "Insa-dong",
-        "location": "Seoul",
-        "description": "A vibrant neighborhood known for its traditional Korean culture, arts, and crafts.",
-        "image_url": "https://images.pexels.com/photos/3023218/pexels-photo-3023218.jpeg"
-    },
-    {
-        "name": "Seoul Forest",
-        "location": "Seoul",
-        "description": "A large public park offering green spaces, walking trails, and recreational facilities.",
-        "image_url": "https://images.pexels.com/photos/2047399/pexels-photo-2047399.jpeg"
-    },
-    {
-        "name": "Gwangalli Beach",
-        "location": "Busan",
-        "description": "A popular beach in Busan, known for its beautiful views of the Gwangan Bridge and vibrant nightlife.",
-        "image_url": "https://images.pexels.com/photos/239908/pexels-photo-239908.jpeg"
-    },
-    {
-        "name": "Dongdaemun Design Plaza",
-        "location": "Seoul",
+        "location": "Dongdaemun Design Plaza",
         "description": "A major urban development landmark and cultural hub featuring unique architecture and design exhibitions.",
         "image_url": "https://images.pexels.com/photos/2383706/pexels-photo-2383706.jpeg"
+    },
+    {
+        "location": "Lotte World",
+        "description": "A major recreation complex with the world's largest indoor theme park, an outdoor amusement park, and shopping malls.",
+        "image_url": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dragonhilllodge.com%2Fexperiences%2Fattractions%2Flotte-world-amusement-park&psig=AOvVaw3GI3KlEUonHru60PFlDsQ6&ust=1721247749574000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPib_dexrIcDFQAAAAAdAAAAABAE"
+    },
+    {
+        "location": "Cheonggyecheon Stream",
+        "description": "A scenic urban stream and recreational space in the heart of Seoul.",
+        "image_url": "https://images.pexels.com/photos/3053689/pexels-photo-3053689.jpeg"
     }
 ]

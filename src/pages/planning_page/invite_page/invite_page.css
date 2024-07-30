@@ -48,7 +48,7 @@ main {
 .form-group input,
 textarea,
 input[type="text"] {
-    width: 500px;
+    width: 600px;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ced4da; /* Default border */
@@ -149,7 +149,7 @@ input[type="text"].invite-link {
 input[type="text"].invite-link {
     flex-grow: 1;
     margin-right: 10px;
-    width: 500px; /* Ensure the input takes available space */
+    width: 600px; /* Ensure the input takes available space */
 }
 
 /* Styles for the invite list and delete button */
@@ -162,7 +162,7 @@ input[type="text"].invite-link {
     min-height: 100px;
     max-height: 150px;
     overflow-y: auto; /* Add scrolling if the list is too long */
-    width: 500px; /* Ensure the width matches the input fields */
+    width: 600px; /* Ensure the width matches the input fields */
     box-sizing: border-box; /* Ensure padding is included in the width */
     text-transform: none; /* Ensure input text is not transformed */
 }
