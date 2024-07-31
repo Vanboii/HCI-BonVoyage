@@ -91,8 +91,8 @@ pre_prompt = """You are a helpful, respectful and honest assistant.
                 Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. 
                 Please ensure that your responses are socially unbiased and positive in nature.
                 Return a python dictionary, contained in a list in the following format: 
-                Combined list: [{destination 1 name: "", destination 1 description: "", "destination 1 budget": "", "destination 1 openingHours": "", "destination 1 website": ""}, 
-                                {"destination 2 name": "", "destination 2 description": "", "destination 2  budget": "", "destination 2 openingHours": "", "destination 2 website": ""}]"""
+                Combined list: [{destination 1 name: "", destination 1 category: "", destination 1 description: "", "destination 1 budgetRange": "", "destination 1 openingHours": "", "destination 1 website": ""}, 
+                                {"destination 2 name": "", destination 2 category: "", "destination 2 description": "", "destination 2  budgetRange": "", "destination 2 openingHours": "", "destination 2 website": ""}]"""
 
 
 prompt_input = """Summarise this website %s
@@ -102,13 +102,14 @@ prompt_input = """Summarise this website %s
                 Give me a list of 9 location, if you can, along with 2-3 sentences of description for each location. The location given should fit within a %s budget.
                 The following locations could be classified under %s.
 
-                The description could entail about the overall vibe of the location and a fun or historical  fact as to why people should visit the place.
+                The description could entail about the overall vibe of the location and a fun or historical fact as to why people should visit the place.
 
                 Please also give a budget range if possible that is within a price range in USD. Else infer from it and give it a "low", "medium" or "high".
                 As well as its opening hours and its website, if it exists, else leave it as empty string.
 
                 Return a python dictionary, contained in a list in the following format, in which double quotes are used: 
-                Combined list: [{"name": , "description": ,"budget":, "openingHours":, "website":}]"""
+                Combined list: [{"name": , "category": %s, "description": ,"budgetRange":, "openingHours":, "website":}].
+                The field "category" is given to you."""
 
 
 
@@ -119,7 +120,7 @@ def get_llama_others(city, country, budget, activities, pre_prompt=pre_prompt, p
 
     for a in activities:
         # print(site, city, country, budget, a+tag)
-        prompt_input_updated = prompt_input % (site, city, country, budget, a+" "+", ".join(tag))
+        prompt_input_updated = prompt_input % (site, city, country, budget, a+" "+", ".join(tag), a)
 
         result = ""
 
@@ -198,11 +199,11 @@ def get_bing_images(data, city, country, tag):
                 # get geolocation
                 location, place_id = get_location(d.get("name"), city, country)
                 if location:
-                    d["latitude"] = location.get("lat")
-                    d["longitude"] = location.get("lng")
+                    d["lat"] = location.get("lat")
+                    d["lng"] = location.get("lng")
 
                     # update website if needed, ie: when llama has no website given
-                    d["place_id"] = location.get("place_id")
+                    d["place_id"] = place_id
                     if d.get("website") == "" or d.get("website") == None:
                         google_website = get_website(place_id)
                         if google_website:
@@ -217,20 +218,20 @@ def get_bing_images(data, city, country, tag):
 
 #####################
 # city, country = "Cairo", "Egypt"
-city, country = "Singapore", "Singapore"
+# city, country = "Singapore", "Singapore"
 # city, country = "Sydney", "Australia"
 
 # budget = "low"
-budget = "medium"
+# budget = "medium"
 # budget = "high"
 
 # activities = ["Historical Site", "Amusement Park"]
-activities = ["Museum", "Amusement Park", "Wheelchair-friendly"]
+# activities = ["Museum", "Amusement Park", "Wheelchair-friendly"]
 
 # activities, tag = get_tag(activities)
 # print(activities, tag)
 
-print(get_llama_others(city, country, budget, activities))
+# print(get_llama_others(city, country, budget, activities))
 
 ### for bing query images
 # data = [{'name': 'Pyramid of Khafre', 'description': "The Pyramid of Khafre is one of the most iconic landmarks in Cairo and offers stunning views of the city. Visitors can explore the pyramid's inner chambers and learn about its history.", 'budget': 'medium', 'imageURL': 'https://c8.alamy.com/comp/2AEFGBY/pyramid-of-khafre-cairo-egypt-2AEFGBY.jpg'}, {'name': 'The Egyptian Museum', 'description': "Home to the world's largest collection of ancient Egyptian artifacts, the Egyptian Museum is a must-visit for history buffs. The museum's vast collection includes mummies, sarcophagi, and other treasures.", 'budget': 'low', 'imageURL': 'https://images.squarespace-cdn.com/content/v1/56c13cc00442627a08632989/1585432288121-15NNGMB5XEP5CJ1YSGL3/ke17ZwdGBToddI8pDm48kDHPSfPanjkWqhH6pl6g5ph7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mwONMR1ELp49Lyc52iWr5dNb1QJw9casjKdtTg1_-y4jz4ptJBmI9gQmbjSQnNGng/egyptianmuseum.jpg'}, {'name': 'Islamic Cairo', 'description': 'Islamic Cairo is a historic neighborhood filled with mosques, madrasas, and other Islamic landmarks. Visitors can explore the narrow streets and take in the vibrant atmosphere.', 'budget': 'medium', 'imageURL': 'https://www.egypttoursportal.co.uk/wp-content/uploads/2020/05/Islamic-Cairo-Egypt-Tours-Portal.jpg'}, {'name': 'Al-Azhar Mosque', 'description': 'One of the oldest and most beautiful mosques in Cairo, Al-Azhar Mosque is a stunning example of Islamic architecture. Visitors can take a guided tour and learn about its history.', 'budget': 'medium', 'imageURL': 'https://www.tripsavvy.com/thmb/xvH91GQ2VaL9VQGFowLpor57QGQ=/3783x2465/filters:fill(auto,1)/GettyImages-175839740-58c15dcc3df78c353cec3e37.jpg'}, {'name': 'The Citadel of Cairo', 'description': "The Citadel of Cairo is a medieval Islamic fortification that offers stunning views of the city. Visitors can explore the fort's ramparts, towers, and mosques.", 'budget': 'medium', 'imageURL': 'https://www.tripsavvy.com/thmb/dohwmuJLYDSXWMWbDbv8_0eqHHk=/2121x1414/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-542698921-5b43665246e0fb0037d62e97.jpg'}, {'name': 'Tahrir Square', 'description': 'The site of the Egyptian Revolution in 2011, Tahrir Square is a bustling public space filled with street vendors, cafes, and historic landmarks. Visitors can take a stroll and soak up the atmosphere.', 'budget': 'low', 'imageURL': 'https://c8.alamy.com/comp/2RYK11P/obelisk-and-buildings-of-the-tahrir-square-popular-landmark-in-the-centre-of-cairo-egypt-2RYK11P.jpg'}, {'name': 'The Khan el-Khalili Market', 'description': 'One of the oldest and most famous bazaars in the Middle East, the Khan el-Khalili Market is a treasure trove of spices, perfumes, and souvenirs. Visitors can haggle for prices and take in the vibrant atmosphere.', 'budget': 'low', 'imageURL': 'https://www.egyptconnection.com/wp-content/uploads/2019/12/Khan-El-Khalili-Bazaar-Cairo-Egypt-1.jpg'}, {'name': 'The Hanging Church', 'description': 'One of the oldest churches in Egypt, the Hanging Church is a stunning example of Coptic architecture. Visitors can take a guided tour and learn about its history.', 'budget': 'medium', 'imageURL': 'https://fthmb.tqn.com/mrstbq38STvEUD9izJi77qyHr1A=/960x0/filters:no_upscale()/GettyImages-636039202-58a573a45f9b58a3c94c5b55.jpg'}, {'name': 'The Church of St. Sergius', 'description': 'A historic church located in the Coptic Cairo neighborhood, the Church of St. Sergius is a stunning example of Coptic architecture. Visitors can take a guided tour and learn about its history.', 'budget': 'medium', 'imageURL': 'https://jakadatoursegypt.com/wp-content/uploads/2020/12/Church-of-St.-Sergius.jpg'}, {'name': 'Cairo Tower', 'description': 'For a panoramic view of the city, head to the Cairo Tower, which stands 187 meters tall. You can enjoy a meal or snack at the revolving restaurant on the top floor.', 'budget': 'medium', 'imageURL': 'https://c8.alamy.com/comp/GD2CP5/egyptian-landmark-of-cairo-tower-over-blue-sky-GD2CP5.jpg'}, {'name': 'Egyptian Museum', 'description': "Home to the world's largest collection of ancient Egyptian artifacts, including mummies and sarcophagi. A must-visit for history buffs and archaeology enthusiasts.", 'budget': 'low', 'imageURL': 'https://images.squarespace-cdn.com/content/v1/56c13cc00442627a08632989/1585432288121-15NNGMB5XEP5CJ1YSGL3/ke17ZwdGBToddI8pDm48kDHPSfPanjkWqhH6pl6g5ph7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mwONMR1ELp49Lyc52iWr5dNb1QJw9casjKdtTg1_-y4jz4ptJBmI9gQmbjSQnNGng/egyptianmuseum.jpg'}, {'name': 'Islamic Cairo', 'description': "Explore the historic Islamic Cairo neighborhood, which is home to some of the city's most beautiful mosques, madrasas, and bazaars.", 'budget': 'low', 'imageURL': 'https://www.egypttoursportal.co.uk/wp-content/uploads/2020/05/Islamic-Cairo-Egypt-Tours-Portal.jpg'}, {'name': 'Nile River', 'description': 'Take a stroll along the Nile River and enjoy the views of the city skyline. You can also take a felucca ride or a dinner cruise.', 'budget': 'low', 'imageURL': 'https://www.tripsavvy.com/thmb/FxPcK6mdg79ZaPDqDiTh9QovTok=/2121x1414/filters:fill(auto,1)/GettyImages-96869652-f6700d0efa8c4efb8031043af8ccaf8e.jpg'}, {'name': 'Khan el-Khalili', 'description': 'One of the oldest and most famous bazaars in the Middle East, Khan el-Khalili is a treasure trove of souvenirs, spices, and handicrafts.', 'budget': 'low', 'imageURL': 'https://prd-webrepository.firabarcelona.com/wp-content/uploads/sites/69/2023/04/14175713/istock-992735534-scaled.jpg'}, {'name': 'Pyramids of Giza', 'description': 'A must-visit attraction in Cairo, the Pyramids of Giza are an absolute wonder of the ancient world. Take a guided tour or explore on your own.', 'budget': 'medium', 'imageURL': 'https://www.tripsavvy.com/thmb/Ue5Tz-4fTb9OTBbEzBxlqa8UT_s=/2143x1399/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-154260931-584169ec3df78c0230514c82.jpg'}, {'name': 'Museum of Egyptian Antiquities', 'description': 'This museum is home to a vast collection of ancient Egyptian artifacts, including mummies, sarcophagi, and temple reliefs.', 'budget': 'low', 'imageURL': 'https://thumbs.dreamstime.com/z/museum-egyptian-antiquities-cairo-egypt-may-which-houses-world-s-largest-collection-ancient-capital-179258803.jpg'}, {'name': 'Al-Azhar Park', 'description': 'A beautiful park in the heart of Islamic Cairo, Al-Azhar Park offers stunning views of the city and is a great place to relax.', 'budget': 'low', 'imageURL': 'https://www.tripsinegypt.co.uk/wp-content/uploads/2023/02/al-azhar-park-trips-in-egypt.jpg'}, {'name': 'Tahrir Square', 'description': 'The heart of modern Cairo, Tahrir Square is a bustling hub of activity, with street performers, vendors, and cafes.', 'budget': 'low', 'imageURL': 'https://c8.alamy.com/comp/2RYK11P/obelisk-and-buildings-of-the-tahrir-square-popular-landmark-in-the-centre-of-cairo-egypt-2RYK11P.jpg'}]

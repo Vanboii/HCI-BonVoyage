@@ -90,8 +90,8 @@ pre_prompt = """You are a helpful, respectful and honest assistant.
                 Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. 
                 Please ensure that your responses are socially unbiased and positive in nature.
                 Return a python dictionary, contained in a list in the following format: 
-                Combined list: [{destination 1 name: "", destination 1 description: "", "destination 1 budget": "", "destination 1 openingHours": "", "destination 1 website": ""}, 
-                                {"destination 2 name": "", "destination 2 description": "", "destination 2  budget": "", "destination 2 openingHours": "", "destination 2 website": ""}]"""
+                Combined list: [{destination 1 name: "", destination 1 category: "", destination 1 description: "", "destination 1 budgetRange": "", "destination 1 openingHours": "", "destination 1 website": ""}, 
+                                {"destination 2 name": "", destination 2 category: "", "destination 2 description": "", "destination 2  budgetRange": "", "destination 2 openingHours": "", "destination 2 website": ""}]"""
 
 
 prompt_input = """Summarise this website %s
@@ -107,7 +107,8 @@ prompt_input = """Summarise this website %s
                 As well as its opening hours and its website, if it exists, else leave it as empty string.
 
                 Return a python dictionary, contained in a list in the following format, in which double quotes are used: 
-                Combined list: [{"name": , "description": ,"budget":, "openingHours":, "website":}]"""
+                Combined list: [{"name": , "category": %s, "description": ,"budgetRange":, "openingHours":, "website":}].
+                The field "category" is given to you."""
 
 
 
@@ -117,7 +118,7 @@ def get_llama_culture(city, country, budget, activities, pre_prompt=pre_prompt, 
     recommendation_list = []
 
 
-    prompt_input_updated = prompt_input % (site, city, country, budget, "Theatre & Cultural "+ ", ".join(tag)) 
+    prompt_input_updated = prompt_input % (site, city, country, budget, "Theatre & Cultural "+ ", ".join(tag), "Theatre & Cultural") 
 
     result = ""
 
@@ -196,11 +197,11 @@ def get_bing_images(data, city, country, tag):
                 # get geolocation
                 location, place_id = get_location(d.get("name"), city, country)
                 if location:
-                    d["latitude"] = location.get("lat")
-                    d["longitude"] = location.get("lng")
+                    d["lat"] = location.get("lat")
+                    d["lng"] = location.get("lng")
 
                     # update website if needed, ie: when llama has no website given
-                    d["place_id"] = location.get("place_id")
+                    d["place_id"] = place_id
                     if d.get("website") == "" or d.get("website") == None:
                         google_website = get_website(place_id)
                         if google_website:
@@ -221,7 +222,7 @@ def get_bing_images(data, city, country, tag):
 # budget = "medium"
 # budget = "high"
 
-# activities = ["Historical Site", "Amusement Park"] Theatre & Cultural
+
 # activities = ["Theatre & Cultural", "Wheelchair-friendly"]
 
 # activities, tag = get_tag(activities)
