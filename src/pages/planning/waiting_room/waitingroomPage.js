@@ -4,18 +4,24 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './waitingroomPage.css';
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-import { useItineraries } from "../../../test/useGetItineraries";
+import { useItinerary } from "../../../useHooks/useItineraries";
+import { usePreference } from "../../../useHooks/usePreferences";
 
 function WaitingRoom() {
 
-  const [maxUsers, setMax] = useState();
+  const [maxUsers , setMax] = useState(1);
   const [Users, setUsers] = useState([]);
+
 
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   const { id } = useParams()
   const navigate = useNavigate();
-  const { getItinerary, getPreferences } = useItineraries()
+  const { getItinerary } = useItinerary();
+  const { getPreference } = usePreference();
+  const [update, triggerUpdate] = useState(false);
 
+
+  
   const getPax = async () => {
     const doc = await getItinerary(id)
     const max = doc.numberOfPeople
@@ -24,9 +30,18 @@ function WaitingRoom() {
   }
 
   const getDone = async () => {
-    const out = await getPreferences(id)
-    setUsers(out)
-    console.log("Completed Users:",out)
+    const out = await getPreference(id)
+    let userList = []
+    Object.keys(out).sort().forEach(value => {
+      userList.push({
+        displayName: out[value].displayName,
+        isdone: out[value].isdone,
+      }
+
+       )
+    })
+    setUsers(userList)
+    console.log("Users:",userList)
   }
   getPax()
   const userStatuses = Array(maxUsers).fill('Waiting for response...');
@@ -35,16 +50,27 @@ function WaitingRoom() {
     
     getDone()
 
+
+    // Set up the interval
+    const intervalId = setInterval(() => {
+      triggerUpdate(!update);
+    }, 5000); // Executes every 5000ms (5 second)
+
+
+    // Cleanup function to clear the interval
+    return () => clearInterval(intervalId);
+    
+
     // const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
     // setUsers(storedUsers);
     // if (storedUsers.length >= maxUsers) {
     //   navigate(`/loading/${id}`);
     // }
 
-  }, [Users]);
+  }, [update]);
 
   Users.forEach((user, index) => {
-    userStatuses[index] = `${user.displayName} is ready for the trip!`;
+    userStatuses[index] = user.isdone ? `${user.displayName} is ready for the trip!` : `${user.displayName} is still preparing ...` ;
   });
 
 
@@ -53,7 +79,6 @@ function WaitingRoom() {
       <TopBanner/>
         <div className="content">
           <div>
-            <p className="progress">{Users.length}/{maxUsers} has filled in their preference</p>
             <p className="progress">{Users.length}/{maxUsers} has filled in their preference</p>
           </div>
           <div className="status">

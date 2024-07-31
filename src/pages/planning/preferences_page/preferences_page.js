@@ -1,32 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import './preferences_page.css';
+
 import TopBanner from '../../../components/banner';
-import BudgetIcon from '../../../components/budget.png';
-import LuxuriousIcon from '../../../components/diamonds.png';
-import AdventurousIcon from '../../../components/camping.png';
-import RelaxedIcon from '../../../components/beach-chair.png';
 import { Range, getTrackBackground } from 'react-range';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-//^^^^^^^^^^^^^^^^^^^^^^
 import { auth } from '../../../firebase';
-import { useItineraries } from '../../../test/useGetItineraries';
+import { usePreference } from '../../../useHooks/usePreferences';
+// import { AuthenticationPopup } from '../../login_page/loginPopup';
+
+import CompactIcon from '../../../components/travel style/compact.png';
+import AdventureIcon from '../../../components/travel style/adventure.png';
+import LocalIcon from '../../../components/travel style/local.png';
+import RelaxedIcon from '../../../components/travel style/relaxed.png';
+import TouristIcon from '../../../components/travel style/tourist.png';
 
 const dietaryOptions = [
   'No Restrictions', 'Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Kosher', 'Pescatarian',
   'Beef-Free', 'Shellfish-Free', 'Keto', 'Dairy-Free', 'Nut-Free', 'Soy-Free', 'Low-Carb'
 ];
 
+
+
 const travelStyles = [
-  { label: 'Budget / Backpacker Friendly', icon: BudgetIcon },
-  { label: 'Luxurious', icon: LuxuriousIcon },
-  { label: 'Adventurous / Thrilling', icon: AdventurousIcon },
+  { label: 'Compact', icon: CompactIcon },
+  { label: 'Adventurous', icon: AdventureIcon },
+  { label: 'Local Delight', icon: LocalIcon },
   { label: 'Relaxed', icon: RelaxedIcon },
+  { label: 'Tourist', icon: TouristIcon },
 ];
 
 const allCategories = [
-  'None Avaliable','Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
+  'null', 'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
   'Pet-friendly', 'Wheelchair-friendly', 'Parks & Scenic Place', 'Theatre & Cultural', 'Food Galore'
 ];
 
@@ -36,14 +42,14 @@ const monthNames = [
 ];
 
 const PreferencesPage = () => {
- 
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  const {id} = useParams()
-  console.log("id:",id)
-  const { addPreferences } = useItineraries();
-  // const { Popup } = AuthenticationPopup()
-  const User = auth.currentUser
 
+  // modules
+  const { search } = useLocation();
+  const { id } = useParams();
+  const User = auth.currentUser
+  const { addPreference } = usePreference();
+
+  // useState 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
   const [dietarySearch, setDietarySearch] = useState('');
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -51,24 +57,33 @@ const PreferencesPage = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [budget, setBudget] = useState([500, 1250]);
   const [formError, setFormError] = useState('');
-  const [availableCategories, setAvailableCategories] = useState(['None Avaliable']);
+  const [availableCategories, setAvailableCategories] = useState(["None"]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const {search} = useLocation()
   const params = new URLSearchParams(search);
   const city = params.get('city');
   const country = params.get('country');
 
   const handleDietaryChange = (option) => {
-    setSelectedDietaryRestrictions((prev) =>
-      prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
-    );
+    if (option === 'No Restrictions') {
+      setSelectedDietaryRestrictions([option]);
+    } else {
+      setSelectedDietaryRestrictions((prev) =>
+        prev.includes(option)
+          ? prev.filter((item) => item !== option)
+          : [...prev.filter((item) => item !== 'No Restrictions'), option]
+      );
+    }
     setFormError('');
   };
 
   const handleAddCustomDietary = () => {
-    if (dietarySearch && !dietaryOptions.includes(dietarySearch) && !selectedDietaryRestrictions.includes(dietarySearch)) {
+    if (
+      dietarySearch &&
+      !dietaryOptions.includes(dietarySearch) &&
+      !selectedDietaryRestrictions.includes(dietarySearch)
+    ) {
       setSelectedDietaryRestrictions([...selectedDietaryRestrictions, dietarySearch]);
       setDietarySearch('');
     }
@@ -108,16 +123,12 @@ const PreferencesPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       if (!city || !country) return;
-      var availCategories
+
       try {
         const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${city}&country=${country}`);
-        availCategories = response.data.reply;
-        if (availCategories.length>0) {
-          console.log('Fetched categories:', availCategories)
-          setAvailableCategories(availCategories);
-        } else {
-          console.log('No avaliable categories')
-        }
+        const fetchedCategories = response.data.data.categories; // Adjusted to match the structure in the previous example
+        console.log('Fetched categories:', fetchedCategories);
+        setAvailableCategories(fetchedCategories);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -147,7 +158,7 @@ const PreferencesPage = () => {
     const currentDate = new Date();
     const month = monthNames[currentDate.getMonth()];
 
-    const itineraryData = {
+    const preferenceData = {
       country: country,
       city: city,
       month: month,
@@ -155,10 +166,12 @@ const PreferencesPage = () => {
       budget: `$${budget[1]}`
     };
 
-    console.log('Sending data:', itineraryData);
+    
+
+    console.log('Sending data:', preferenceData);
 
     try {
-      const response = await axios.post('https://bonvoyage-api.azurewebsites.net/get-recommendations', itineraryData, {
+      const response = await axios.post('https://bonvoyage-api.azurewebsites.net/get-recommendations', preferenceData, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -169,69 +182,61 @@ const PreferencesPage = () => {
       navigate(`/Tinderpreference/${id}`, { state: { recommendations: recommendations.data } });
     } catch (error) {
       console.error('Error fetching recommendations (POST):', error);
-    };
 
-    // Fallback to GET request
-     try {
-      const getResponse = await axios.get('https://bonvoyage-api.azurewebsites.net/get-recommendations', {
-        params: {
-          city: itineraryData.city,
-          country: itineraryData.country
-        }
-      });
-      const getRecommendations = getResponse.data;
-      console.log('Recommendations fetched (GET):', getRecommendations);
+      // Fallback to GET request
+      try {
+        const getResponse = await axios.get('https://bonvoyage-api.azurewebsites.net/get-recommendations', {
+          params: {
+            city: preferenceData.city,
+            country: preferenceData.country
+          }
+        });
+        const getRecommendations = getResponse.data;
+        console.log('Recommendations fetched (GET):', getRecommendations);
 
-      navigate('/Tinderpreference', { state: { recommendations: getRecommendations.data } });
-    } catch (getError) {
-      console.error('Error fetching recommendations (GET):', getError);
+        navigate(`/Tinderpreference/${id}`, { state: { recommendations: getRecommendations.data } });
+      } catch (getError) {
+        console.error('Error fetching recommendations (GET):', getError);
+      }
+
+      // THIS IS FOR DEMO PURPOSES IF POST FAILS ON THE DAY ITSELF
+      try {
+        const localResponse = await axios.get('/places.json'); // Path relative to public folder
+        const localRecommendations = localResponse.data;
+        console.log('Recommendations fetched (local):', localRecommendations);
+
+        navigate(`/Tinderpreference/${id}`, { state: { recommendations: localRecommendations } });
+      } catch (localError) {
+        console.error('Error fetching local recommendations:', localError);
+      }
     }
-    //THIS IS FOR DEMO PURPOSES IF POST FAIL ON THE DAY ITSELF
-    try {
-      const localResponse = await axios.get('/places.json'); // Path relative to public folder
-      const localRecommendations = localResponse.data;
-      console.log('Recommendations fetched (local):', localRecommendations);
 
-      navigate(`/Tinderpreference/${id}`, { state: { recommendations: localRecommendations } });
-    } catch (localError) {
-      console.error('Error fetching local recommendations:', localError);
-    }
-
-    console.log("Handling submit...")
-    try {
-      addPreferences(id, User.uid, {
+    console.log("Handling submit...");
+    addPreference(id, {
+      [`${User.uid}`] : {
         displayName: User.displayName,
-        budget: budget,
-        categories: selectedCategories,
         diet: selectedDietaryRestrictions,
+        categories: selectedCategories,
         travelStyles: selectedTravelStyles,
-      });
-      console.log("Done. Preferences Submitted")
-    } catch (error) {
-      console.error(error)
-    }
-    
+        budget: budget,
+        isdone: false
+      }
+    });
+    console.log("done");
+  }
 
-    // fetch('/save-dietary-options', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ dietaryOptions: selectedDietaryRestrictions }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('Success:', data);
-    //     // Handle success scenario
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //     // Handle error scenario
-    //   });
-
-    //# Navigate to invite page
-    navigate(`/Tinderpreference/${id}`);
-  };
+  //^ Add into the return block below using {loading && (<div...)}
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <TopBanner showAlertOnNavigate={true} />
+        <main>
+          <h1>Loading...</h1>
+          <p>Please wait while we fetch the available categories.</p>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="preferences-container">
@@ -323,7 +328,7 @@ const PreferencesPage = () => {
                   type="number"
                   value={budget[0]}
                   min={0}
-                  max={10000 || budget[1]}
+                  max={budget[1]}
                   onChange={(e) => setBudget([+e.target.valueAsNumber, budget[1]])}
                   required
                 />
@@ -331,7 +336,7 @@ const PreferencesPage = () => {
                 <input
                   type="number"
                   value={budget[1]}
-                  min={0 || budget[0]}
+                  min={budget[0]}
                   max={10000}
                   onChange={(e) => setBudget([budget[0], +e.target.valueAsNumber])}
                   required
@@ -347,47 +352,33 @@ const PreferencesPage = () => {
                 renderTrack={({ props, children }) => (
                   <div
                     {...props}
-                    style={{
-                      ...props.style,
-                      height: '6px',
-                      width: '100%',
-                      background: getTrackBackground({
-                        values: budget,
-                        colors: ['#ccc', '#548BF4', '#ccc'],
-                        min: 0,
-                        max: 10000
-                      })
-                    }}
+                    className="price-range-track"
                   >
+                    <div
+                      className="price-range-track-active"
+                      style={{
+                        left: `${(budget[0] / 10000) * 100}%`,
+                        right: `${100 - (budget[1] / 10000) * 100}%`
+                      }}
+                    />
                     {children}
                   </div>
                 )}
                 renderThumb={({ props }) => (
                   <div
                     {...props}
-                    style={{
-                      ...props.style,
-                      height: '24px',
-                      width: '24px',
-                      backgroundColor: '#548BF4',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      boxShadow: '0px 2px 6px #AAA'
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: '16px',
-                        width: '5px',
-                        backgroundColor: '#FFF'
-                      }}
-                    />
-                  </div>
+                    className="price-range-thumb"
+                  />
                 )}
               />
+              <div className="price-range-labels">
+                <div className="low">Low</div>
+                <div className="mid">Mid</div>
+                <div className="high">High</div>
+              </div>
             </div>
           </div>
+
           {formError && <div className="error-message">{formError}</div>}
           <button type="submit" className="next-button">Next</button>
         </form>

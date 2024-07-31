@@ -1,40 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import HomePage from './pages/home_page/homePage';
 // import LoginPage from './pages/login_page/loginPage';
-import SignupPage from './pages/signup_page/signupPage';
+// import SignupPage from './pages/signup_page/signupPage';
 import MyTrips from './pages/mytrips_page/mytripsPage';
 import CommunityPage from './pages/community_page/communityPage';
-import TripDetailPage from './pages/planning_page/trip_detail/trip_detail';
-import InvitePage from './pages/planning_page/invite_page/invite_page';
-import PreferencesPage from './pages/planning_page/preferences_page/preferences_page';
-import TinderPreference from './pages/planning_page/tinder_preference/tinder_preference';
-import WaitingRoomPage from './pages/planning_page/waiting_room/waitingroomPage';
-import LoadingPage from './pages/planning_page/loading_page/loadingPage';
-import ResultsPage from './pages/planning_page/results_page/resultsPage'; // Import ResultsPage
+import TripDetailPage from './pages/planning/trip_detail/trip_detail';
+import InvitePage from './pages/planning/invite_page/invite_page';
+import PreferencesPage from './pages/planning/preferences_page/preferences_page';
+import TinderPreference from './pages/planning/tinder_preference/tinder_preference';
+import WaitingRoomPage from './pages/planning/waiting_room/waitingroomPage';
+import LoadingPage from './pages/planning/loading_page/loadingPage';
+import ResultsPage from './pages/planning/results_page/resultsPage'; 
+
 
 
 
 function App() {
 
-  return (
+
+
+  const [savedTrips, setSavedTrips] = useState(() => {
+    const savedTripsFromLocalStorage = localStorage.getItem('savedTrips');
+    return savedTripsFromLocalStorage ? JSON.parse(savedTripsFromLocalStorage) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('savedTrips', JSON.stringify(savedTrips));
+  }, [savedTrips]);
+
+  const addTripToSaved = (trip) => {
+    setSavedTrips((prevTrips) => [...prevTrips, trip]);
+  };
+
+  return (      //Component: reInitialises on call, element: renders on call,state is preserved. 
     <Router>
       {/* <TopBanner/> */}
       <Routes>
-        <Route path="home" Component={HomePage} />
+        <Route exact path="home" element={<HomePage/>} />
         {/* <Route path="login" Component={LoginPage} /> */}
-        <Route path="signup" Component={SignupPage} />
-        <Route path="community" Component={CommunityPage} />
-        <Route path="mytrips" Component={MyTrips} />
-        <Route path="planning/trip_detail" element={<TripDetailPage />} />
-        <Route path="planning/invite/:id" element={<InvitePage />} />
-        <Route path="preferences/:id" element={<PreferencesPage/>} />
-        <Route path="tinderpreference/:id" element={<TinderPreference/>} />
-        <Route path="waitingroom/:id" element={<WaitingRoomPage/>} />
-        <Route path="loading" Component={LoadingPage} />
-        <Route path="results" Component={ResultsPage} />   {/* Add ResultsPage route */}
-
+        {/* <Route path="signup" Component={SignupPage} /> */}
+        <Route path="/community" 
+          element={<CommunityPage addTripToSaved={addTripToSaved} />} 
+        />
+        <Route path="mytrips" 
+          element={<MyTrips savedTrips={savedTrips} />} 
+        />
+        <Route path="/planning/trip_detail" element={<TripDetailPage />} />
+        <Route path="/planning/invite/:id" element={<InvitePage />} />
+        <Route path="/preferences/:id" element={<PreferencesPage/>} />
+        <Route path="/tinderpreference/:id" element={<TinderPreference/>} />
+        <Route path="/waitingroom/:id" element={<WaitingRoomPage/>} />
+        <Route path="/loading" element={LoadingPage} />
+        <Route path="/results" element={<ResultsPage/>} />   {/* Add ResultsPage route */}
         <Route path="*" element={<HomePage />} />
       </Routes>
     </Router>

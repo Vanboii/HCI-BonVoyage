@@ -1,118 +1,81 @@
 import React, {useState} from "react";
 import { auth } from "../../firebase";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, signOut } from "firebase/auth";
-import { useUsers } from "../../test/useUsers";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useUsers } from "../../useHooks/useUsers";
 
 import './loginPopup.css'
+import { setHours } from "date-fns";
 
 export const AuthenticationPopup = () => {
 
   const [ email, setEmail] = useState("")
-  const [ password, setPassword ] = useState("")
   const [ username, setUsername ] = useState("")
-  
-  const [ LoginSignUp, toggleLoginSignUp] = useState(true);
-  const [ popUp, togglePopup ] = useState(false)
-  const { createUser,getUser } = useUsers();
+  const [ password, setPassword ] = useState("")
 
-  const handleChange = (e) => {
-    e.preventDefault()
+  const [ LoginSignUp, toggleLoginSignUp] = useState(true);
+  const [ viewable, toggleViewable ] = useState(false)
+  const { addUser, getUser } = useUsers();
+
+  const handleChange = () => {
+    setEmail("")
+    setUsername("")
     setPassword("")
     toggleLoginSignUp(!LoginSignUp)
   }
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    try {
+    if (LoginSignUp) {
       const userCredentail = await signInWithEmailAndPassword(auth, email, password);
       const User = userCredentail.user
-      try {
-        const { user } = getUser(User.uid)
-        if (user) {
-          console.log("Welcome")
-        }
-      } catch (error) {
-        console.error(error)
-        createUser({
-          uid: User.uid,
-          email: email,
+      const dbUser = await getUser(User.uid)
+      if (dbUser) {
+        console.log("Welcome", User.displayName)
+      } else {
+        addUser(User.uid, {
+          email: User.email,
           displayName: User.displayName,
-
         })
-        console.log("User Added")
       }
-
-      console.log(User.displayName,"logged in.",User)
-      togglePopup(false)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const handlCreate = async (e) => {
-    e.preventDefault()
-    try {
+    } else {
       const userCredentail = await createUserWithEmailAndPassword(auth, email, password);
       const User = userCredentail.user
       await updateProfile(User, {
         displayName: username
       })
-      createUser({
-        uid:User.uid,
+      addUser(User.uid, {
         email: email,
-        displayName: username,
+        displayName: username
       })
-      
-      console.log(User.displayName,"logged in.", User)
-
-      togglePopup(false)
-    } catch (error) {
-      console.error(error)
+      await User.reload()
     }
-  }    
-
-  const popupWindow = () => {
-    if (popUp) {
-      if (LoginSignUp) {
-        return (
-          <div id="popup" className="col centerAlign">
-            <div className="content">
-              <div className="topCross" onClick={() => togglePopup(false)}>X</div>
-              <h2>Login</h2>
-              <form onSubmit={handleLogin} className="col centerAlign border">
-                <input type="text" onChange={(e) => {setEmail(e.target.value)}}
-                  placeholder="Email" required />
-                <input type="text" onChange={(e) => {setPassword(e.target.value)}}
-                  placeholder="Password" required />
-                <button type="submit">I'm Back!</button>
-              </form>
-              <button onClick={handleChange}>Create an Account</button>
-            </div>
-          </div>
-        )
-      } else {
-        return (
-          <div id="popup" className="col centerAlign">
-            <div className="content">
-              <div className="topCross" onClick={() => togglePopup(false)}>X</div>
-              <h2>Create Account</h2>
-              <form onSubmit={handlCreate} className="col centerAlign border">
-                <input type="text" onChange={(e) => {setUsername(e.target.value)}}
-                  placeholder="Username" required />
-                <input type="text" onChange={(e) => {setEmail(e.target.value)}}
-                  placeholder="Email" required />
-                <input type="text" onChange={(e) => {setPassword(e.target.value)}}
-                  placeholder="Password" required />
-                <button type="submit">Let. Me. IN!</button>
-              </form>
-              <button onClick={handleChange}>Login instead</button>
-            </div>
-          </div>
-        )
-      }
-    }
-    
+    const actualUser = auth.currentUser
+    if (actualUser) toggleViewable(false);
   }
 
-  return { popupWindow, togglePopup, popUp }
+
+  const Popup = () => {
+    return (
+      <div id="popup" className="col centerAlign">
+        <div className="content">
+          <div className="topCross" onClick={() => toggleViewable(false)}>X</div>
+          <h2>{LoginSignUp ? "Login" : "Sign Up"}</h2>
+          <form onSubmit={handleSubmit} className="col centerAlign border">
+            {!LoginSignUp && (
+              <input type="text" onChange={(e) => {setUsername(e.target.value)}}
+                placeholder="Username" required />
+            )}
+            <input type="text" onChange={(e) => {setEmail(e.target.value)}}
+              placeholder="Email" required />
+            <input type="text" onChange={(e) => {setPassword(e.target.value)}}
+              placeholder="Password" required />
+            <button type="submit">{LoginSignUp ? "Login" : "Sign Up"}</button>
+          </form>
+          <p onClick={handleChange}>Create an Account</p>
+        </div>
+      </div>
+    )
+  }
+
+  return { popupWindow, togglePopup, Popup }
 }

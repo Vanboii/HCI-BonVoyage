@@ -4,9 +4,8 @@ import TopBanner from "../../../components/banner";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import dislikeIcon from '../../../components/Tinder_img_test/no.png';
 import likeIcon from '../../../components/Tinder_img_test/yes.png';
-import { useItineraries } from '../../../test/useGetItineraries';
 import { auth } from '../../../firebase';
-
+import { usePreference } from '../../../useHooks/usePreferences';
 
 // Function to shuffle an array
 const shuffleArray = (array) => {
@@ -19,6 +18,7 @@ const shuffleArray = (array) => {
 };
 
 const TinderPreference = () => {
+  const User = auth.currentUser
   const [places, setPlaces] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [likes, setLikes] = useState([]);
@@ -29,8 +29,7 @@ const TinderPreference = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
-  const {  updatePreferences  } = useItineraries();
-  const User = auth.currentUser
+  const { addPreference } = usePreference()
 
   useEffect(() => {
     if (location.state && location.state.recommendations) {
@@ -92,11 +91,16 @@ const TinderPreference = () => {
   };
 
   const handleNext = () => {
-
-//^^^^^^^^^^^^^^^^^^^^^^^^^
-  updatePreferences(id, User.uid, {likes: likes, dislikes: dislikes})
-
-    navigate(`/waitingroom/${id}`); // Adjust the path to the Preferences page
+    addPreference(id,{
+      [`${User.uid}`]: {
+        likes: likes,
+        dislikes : dislikes,
+        isdone: true,
+      }
+    });
+    console.log('Updating itinerary with likes and dislikes:', { likes, dislikes });
+    // updateItinerary(id, { likes: likes, dislikes: dislikes });
+    navigate(`/waitingroom/${id}`);
   };
 
   const closeModal = () => {
@@ -131,7 +135,7 @@ const TinderPreference = () => {
           {currentIndex < places.length ? (
             <div className={`picture-placeholder ${animationClass}`}>
               <img
-                src={places[currentIndex].image_url[0]} // Assuming image_url is an array of URLs
+                src={places[currentIndex].image_url} // Assuming image_url is an array of URLs
                 alt={places[currentIndex].location}
                 onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/default-image.png'; }}
               />

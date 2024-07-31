@@ -2,12 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 60px;
 }
 
 .contentContainer {
   display: flex;
   width: 100%;
-  margin-top: 20px; /* Adjust this based on your header height */
+  height: 100%;
+  /* margin-top: 20px; Adjust this based on your header height */
 }
 
 .leftContainer {
@@ -19,7 +21,7 @@
 .rightContainer {
   flex: 1;
   padding: 20px;
-  text-align: center;
+  /* text-align: center; */
   max-width: 50%;
 }
 

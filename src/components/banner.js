@@ -20,7 +20,7 @@ function TopBanner({ showAlertOnNavigate }) {
   const isHomepage = location.pathname === '/';
 
   function handleClick() {
-    navigate('/'); // Adjust the homepage route if needed
+    navigate('/home'); // Adjust the homepage route if needed
   }
 
   const { popupWindow, popUp, togglePopup } = AuthenticationPopup();
@@ -55,7 +55,8 @@ function TopBanner({ showAlertOnNavigate }) {
     });
     // Clean up the subscription
     return () => unsubscribe();
-  }, []);
+  }, [auth.currentUser]);
+
 
   const profile = () => {
     if (user) {
@@ -75,20 +76,21 @@ function TopBanner({ showAlertOnNavigate }) {
 
   const handleLogoClick = () => {
     if (showAlertOnNavigate) {
-      setNavigateTo('/');
+      setNavigateTo('/home');
       setShowAlert(true);
     } else {
       navigate('/');
     }
+    navigate('/home');
   };
 
   const handleButtonClick = (toPage) => {
     if (showAlertOnNavigate) {
       setNavigateTo(toPage);
       setShowAlert(true);
-    } else {
-      navigate(toPage);
+      return
     }
+    navigate(toPage);
   };
 
   const handleCloseAlert = () => {

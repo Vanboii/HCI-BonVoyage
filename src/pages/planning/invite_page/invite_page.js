@@ -3,8 +3,6 @@ import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
 import { useNavigate, useParams, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
-import { db } from '../../../firebase';
-import { collection, addDoc } from 'firebase/firestore';
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
@@ -19,14 +17,31 @@ const InvitePage = () => {
     // Generate a random invite link on component mount
     const link = `hci-bonvoyage.web.app/preferences/${id}`;
     setInviteLink(link);
-  }, []);
+  }, [id]);
+
 
   const params = new URLSearchParams(search);
   const city = params.get('city');
   const country = params.get('country');
 
+  const findEmail = async () => {
+    let emails = []
+    return emails
+  }
+  const findName = async () => {
+    let names = []
+    return names
+  }
+  useEffect( () => {
+    findEmail()
+    findName()
+      
+  },[email])
+
+
   const addInvite = () => {
     if (email) {
+
       setInvited([...invited, email]);
       setEmail(''); // Clear the email input
     }
@@ -35,14 +50,9 @@ const InvitePage = () => {
   const deleteInvite = (invite) => {
     setInvited(invited.filter((i) => i !== invite));
   };
-  const addNewCollectionTest = async (collectionName, activity) => {
-    const activityRef = collection(db,collectionName)
-    const docRef = await addDoc(activityRef, activity)
-    console.log("Activity Added:", docRef,activity)
-  }
-  const sendInvites =  () => {
-    addNewCollectionTest("bobby",{hi:"hello",leave:"bye"})
-    console.log("Done")
+  
+  const sendInvites = () => {
+    return
   }
 
   const copyInviteLink = () => {
