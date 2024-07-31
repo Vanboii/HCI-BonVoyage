@@ -32,11 +32,13 @@
     height: 50px!important;
     max-height: 50px!important;
     width: auto;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 #stickyBanner img:hover {
-    border-style: none;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0);
+    border-width: 2px;
 }
 
 .profile {
