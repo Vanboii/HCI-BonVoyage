@@ -211,7 +211,7 @@ def get_resulttrip():
 
     # once all the data is set, we cluster & format it
     # return currated_locations, 200
-    result, suggestion = get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye)
+    result, suggestion = get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye, budget_max)
 
     return jsonify({"dataResult": result,
                     "dataSuggestion": suggestion}), 200
@@ -219,8 +219,8 @@ def get_resulttrip():
 
 
 
-# if __name__ == "__main__":
-#     app.run(host="0.0.0.0", port=8000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
 
 
 # API 1:

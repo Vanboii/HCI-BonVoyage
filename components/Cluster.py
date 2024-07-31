@@ -6,7 +6,48 @@ import scipy
 
 
 
-def get_cluster(currated_locations):
+# following google API
+# 0 Free
+# 1 Inexpensive
+# 2 Moderate
+# 3 Expensive
+# 4 Very Expensive
+
+def custom_budget_mapping(budget_value):
+    budget_value = budget_value.lower()
+
+    # custom mapping based on budget levels
+    if 'free' in budget_value:
+        return 0
+    if 'low' in budget_value or 'budget-friendly' in budget_value:
+        return 1
+    elif 'medium' in budget_value or 'mid-range' in budget_value:
+        return 2
+    elif 'high' in budget_value or 'luxury' in budget_value:
+        return 3
+    else:
+        # handles $15-$25 signs
+        if '-' in budget_value:
+            budget_value = budget_value.split('-')
+            get_min = int(budget_value[0].replace("$", ''))
+        # handles $0 signs
+        else:
+            get_min = int(budget_value.replace("$", ''))
+
+        if get_min == 0:
+            return 0
+        elif get_min <= 30:
+            return 1
+        elif 31 <= get_min <= 100:
+            return 2
+        elif get_min > 100:
+            return 3
+        
+        return None
+
+
+
+def get_cluster(currated_locations, budgetRange):
     # get data from db
     df = pd.DataFrame(currated_locations)
 
@@ -47,10 +88,11 @@ def get_cluster(currated_locations):
 
     # add clustering info to the original dataset
     df[["cluster","centroids"]] = dtf_X[["cluster","centroids"]]
+    df['budgetLabel'] = df['budgetRange'].map(custom_budget_mapping)
     df = df.replace({np.nan: None})
 
     # return order_cluster(df, k)
-    return order_cluster(df)
+    return order_cluster(df, budgetRange)
 
 
 
@@ -69,13 +111,15 @@ def get_cluster(currated_locations):
 
 
 
-def order_cluster(df, budget_max="Low"):
-    # filter within budget first
-    budgetRange = budget_max
-    filtered_df = df[df['budgetRange'] == budgetRange]
+def order_cluster(df, budgetRange=1):
+    print('budgetRange', budgetRange)
+
+    # filter within budget first => takes priority
+    filtered_df = df[df['budgetLabel'] <= budgetRange]
+
     
     # not within budget
-    suggestions_df_budget = df[df['budgetRange'] != budgetRange]
+    suggestions_df_budget = df[df['budgetLabel'] >= budgetRange]
 
     if ('dietaryRestrictions' in df.columns) and ('restrictions' in df.columns):
         priority_df = filtered_df[(filtered_df['dietaryRestrictions'] != None) | (filtered_df['restrictions'] != None)]
@@ -92,9 +136,10 @@ def order_cluster(df, budget_max="Low"):
         suggestions_df_priority = filtered_df[(filtered_df['restrictions'] == None)]
         suggestions_df = pd.concat([suggestions_df_priority, suggestions_df_budget], ignore_index=True)
 
-
+    # currated_locations = pd.concat([filtered_df, suggestions_df_budget], ignore_index=True)
     currated_locations = pd.concat([priority_df, suggestions_df], ignore_index=True)
     currated_locations_dict = currated_locations.to_dict(orient='records')
+    # currated_locations_dict = filtered_df.to_dict(orient='records')
 
     # print(currated_locations_dict)
     return currated_locations_dict # ordered according to priority
@@ -150,7 +195,20 @@ def get_max_locations(travel_stye):
 
 
 
-def get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye):
+def get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye, budget_max):
+
+    # rely on budget labels (ingeger) isntead of string
+    if 'low' in budget_max:
+        budgetRange = custom_budget_mapping('low')
+    elif 'medium' in budget_max:
+        budgetRange = custom_budget_mapping('medium')
+    elif 'high' in budget_max:
+        budgetRange = custom_budget_mapping('high')
+    else:
+        budgetRange = 2 # default medium range
+
+    # print('budgetRange in results', budgetRange)
+
     # check for the correct number of days
     # if "morning-next-day" not in end_day_template:
         # end_day_template =  {"morning": []}
@@ -160,12 +218,14 @@ def get_results(currated_locations, no_days, start_day_template, end_day_templat
 
     # we cluster them first before formatting, followed by putting them in a singular list
     # sorted according to budget, followed by any preferences
-    recommendation_list = get_cluster(currated_locations)
+    recommendation_list = get_cluster(currated_locations, budgetRange)
     # print(recommendation_list)
+    
     
     max_locations = get_max_locations(travel_stye)
 
     grid, suggestion = grid_cluster(recommendation_list, end_day_template, no_days, max_locations)
+    # print(grid)
     
     # create the daily template
     result = {}
@@ -174,13 +234,13 @@ def get_results(currated_locations, no_days, start_day_template, end_day_templat
 
     while (no_days - day_counter) >= 0:
         # we create a template according to the day <no>
-        key = "day " + str(day_counter)
+        key = "day_" + str(day_counter)
 
         if day_counter == 1:
             result[key] = start_day_template
         # else its a whole day template
         elif (no_days - day_counter) >= 1:
-            result[key] = standard_template
+            result[key] = {"morning": [], "afternoon": [], "evening": []}
         # for final days
         elif (day_counter == no_days):
             if "morning-next-day" in end_day_template:
@@ -189,21 +249,28 @@ def get_results(currated_locations, no_days, start_day_template, end_day_templat
                 result[key] = end_day_template
                 
         # for each day, we collect data from the cluster
-        # print('day', day_counter, 'out of',  no_days)
-        # print(result[key])
+        print('day', day_counter, 'out of',  no_days)
+        print('key:', key)
+        print('previous value:', result[key])
         if result[key]:
             p = 0
-            row = grid[day_counter-1]
             # this is for referencing and adding value
             for part in result[key].keys():
-                result[key][part] = grid[day_counter-1][p]
+                data = grid[day_counter-1][p]
+                print(data)
+                if data:
+                    result[key][part] = data
+                    print('added:', data)
                 p += 1
 
+        print('new value:', result[key])
+        # print('\nResult\n', result)
 
         day_counter += 1
 
 
     # result => "finalised recommendation" + suggestions => flattened remaining grid
+    
     return result, suggestion
 
         
@@ -439,7 +506,7 @@ data = [
 
 
 # clustering test
-# get_cluster(data)
+# print(get_cluster(data, custom_budget_mapping('medium')))
 
 
 
