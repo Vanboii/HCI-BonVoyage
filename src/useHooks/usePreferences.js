@@ -1,11 +1,12 @@
+
 import { db } from "../firebase";
-import { doc, setDoc, getDoc, updateDoc, deleteDoc, } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, } from "firebase/firestore";
 
 
 export const usePreference = () => {
   const collectionName = "main-Preferences"
   const Options = {merge: true}
-  
+
 
   /**
    * @param {string} id  - itinerary ID
@@ -70,5 +71,15 @@ export const usePreference = () => {
     )
   }
 
-  return {addPreference,getPreference,updatePreference,deletePreference}
+  const listenPreference =  (id,setPreferences) => {
+    return onSnapshot(doc(db, collectionName,id), (doc) => {
+      const Data = doc.data()
+      setPreferences(Data)
+      console.log("listenPreference called")
+    })
+  }
+
+  return {addPreference,getPreference,updatePreference,deletePreference,
+        listenPreference,
+  }
 }

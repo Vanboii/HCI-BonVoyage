@@ -13,7 +13,7 @@ import arrowRightIcon from '../../../components/arrow-right.png';
 import personIcon from '../../../components/person.png';
 import Modal from 'react-modal';
 import Cookies from 'js-cookie';
-import { useTrip } from '../../../useHooks/useTrips';
+import { useTrips } from '../../../useHooks/useTrips';
 
 
 Modal.setAppElement('#root');
@@ -72,6 +72,10 @@ const Activity = ({ activity, index, moveActivity, dayIndex, handleEdit, handleD
     </div>
   );
 };
+
+
+
+
 
 const ResultsPage = () => {
   const initialItinerary = [
@@ -185,12 +189,59 @@ const ResultsPage = () => {
   const mapRef = useRef(null);
   const navigate = useNavigate();
 
-  const {addTrip} = useTrip()
+  const {addTrip} = useTrips()
   const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
 
   const tripDetails = Cookies.get('tripDetails') ? JSON.parse(Cookies.get('tripDetails')) : {};
   const { startDate, endDate, city, country, numberOfPeople } = tripDetails;
   const tripDates = startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates';
+
+  /**
+   * 
+   * @param {Array} data 
+   * @returns {object}
+   */
+  const convertDataToObject = (data) => {
+    const days = [" 1:"," 2:"," 3:"," 4:"," 5:"," 6:"," 7:"," 8:", " 9:"," 10:"," 11:"," 12:"," 13:"," 14:"," 15:"]
+    const result = { }
+    if (Array.isArray(data)) {
+      // console.log("isarray",data)
+      data.forEach((value1) => {
+        if (Object.prototype.toString.call(value1) === '[object Object]') {
+          // console.log("isObject",value1)
+          for (let dayIndex = 0; dayIndex < days.length; dayIndex++) {
+            try {
+              if (value1.day.includes(days[dayIndex])) {
+                const dayName = `day${dayIndex+1}`
+                result[dayName] = {
+                  morning:[],
+                  afternoon:[],
+                  evening:[],
+                }
+                if (value1.activities) {
+                  const activityCount = value1.activities.length
+                  for (let idx = 0; idx < activityCount; idx++) {
+                    if (idx/activityCount < 1/3) {
+                      result[dayName].morning.push(value1.activities[idx])
+                    } else if (idx/activityCount < 2/3) {
+                      result[dayName].afternoon.push(value1.activities[idx])
+                    } else {
+                      result[dayName].evening.push(value1.activities[idx])
+                    }
+                  }
+                }
+              }
+            } catch (error) {
+              console.error(error)
+            }
+          }
+        }
+      })
+    } else {
+      return {}
+    }
+    return result
+  }
 
   useEffect(() => {
     if (startDate && endDate) {
@@ -235,6 +286,8 @@ const ResultsPage = () => {
 
       fetchAllPlaceIds();
     }
+
+    console.log("itinerary", itinerary)
   }, [itinerary]);
 
   const generateItineraryDates = (start, end, itinerary) => {
@@ -332,7 +385,7 @@ const ResultsPage = () => {
     }
 
     localStorage.setItem('upcomingTrips', JSON.stringify(upcomingTrips));
-    addTrip(id, itinerary)
+    addTrip(id,convertDataToObject(itinerary))
 
     setShowModal(true);
   };

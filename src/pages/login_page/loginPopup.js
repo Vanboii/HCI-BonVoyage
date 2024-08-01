@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useUsers } from "../../useHooks/useUsers";
@@ -47,11 +47,14 @@ export const AuthenticationPopup = () => {
         email: email,
         displayName: username
       })
-      await User.reload()
+      
     }
+    await auth.currentUser.reload()
     const actualUser = auth.currentUser
     if (actualUser) toggleViewable(false);
   }
+
+
 
 
   const Popup = () => {
