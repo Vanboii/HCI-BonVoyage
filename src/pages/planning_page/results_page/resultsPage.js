@@ -7,7 +7,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import './resultsPage.css';
 import binIcon from '../../../components/bin.png';
 import dragIcon from '../../../components/drag.png';
-import calendarIcon from '../../../components/calendar.png'; 
+import calendarIcon from '../../../components/calendar.png';
 import arrowDownIcon from '../../../components/arrow-down.png';
 import arrowRightIcon from '../../../components/arrow-right.png';
 import personIcon from '../../../components/person.png';
@@ -20,11 +20,11 @@ const ItemTypes = {
   ACTIVITY: 'activity',
 };
 
-const Activity = ({ activity, index, moveActivity, dayIndex, handleEdit, handleDeleteActivity }) => {
+const Activity = ({ activity, index, moveActivity, dayIndex, section, handleEdit, handleDeleteActivity }) => {
   const ref = React.useRef(null);
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.ACTIVITY,
-    item: { index, dayIndex },
+    item: { index, dayIndex, section },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -33,10 +33,11 @@ const Activity = ({ activity, index, moveActivity, dayIndex, handleEdit, handleD
   const [, drop] = useDrop({
     accept: ItemTypes.ACTIVITY,
     hover: (draggedItem) => {
-      if (draggedItem.index !== index || draggedItem.dayIndex !== dayIndex) {
-        moveActivity(draggedItem.dayIndex, draggedItem.index, dayIndex, index);
+      if (draggedItem.index !== index || draggedItem.dayIndex !== dayIndex || draggedItem.section !== section) {
+        moveActivity(draggedItem.dayIndex, draggedItem.index, draggedItem.section, dayIndex, index, section);
         draggedItem.index = index;
         draggedItem.dayIndex = dayIndex;
+        draggedItem.section = section;
       }
     },
   });
@@ -52,129 +53,65 @@ const Activity = ({ activity, index, moveActivity, dayIndex, handleEdit, handleD
         <h3>{activity.name}</h3>
         <p>{activity.description}</p>
         <div className="activityDetails">
-          <span>{activity.hours}</span>
+          <span className="hours">Opening Hours: {activity.hours}</span>
+          <span className="budget">Budget: {activity.budget}</span>
         </div>
-        <button className="suggestionsButton" onClick={() => handleEdit(dayIndex, index)}>
+        <button className="suggestionsButton" onClick={() => handleEdit(dayIndex, index, section)}>
           Suggestions
         </button>
       </div>
       <div className="activityImage">
-        <img src={activity.image} alt={activity.name} />
+        <img src={activity.imageURL} alt={activity.name} />
         <img
           src={binIcon}
           alt="Delete"
           className="deleteIcon"
-          onClick={() => handleDeleteActivity(dayIndex, index)}
+          onClick={() => handleDeleteActivity(dayIndex, index, section)}
         />
       </div>
     </div>
   );
 };
 
+const Section = ({ activities, dayIndex, section, moveActivity, handleEdit, handleDeleteActivity }) => {
+  const [, drop] = useDrop({
+    accept: ItemTypes.ACTIVITY,
+    drop: (draggedItem) => {
+      if (draggedItem.dayIndex !== dayIndex || draggedItem.section !== section) {
+        moveActivity(draggedItem.dayIndex, draggedItem.index, draggedItem.section, dayIndex, activities.length, section);
+        draggedItem.index = activities.length;
+        draggedItem.dayIndex = dayIndex;
+        draggedItem.section = section;
+      }
+    },
+  });
+
+  return (
+    <div ref={drop} className="sectionContainer">
+      {activities.map((activity, index) => (
+        <Activity
+          key={index}
+          index={index}
+          activity={activity}
+          dayIndex={dayIndex}
+          section={section}
+          moveActivity={moveActivity}
+          handleEdit={handleEdit}
+          handleDeleteActivity={handleDeleteActivity}
+        />
+      ))}
+      {activities.length === 0 && <div className="emptySection">Drag an Activity Here</div>}
+    </div>
+  );
+};
+
 const ResultsPage = () => {
-  const initialItinerary = [
-    {
-      day: 'Day 1: Placeholder',
-      activities: [
-        {
-          name: 'Gyeongbokgung Palace',
-          description: 'Historical palace with guided tours and cultural events.',
-          hours: 'Open 9AM - 5PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.579617,
-          lng: 126.977041,
-          placeId: ''
-        },
-        {
-          name: 'Bukchon Hanok Village',
-          description: 'Traditional village showcasing historic Korean homes.',
-          hours: 'Open 10AM - 6PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.582576,
-          lng: 126.985648,
-          placeId: ''
-        },
-        {
-          name: 'Insadong',
-          description: 'Popular street for traditional Korean culture and crafts.',
-          hours: 'Open 10AM - 9PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.572768,
-          lng: 126.986632,
-          placeId: ''
-        },
-      ],
-    },
-    {
-      day: 'Day 2: Placeholder',
-      activities: [
-        {
-          name: 'Myeongdong Shopping Street',
-          description: 'Bustling shopping area with a variety of stores and eateries.',
-          hours: 'Open 10AM - 10PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.560970,
-          lng: 126.985032,
-          placeId: ''
-        },
-        {
-          name: 'N Seoul Tower',
-          description: 'Iconic tower offering panoramic views of Seoul.',
-          hours: 'Open 10AM - 11PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.551169,
-          lng: 126.988227,
-          placeId: ''
-        },
-        {
-          name: 'Cheonggyecheon Stream',
-          description: 'Modern public recreation space along a historic stream.',
-          hours: 'Open 24 hours',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.569273,
-          lng: 126.977047,
-          placeId: ''
-        },
-      ],
-    },
-    // Additional placeholder days...
-  ];
-
-  const suggestedPlaces = [
-    {
-      name: 'Coex Mall',
-      description: 'Large shopping mall with numerous stores, restaurants, and attractions.',
-      hours: 'Open 10AM - 10PM',
-      image: 'https://via.placeholder.com/150',
-      lat: 37.511017,
-      lng: 127.059544,
-      placeId: ''
-    },
-    {
-      name: 'Coex Sea Aquarium',
-      description: 'Popular aquarium with a variety of marine life exhibits.',
-      hours: 'Open 10AM - 8PM',
-      image: 'https://via.placeholder.com/150',
-      lat: 37.511557,
-      lng: 127.059899,
-      placeId: ''
-    },
-    {
-      name: 'Butter Store',
-      description: 'Trendy store offering a wide range of lifestyle products.',
-      hours: 'Open 10AM - 10PM',
-      image: 'https://via.placeholder.com/150',
-      lat: 37.570558,
-      lng: 126.992528,
-      placeId: ''
-    },
-  ];
-
-  const [itinerary, setItinerary] = useState(initialItinerary);
+  const [itinerary, setItinerary] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedDayIndex, setSelectedDayIndex] = useState(null);
   const [selectedActivityIndex, setSelectedActivityIndex] = useState(null);
-  const [currentSuggestions] = useState([...suggestedPlaces.slice(0, 15)]);
+  const [selectedSection, setSelectedSection] = useState(null);
+  const [currentSuggestions, setCurrentSuggestions] = useState([]);
   const [expandedDays, setExpandedDays] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -188,11 +125,17 @@ const ResultsPage = () => {
   const tripDates = startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates';
 
   useEffect(() => {
-    if (startDate && endDate) {
-      const updatedItinerary = generateItineraryDates(new Date(startDate), new Date(endDate), itinerary);
-      setItinerary(updatedItinerary);
-    }
-  }, [startDate, endDate]);
+    fetch('/itinerary.json')
+      .then(response => response.json())
+      .then(data => {
+        const itineraryData = Object.keys(data).filter(key => key.startsWith('day')).map(dayKey => ({
+          day: dayKey,
+          ...data[dayKey]
+        }));
+        setItinerary(itineraryData);
+      })
+      .catch(error => console.error('Error fetching itinerary data:', error));
+  }, []);
 
   useEffect(() => {
     if (window.google && window.google.maps && window.google.maps.places) {
@@ -216,12 +159,14 @@ const ResultsPage = () => {
       const fetchAllPlaceIds = async () => {
         const updatedItinerary = [...itinerary];
         for (let day of updatedItinerary) {
-          for (let activity of day.activities) {
-            try {
-              const placeId = await fetchPlaceId(activity);
-              activity.placeId = placeId;
-            } catch (error) {
-              console.error(`Failed to fetch place ID for ${activity.name}:`, error);
+          for (let section of ['morning', 'afternoon', 'evening']) {
+            for (let activity of day[section]) {
+              try {
+                const placeId = await fetchPlaceId(activity);
+                activity.placeId = placeId;
+              } catch (error) {
+                console.error(`Failed to fetch place ID for ${activity.name}:`, error);
+              }
             }
           }
         }
@@ -243,7 +188,9 @@ const ResultsPage = () => {
       const formattedDate = `${dayName}, ${dayNumber} ${monthName}`;
       return {
         day: `Day ${index + 1}: ${formattedDate}`,
-        activities: itinerary[index] ? itinerary[index].activities : [],
+        morning: itinerary[index] ? itinerary[index].morning : [],
+        afternoon: itinerary[index] ? itinerary[index].afternoon : [],
+        evening: itinerary[index] ? itinerary[index].evening : [],
       };
     });
     return updatedItinerary;
@@ -255,49 +202,51 @@ const ResultsPage = () => {
     );
   };
 
-  const handleEdit = (dayIndex, activityIndex) => {
+  const handleEdit = (dayIndex, activityIndex, section) => {
     setSelectedDayIndex(dayIndex);
     setSelectedActivityIndex(activityIndex);
+    setSelectedSection(section);
     setShowSuggestions(true);
   };
 
   const handleSuggestionSelect = (suggestion) => {
-    if (selectedDayIndex !== null && selectedActivityIndex !== null) {
+    if (selectedDayIndex !== null && selectedActivityIndex !== null && selectedSection !== null) {
       const newItinerary = [...itinerary];
-      newItinerary[selectedDayIndex].activities[selectedActivityIndex] = suggestion;
+      newItinerary[selectedDayIndex][selectedSection][selectedActivityIndex] = suggestion;
 
       setItinerary(newItinerary);
       setShowSuggestions(false);
       setSelectedDayIndex(null);
       setSelectedActivityIndex(null);
+      setSelectedSection(null);
     }
   };
 
-  const handleDeleteActivity = (dayIndex, activityIndex) => {
+  const handleDeleteActivity = (dayIndex, activityIndex, section) => {
     const newItinerary = [...itinerary];
-    newItinerary[dayIndex].activities.splice(activityIndex, 1);
+    newItinerary[dayIndex][section].splice(activityIndex, 1);
     setItinerary(newItinerary);
   };
 
   const handleAddGreyBox = (dayIndex) => {
     const newItinerary = [...itinerary];
     const newActivity = {
-      name: `New Activity ${newItinerary[dayIndex].activities.length + 1}`,
+      name: `New Activity ${newItinerary[dayIndex].morning.length + 1}`,
       description: 'Placeholder description for the new activity.',
       hours: 'Open hours for the new activity.',
-      image: 'https://via.placeholder.com/150',
+      imageURL: 'https://via.placeholder.com/150',
       lat: 37.5665,
       lng: 126.9780,
       placeId: ''
     };
-    newItinerary[dayIndex].activities.push(newActivity);
+    newItinerary[dayIndex].morning.push(newActivity);
     setItinerary(newItinerary);
   };
 
-  const moveActivity = (sourceDayIndex, sourceIndex, destinationDayIndex, destinationIndex) => {
+  const moveActivity = (sourceDayIndex, sourceIndex, sourceSection, destinationDayIndex, destinationIndex, destinationSection) => {
     const newItinerary = [...itinerary];
-    const [movedActivity] = newItinerary[sourceDayIndex].activities.splice(sourceIndex, 1);
-    newItinerary[destinationDayIndex].activities.splice(destinationIndex, 0, movedActivity);
+    const [movedActivity] = newItinerary[sourceDayIndex][sourceSection].splice(sourceIndex, 1);
+    newItinerary[destinationDayIndex][destinationSection].splice(destinationIndex, 0, movedActivity);
     setItinerary(newItinerary);
   };
 
@@ -305,6 +254,7 @@ const ResultsPage = () => {
     setShowSuggestions(false);
     setSelectedDayIndex(null);
     setSelectedActivityIndex(null);
+    setSelectedSection(null);
   };
 
   const handleSaveAndExit = () => {
@@ -347,11 +297,13 @@ const ResultsPage = () => {
   };
 
   const locations = itinerary.flatMap((day, dayIndex) =>
-    day.activities.map((activity, activityIndex) => ({
-      key: `day${dayIndex}-activity${activityIndex}`,
-      location: { lat: activity.lat, lng: activity.lng },
-      ...activity
-    }))
+    ['morning', 'afternoon', 'evening'].flatMap((section) =>
+      day[section].map((activity, activityIndex) => ({
+        key: `day${dayIndex}-section${section}-activity${activityIndex}`,
+        location: { lat: activity.lat, lng: activity.lng },
+        ...activity
+      }))
+    )
   );
 
   const PoiMarkers = ({ pois }) => {
@@ -447,17 +399,36 @@ const ResultsPage = () => {
                   </div>
                   {expandedDays.includes(dayIndex) && (
                     <div className="activitiesContainer">
-                      {dayPlan.activities.map((activity, activityIndex) => (
-                        <Activity
-                          key={activityIndex}
-                          index={activityIndex}
-                          activity={activity}
-                          dayIndex={dayIndex}
-                          moveActivity={moveActivity}
-                          handleEdit={handleEdit}
-                          handleDeleteActivity={handleDeleteActivity}
-                        />
-                      ))}
+                      <h3>Morning</h3>
+                      <hr className="divider" />
+                      <Section
+                        activities={dayPlan.morning}
+                        dayIndex={dayIndex}
+                        section="morning"
+                        moveActivity={moveActivity}
+                        handleEdit={handleEdit}
+                        handleDeleteActivity={handleDeleteActivity}
+                      />
+                      <h3>Afternoon</h3>
+                      <hr className="divider" />
+                      <Section
+                        activities={dayPlan.afternoon}
+                        dayIndex={dayIndex}
+                        section="afternoon"
+                        moveActivity={moveActivity}
+                        handleEdit={handleEdit}
+                        handleDeleteActivity={handleDeleteActivity}
+                      />
+                      <h3>Evening</h3>
+                      <hr className="divider" />
+                      <Section
+                        activities={dayPlan.evening}
+                        dayIndex={dayIndex}
+                        section="evening"
+                        moveActivity={moveActivity}
+                        handleEdit={handleEdit}
+                        handleDeleteActivity={handleDeleteActivity}
+                      />
                       <button className="addActivityButton" onClick={() => handleAddGreyBox(dayIndex)}>
                         + Add Activity
                       </button>
@@ -493,11 +464,12 @@ const ResultsPage = () => {
                         <h3>{place.name}</h3>
                         <p>{place.description}</p>
                         <div className="activityDetails">
-                          <span>{place.hours}</span>
+                          <span className="hours">{place.hours}</span>
+                          <span className="budget">Budget: {place.budget}</span>
                         </div>
                       </div>
                       <div className="activityImage">
-                        <img src={place.image} alt={place.name} />
+                        <img src={place.imageURL} alt={place.name} />
                       </div>
                     </div>
                   ))}
