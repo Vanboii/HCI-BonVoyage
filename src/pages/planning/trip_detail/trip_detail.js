@@ -98,7 +98,7 @@ const TripDetailPage = () => {
       startDate: startDate, 
       endDate : endDate,
       numberOfPeople : numberOfPeople,
-      owner : "UserID"
+      owner : {uid: auth.currentUser.uid, displayName: auth.currentUser.displayName},
     });
     setItineraryId(id);
     if (id) {
