@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from '@vis.gl/react-google-maps';
 import TopBanner from '../../../components/banner';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
@@ -189,8 +189,9 @@ const ResultsPage = () => {
   const mapRef = useRef(null);
   const navigate = useNavigate();
 
+  const { id } = useParams()
   const {addTrip} = useTrips()
-  const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
+  // const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
 
   const tripDetails = Cookies.get('tripDetails') ? JSON.parse(Cookies.get('tripDetails')) : {};
   const { startDate, endDate, city, country, numberOfPeople } = tripDetails;
@@ -385,7 +386,7 @@ const ResultsPage = () => {
     }
 
     localStorage.setItem('upcomingTrips', JSON.stringify(upcomingTrips));
-    addTrip(id,convertDataToObject(itinerary))
+    addTrip(id, convertDataToObject(itinerary))
 
     setShowModal(true);
   };

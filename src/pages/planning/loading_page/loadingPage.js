@@ -57,12 +57,13 @@
 
 //celest new code to link loading page to results page
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate
 import './loadingPage.css';
 import TopBanner from "../../../components/banner";
 import travelerImage from '../../../components/traveler.png';
 
 const LoadingPage = () => {
+  const { id } = useParams()
   const [progress, setProgress] = useState(0); // Initial progress value
   const [isComplete, setIsComplete] = useState(false); // Track completion
   const navigate = useNavigate(); // Initialize navigate
@@ -92,7 +93,7 @@ const LoadingPage = () => {
   // Navigate to results page when progress reaches 100%
   useEffect(() => {
     if (isComplete) {
-      navigate('/results'); // Navigate to the results page
+      navigate(`/results/${id}`); // Navigate to the results page
     }
   }, [isComplete, navigate]);
 

@@ -67,7 +67,7 @@ function WaitingRoom() {
         <div className="content">
           <div>
             <p className="progress">{Users.length}/{maxUsers} has filled in their preference</p>
-            <button className="button" onClick={() => navigate('/loading')}>Start Generating</button>
+            <button className="button" onClick={() => navigate(`/loading/${id}`)}>Start Generating</button>
           </div>
           <div className="status">
             <h2>Status:</h2>
