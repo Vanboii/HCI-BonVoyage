@@ -53,14 +53,14 @@ import LoginPage from './pages/login_page/loginPage';
 import SignupPage from './pages/signup_page/signupPage';
 import MyTrips from './pages/mytrips_page/mytripsPage';
 import CommunityPage from './pages/community_page/communityPage';
-import TripDetailPage from './pages/planning_page/trip_detail/trip_detail';
-import InvitePage from './pages/planning_page/invite_page/invite_page';
-import PreferencesPage from './pages/planning_page/preferences_page/preferences_page';
-import TinderPreference from './pages/planning_page/tinder_preference/tinder_preference';
-import WaitingRoomPage from './pages/planning_page/waiting_room/waitingroomPage';
-import LoadingPage from './pages/planning_page/loading_page/loadingPage';
-import ResultsPage from './pages/planning_page/results_page/resultsPage'; // Import ResultsPage
-import InviteStart from './pages/planning_page/start_invite_page/start_invite'; 
+import TripDetailPage from './pages/planning/trip_detail/trip_detail';
+import InvitePage from './pages/planning/invite_page/invite_page';
+import PreferencesPage from './pages/planning/preferences_page/preferences_page';
+import TinderPreference from './pages/planning/tinder_preference/tinder_preference';
+import WaitingRoomPage from './pages/planning/waiting_room/waitingroomPage';
+import LoadingPage from './pages/planning/loading_page/loadingPage';
+import ResultsPage from './pages/planning/results_page/resultsPage'; // Import ResultsPage
+import InviteStart from './pages/planning/start_invite_page/start_invite'; 
 
 
 import { MYTRIPS } from './test/page1';
