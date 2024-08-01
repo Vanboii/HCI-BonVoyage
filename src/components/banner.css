@@ -19,7 +19,7 @@
     gap: 1vw;
     display: flex;
     align-items: center;
-    z-index: 3; /* Ensure the banner stays on top */
+    z-index: 10; /* Ensure the banner stays on top */
 }
 
 .spacer {

@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, getDoc, updateDoc, deleteDoc, doc, onSnapshot, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDoc, getDocs, updateDoc, deleteDoc } from "firebase/firestore";
 
 export const useUsers = () => {
-  const [Users, setUsers] = useState([])
   const collectionName = "main-Users"
   const collectionRef = collection(db, collectionName)
 
@@ -56,22 +54,29 @@ export const useUsers = () => {
     })
   }
 
+  const getUsers = async () => {
+    let Users = []
+    const snapshot = await getDocs(collectionRef)
+    snapshot.forEach(doc => {
+      Users.push(doc.data())
+    });
+    return Users
+  }
+  // useEffect(()=>{
+  //   const getUsers = () => {
+  //     return onSnapshot(collectionRef, (snapShot) => {
+  //       const data = snapShot.docs.map(item => (
+  //         {id:item.id, ...item.data()}
+  //       ));
+  //       setUsers(data)
   
-  useEffect(()=>{
-    const getUsers = () => {
-      return onSnapshot(collectionRef, (snapShot) => {
-        const data = snapShot.docs.map(item => (
-          {id:item.id, ...item.data()}
-        ));
-        setUsers(data)
-  
-      }, (error) => {
-        console.error("Error Getting Users:", error);
-      })
-    }
-    const sub = getUsers();
-    return sub
-  },[])
+  //     }, (error) => {
+  //       console.error("Error Getting Users:", error);
+  //     })
+  //   }
+  //   const sub = getUsers();
+  //   return sub
+  // },[])
 
-  return {addUser,getUser,updateUser,deleteUser, Users}
+  return {addUser,getUser,updateUser,deleteUser, getUsers}
 }

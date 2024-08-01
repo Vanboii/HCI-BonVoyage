@@ -4,7 +4,6 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfi
 import { useUsers } from "../../useHooks/useUsers";
 
 import './loginPopup.css'
-import { setHours } from "date-fns";
 
 export const AuthenticationPopup = () => {
 
@@ -15,7 +14,7 @@ export const AuthenticationPopup = () => {
   const [ LoginSignUp, toggleLoginSignUp] = useState(true);
   const [ viewable, toggleViewable ] = useState(false)
   const { addUser, getUser } = useUsers();
-
+ 
   const handleChange = () => {
     setEmail("")
     setUsername("")
@@ -33,6 +32,7 @@ export const AuthenticationPopup = () => {
         console.log("Welcome", User.displayName)
       } else {
         addUser(User.uid, {
+          uid: User.uid,
           email: User.email,
           displayName: User.displayName,
         })
@@ -44,15 +44,15 @@ export const AuthenticationPopup = () => {
         displayName: username
       })
       addUser(User.uid, {
+        uid: User.uid,
         email: email,
-        displayName: username
+        displayName: username,
       })
       await User.reload()
     }
     const actualUser = auth.currentUser
     if (actualUser) toggleViewable(false);
   }
-
 
   const Popup = () => {
     return (
@@ -77,5 +77,5 @@ export const AuthenticationPopup = () => {
     )
   }
 
-  return { popupWindow, togglePopup, Popup }
+  return { viewable, toggleViewable, Popup }
 }

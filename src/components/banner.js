@@ -23,7 +23,7 @@ function TopBanner({ showAlertOnNavigate }) {
     navigate('/home'); // Adjust the homepage route if needed
   }
 
-  const { popupWindow, popUp, togglePopup } = AuthenticationPopup();
+  const { viewable, toggleViewable, Popup } = AuthenticationPopup();
 
   const [user, setUser] = useState(null);
   const [hover, setHover] = useState(false);
@@ -55,7 +55,7 @@ function TopBanner({ showAlertOnNavigate }) {
     });
     // Clean up the subscription
     return () => unsubscribe();
-  }, [auth.currentUser]);
+  }, []);
 
 
   const profile = () => {
@@ -70,7 +70,7 @@ function TopBanner({ showAlertOnNavigate }) {
       )
     }
     return (
-      <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => togglePopup(true)}>Log In</button>
+      <button className={isHomepage ? 'white-text' : 'black-text'} onClick={() => toggleViewable(true)}>Log In</button>
     )
   }
 
@@ -138,7 +138,7 @@ function TopBanner({ showAlertOnNavigate }) {
           showAlert={showAlert}
         />
       )}
-      {popUp && popupWindow()}
+      {viewable && Popup()}
     </div>
   );
 }

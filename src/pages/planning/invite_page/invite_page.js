@@ -3,6 +3,9 @@ import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
 import { useNavigate, useParams, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
+// import { useItinerary } from '../../../useHooks/useItineraries';
+// import { useUsers } from '../../../useHooks/useUsers';
+
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
@@ -12,10 +15,14 @@ const InvitePage = () => {
   const navigate = useNavigate(); // Initialize the useNavigate hook
   const { id } = useParams();
   const { search } = useLocation();
+  // const { updateItinerary } = useItinerary();
+  // const { getUsers } = useUsers();
 
   useEffect(() => {
     // Generate a random invite link on component mount
     const link = `hci-bonvoyage.web.app/preferences/${id}`;
+    const localLink = `localhost:3000/preferences/${id}`
+    console.log(localLink);
     setInviteLink(link);
   }, [id]);
 
@@ -24,24 +31,8 @@ const InvitePage = () => {
   const city = params.get('city');
   const country = params.get('country');
 
-  const findEmail = async () => {
-    let emails = []
-    return emails
-  }
-  const findName = async () => {
-    let names = []
-    return names
-  }
-  useEffect( () => {
-    findEmail()
-    findName()
-      
-  },[email])
-
-
   const addInvite = () => {
     if (email) {
-
       setInvited([...invited, email]);
       setEmail(''); // Clear the email input
     }
