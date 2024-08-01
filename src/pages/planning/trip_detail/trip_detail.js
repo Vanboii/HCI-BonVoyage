@@ -122,8 +122,8 @@ const TripDetailPage = () => {
   const handleModalClose = (proceed) => {
     setModalVisible(false);
     if (proceed) {
-      const encodedCity = encodeURIComponent(city.label);
-      const encodedCountry = encodeURIComponent(country.label);
+      const encodedCity = encodeURIComponent(city);
+      const encodedCountry = encodeURIComponent(country);
       navigate(`/planning/invite/${itineraryId}?city=${encodedCity}&country=${encodedCountry}`);
     }
   };

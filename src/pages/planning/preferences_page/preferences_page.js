@@ -15,6 +15,7 @@ import AdventureIcon from '../../../components/travel style/adventure.png';
 import LocalIcon from '../../../components/travel style/local.png';
 import RelaxedIcon from '../../../components/travel style/relaxed.png';
 import TouristIcon from '../../../components/travel style/tourist.png';
+import { useItinerary } from '../../../useHooks/useItineraries';
 
 const dietaryOptions = [
   'No Restrictions', 'Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Kosher', 'Pescatarian',
@@ -48,6 +49,16 @@ const PreferencesPage = () => {
   const { id } = useParams();
   const User = auth.currentUser
   const { addPreference } = usePreference();
+  const { getItinerary } = useItinerary();
+  const [citY, setCity] = useState("");
+  const [countrY, setCountry] = useState("");
+
+  const collectItinerary = async () => {
+    const itinerary = await getItinerary(id)
+    setCity(itinerary.city)
+    setCountry(itinerary.country)
+  }
+  collectItinerary()
 
   // useState 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
@@ -114,18 +125,19 @@ const PreferencesPage = () => {
   };
 
   useEffect(() => {
+    collectItinerary()
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      if (!city || !country) return;
-
+      if (!citY || !countrY) return;
       try {
-        const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${city}&country=${country}`);
+        console.log('Fetching categories...',citY,countrY);
+        const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${citY}&country=${countrY}`);
         const fetchedCategories = response.data.data.categories; // Adjusted to match the structure in the previous example
         console.log('Fetched categories:', fetchedCategories);
         setAvailableCategories(fetchedCategories);
@@ -137,7 +149,7 @@ const PreferencesPage = () => {
     };
 
     fetchCategories();
-  }, [city, country]);
+  }, [citY, countrY]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
