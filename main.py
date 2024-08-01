@@ -101,7 +101,7 @@ def get_recommendations():
      itineraryID = request.args.get("itineraryID")
      userID = request.args.get("userID") # or username
 
-     preplanning_data = db.collection('main-Itineraries').document(itineraryID).get().to_dict()
+     preplanning_data = db.collection('main-PrePlanning').document(itineraryID).get().to_dict()
     
     # if userpreferences is a json and not a smaller collection
      userpreferences_data = db.collection('main-Preferences').document(itineraryID).get().to_dict()
@@ -213,6 +213,10 @@ def get_resulttrip():
     # return currated_locations, 200
     result, suggestion = get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye, budget_max)
 
+    # save the trips to db
+    doc_ref = db.collection('main-Trips').document(itineraryID).set({"itinerary": result, "suggestion": suggestion})
+
+    # return to flask the result
     return jsonify({"dataResult": result,
                     "dataSuggestion": suggestion}), 200
      
