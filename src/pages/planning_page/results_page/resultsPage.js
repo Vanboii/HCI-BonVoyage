@@ -386,7 +386,7 @@ const ResultsPage = () => {
                   <button className="saveExitButton" onClick={handleSaveAndExit}>Save and Exit</button>
                 </div>
               </div>
-              {itinerary.map((dayPlan, dayIndex) => (
+              {generateItineraryDates(new Date(startDate), new Date(endDate), itinerary).map((dayPlan, dayIndex) => (
                 <div className="dayContainer" key={dayIndex}>
                   <div className={`dayHeader ${expandedDays.includes(dayIndex) ? 'expanded' : ''}`} onClick={() => toggleExpandDay(dayIndex)}>
                     <span className="dayArrow">
