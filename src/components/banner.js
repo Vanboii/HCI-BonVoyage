@@ -56,12 +56,9 @@ function TopBanner({ showAlertOnNavigate }) {
     return () => unsubscribe();
   }, []);
 
-  
-
   const profile = () => {
     if (user) {
-      let show = user.displayName
-      console.log("show:",show)
+      let show = user.username
       if (hover) {
         show = "Log Out"
       }
