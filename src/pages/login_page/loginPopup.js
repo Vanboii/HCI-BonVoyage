@@ -62,23 +62,28 @@ export const AuthenticationPopup = () => {
       <div id="popup" className="col centerAlign">
         <div className="content">
           <div className="topCross" onClick={() => toggleViewable(false)}>X</div>
-          <h2>{LoginSignUp ? "Login" : "Sign Up"}</h2>
-          <form onSubmit={handleSubmit} className="col centerAlign border">
+          <h2 className="h2-login">{LoginSignUp ? "Welcome!" : "Create a New Account"}</h2>
+          <form onSubmit={handleSubmit} className="col centerAlign">
             {!LoginSignUp && (
-              <input type="text" onChange={(e) => {setUsername(e.target.value)}}
+              <input type="text" onChange={(e) => { setUsername(e.target.value) }}
                 placeholder="Username" required />
             )}
-            <input type="text" onChange={(e) => {setEmail(e.target.value)}}
+            <input type="text" onChange={(e) => { setEmail(e.target.value) }}
               placeholder="Email" required />
-            <input type="text" onChange={(e) => {setPassword(e.target.value)}}
+            <input type="text" onChange={(e) => { setPassword(e.target.value) }}
               placeholder="Password" required />
             <button type="submit">{LoginSignUp ? "Login" : "Sign Up"}</button>
           </form>
-          <p onClick={handleChange}>Create an Account</p>
+          <p>
+            {LoginSignUp ? "Don't have an account yet? " : "Have an account? "}
+            <a href="#" onClick={handleChange} className="link">
+              {LoginSignUp ? "Sign up here" : "Login here"}
+            </a>
+          </p>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   return {  viewable, toggleViewable, Popup }
 }
