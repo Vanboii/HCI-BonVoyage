@@ -141,7 +141,7 @@ const TripDetailPage = () => {
       {/* {!User && Popup()} */}
       <main>
         <h1>Enter Your Trip Details</h1>
-        <p className="description">Gateway to Planning Your Ideal Itinerary</p>
+        <p className="description-trip">Gateway to Planning Your Ideal Itinerary</p>
         <div className="form-box">
           <form onSubmit={handleSubmit} className="form-container">
             <div className="form-group">
