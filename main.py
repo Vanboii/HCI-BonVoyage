@@ -286,3 +286,4 @@ if __name__ == "__main__":
 # API 3s:
 # /get-resulttrip?itineraryID=IGio4nbWEIooCfvuxv6m
 # /get-resulttrip?itineraryID=Z8TcogrOuSzQznqZLaDR
+# /get-resulttrip?itineraryID=UxHsrGtaoPeVrC06Rf3d

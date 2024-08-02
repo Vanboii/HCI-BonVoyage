@@ -98,6 +98,9 @@ def get_cluster(currated_locations, budgetRange):
 def order_cluster(df, budgetRange=2):
     print('budgetRange', budgetRange)
 
+    priority_df = pd.DataFrame()
+    suggestions_df = pd.DataFrame()
+
     # filter within budget first => takes priority
     filtered_df = df[df['budgetLabel'] <= budgetRange]
 
@@ -121,18 +124,22 @@ def order_cluster(df, budgetRange=2):
         suggestions_df = pd.concat([suggestions_df_priority, suggestions_df_budget], ignore_index=True)
 
     # currated_locations = pd.concat([filtered_df, suggestions_df_budget], ignore_index=True)
+    # Check if the DataFrame is empty
+    if priority_df.empty:
+        priority_df = filtered_df
+
     currated_locations = pd.concat([priority_df, suggestions_df], ignore_index=True)
     currated_locations_dict = currated_locations.to_dict(orient='records')
     # currated_locations_dict = filtered_df.to_dict(orient='records')
 
-    # print(currated_locations_dict)
+    print(currated_locations_dict)
     return currated_locations_dict # ordered according to priority
 
 
 
 def grid_cluster(ordered_clusted, end_day_template, no_days, max_locations):
-    if "morning-next-day" not in end_day_template:
-        no_days -= 1
+    # if "morning-next-day" not in end_day_template:
+    #     no_days -= 1
 
     grid = []
     index = len(ordered_clusted) - 1
@@ -141,10 +148,12 @@ def grid_cluster(ordered_clusted, end_day_template, no_days, max_locations):
         day = []
         for p in range(3):
             to_put = []
+            # print('passed p')
             for m in range(max_locations):
+                # print('passed m')
                 try:
                     to_put.append(ordered_clusted[index])
-                    # print(ordered_clusted[index])
+                    print('indexed', ordered_clusted[index])
                     index -= 1
                 except:
                     pass
@@ -208,9 +217,11 @@ def get_results(currated_locations, no_days, start_day_template, end_day_templat
     
     
     max_locations = get_max_locations(travel_stye)
+    print('max locations', max_locations)
 
     grid, suggestion = grid_cluster(recommendation_list, end_day_template, no_days, max_locations)
-    # print(grid)
+    print('grid', grid)
+    print('suggestion', suggestion)
     
     # create the daily template
     result = {}
