@@ -16,6 +16,7 @@ import Cookies from 'js-cookie';
 import { useTrips } from '../../../useHooks/useTrips';
 import axios from 'axios';
 import { useItinerary } from '../../../useHooks/useItineraries';
+import { usePreference } from '../../../useHooks/usePreferences';
 
 
 
@@ -223,12 +224,15 @@ const ResultsPage = () => {
   const { id } = useParams();
   const {addTrip} = useTrips();
   const {getItinerary} = useItinerary();
+  const {getPreference} = usePreference()
 
   const [ startDate, setStartDate] = useState("");
   const [ endDate, setEndDate] = useState("");
   const [ city, setCity] = useState("");
   const [ country, setCountry] = useState("");
   const [ numberOfPeople, setNumberOfPeople] = useState(0);
+  const [ budgetMax,setBudgetMax] = useState();
+  const [ budgetMin,setBudgetMin] = useState();
   const [ tripDates, setTripDates] = useState(``);
   // const [ locations, setLocations ] = useState([])
   // const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
@@ -265,10 +269,17 @@ const ResultsPage = () => {
     }
     setLoading(false);
   }
-
+  const getItineraryPreferences = async () => {
+    const data = await getPreference(id);
+    const maxBudget = data.map((user) => user.budget[1]);
+    const minBudget = data.map((user) => user.budget[0]);
+    setBudgetMax(Math.min(...maxBudget));
+    setBudgetMin(Math.max(...minBudget));
+  }
   useEffect(() => {
-    getGeneratedItinerary()
-    getItineraryDetails()
+    getGeneratedItinerary();
+    getItineraryDetails();
+
   },[])
 
   useEffect(() => {
@@ -403,7 +414,7 @@ const ResultsPage = () => {
     const newTrip = {
       image: 'https://via.placeholder.com/200',
       location: `${city}, ${country}`,
-      priceRange: '$1000 - $3000',
+      priceRange: `${budgetMin} - ${budgetMax}`,
       saves: 0,
       travelers: numberOfPeople,
       itinerary: itinerary,
