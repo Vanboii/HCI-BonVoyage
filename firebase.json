@@ -4,7 +4,8 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "public",
+    "public": "dist/",
+    "site": "bonvoyage-testing",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -14,4 +15,5 @@
   "storage": {
     "rules": "storage.rules"
   }
+  
 }
