@@ -196,7 +196,7 @@ def get_resulttrip():
                        "morning": {"afternoon": [], "evening": []},
                        "afternoon": {"evening": []},
                        "evening": {"morning": [], "afternoon": [], "evening": []}}
-    departure_pattern = {"early_morning-Morning": {"morning": [], "afternoon": []},
+    departure_pattern = {"early_morning": {"morning": [], "afternoon": []},
                          "morning": {"morning": [], "afternoon": []},
                          "afternoon": {},
                          "evening": {"morning-next-day": []}}
