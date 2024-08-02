@@ -32,8 +32,7 @@ function WaitingRoom() {
 
   const handleSubmit = () => {
 
-
-    navigate(`/loading/${id}`)
+    navigate(`/results/${id}`)
   }
 
   useEffect(() => {
@@ -43,7 +42,7 @@ function WaitingRoom() {
   },[id])
 
   useEffect(() => {
-    if (Object.keys(preferences).length > 0) {
+    if (preferences && Object.keys(preferences).length > 0) {
       let userList = []
       Object.keys(preferences).sort().forEach(value => {
         userList.push({
@@ -67,7 +66,7 @@ function WaitingRoom() {
         <div className="content">
           <div>
             <p className="progress">{Users.length}/{maxUsers} has filled in their preference</p>
-            <button className="button" onClick={() => navigate(`/loading/${id}`)}>Start Generating</button>
+            <button className="button" onClick={handleSubmit}>Start Generating</button>
           </div>
           <div className="status">
             <h2>Status:</h2>

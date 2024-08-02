@@ -18,26 +18,6 @@ const InvitePage = () => {
     setInviteLink(link);
   }, [id]);
 
-
-  // const params = new URLSearchParams(search);
-  // const city = params.get('city');
-  // const country = params.get('country');
-
-  // const findEmail = async () => {
-  //   let emails = []
-  //   return emails
-  // }
-  // const findName = async () => {
-  //   let names = []
-  //   return names
-  // }
-  // useEffect( () => {
-  //   findEmail()
-  //   findName()
-      
-  // },[email])
-
-
   const addInvite = () => {
     if (email) {
 

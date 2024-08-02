@@ -5,22 +5,30 @@ import { useUsers } from "../../useHooks/useUsers";
 
 import './loginPopup.css'
 import { setHours } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
-export const AuthenticationPopup = () => {
+export const AuthenticationPopup = (required) => {
 
   const [ email, setEmail] = useState("")
   const [ username, setUsername ] = useState("")
   const [ password, setPassword ] = useState("")
-
+  
   const [ LoginSignUp, toggleLoginSignUp] = useState(true);
   const [ viewable, toggleViewable ] = useState(false)
   const { addUser, getUser } = useUsers();
+  const navigate = useNavigate()
 
   const handleChange = () => {
     setEmail("")
     setUsername("")
     setPassword("")
     toggleLoginSignUp(!LoginSignUp)
+  }
+
+  const handleClose = () => {
+    if (required) {
+      navigate(-1)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -61,7 +69,7 @@ export const AuthenticationPopup = () => {
     return (
       <div id="popup" className="col centerAlign">
         <div className="content">
-          <div className="topCross" onClick={() => toggleViewable(false)}>X</div>
+          <div className="topCross" onClick={handleClose}>X</div>
           <h2>{LoginSignUp ? "Login" : "Sign Up"}</h2>
           <form onSubmit={handleSubmit} className="col centerAlign border">
             {!LoginSignUp && (

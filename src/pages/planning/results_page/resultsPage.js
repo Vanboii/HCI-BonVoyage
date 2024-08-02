@@ -14,6 +14,9 @@ import personIcon from '../../../components/person.png';
 import Modal from 'react-modal';
 import Cookies from 'js-cookie';
 import { useTrips } from '../../../useHooks/useTrips';
+import axios from 'axios';
+import { useItinerary } from '../../../useHooks/useItineraries';
+
 
 
 Modal.setAppElement('#root');
@@ -22,11 +25,11 @@ const ItemTypes = {
   ACTIVITY: 'activity',
 };
 
-const Activity = ({ activity, index, moveActivity, dayIndex, handleEdit, handleDeleteActivity }) => {
+const Activity = ({ activity, index, moveActivity, period, dayIndex, handleEdit, handleDeleteActivity }) => {
   const ref = React.useRef(null);
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.ACTIVITY,
-    item: { index, dayIndex },
+    item: { index, period, dayIndex },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -35,9 +38,10 @@ const Activity = ({ activity, index, moveActivity, dayIndex, handleEdit, handleD
   const [, drop] = useDrop({
     accept: ItemTypes.ACTIVITY,
     hover: (draggedItem) => {
-      if (draggedItem.index !== index || draggedItem.dayIndex !== dayIndex) {
-        moveActivity(draggedItem.dayIndex, draggedItem.index, dayIndex, index);
+      if (draggedItem.index !== index || draggedItem.dayIndex !== dayIndex || draggedItem.period !== period) {
+        moveActivity(draggedItem.dayIndex, draggedItem.period, draggedItem.index, dayIndex, period, index);
         draggedItem.index = index;
+        draggedItem.period = period;
         draggedItem.dayIndex = dayIndex;
       }
     },
@@ -56,7 +60,7 @@ const Activity = ({ activity, index, moveActivity, dayIndex, handleEdit, handleD
         <div className="activityDetails">
           <span>{activity.hours}</span>
         </div>
-        <button className="suggestionsButton" onClick={() => handleEdit(dayIndex, index)}>
+        <button className="suggestionsButton" onClick={() => handleEdit(dayIndex, period, index)}>
           Suggestions
         </button>
       </div>
@@ -66,22 +70,51 @@ const Activity = ({ activity, index, moveActivity, dayIndex, handleEdit, handleD
           src={binIcon}
           alt="Delete"
           className="deleteIcon"
-          onClick={() => handleDeleteActivity(dayIndex, index)}
+          onClick={() => handleDeleteActivity(dayIndex, period, index)}
         />
       </div>
     </div>
   );
 };
 
+const Section = ({ activities, dayIndex, period, moveActivity, handleEdit, handleDeleteActivity }) => {
+  const [, drop] = useDrop({
+    accept: ItemTypes.ACTIVITY,
+    drop: (draggedItem) => {
+      if (draggedItem.dayIndex !== dayIndex || draggedItem.section !== period) {
+        moveActivity(draggedItem.dayIndex, draggedItem.period, draggedItem.index, dayIndex, period, activities.length);
+        draggedItem.index = period.length;
+        draggedItem.dayIndex = dayIndex;
+        draggedItem.period = period;
+      }
+    },
+  });
 
-
+  return (
+    <div ref={drop} className="sectionContainer">
+      <h3>{period}</h3>
+      {activities.map((activity, index) => (
+        <Activity
+          key={index}
+          index={index}
+          activity={activity}
+          period={period}
+          dayIndex={dayIndex}
+          moveActivity={moveActivity}
+          handleEdit={handleEdit}
+          handleDeleteActivity={handleDeleteActivity}
+        />
+      ))}
+      {activities.length === 0 && <div className="emptySection">Drag an Activity Here</div>}
+    </div>
+  );
+};
 
 
 const ResultsPage = () => {
-  const initialItinerary = [
-    {
-      day: 'Day 1: Placeholder',
-      activities: [
+  const initialItinerary = {
+    day1:{
+      morning: [
         {
           name: 'Gyeongbokgung Palace',
           description: 'Historical palace with guided tours and cultural events.',
@@ -90,61 +123,56 @@ const ResultsPage = () => {
           lat: 37.579617,
           lng: 126.977041,
           placeId: ''
-        },
-        {
-          name: 'Bukchon Hanok Village',
-          description: 'Traditional village showcasing historic Korean homes.',
-          hours: 'Open 10AM - 6PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.582576,
-          lng: 126.985648,
-          placeId: ''
-        },
-        {
-          name: 'Insadong',
-          description: 'Popular street for traditional Korean culture and crafts.',
-          hours: 'Open 10AM - 9PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.572768,
-          lng: 126.986632,
-          placeId: ''
-        },
-      ],
+        }],
+      afternoon: [{
+        name: 'Bukchon Hanok Village',
+        description: 'Traditional village showcasing historic Korean homes.',
+        hours: 'Open 10AM - 6PM',
+        image: 'https://via.placeholder.com/150',
+        lat: 37.582576,
+        lng: 126.985648,
+        placeId: ''
+      }],
+      evening:[{
+        name: 'Insadong',
+        description: 'Popular street for traditional Korean culture and crafts.',
+        hours: 'Open 10AM - 9PM',
+        image: 'https://via.placeholder.com/150',
+        lat: 37.572768,
+        lng: 126.986632,
+        placeId: ''
+      }],
     },
-    {
-      day: 'Day 2: Placeholder',
-      activities: [
-        {
-          name: 'Myeongdong Shopping Street',
-          description: 'Bustling shopping area with a variety of stores and eateries.',
-          hours: 'Open 10AM - 10PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.560970,
-          lng: 126.985032,
-          placeId: ''
-        },
-        {
-          name: 'N Seoul Tower',
-          description: 'Iconic tower offering panoramic views of Seoul.',
-          hours: 'Open 10AM - 11PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.551169,
-          lng: 126.988227,
-          placeId: ''
-        },
-        {
-          name: 'Cheonggyecheon Stream',
-          description: 'Modern public recreation space along a historic stream.',
-          hours: 'Open 24 hours',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.569273,
-          lng: 126.977047,
-          placeId: ''
-        },
-      ],
+    day2: {
+      morning: [{
+        name: 'Myeongdong Shopping Street',
+        description: 'Bustling shopping area with a variety of stores and eateries.',
+        hours: 'Open 10AM - 10PM',
+        image: 'https://via.placeholder.com/150',
+        lat: 37.560970,
+        lng: 126.985032,
+        placeId: ''
+      }],
+      afternoon: [{
+        name: 'N Seoul Tower',
+        description: 'Iconic tower offering panoramic views of Seoul.',
+        hours: 'Open 10AM - 11PM',
+        image: 'https://via.placeholder.com/150',
+        lat: 37.551169,
+        lng: 126.988227,
+        placeId: ''
+      }],
+      evening: [{
+        name: 'Cheonggyecheon Stream',
+        description: 'Modern public recreation space along a historic stream.',
+        hours: 'Open 24 hours',
+        image: 'https://via.placeholder.com/150',
+        lat: 37.569273,
+        lng: 126.977047,
+        placeId: ''
+      }],
     },
-    // Additional placeholder days...
-  ];
+  };
 
   const suggestedPlaces = [
     {
@@ -176,9 +204,11 @@ const ResultsPage = () => {
     },
   ];
 
+  const [itineraryDetails, setItineraryDetails] = useState(null);
   const [itinerary, setItinerary] = useState(initialItinerary);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedDayIndex, setSelectedDayIndex] = useState(null);
+  const [selectedPeriodIndex, setSelectedPeriodIndex] = useState(null);
   const [selectedActivityIndex, setSelectedActivityIndex] = useState(null);
   const [currentSuggestions] = useState([...suggestedPlaces.slice(0, 15)]);
   const [expandedDays, setExpandedDays] = useState([]);
@@ -186,63 +216,60 @@ const ResultsPage = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [hoveredPlace, setHoveredPlace] = useState(null);
   const [placeDetails, setPlaceDetails] = useState(null);
+  const [loading, setLoading] = useState(true)
   const mapRef = useRef(null);
   const navigate = useNavigate();
 
-  const { id } = useParams()
-  const {addTrip} = useTrips()
+  const { id } = useParams();
+  const {addTrip} = useTrips();
+  const {getItinerary} = useItinerary();
+
+  const [ startDate, setStartDate] = useState("");
+  const [ endDate, setEndDate] = useState("");
+  const [ city, setCity] = useState("");
+  const [ country, setCountry] = useState("");
+  const [ numberOfPeople, setNumberOfPeople] = useState(0);
+  const [ tripDates, setTripDates] = useState(``);
+  // const [ locations, setLocations ] = useState([])
   // const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
 
-  const tripDetails = Cookies.get('tripDetails') ? JSON.parse(Cookies.get('tripDetails')) : {};
-  const { startDate, endDate, city, country, numberOfPeople } = tripDetails;
-  const tripDates = startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates';
-
-  /**
-   * 
-   * @param {Array} data 
-   * @returns {object}
-   */
-  const convertDataToObject = (data) => {
-    const days = [" 1:"," 2:"," 3:"," 4:"," 5:"," 6:"," 7:"," 8:", " 9:"," 10:"," 11:"," 12:"," 13:"," 14:"," 15:"]
-    const result = { }
-    if (Array.isArray(data)) {
-      // console.log("isarray",data)
-      data.forEach((value1) => {
-        if (Object.prototype.toString.call(value1) === '[object Object]') {
-          // console.log("isObject",value1)
-          for (let dayIndex = 0; dayIndex < days.length; dayIndex++) {
-            try {
-              if (value1.day.includes(days[dayIndex])) {
-                const dayName = `day${dayIndex+1}`
-                result[dayName] = {
-                  morning:[],
-                  afternoon:[],
-                  evening:[],
-                }
-                if (value1.activities) {
-                  const activityCount = value1.activities.length
-                  for (let idx = 0; idx < activityCount; idx++) {
-                    if (idx/activityCount < 1/3) {
-                      result[dayName].morning.push(value1.activities[idx])
-                    } else if (idx/activityCount < 2/3) {
-                      result[dayName].afternoon.push(value1.activities[idx])
-                    } else {
-                      result[dayName].evening.push(value1.activities[idx])
-                    }
-                  }
-                }
-              }
-            } catch (error) {
-              console.error(error)
-            }
-          }
-        }
-      })
-    } else {
-      return {}
+  useEffect(()=> {
+    if(itineraryDetails) {
+      setStartDate(itineraryDetails.startDate)
+      setEndDate(itineraryDetails.endDate)
+      setCountry(itineraryDetails.country)
+      setCity(itineraryDetails.city)
+      setNumberOfPeople(itineraryDetails.numberOfPeople)
+      setTripDates(startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates')
     }
-    return result
+  },[itineraryDetails])
+
+  // const tripDates = startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates';
+
+  const getItineraryDetails = async () => {
+    const data = await getItinerary(id)
+    setItineraryDetails(data)
   }
+  const getGeneratedItinerary = async () => {
+    for (let idx = 0; idx < 3; idx++) {
+  
+      console.log('Fetching Generated Itinerary...',id);
+      const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-resulttrip?itineraryID=${id}`);
+      const generatedItinerary = response.dataResult; // Adjusted to match the structure in the previous example
+      if (generatedItinerary != null && Object.keys(generatedItinerary).length > 0) {
+        console.log('Fetched Generated Itinerary:', generatedItinerary);
+        setItinerary(generatedItinerary);
+        break
+      }
+      console.error('Error Fetching Itinerary', idx);
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getGeneratedItinerary()
+    getItineraryDetails()
+  },[])
 
   useEffect(() => {
     if (startDate && endDate) {
@@ -271,14 +298,18 @@ const ResultsPage = () => {
       };
 
       const fetchAllPlaceIds = async () => {
-        const updatedItinerary = [...itinerary];
-        for (let day of updatedItinerary) {
-          for (let activity of day.activities) {
-            try {
-              const placeId = await fetchPlaceId(activity);
-              activity.placeId = placeId;
-            } catch (error) {
-              console.error(`Failed to fetch place ID for ${activity.name}:`, error);
+        const updatedItinerary = {...itinerary};
+        const days = Object.values(updatedItinerary);
+        for (let day of days) {
+          const periods = ['morning','afternoon','evening']
+          for (let period of periods) {
+            for (let activity of day[period]) {
+              try {
+                const placeId = await fetchPlaceId(activity);
+                activity.placeId = placeId;
+              } catch (error) {
+                console.error(`Failed to fetch place ID for ${activity.name}:`, error);
+              }
             }
           }
         }
@@ -314,16 +345,17 @@ const ResultsPage = () => {
     );
   };
 
-  const handleEdit = (dayIndex, activityIndex) => {
+  const handleEdit = (dayIndex, period, activityIndex) => {
     setSelectedDayIndex(dayIndex);
+    setSelectedPeriodIndex(period);
     setSelectedActivityIndex(activityIndex);
     setShowSuggestions(true);
   };
 
   const handleSuggestionSelect = (suggestion) => {
     if (selectedDayIndex !== null && selectedActivityIndex !== null) {
-      const newItinerary = [...itinerary];
-      newItinerary[selectedDayIndex].activities[selectedActivityIndex] = suggestion;
+      const newItinerary = {...itinerary};
+      newItinerary[selectedDayIndex][selectedPeriodIndex][selectedActivityIndex] = suggestion;
 
       setItinerary(newItinerary);
       setShowSuggestions(false);
@@ -332,16 +364,16 @@ const ResultsPage = () => {
     }
   };
 
-  const handleDeleteActivity = (dayIndex, activityIndex) => {
-    const newItinerary = [...itinerary];
-    newItinerary[dayIndex].activities.splice(activityIndex, 1);
+  const handleDeleteActivity = (dayIndex, period, activityIndex) => {
+    const newItinerary = {...itinerary};
+    newItinerary[dayIndex][period].splice(activityIndex, 1);
     setItinerary(newItinerary);
   };
 
-  const handleAddGreyBox = (dayIndex) => {
-    const newItinerary = [...itinerary];
+  const handleAddGreyBox = (day,period) => {
+    const newItinerary = {...itinerary};
     const newActivity = {
-      name: `New Activity ${newItinerary[dayIndex].activities.length + 1}`,
+      name: `New Activity ${newItinerary[day][period].length + 1}`,
       description: 'Placeholder description for the new activity.',
       hours: 'Open hours for the new activity.',
       image: 'https://via.placeholder.com/150',
@@ -349,14 +381,14 @@ const ResultsPage = () => {
       lng: 126.9780,
       placeId: ''
     };
-    newItinerary[dayIndex].activities.push(newActivity);
+    newItinerary[day][period].push(newActivity);
     setItinerary(newItinerary);
   };
 
-  const moveActivity = (sourceDayIndex, sourceIndex, destinationDayIndex, destinationIndex) => {
-    const newItinerary = [...itinerary];
-    const [movedActivity] = newItinerary[sourceDayIndex].activities.splice(sourceIndex, 1);
-    newItinerary[destinationDayIndex].activities.splice(destinationIndex, 0, movedActivity);
+  const moveActivity = (sourceDayIndex, sourcePeriod, sourceIndex, destinationDayIndex, destinationPeriod, destinationIndex) => {
+    const newItinerary = {...itinerary};
+    const [movedActivity] = newItinerary[sourceDayIndex][sourcePeriod].splice(sourceIndex, 1);
+    newItinerary[destinationDayIndex][destinationPeriod].splice(destinationIndex, 0, movedActivity);
     setItinerary(newItinerary);
   };
 
@@ -386,7 +418,7 @@ const ResultsPage = () => {
     }
 
     localStorage.setItem('upcomingTrips', JSON.stringify(upcomingTrips));
-    addTrip(id, convertDataToObject(itinerary))
+    addTrip(id, itinerary)
 
     setShowModal(true);
   };
@@ -406,13 +438,22 @@ const ResultsPage = () => {
     lng: 126.9780,
   };
 
-  const locations = itinerary.flatMap((day, dayIndex) =>
-    day.activities.map((activity, activityIndex) => ({
-      key: `day${dayIndex}-activity${activityIndex}`,
-      location: { lat: activity.lat, lng: activity.lng },
-      ...activity
-    }))
+  // const locations = Object.values(itinerary) // Get entries [ [day1, {...}], [day2, {...}] ]
+  //   .map((days) => Object.values(days)
+  //     .flatmap((periods) => periods)
+  //   )
+  
+
+  // const locations = Object.values(itinerary).flatmap(days => {
+  //   console.log(days);
+  //   return Object.values(days).flatmap(periods => periods
+  //   )
+  // });
+  const locations = Object.values(itinerary).flatMap(dayPlan =>
+    Object.values(dayPlan).flatMap(periodActivities => periodActivities)
   );
+  console.log("location:",locations)
+
 
   const PoiMarkers = ({ pois }) => {
     const handleClick = useCallback((ev, poi) => {
@@ -470,6 +511,19 @@ const ResultsPage = () => {
     );
   };
 
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <TopBanner showAlertOnNavigate={true} />
+        <main>
+          <h1>Loading...</h1>
+          <p>Please wait YOU DOG.</p>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <DndProvider backend={HTML5Backend}>
       <APIProvider apiKey={'AIzaSyCSE_TMMsKRwr3TsvuwBbJEiwojEL1XF4A'} onLoad={() => console.log('Maps API has loaded.')}>
@@ -494,7 +548,51 @@ const ResultsPage = () => {
                   <button className="saveExitButton" onClick={handleSaveAndExit}>Save and Exit</button>
                 </div>
               </div>
-              {itinerary.map((dayPlan, dayIndex) => (
+           
+        
+              <p>hello</p>
+              {Object.entries(itinerary).map(([day,days]) => (
+                <div>
+                  <h2>{day}</h2>
+                  {Object.entries(days).map(([period,periods]) => (
+                    <div>
+                      <Section
+                        activities={periods}
+                        period={period}
+                        dayIndex={day}
+                        handleEdit={handleEdit}
+                        moveActivity={moveActivity}
+                        handleDeleteActivity={handleDeleteActivity}
+                      />
+                      {/* <h4>{period}</h4>
+                      {Object.entries(periods).map(([activityIndex,activity]) => (
+                          <div>
+                            <Activity
+                              key={`${day}-${period}-${activityIndex}`}
+                              index={activity}
+                              activity={activity}
+                              dayIndex={day}
+                              period={period}
+                              moveActivity={moveActivity}
+                              handleEdit={handleEdit}
+                              handleDeleteActivity={handleDeleteActivity}
+                            />
+                          </div>
+                        )) 
+                      } */}
+                      
+                    </div>
+                    ))
+                  }
+                  <button className="addActivityButton" onClick={() => handleAddGreyBox(day,"evening")}>
+                    + Add Activity
+                  </button>
+                </div>
+              )
+
+                )}
+              <p>bye</p>
+              {/* {itinerary.map((dayPlan, dayIndex) => (
                 <div className="dayContainer" key={dayIndex}>
                   <div className={`dayHeader ${expandedDays.includes(dayIndex) ? 'expanded' : ''}`} onClick={() => toggleExpandDay(dayIndex)}>
                     <span className="dayArrow">
@@ -518,13 +616,11 @@ const ResultsPage = () => {
                           handleDeleteActivity={handleDeleteActivity}
                         />
                       ))}
-                      <button className="addActivityButton" onClick={() => handleAddGreyBox(dayIndex)}>
-                        + Add Activity
-                      </button>
+                      
                     </div>
                   )}
                 </div>
-              ))}
+              ))} */}
             </div>
             <div className="rightContainer">
               <Map

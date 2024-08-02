@@ -135,7 +135,7 @@ const TinderPreference = () => {
           {currentIndex < places.length ? (
             <div className={`picture-placeholder ${animationClass}`}>
               <img
-                src={places[currentIndex].image_url} // Assuming image_url is an array of URLs
+                src={places[currentIndex].imageURL} // Assuming image_url is an array of URLs
                 alt={places[currentIndex].location}
                 onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/default-image.png'; }}
               />
