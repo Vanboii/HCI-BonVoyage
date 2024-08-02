@@ -1,19 +1,4 @@
 {
-  "indexes": [
-    {
-      "collectionGroup": "itineraries",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "Creater",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "CreatedAt",
-          "order": "ASCENDING"
-        }
-      ]
-    }
-  ],
+  "indexes": [],
   "fieldOverrides": []
 }
