@@ -15,6 +15,7 @@ from components.GenerateNightLife import get_llama_nightlife
 from components.GenerateCulture import get_llama_culture
 from components.GenerateOther import get_llama_others
 from components.Cluster import get_results
+from components.GenerateCulture import get_location
 
 
 
@@ -43,7 +44,7 @@ def index():
 
 @app.route("/testdb", methods=['GET'])
 def testdb():
-    test = db.collection('main-Itineraries').get()
+    test = db.collection('main-PrePlanning').get()
 
     # Extract data from each document
     all_documents = []
@@ -117,16 +118,24 @@ def get_recommendations():
     #                         #  "categoryActivities": ["Shopping"],
     #                         "categoryActivities": ["Shopping", "Kid-friendly", "Amusement Park"],
     #                         "budgetRange": "Low"}
-     
-     activities = userpreferences_data.get("categoryActivities")
-     budget = userpreferences_data.get("budgetRange")
+
+     # get max end of budget PER DAY
+     budget_max = int(userpreferences_data.get("budget")[1])
+     if budget_max >= 50:
+         budgetRange = 'Low'
+     elif 50 < budget_max <= 150:
+         budgetRange = 'Medium'
+     else:
+         budgetRange = 'High'
+
+     activities = userpreferences_data.get("categories")
      city = preplanning_data.get("city")
      country = preplanning_data.get("country")
      recommendation_list = []
 
      if "Food Galore" in activities:
         # outputs at most 9 locations for each activity => list form
-        llama_summary = get_llama_foodgalore(city, country, budget, userpreferences_data.get("dietaryRestriction"))
+        llama_summary = get_llama_foodgalore(city, country, budgetRange, userpreferences_data.get("diet"))
         if "Error" not in llama_summary[0]:
             recommendation_list.extend(llama_summary)
         # remove activity from the list
@@ -142,7 +151,7 @@ def get_recommendations():
 
      elif "Night-life" in activities:
         # outputs at most 9 locations for each activity => list form
-        llama_summary = get_llama_nightlife(city, country, budget, userpreferences_data.get("dietaryRestriction"))
+        llama_summary = get_llama_nightlife(city, country, budgetRange, userpreferences_data.get("diet"))
         if "Error" not in llama_summary[0]:
             recommendation_list.extend(llama_summary)
         # remove activity from the list
@@ -150,7 +159,7 @@ def get_recommendations():
 
      elif "Theatre & Cultural" in activities:
         # outputs at most 9 locations for each activity => list form
-        llama_summary = get_llama_culture(city, country, budget, activities)
+        llama_summary = get_llama_culture(city, country, budgetRange, activities)
         if "Error" not in llama_summary[0]:
             recommendation_list.extend(llama_summary)
         # remove activity from the list
@@ -158,7 +167,7 @@ def get_recommendations():
 
      if activities:
         # outputs at most 9 locations for each activity => list form
-        llama_summary = get_llama_others(city, country, budget, activities)
+        llama_summary = get_llama_others(city, country, budgetRange, activities)
         if "Error" not in llama_summary[0]:
             recommendation_list.extend(llama_summary)
 
@@ -173,27 +182,47 @@ def get_recommendations():
 @app.route("/get-resulttrip", methods=['GET'])
 def get_resulttrip():
     itineraryID = request.args.get("itineraryID")
-    preplanning_data = db.collection('main-Itineraries').document(itineraryID).get().to_dict()
+    preplanning_data = db.collection('main-PrePlanning').document(itineraryID).get().to_dict()
 
+    # main structure for their arrival and departure templates
     start_date = preplanning_data.get("arrivalDate")
     end_date = preplanning_data.get("departureDate")
     no_days = (end_date - start_date).days
     
 
-    arrival_time = preplanning_data.get("arrivalTime")
-    deparature_time = preplanning_data.get("deparatureTime")
-    arrival_pattern = {"Early-Morning": {"morning": [], "afternoon": [], "evening": []},
-                       "Morning": {"afternoon": [], "evening": []},
-                       "Afternoon": {"evening": []},
-                       "Evening": {"morning": [], "afternoon": [], "evening": []}}
-    departure_pattern = {"Early-Morning": {"morning": [], "afternoon": []},
-                         "Morning": {"morning": [], "afternoon": []},
-                         "Afternoon": {},
-                         "Evening": {"morning-next-day": []}}
+    arrival_time = preplanning_data.get("arrivalTime").get("value")
+    deparature_time = preplanning_data.get("departureTime").get("value")
+    arrival_pattern = {"early_morning": {"morning": [], "afternoon": [], "evening": []},
+                       "morning": {"afternoon": [], "evening": []},
+                       "afternoon": {"evening": []},
+                       "evening": {"morning": [], "afternoon": [], "evening": []}}
+    departure_pattern = {"early_morning-Morning": {"morning": [], "afternoon": []},
+                         "morning": {"morning": [], "afternoon": []},
+                         "afternoon": {},
+                         "evening": {"morning-next-day": []}}
     start_day_template = arrival_pattern.get(arrival_time)
     end_day_template = departure_pattern.get(deparature_time)
 
 
+    # gets the accomadation information
+    buildingName = preplanning_data.get("accommodation").get("buildingName")
+    if buildingName == None:
+        buildingName = ''
+
+    streetAddress = preplanning_data.get("accommodation").get("streetAddress")
+    if streetAddress == None:
+        streetAddress = ''
+
+    accommodation = buildingName + streetAddress
+    city = preplanning_data.get("city")
+    country = preplanning_data.get("country")
+
+    location, place_id = get_location(accommodation, city, country)
+    if location == None:
+        print('invalid location given')
+
+
+    # gets users travelling preferences
     userpreferences_data = db.collection('main-Preferences').document(itineraryID).get().to_dict()
     
     currated_locations = []
@@ -203,21 +232,34 @@ def get_resulttrip():
     # the keys would be the user's ID
     for user, indv_pref in userpreferences_data.items():
         currated_locations.extend(indv_pref.get("likes"))
-        if "relaxed" in indv_pref.get("travelStyle"):
+        if "Relaxed" in indv_pref.get("travelStyles"):
             travel_stye["relaxed"] = travel_stye["relaxed"] + 1
-        elif "compact" in indv_pref.get("travelStyle"):
+        elif "Compact" in indv_pref.get("travelStyles"):
             travel_stye["compact"] = travel_stye["compact"] + 1
-        budget_max.append(indv_pref.get("budgetRange")) # should be an integer though...
+        budget_max.append(int(indv_pref.get("budget")[1])) # should be an integer though...
+
+    # get min of budget PER DAY
+    budget_min = min(budget_max)
+    if budget_min >= 50:
+         budget_min = 1
+    elif 50 < budget_min <= 150:
+         budget_min = 2
+    else:
+         budget_min = 3
+    
 
     # once all the data is set, we cluster & format it
     # return currated_locations, 200
-    result, suggestion = get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye, budget_max)
+    result, suggestion = get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye, budget_min)
 
-    # save the trips to db
+
+    # save the trips to db; overides existing data
     doc_ref = db.collection('main-Trips').document(itineraryID).set({"itinerary": result, "suggestion": suggestion})
 
+
     # return to flask the result
-    return jsonify({"dataResult": result,
+    return jsonify({"accomodation": {"place_id": place_id, "location": location},
+                    "dataResult": result,
                     "dataSuggestion": suggestion}), 200
      
 
@@ -235,8 +277,12 @@ if __name__ == "__main__":
 #/get-categories?city=Norfolk Island&country=Norfolk Island
 
 # API 2s:
+#(Sydney, Australia)
 # /get-recommendations?itineraryID=IGio4nbWEIooCfvuxv6m&userID=9orOez3uBYgA1m2OCzVTfhzaIUt1
 
+#(Kandahār, Afghanistan)
+# /get-recommendations?itineraryID=Z8TcogrOuSzQznqZLaDR&userID=CONgA6J3q7Wx8YFTImrDfJnMWsQ2
 
 # API 3s:
 # /get-resulttrip?itineraryID=IGio4nbWEIooCfvuxv6m
+# /get-resulttrip?itineraryID=Z8TcogrOuSzQznqZLaDR

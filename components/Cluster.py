@@ -5,7 +5,6 @@ from sklearn.cluster import KMeans
 import scipy
 
 
-
 # following google API
 # 0 Free
 # 1 Inexpensive
@@ -96,22 +95,7 @@ def get_cluster(currated_locations, budgetRange):
 
 
 
-# def order_cluster(df, k):
-#     ordered_clustered = []
-
-#     for i in range(k):
-#         filtered_df = df[df['cluster'] == i]
-#         row = filtered_df.shape[0]
-
-#         for r in range(row):
-#             ordered_clustered.append(filtered_df.iloc[r].to_dict())
-
-#     print(ordered_clustered)
-#     return ordered_clustered
-
-
-
-def order_cluster(df, budgetRange=1):
+def order_cluster(df, budgetRange=2):
     print('budgetRange', budgetRange)
 
     # filter within budget first => takes priority
@@ -143,6 +127,7 @@ def order_cluster(df, budgetRange=1):
 
     # print(currated_locations_dict)
     return currated_locations_dict # ordered according to priority
+
 
 
 def grid_cluster(ordered_clusted, end_day_template, no_days, max_locations):
@@ -197,15 +182,15 @@ def get_max_locations(travel_stye):
 
 def get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye, budget_max):
 
-    # rely on budget labels (ingeger) isntead of string
-    if 'low' in budget_max:
-        budgetRange = custom_budget_mapping('low')
-    elif 'medium' in budget_max:
-        budgetRange = custom_budget_mapping('medium')
-    elif 'high' in budget_max:
-        budgetRange = custom_budget_mapping('high')
-    else:
-        budgetRange = 2 # default medium range
+    # rely on budget labels (integer) isntead of string
+    # if 'low' in budget_max:
+    #     budgetRange = custom_budget_mapping('low')
+    # elif 'medium' in budget_max:
+    #     budgetRange = custom_budget_mapping('medium')
+    # elif 'high' in budget_max:
+    #     budgetRange = custom_budget_mapping('high')
+    # else:
+    #     budgetRange = 2 # default medium range
 
     # print('budgetRange in results', budgetRange)
 
@@ -218,7 +203,7 @@ def get_results(currated_locations, no_days, start_day_template, end_day_templat
 
     # we cluster them first before formatting, followed by putting them in a singular list
     # sorted according to budget, followed by any preferences
-    recommendation_list = get_cluster(currated_locations, budgetRange)
+    recommendation_list = get_cluster(currated_locations, budget_max)
     # print(recommendation_list)
     
     

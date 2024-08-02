@@ -32,7 +32,7 @@ def get_location(name, city, country, API_KEY=GOOGLE_API_KEY):
     
     else:
         print("error in google maps api")
-        return None
+        return None, None
     
 
 
@@ -98,6 +98,9 @@ prompt_input = """Summarise this website %s
 
 def get_llama_nightlife(city, country, budget, dietary_restrictions, pre_prompt=pre_prompt, prompt_input=prompt_input):
     site = get_lonelyplanet_url(city, country)
+
+    if dietary_restrictions == "No Restrictions":
+        dietary_restrictions = ''
 
     prompt_input = prompt_input % (site, city, country, budget, dietary_restrictions, "Night-life") 
 

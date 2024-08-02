@@ -33,7 +33,7 @@ def get_location(name, city, country, API_KEY=GOOGLE_API_KEY):
 
     else:
         print("error in google maps geoencoder api")
-        return None
+        return None, None
 
 
 
