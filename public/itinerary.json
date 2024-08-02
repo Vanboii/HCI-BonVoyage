@@ -1,0 +1,180 @@
+{
+    "itineraryID": "67890",
+    "day1": {
+      "morning": [
+        {
+          "name": "Senso-ji Temple",
+          "description": "Tokyo's oldest temple located in Asakusa, a must-see for its traditional architecture and bustling surrounding market.",
+          "budget": "low",
+          "imageURL": "https://via.placeholder.com/150",
+          "lat": 35.714765,
+          "lng": 139.796655,
+          "placeId": "",
+          "hours": "6AM - 5PM"
+        }
+      ],
+      "afternoon": [
+        {
+          "name": "Ueno Park and Zoo",
+          "description": "A large public park that houses a zoo, museums, and beautiful seasonal foliage.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150",
+          "lat": 35.715098,
+          "lng": 139.774448,
+          "placeId": "",
+          "hours": "9:30AM - 5PM"
+        }
+      ],
+      "evening": [
+        {
+          "name": "Akihabara",
+          "description": "Famous for electronics shops, anime, and manga stores. A paradise for tech enthusiasts and otaku culture fans.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150",
+          "lat": 35.698683,
+          "lng": 139.774219,
+          "placeId": "",
+          "hours": "10AM - 9PM"
+        }
+      ],
+      "suggestions": [
+        {
+          "name": "Tokyo Skytree",
+          "description": "A broadcasting tower with an observation deck offering panoramic views of Tokyo.",
+          "budget": "high",
+          "imageURL": "https://via.placeholder.com/150"
+        },
+        {
+          "name": "Asakusa",
+          "description": "Historic district with Senso-ji Temple, Nakamise shopping street, and traditional Japanese culture.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150"
+        },
+        {
+          "name": "Odaiba",
+          "description": "A futuristic island with shopping malls, entertainment complexes, and the famous Rainbow Bridge.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150"
+        }
+      ],
+      "budgetTotal": 100
+    },
+    "day2": {
+      "morning": [
+        {
+          "name": "Tokyo Skytree",
+          "description": "A broadcasting tower with an observation deck offering panoramic views of Tokyo.",
+          "budget": "high",
+          "imageURL": "https://via.placeholder.com/150",
+          "lat": 35.710062,
+          "lng": 139.810700,
+          "placeId": "",
+          "hours": "8AM - 10PM"
+        }
+      ],
+      "afternoon": [
+        {
+          "name": "Asakusa",
+          "description": "Historic district with Senso-ji Temple, Nakamise shopping street, and traditional Japanese culture.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150",
+          "lat": 35.711835,
+          "lng": 139.796838,
+          "placeId": "",
+          "hours": "9AM - 7PM"
+        }
+      ],
+      "evening": [
+        {
+          "name": "Odaiba",
+          "description": "A futuristic island with shopping malls, entertainment complexes, and the famous Rainbow Bridge.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150",
+          "lat": 35.627222,
+          "lng": 139.777778,
+          "placeId": "",
+          "hours": "10AM - 9PM"
+        }
+      ],
+      "suggestions": [
+        {
+          "name": "Senso-ji Temple",
+          "description": "Tokyo's oldest temple located in Asakusa, a must-see for its traditional architecture and bustling surrounding market.",
+          "budget": "low",
+          "imageURL": "https://via.placeholder.com/150"
+        },
+        {
+          "name": "Ueno Park and Zoo",
+          "description": "A large public park that houses a zoo, museums, and beautiful seasonal foliage.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150"
+        },
+        {
+          "name": "Akihabara",
+          "description": "Famous for electronics shops, anime, and manga stores. A paradise for tech enthusiasts and otaku culture fans.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150"
+        }
+      ],
+      "budgetTotal": 120
+    },
+    "day3": {
+      "morning": [
+        {
+          "name": "Shibuya Crossing",
+          "description": "The world's busiest pedestrian crossing located in front of Shibuya Station.",
+          "budget": "low",
+          "imageURL": "https://via.placeholder.com/150",
+          "lat": 35.659494,
+          "lng": 139.700533,
+          "placeId": "",
+          "hours": "24 hours"
+        }
+      ],
+      "afternoon": [
+        {
+          "name": "Meiji Shrine",
+          "description": "A Shinto shrine dedicated to Emperor Meiji and Empress Shoken, set in a large forested area.",
+          "budget": "low",
+          "imageURL": "https://via.placeholder.com/150",
+          "lat": 35.676397,
+          "lng": 139.699326,
+          "placeId": "",
+          "hours": "5AM - 6PM"
+        }
+      ],
+      "evening": [
+        {
+          "name": "Harajuku",
+          "description": "Known for its quirky fashion shops and street culture, as well as the serene Yoyogi Park.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150",
+          "lat": 35.670259,
+          "lng": 139.702573,
+          "placeId": "",
+          "hours": "11AM - 8PM"
+        }
+      ],
+      "suggestions": [
+        {
+          "name": "Tokyo Skytree",
+          "description": "A broadcasting tower with an observation deck offering panoramic views of Tokyo.",
+          "budget": "high",
+          "imageURL": "https://via.placeholder.com/150"
+        },
+        {
+          "name": "Asakusa",
+          "description": "Historic district with Senso-ji Temple, Nakamise shopping street, and traditional Japanese culture.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150"
+        },
+        {
+          "name": "Odaiba",
+          "description": "A futuristic island with shopping malls, entertainment complexes, and the famous Rainbow Bridge.",
+          "budget": "medium",
+          "imageURL": "https://via.placeholder.com/150"
+        }
+      ],
+      "budgetTotal": 90
+    }
+  }

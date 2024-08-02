@@ -10,28 +10,26 @@
   justify-content: center;
   z-index: 1000;
 
-
   > .content {
-    background-color: antiquewhite;
-    width: fit-content;
-    height: fit-content;
-    min-width: fit-content;
-    min-height: fit-content;
+    position: relative;
+    background-color: #f9f9f9;
+    width: 50%;
+    height: 55%;
+    min-width: 280px;
+    min-height: calc(fit-content + 50px);
     display: flex;
     flex-direction: column;
-    border-radius: 16px;
-    border-style: ridge;
+    border-radius: 10px;
+    /* border-style: ridge; */
     justify-content: center;
     padding: auto;
-
-  }
-  * {
-    margin: 0px;
+    color: black; /* Ensure text color is black */
   }
 
   input {
     width: 80%;
     min-width: 250px;
+    max-width: 300px;
     padding: 15px;
     border-style: solid;
     border-radius: 5px;
@@ -40,23 +38,24 @@
     width: 100%;
   }
   .topCross {
+    position: absolute;
     top: 10px;
     right: 10px;
     color: black;
-    border-style: dotted;
-    align-self: flex-end;
-    padding: 2px 4px;
-
+    &:hover {
+      cursor: pointer;
+    }
   }
   .names {
     display: flex;
     flex-direction: row;
     gap: 10px;
   }
-  .border {
-    border-style: dashed;
-    border-width: 1px;
-    border-color: palevioletred;
+  .h2-login{
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    padding-bottom: 20px;
   }
-
+  /* Remove the .border class or its properties */
 }

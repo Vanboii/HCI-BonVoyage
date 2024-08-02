@@ -16,7 +16,7 @@ function TopBanner({ showAlertOnNavigate }) {
   const [navigateTo, setNavigateTo] = useState("");
 
   // Determine if the current page is the homepage
-  const isHomepage = location.pathname === '/';
+  const isHomepage = location.pathname === '/' || location.pathname === '/Home';
 
   function handleClick() {
     navigate('/'); // Adjust the homepage route if needed
