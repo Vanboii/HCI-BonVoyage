@@ -91,7 +91,7 @@ const Section = ({ activities, dayIndex, period, moveActivity, handleEdit, handl
   });
 
   return (
-    <div ref={drop} className="sectionContainer">
+    <div key={dayIndex} ref={drop} className="sectionContainer">
       <h3>{period}</h3>
       {activities.map((activity, index) => (
         <Activity
@@ -456,6 +456,7 @@ const ResultsPage = () => {
   console.log("location:",locations)
 
 
+
   const PoiMarkers = ({ pois }) => {
     const handleClick = useCallback((ev, poi) => {
       if (!mapRef.current) return;
@@ -561,23 +562,9 @@ const ResultsPage = () => {
                       />
                       <h2>{day}</h2>
                     </div>
-                    {/* {expandedDays.includes(day) && Object.entries(days).sort().map(([period,periods]) => (
-                      <div className="activitiesContainer">
-                        <Section
-                          activities={days[period]}
-                          period={period}
-                          dayIndex={day}
-                          handleEdit={handleEdit}
-                          moveActivity={moveActivity}
-                          handleDeleteActivity={handleDeleteActivity}
-                        />
-                      </div>
-                      ))
-                    } */}
                     {expandedDays.includes(day) && dayPeriods.map((period) => {
                       if (Object.keys(days).includes(period)) {
                         return (
-                          
                             <Section
                               activities={days[period]}
                               period={period}
