@@ -3,17 +3,38 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+
+  //# FOR HCI-BONVOYAGE
+//   "hosting": [{
+//     "public": "build",
+//     "target": "hci-bonvoyage",
+//     "ignore": [
+//       "firebase.json",
+//       "**/.*",
+//       "**/node_modules/**"
+//     ]
+//   },{
+//     "public": "build",
+//     "target": "bonvoyage-testing",
+//     "ignore": [
+//       "firebase.json",
+//       "**/.*",
+//       "**/node_modules/**"
+//     ]
+//   }],
+
+  //# FOR BONVOYAGE-AB-TESTING
   "hosting": {
-    "public": "dist/",
-    "site": "bonvoyage-testing",
+    "public": "build",
+    "target": "bonvoyage-ab-testing",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ]
   },
+
   "storage": {
     "rules": "storage.rules"
   }
-  
 }
