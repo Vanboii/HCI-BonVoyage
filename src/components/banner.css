@@ -14,32 +14,39 @@
     left: 0px;
     width: 100%;
     min-height: 60px;
-    max-height: 80px;
+    height: 6vh;
+    /* max-height: 80px; */
     padding: 1vh;
     gap: 1vw;
     display: flex;
+    flex-grow: 0;
     align-items: center;
+    justify-content: space-between;
     z-index: 3; /* Ensure the banner stays on top */
+
+
+
 }
 
-.spacer {
+/* .spacer {
     display: flex;
     flex-grow: 1;
-}
+} */
 
 #stickyBanner img {
-    min-height: 50px!important;
-    height: 50px!important;
-    max-height: 50px!important;
-    width: auto;
-    margin-left: 10px;
-}
+  /* min-height: 50px!important; */
+  height: 50px;
+  /* max-height: 50px!important; */
+  width: auto;
+  margin-left: 10px;
 
-#stickyBanner img:hover {
+  &:hover {
     border-style: solid;
     border-color: rgba(0, 0, 0, 0);
     border-width: 2px;
+  }
 }
+
 
 .profile {
   display: flex;
@@ -50,11 +57,14 @@
   
 }
 .rightButtons {
-    height: 100%;
-    align-items: center;
-    flex-grow: 0;
-    gap: 16px; /* Increased spacing between buttons */
-    margin-right: 20px;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  flex-grow: 0;
+  gap: 16px; /* Increased spacing between buttons */
+  margin-right: 10px;
+  width: auto;
+
 }
 
 .rightButtons button {

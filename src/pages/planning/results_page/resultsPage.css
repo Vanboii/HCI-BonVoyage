@@ -1,28 +1,42 @@
+
+* {
+  scrollbar-width: none;
+}
 .resultsPageContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 60px;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
 }
 
 .contentContainer {
   display: flex;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  width: 100vw;
+  height: calc(100vh - 60px);
+  max-height: 94vh;
+  bottom: 0px;
   /* margin-top: 20px; Adjust this based on your header height */
 }
 
 .leftContainer {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
-  max-width: 50%;
-}
+  width: 50%;
+  max-width: 800px;
+  overflow-y: auto;
+  gap: 10px;
 
-.rightContainer {
-  flex: 1;
-  padding: 20px;
-  /* text-align: center; */
-  max-width: 50%;
+  h1 {
+    font-size: 40px; /* Adjust the font size as needed */
+  }
+
+  .itineraryContainer {
+    height: auto;
+  }
 }
 
 .pageHeader {
@@ -30,86 +44,107 @@
   width: 100%;
   color: black;
   text-align: left;
-  padding: 20px 0;
-  margin-bottom: 20px;
+  padding: 0px 10px;
   border-bottom: 1px solid #4b4b4b;
   justify-content: space-between;
   align-items: center;
+  height: fit-content;
+
+  h1 {
+    margin: 0;
+    color: black;
+    font-size: 58px!important; /* Adjust font size as needed */
+  }
+  p {
+    color: black;
+    font-size: 14px; /* Adjust font size as needed */
+    white-space: pre-line; /* Preserve line breaks in the content */
+    line-height: 1.5; /* Adjust line height as needed */
+  }
+  .headerDetails {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    padding: 5px;
+    gap: 15px;
+
+    .peopleDetails {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  
+      .personIcon {
+        width: 24px; /* Adjust size as needed */
+        height: 24px; /* Adjust size as needed */
+      }
+      .numberOfPeople {
+        font-size: 16px; /* Adjust size as needed */
+    
+      }
+    }
+  
+    .tripDetails {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      gap: 5px;
+  
+      .calendarIcon {
+        width: 24px; /* Adjust size as needed */
+        height: 24px;
+      }
+      .tripDates {
+        font-size: 16px; /* Adjust size as needed */
+      }
+    }
+
+    .spacer {
+      flex-grow: 1;
+    }
+
+    .saveExitButton {
+      background-color: #334b48; /* Dark green shade */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+  
+      &:hover {
+        background-color: #2a3e3b; /* Slightly darker shade for hover effect */
+      }
+    }
+  }
 }
 
-.pageHeader h1 {
-  margin: 0;
-  color: black;
-  font-size: 58px!important; /* Adjust font size as needed */
-  margin-top: 20px;
-  margin-bottom: 10px!important;
-}
-
-.pageHeader p {
-  margin: 10px 0 0;
-  color: black;
-  font-size: 14px; /* Adjust font size as needed */
-  white-space: pre-line; /* Preserve line breaks in the content */
-  line-height: 1.5; /* Adjust line height as needed */
-  margin-left: 20px;
-}
-
-.citySubheading {
-  font-size: 28px; /* Adjust the size as needed */
-  margin-top: 0.5rem; /* Adjust the spacing as needed */
-  margin-left: 18px;
-  color: #555; /* Adjust the color as needed */
-}
-
-.tripDetails {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-  font-size: 16px;
-}
-
-.calendarIcon {
-  width: 24px; /* Adjust size as needed */
-  height: 24px;
-  margin-right: 10px;
-  margin-bottom: 6px;
-}
-
-.tripDates {
-  display: flex;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.leftContainer h1 {
-  font-size: 40px; /* Adjust the font size as needed */
-  margin-bottom: 40px; /* Increase the spacing between City Name and Day 1 */
-  padding-left: 15px;
-}
 
 .dayContainer {
-  margin-bottom: 10px; /* Increase the spacing between days */
+  padding-bottom: 5px;
   padding-left: 15px;
   border-bottom: 1px solid #ddd; /* Add a bottom border */
 }
-
 .dayHeader {
   display: flex;
   align-items: center;
   color: black;
   cursor: pointer;
   padding: 10px 0;
-}
 
-.dayHeader h2 {
-  font-size: 21px; /* Adjust the font size as needed */
-  color: black;
-  margin: 0 10px; /* Space between arrow and day title */
-  font-weight: bold;
-  flex-grow: 1;
-}
+  h2 {
+    font-size: 21px; /* Adjust the font size as needed */
+    color: black;
+    margin: 0 10px; /* Space between arrow and day title */
+    font-weight: bold;
+    flex-grow: 1;
+  }
 
-.dayArrow img {
+}
+ 
+
+img.dayArrow {
   width: 16px; /* Adjust the size as needed */
   height: 16px; /* Adjust the size as needed */
   display: inline-block;
@@ -120,7 +155,6 @@
 .activitiesContainer {
   margin-left: 34px; /* Align activities with day title */
 }
-
 .activityRow {
   display: flex;
   align-items: center;
@@ -132,39 +166,36 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
   position: relative; /* Ensure positioning of delete icon */
 }
-
 .activityInfo {
   flex: 3;
-}
 
-.activityInfo h3 {
-  margin: 0 0 10px 0;
-  margin-top: 10px;
-  font-size: 18px;
-}
-
-.activityInfo p {
-  margin: 0 0 10px 0;
-  font-size: 14px;
+  h3 {
+    margin: 0 0 10px 0;
+    margin-top: 10px;
+    font-size: 18px;
+  }
+  p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+  }
 }
 
 .activityDetails {
   display: flex;
   align-items: center;
   font-size: 12px;
-}
 
-.activityDetails span {
-  margin-right: 10px;
-}
+  span {
+    margin-right: 10px;
+  }
+  a {
+    color: #007bff;
+    text-decoration: none;
 
-.activityDetails a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.activityDetails a:hover {
-  text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .activityImage {
@@ -173,20 +204,17 @@
   text-align: right;
   margin-right: 10px;
 }
-
 .activityImage img {
   max-width: 100px; /* Adjust the size as needed */
   height: auto;
   border-radius: 8px; /* Rounded corners */
 }
-
 .deleteIcon {
   width: 20px;
   height: 20px;
   cursor: pointer;
   margin-left: 10px;
 }
-
 .dragHandle {
   width: 20px;
   height: 100%;
@@ -196,12 +224,10 @@
   justify-content: center;
   margin-right: 10px;
 }
-
 .dragHandle img {
   width: 20px; /* Adjust the size as needed */
   height: auto;
 }
-
 .activityButtons {
   display: flex;
   flex-direction: column;
@@ -211,7 +237,6 @@
   bottom: 10px;
   left: 10px;
 }
-
 .suggestionsButton {
   background-color: #334b48; /* Blue */
   color: white;
@@ -224,11 +249,9 @@
   width: fit-content;
   font-size: 14px;
 }
-
 .activityButtons button:hover {
   opacity: 0.8;
 }
-
 .addActivityButton {
   display: block;
   width: 100%;
@@ -240,10 +263,10 @@
   text-align: center;
   cursor: pointer;
   font-size: 14px;
-}
 
-.addActivityButton:hover {
-  background-color: #334b48a5;
+  &:hover {
+    background-color: #334b48a5;
+  }
 }
 
 .rightContainer img {
@@ -251,7 +274,6 @@
   height: auto;
   margin-bottom: 20px;
 }
-
 .suggestionsModal {
   position: fixed;
   top: 0;
@@ -263,7 +285,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .suggestionsContainer {
   background-color: #fff;
   padding: 20px;
@@ -272,18 +293,15 @@
   max-height: 80%;
   overflow-y: auto;
 }
-
 .modalHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
-
 .modalHeader h3 {
   margin: 0;
 }
-
 .closeButton {
   background: none;
   border: none;
@@ -291,8 +309,6 @@
   cursor: pointer;
   color: #000000; /* Set the color to black */
 }
-
-
   .suggestionItem { 
   display: flex;
   align-items: center;
@@ -305,62 +321,36 @@
   position: relative; /* Ensure positioning of delete icon */
   width: 400px; /* Adjust the width as needed */
 }
-
 .suggestionItem .activityInfo {
   flex: 3;
 }
-
 .suggestionItem .activityInfo h3 {
   margin: 0 0 10px 0;
   margin-top: 10px;
   font-size: 18px;
 }
-
 .suggestionItem .activityInfo p {
   margin: 0 0 10px 0;
   font-size: 14px;
 }
-
 .suggestionItem .activityDetails {
   display: flex;
   align-items: center;
   font-size: 12px;
 }
-
 .suggestionItem .activityDetails span {
   margin-right: 10px;
 }
-
 .suggestionItem .activityImage {
   display: flex;
   align-items: center;
   text-align: right;
   margin-right: 10px;
 }
-
 .suggestionItem .activityImage img {
   max-width: 100px; /* Adjust the size as needed */
   height: auto;
   border-radius: 8px; /* Rounded corners */
-}
-
-
-.saveExitButton {
-  background-color: #334b48; /* Dark green shade */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 16px;
-  position: absolute; /* Fix the button within the header */
-  bottom: 0; /* Adjust as needed to position the button below the header */
-  right: 0; /* Adjust as needed */
-  margin-bottom: 15px;
-}
-
-.saveExitButton:hover {
-  background-color: #2a3e3b; /* Slightly darker shade for hover effect */
 }
 
 .customModal {
@@ -377,16 +367,13 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   text-align: center;
 }
-
 .customOverlay {
   background-color: rgba(0, 0, 0, 0.5);
 }
-
 .customModal h2 {
   margin-bottom: 20px;
   color: rgb(0, 0, 0);
 }
-
 .customModal button {
   background-color: #334b48; /* Dark green shade */
   color: white;
@@ -396,37 +383,16 @@
   border-radius: 4px;
   font-size: 16px;
 }
-
 .customModal button:hover {
   background-color: #2a3e3b; /* Slightly darker shade for hover effect */
 }
 
-.peopleDetails {
-  display: flex;
-  align-items: center;
-  margin-right: 10px; /* Add some space between peopleDetails and tripDetails */
-  margin-top: 5px;
-  margin-bottom: -10px;
-}
-
-.personIcon {
-  width: 24px; /* Adjust size as needed */
-  height: 24px; /* Adjust size as needed */
-  margin-left: 16px; /* Adjust spacing as needed */
-  margin-bottom: -6px;
-}
 
 
-.numberOfPeople {
-  font-size: 16px; /* Adjust size as needed */
-  margin-left: 8px; /* Adjust spacing as needed */
-  margin-right: 20px;
-  margin-bottom: -6px;
+
+.rightContainer {
+  flex: auto;
+  padding: 20px;
+  height: 100%;
 }
 
-.headerDetails {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}

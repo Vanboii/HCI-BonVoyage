@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import { auth } from '../../../firebase';
 import { usePreference } from '../../../useHooks/usePreferences';
-// import { AuthenticationPopup } from '../../login_page/loginPopup';
+
 
 import CompactIcon from '../../../components/travel style/compact.png';
 import AdventureIcon from '../../../components/travel style/adventure.png';
@@ -58,7 +58,6 @@ const PreferencesPage = () => {
     setCity(itinerary.city)
     setCountry(itinerary.country)
   }
-  collectItinerary()
 
   // useState 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);

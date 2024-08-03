@@ -523,17 +523,17 @@ const ResultsPage = () => {
   };
 
 
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <TopBanner showAlertOnNavigate={true} />
-        <main>
-          <h1>Loading...</h1>
-          <p>Please wait YOU DOG.</p>
-        </main>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="loading-container">
+  //       <TopBanner showAlertOnNavigate={true} />
+  //       <main>
+  //         <h1>Loading...</h1>
+  //         <p>Please wait YOU DOG.</p>
+  //       </main>
+  //     </div>
+  //   );
+  // }
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -550,59 +550,47 @@ const ResultsPage = () => {
                 <div className="headerDetails">
                   <div className="peopleDetails">
                     <img src={personIcon} alt="Person" className="personIcon" />
-                    <span className="numberOfPeople">{numberOfPeople} People</span>
-                    <div className="tripDetails">
-                      <img src={calendarIcon} alt="Calendar" className="calendarIcon" />
-                      <span className="tripDates">{tripDates}</span>
-                    </div>
+                    <span className="numberOfPeople">{numberOfPeople} Pax</span>
                   </div>
+                  <div className="tripDetails">
+                    <img src={calendarIcon} alt="Calendar" className="calendarIcon" />
+                    <span className="tripDates">{tripDates}</span>
+                  </div>
+                  <div className='spacer'/>
                   <button className="saveExitButton" onClick={handleSaveAndExit}>Save and Exit</button>
                 </div>
               </div>
-           
-        
-              <p>hello</p>
-              {Object.entries(itinerary).map(([day,days]) => (
-                <div>
-                  <h2>{day}</h2>
-                  {Object.entries(days).map(([period,periods]) => (
-                    <div>
-                      <Section
-                        activities={periods}
-                        period={period}
-                        dayIndex={day}
-                        handleEdit={handleEdit}
-                        moveActivity={moveActivity}
-                        handleDeleteActivity={handleDeleteActivity}
+              <div className='itineraryContainer'>
+                {Object.entries(itinerary).map(([day,days]) => (
+                  <div key={day} className='dayContainer'>
+                    <div className={`dayHeader ${expandedDays.includes(day) ? 'expanded' : ''}`} onClick={() => toggleExpandDay(day)}>
+                      <img
+                        src={expandedDays.includes(day) ? arrowDownIcon : arrowRightIcon}
+                        alt="Arrow"
+                        className='dayArrow'
                       />
-                      {/* <h4>{period}</h4>
-                      {Object.entries(periods).map(([activityIndex,activity]) => (
-                          <div>
-                            <Activity
-                              key={`${day}-${period}-${activityIndex}`}
-                              index={activity}
-                              activity={activity}
-                              dayIndex={day}
-                              period={period}
-                              moveActivity={moveActivity}
-                              handleEdit={handleEdit}
-                              handleDeleteActivity={handleDeleteActivity}
-                            />
-                          </div>
-                        )) 
-                      } */}
-                      
+                      <h2>{day}</h2>
                     </div>
-                    ))
-                  }
-                  <button className="addActivityButton" onClick={() => handleAddGreyBox(day,"evening")}>
-                    + Add Activity
-                  </button>
-                </div>
-              )
+                    {expandedDays.includes(day) && Object.entries(days).map(([period,periods]) => (
+                      <div className="activitiesContainer">
+                        <Section
+                          activities={periods}
+                          period={period}
+                          dayIndex={day}
+                          handleEdit={handleEdit}
+                          moveActivity={moveActivity}
+                          handleDeleteActivity={handleDeleteActivity}
+                        />
+                      </div>
+                      ))
+                    }
+                    <button className="addActivityButton" onClick={() => handleAddGreyBox(day,"evening")}>
+                      + Add Activity
+                    </button>
+                  </div>
+                ))}
+              </div>
 
-                )}
-              <p>bye</p>
               {/* {itinerary.map((dayPlan, dayIndex) => (
                 <div className="dayContainer" key={dayIndex}>
                   <div className={`dayHeader ${expandedDays.includes(dayIndex) ? 'expanded' : ''}`} onClick={() => toggleExpandDay(dayIndex)}>

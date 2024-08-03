@@ -1,22 +1,25 @@
-import React, {useEffect, useState} from "react";
+
+import React, { useState } from "react";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useUsers } from "../../useHooks/useUsers";
-
 import './loginPopup.css'
-import { setHours } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-export const AuthenticationPopup = (required) => {
+export const LoginPopup = () => {
 
   const [ email, setEmail] = useState("")
   const [ username, setUsername ] = useState("")
   const [ password, setPassword ] = useState("")
   
   const [ LoginSignUp, toggleLoginSignUp] = useState(true);
-  const [ viewable, toggleViewable ] = useState(false)
+  const [ showPopup, setShowPopup ] = useState(false)
   const { addUser, getUser } = useUsers();
   const navigate = useNavigate()
+  const location = useLocation()
+  const requireLogin = location.pathname.startsWith("/planning") || 
+                      location.pathname.startsWith("/preferences") ||
+                      location.pathname.startsWith("/tinderpreference");
 
   const handleChange = () => {
     setEmail("")
@@ -26,8 +29,9 @@ export const AuthenticationPopup = (required) => {
   }
 
   const handleClose = () => {
-    if (required) {
-      navigate(-1)
+    setShowPopup(false)
+    if (requireLogin) {
+      navigate(-1) //Goback to previous page
     }
   }
 
@@ -38,12 +42,13 @@ export const AuthenticationPopup = (required) => {
       const User = userCredentail.user
       const dbUser = await getUser(User.uid)
       if (dbUser) {
-        console.log("Welcome", User.displayName)
+        console.log("Welcome back", User.displayName)
       } else {
         addUser(User.uid, {
           email: User.email,
           displayName: User.displayName,
         })
+        console.log("Welcome to Bonvoyage,", User.displayName)
       }
     } else {
       const userCredentail = await createUserWithEmailAndPassword(auth, email, password);
@@ -55,11 +60,7 @@ export const AuthenticationPopup = (required) => {
         email: email,
         displayName: username
       })
-      
     }
-    await auth.currentUser.reload()
-    const actualUser = auth.currentUser
-    if (actualUser) toggleViewable(false);
   }
 
 
@@ -69,8 +70,8 @@ export const AuthenticationPopup = (required) => {
     return (
       <div id="popup" className="col centerAlign">
         <div className="content">
-          <div className="topCross" onClick={handleClose}>X</div>
           <h2 className="h2-login">{LoginSignUp ? "Welcome!" : "Create a New Account"}</h2>
+          {requireLogin && <p>This page requires users to login</p>}
           <form onSubmit={handleSubmit} className="col centerAlign">
             {!LoginSignUp && (
               <input type="text" onChange={(e) => { setUsername(e.target.value) }}
@@ -88,10 +89,11 @@ export const AuthenticationPopup = (required) => {
               {LoginSignUp ? "Sign up here" : "Login here"}
             </a>
           </p>
+          <button onClick={handleClose}>Close</button>
         </div>
       </div>
     );
   };
 
-  return {  viewable, toggleViewable, Popup }
+  return { showPopup, setShowPopup, Popup }
 }

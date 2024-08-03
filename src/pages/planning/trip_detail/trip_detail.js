@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TopBanner from '../../../components/banner';
-import { AuthenticationPopup } from '../../login_page/loginPopup';
+
 import { auth } from '../../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { useItinerary } from '../../../useHooks/useItineraries';
@@ -32,9 +32,8 @@ const monthNames = [
 ];
 
 const TripDetailPage = () => {
-  const User = auth.currentUser
+
   const { addItinerary } = useItinerary();
-  const { viewable, Popup } = AuthenticationPopup();
 
   const [countriesData, setCountriesData] = useState([]);
   const [country, setCountry] = useState(null);
