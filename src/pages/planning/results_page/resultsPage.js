@@ -12,7 +12,6 @@ import arrowDownIcon from '../../../components/arrow-down.png';
 import arrowRightIcon from '../../../components/arrow-right.png';
 import personIcon from '../../../components/person.png';
 import Modal from 'react-modal';
-import Cookies from 'js-cookie';
 import { useTrips } from '../../../useHooks/useTrips';
 import axios from 'axios';
 import { useItinerary } from '../../../useHooks/useItineraries';
@@ -225,6 +224,7 @@ const ResultsPage = () => {
   const {addTrip} = useTrips();
   const {getItinerary} = useItinerary();
   const {getPreference} = usePreference()
+  const dayPeriods = ["morning", "afternoon", "evening"]
 
   const [ startDate, setStartDate] = useState("");
   const [ endDate, setEndDate] = useState("");
@@ -238,14 +238,16 @@ const ResultsPage = () => {
   // const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
 
   useEffect(()=> {
-    if(itineraryDetails) {
-      setStartDate(itineraryDetails.startDate)
-      setEndDate(itineraryDetails.endDate)
+    if(itineraryDetails != null) {
+      setStartDate(itineraryDetails.arrivalDate)
+      setEndDate(itineraryDetails.departureDate)
       setCountry(itineraryDetails.country)
       setCity(itineraryDetails.city)
       setNumberOfPeople(itineraryDetails.numberOfPeople)
-      setTripDates(startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates')
+      setTripDates(`${itineraryDetails.arrivalDate.toDate().toLocaleDateString()} - ${itineraryDetails.departureDate.toDate().toLocaleDateString()}`)
+      console.log("StartEnd:",itineraryDetails.arrivalDate,itineraryDetails.departureDate )
     }
+    
   },[itineraryDetails])
 
   // const tripDates = startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates';
@@ -256,10 +258,9 @@ const ResultsPage = () => {
   }
   const getGeneratedItinerary = async () => {
     for (let idx = 0; idx < 3; idx++) {
-  
       console.log('Fetching Generated Itinerary...',id);
       const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-resulttrip?itineraryID=${id}`);
-      const generatedItinerary = response.dataResult; // Adjusted to match the structure in the previous example
+      const generatedItinerary = response.data.dataResult; // Adjusted to match the structure in the previous example
       if (generatedItinerary != null && Object.keys(generatedItinerary).length > 0) {
         console.log('Fetched Generated Itinerary:', generatedItinerary);
         setItinerary(generatedItinerary);
@@ -449,17 +450,6 @@ const ResultsPage = () => {
     lng: 126.9780,
   };
 
-  // const locations = Object.values(itinerary) // Get entries [ [day1, {...}], [day2, {...}] ]
-  //   .map((days) => Object.values(days)
-  //     .flatmap((periods) => periods)
-  //   )
-  
-
-  // const locations = Object.values(itinerary).flatmap(days => {
-  //   console.log(days);
-  //   return Object.values(days).flatmap(periods => periods
-  //   )
-  // });
   const locations = Object.values(itinerary).flatMap(dayPlan =>
     Object.values(dayPlan).flatMap(periodActivities => periodActivities)
   );
@@ -523,17 +513,17 @@ const ResultsPage = () => {
   };
 
 
-  // if (loading) {
-  //   return (
-  //     <div className="loading-container">
-  //       <TopBanner showAlertOnNavigate={true} />
-  //       <main>
-  //         <h1>Loading...</h1>
-  //         <p>Please wait YOU DOG.</p>
-  //       </main>
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <TopBanner showAlertOnNavigate={true} />
+        <main>
+          <h1>Loading...</h1>
+          <p>Please wait YOU DOG.</p>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -571,10 +561,10 @@ const ResultsPage = () => {
                       />
                       <h2>{day}</h2>
                     </div>
-                    {expandedDays.includes(day) && Object.entries(days).map(([period,periods]) => (
+                    {/* {expandedDays.includes(day) && Object.entries(days).sort().map(([period,periods]) => (
                       <div className="activitiesContainer">
                         <Section
-                          activities={periods}
+                          activities={days[period]}
                           period={period}
                           dayIndex={day}
                           handleEdit={handleEdit}
@@ -583,7 +573,23 @@ const ResultsPage = () => {
                         />
                       </div>
                       ))
-                    }
+                    } */}
+                    {expandedDays.includes(day) && dayPeriods.map((period) => {
+                      if (Object.keys(days).includes(period)) {
+                        return (
+                          
+                            <Section
+                              activities={days[period]}
+                              period={period}
+                              dayIndex={day}
+                              handleEdit={handleEdit}
+                              moveActivity={moveActivity}
+                              handleDeleteActivity={handleDeleteActivity}
+                            />
+                        
+                        )
+                      }
+                    })}
                     <button className="addActivityButton" onClick={() => handleAddGreyBox(day,"evening")}>
                       + Add Activity
                     </button>

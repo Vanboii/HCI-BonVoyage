@@ -44,7 +44,7 @@
   width: 100%;
   color: black;
   text-align: left;
-  padding: 0px 10px;
+  padding: 0px;
   border-bottom: 1px solid #4b4b4b;
   justify-content: space-between;
   align-items: center;
@@ -60,6 +60,8 @@
     font-size: 14px; /* Adjust font size as needed */
     white-space: pre-line; /* Preserve line breaks in the content */
     line-height: 1.5; /* Adjust line height as needed */
+    padding: 10px;
+    margin: 0px;
   }
   .headerDetails {
     display: flex;
@@ -67,8 +69,9 @@
     align-items: center;
     width: 100%;
     height: fit-content;
-    padding: 5px;
+    padding: 10px;
     gap: 15px;
+    flex-wrap: wrap;
 
     .peopleDetails {
       display: flex;
@@ -80,6 +83,7 @@
         height: 24px; /* Adjust size as needed */
       }
       .numberOfPeople {
+        text-wrap: nowrap;
         font-size: 16px; /* Adjust size as needed */
     
       }
@@ -97,6 +101,7 @@
       }
       .tripDates {
         font-size: 16px; /* Adjust size as needed */
+        text-wrap: nowrap;
       }
     }
 
@@ -122,16 +127,20 @@
 
 
 .dayContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   padding-bottom: 5px;
   padding-left: 15px;
   border-bottom: 1px solid #ddd; /* Add a bottom border */
+
 }
 .dayHeader {
   display: flex;
   align-items: center;
   color: black;
   cursor: pointer;
-  padding: 10px 0;
+  padding: 5px 0;
 
   h2 {
     font-size: 21px; /* Adjust the font size as needed */
@@ -152,30 +161,34 @@ img.dayArrow {
   margin-right: 10px;
 }
 
-.activitiesContainer {
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
   margin-left: 34px; /* Align activities with day title */
+  gap: 10px;
 }
 .activityRow {
   display: flex;
   align-items: center;
   background-color: #f8f9fa; /* Light gray for better contrast */
   padding: 10px;
-  height: 160px;
-  margin-bottom: 10px;
+  min-height: 160px;
+  height: fit-content;
+  /* max-height: fit-content; */
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
   position: relative; /* Ensure positioning of delete icon */
 }
 .activityInfo {
-  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 
   h3 {
-    margin: 0 0 10px 0;
-    margin-top: 10px;
     font-size: 18px;
   }
   p {
-    margin: 0 0 10px 0;
+    margin: 0px;
     font-size: 14px;
   }
 }
@@ -242,8 +255,6 @@ img.dayArrow {
   color: white;
   border: none;
   padding: 5px 10px;
-  margin-top: 10px; /* Move button to the bottom */
-  margin-bottom: 10px;
   cursor: pointer;
   border-radius: 4px;
   width: fit-content;
@@ -256,7 +267,6 @@ img.dayArrow {
   display: block;
   width: 100%;
   padding: 10px;
-  margin-top: 10px;
   background-color: #334b48;
   border: 1px dashed #ccc;
   border-radius: 8px;
