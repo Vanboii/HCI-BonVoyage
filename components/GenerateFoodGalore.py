@@ -199,19 +199,19 @@ def get_bing_images(data, city, country, dietary_restrictions):
 
 #####################
 # city, country = "Cairo", "Egypt"
-city, country = "Singapore", "Singapore"
+# city, country = "Singapore", "Singapore"
 # city, country = "Sydney", "Australia"
 # city, country = "Jakarta", "Indonesia"
 
 # budget = "low"
-budget = "medium"
+# budget = "medium"
 # budget = "high"
 
 # dietary_restrictions = "NIL"
 # dietary_restrictions = "Halal"
-dietary_restrictions = ["Nut-free", "Dairy-free", "Gluten-free"]
+# dietary_restrictions = ["Nut-free", "Dairy-free", "Gluten-free"]
 
-print(get_llama_foodgalore(city, country, budget, dietary_restrictions))
+# print(get_llama_foodgalore(city, country, budget, dietary_restrictions))
 
 ### for bing query images
 # data = [{'name': 'Koshari Abou Tarek', 'description': "This casual eatery is famous for its koshari, a popular Egyptian dish made with pasta, lentils, tomato sauce, and fried onions. It's a must-try when in Cairo.", 'budget': 'medium', 'imageURL': ['https://4.bp.blogspot.com/-hRO0diZIjBU/WkXUY6p8Q9I/AAAAAAACMtI/ZHTgO4iph1QvGeFY6c14TJo8fpoGBUadQCLcBGAs/s1600/L1180999-001.jpg']}, {'name': 'Abou El Sid', 'description': 'This cozy restaurant serves traditional Egyptian cuisine with a modern twist. Try their famous mahshi (stuffed grape leaves) and falafel.', 'budget': 'medium', 'imageURL': ['https://www.alamy.com/aggregator-api/download?url=https://c8.alamy.com/comp/B5A7NB/the-bar-in-abou-el-sid-restaurant-located-in-zamalek-district-on-the-B5A7NB.jpg']}, {'name': 'Lebanese House', 'description': 'This family-run restaurant offers a wide range of Lebanese and Middle Eastern dishes. Their shawarma and kebabs are highly recommended.', 'budget': 'medium', 'imageURL': ['https://i.pinimg.com/originals/ec/9d/3d/ec9d3d43619430c08d2af36536e56f25.jpg']}, {'name': 'Café Riche', 'description': "This historic café has been a Cairo institution since 1908. It's a great place to try traditional Egyptian coffee and pastries.", 'budget': 'low', 'imageURL': ['http://inspiration.rehlat.com/wp-content/uploads/2019/08/Cafe-Riche-newsweek.jpg']}, {'name': 'Mama Shoula', 'description': 'This popular restaurant serves a variety of Egyptian and international dishes. Try their famous shawarma and Egyptian-style pizza.', 'budget': 'medium', 'imageURL': ['https://assets.cairo360.com/app/uploads/2018/09/8034B-2PPFILTER-1.jpg']}, {'name': 'El Fishawy', 'description': 'This casual eatery is famous for its traditional Egyptian street food, including falafel, koshari, and shawarma.', 'budget': 'low', 'imageURL': ['https://c8.alamy.com/comp/C746DN/famous-el-fishawy-cafe-in-cairo-souk-egypt-C746DN.jpg']}, {'name': 'Zamalek Fish Market', 'description': 'This seafood restaurant offers a wide range of fresh fish dishes. Try their grilled fish and seafood platters.', 'budget': 'medium', 'imageURL': ['https://assets.cairo360.com/app/uploads/2023/09/03/Snapinsta.app_369973170_320203407121288_5514185405957238898_n_1080-612x226.jpg']}, {'name': 'Bistro 33', 'description': 'This trendy bistro serves a mix of international and Egyptian dishes. Try their famous burgers and salads.', 'budget': 'medium', 'imageURL': ['https://10619-2.s.cdn12.com/rests/small/w550/h367/410_503505138.jpg']}, {'name': 'Wahab', 'description': 'This popular restaurant serves traditional Egyptian cuisine with a modern twist. Try their famous koshari and shawarma.', 'budget': 'medium', 'imageURL': ['https://assets.cairo360.com/app/uploads/2014/02/article_original_6692_20140217_530221e9b9682-675x323.jpg']}]
