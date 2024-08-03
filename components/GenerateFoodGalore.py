@@ -202,6 +202,9 @@ def get_bing_images(data, city, country, dietary_restrictions):
 # city, country = "Singapore", "Singapore"
 # city, country = "Sydney", "Australia"
 # city, country = "Jakarta", "Indonesia"
+# city, country = "Varna", "Bulgaria"
+# city, country = "Baku", "Azerbaijan" 
+
 
 # budget = "low"
 # budget = "medium"

@@ -190,6 +190,7 @@ def get_bing_images(data, city, country):
 # city, country = "Cairo", "Egypt"
 # city, country = "Singapore", "Singapore"
 # city, country = "Sydney", "Australia"
+# city, country = "Baku", "Azerbaijan" 
 
 # budget = "low"
 # budget = "medium"

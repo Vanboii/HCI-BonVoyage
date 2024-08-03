@@ -81,12 +81,11 @@ def generate_activities(city, country, prompt_input=prompt_input, actual_list=ac
 
         # fix formatting once more to add proper spacing
         content = result["categories"]
-        print(content)
         for i in range (len(content)):
-            if actual_list.get(content[i]):
-                content[i] = actual_list.get(content[i])
-                print(actual_list.get(content[i]))
-                #print(content)
+            for k in actual_list.keys():
+                if k in content[i]:
+                    content[i] = actual_list.get(k)
+                    print(content[i])
 
         result["categories"] = content
 
@@ -100,6 +99,8 @@ def generate_activities(city, country, prompt_input=prompt_input, actual_list=ac
 # print(generate_activities("Amsterdam", "Netherlands"))
 # print(generate_activities("Jakarta", "Indonesia"))
 # print(generate_activities("Sydney", "Australia"))
+# print(generate_activities("Baku", "Azerbaijan"))
+# print(generate_activities("Varna", "Bulgaria"))
 
 # This function returns:
 # {'categories': ['Kid-friendly', 'Pet-friendly', 
