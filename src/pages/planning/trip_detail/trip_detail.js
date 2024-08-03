@@ -85,20 +85,29 @@ const TripDetailPage = () => {
     
 
     // Handle form submission
-    console.log({
-      country: country.label, 
-      city: city.label, 
-      startDate: startDate, 
-      endDate : endDate, 
-      numberOfPeople : numberOfPeople,
-    });
+    // console.log({
+    //   country: country.label, 
+    //   city: city.label, 
+    //   startDate: startDate, 
+    //   endDate : endDate, 
+    //   numberOfPeople : numberOfPeople,
+    // });
     let id = await addItinerary({  //Adds the itinerary to the database
       country: country.label, 
       city: city.label, 
-      startDate: startDate, 
-      endDate : endDate,
+      arrivalDate: startDate, 
+      arrivalTime: arrivalTime,
+      departureDate : endDate,
+      departureTime: departureTime,
       numberOfPeople : numberOfPeople,
-      owner : {uid: auth.currentUser.uid, displayName: auth.currentUser.displayName},
+      accommodation: {
+        streetAddress: streetAddress,
+        buildingName: buildingName,
+      },
+      owner: {
+        uid: auth.currentUser.uid, 
+        displayName: auth.currentUser.displayName
+      },
     });
     setItineraryId(id);
     if (id) {
@@ -122,9 +131,7 @@ const TripDetailPage = () => {
   const handleModalClose = (proceed) => {
     setModalVisible(false);
     if (proceed) {
-      const encodedCity = encodeURIComponent(city.label);
-      const encodedCountry = encodeURIComponent(country.label);
-      navigate(`/planning/invite/${itineraryId}?city=${encodedCity}&country=${encodedCountry}`);
+      navigate(`/planning/invite/${itineraryId}`);
     }
   };
 
@@ -134,7 +141,7 @@ const TripDetailPage = () => {
       {/* {!User && Popup()} */}
       <main>
         <h1>Enter Your Trip Details</h1>
-        <p className="description">Gateway to Planning Your Ideal Itinerary</p>
+        <p className="description-trip">Gateway to Planning Your Ideal Itinerary</p>
         <div className="form-box">
           <form onSubmit={handleSubmit} className="form-container">
             <div className="form-group">
@@ -265,8 +272,8 @@ const TripDetailPage = () => {
           </form>
         </div>
       </main>
-      {modalVisible && (
-        <div className="modal-overlay">
+      {modalVisible && (  
+        <div className="modal-overlay"> {/* THIS WILL NEVER APPEAR??? */}
           <div className="modal-content">
             <p>{modalContent}</p>
             <button onClick={() => handleModalClose(true)}>Proceed to Travel</button>

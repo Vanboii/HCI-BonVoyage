@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
-import { useNavigate, useParams, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation for navigation
+import { useNavigate, useParams, } from 'react-router-dom'; // Import useNavigate and useLocation for navigation
 import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
 // import { useItinerary } from '../../../useHooks/useItineraries';
 // import { useUsers } from '../../../useHooks/useUsers';
@@ -14,9 +14,6 @@ const InvitePage = () => {
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
   const { id } = useParams();
-  const { search } = useLocation();
-  // const { updateItinerary } = useItinerary();
-  // const { getUsers } = useUsers();
 
   useEffect(() => {
     // Generate a random invite link on component mount
@@ -25,11 +22,6 @@ const InvitePage = () => {
     console.log(localLink);
     setInviteLink(link);
   }, [id]);
-
-
-  const params = new URLSearchParams(search);
-  const city = params.get('city');
-  const country = params.get('country');
 
   const addInvite = () => {
     if (email) {
@@ -53,9 +45,9 @@ const InvitePage = () => {
 
   const handleNext = () => {
     //# Should do something to handle the emails in the invite box.
-    const encodedCity = encodeURIComponent(city);
-    const encodedCountry = encodeURIComponent(country);
-    navigate(`/preferences/${id}?city=${encodedCity}&country=${encodedCountry}`); // Adjust the path to the Preferences page
+    // const encodedCity = encodeURIComponent(city);
+    // const encodedCountry = encodeURIComponent(country);
+    navigate(`/preferences/${id}`); // Adjust the path to the Preferences page
   };
 
   return (

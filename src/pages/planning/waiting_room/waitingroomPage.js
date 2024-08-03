@@ -6,6 +6,7 @@ import './waitingroomPage.css';
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 import { useItinerary } from "../../../useHooks/useItineraries";
 import { usePreference } from "../../../useHooks/usePreferences";
+import { useTrips } from "../../../useHooks/useTrips";
 
 function WaitingRoom() {
 
@@ -17,11 +18,11 @@ function WaitingRoom() {
   const { id } = useParams()
   const navigate = useNavigate();
   const { getItinerary } = useItinerary();
-  const { getPreference } = usePreference();
-  const [update, triggerUpdate] = useState(false);
+  const { listenPreference, } = usePreference();
+  const { addTrip } = useTrips();
+  // const [update, triggerUpdate] = useState(false);
+  const [preferences, setPreferences] = useState({})
 
-
-  
   const getPax = async () => {
     const doc = await getItinerary(id)
     const max = doc.numberOfPeople
@@ -29,50 +30,35 @@ function WaitingRoom() {
     setMax(max)
   }
 
-  const getDone = async () => {
-    const out = await getPreference(id)
-    let userList = []
-    Object.keys(out).sort().forEach(value => {
-      userList.push({
-        displayName: out[value].displayName,
-        isdone: out[value].isdone,
-      }
+  const handleSubmit = () => {
 
-       )
-    })
-    setUsers(userList)
-    console.log("Users:",userList)
+    navigate(`/results/${id}`)
   }
-  getPax()
-  const userStatuses = Array(maxUsers).fill('Waiting for response...');
 
   useEffect(() => {
-    
-    getDone()
+    getPax()
+    const unsub = listenPreference(id,setPreferences);
+    return unsub
+  },[id])
 
+  useEffect(() => {
+    if (preferences && Object.keys(preferences).length > 0) {
+      let userList = []
+      Object.keys(preferences).sort().forEach(value => {
+        userList.push({
+          displayName: preferences[value].displayName,
+          isdone: preferences[value].isdone,
+        })
+      })
+      setUsers(userList)
+    }
+  },[preferences])
 
-    // Set up the interval
-    const intervalId = setInterval(() => {
-      triggerUpdate(!update);
-    }, 5000); // Executes every 5000ms (5 second)
-
-
-    // Cleanup function to clear the interval
-    return () => clearInterval(intervalId);
-    
-
-    // const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-    // setUsers(storedUsers);
-    // if (storedUsers.length >= maxUsers) {
-    //   navigate(`/loading/${id}`);
-    // }
-
-  }, [update]);
+  const userStatuses = Array(maxUsers).fill('Waiting for response...');
 
   Users.forEach((user, index) => {
     userStatuses[index] = user.isdone ? `${user.displayName} is ready for the trip!` : `${user.displayName} is still preparing ...` ;
   });
-
 
   return (
     <>
@@ -80,6 +66,7 @@ function WaitingRoom() {
         <div className="content">
           <div>
             <p className="progress">{Users.length}/{maxUsers} has filled in their preference</p>
+            <button className="button" onClick={handleSubmit}>Start Generating</button>
           </div>
           <div className="status">
             <h2>Status:</h2>
@@ -90,7 +77,6 @@ function WaitingRoom() {
             ))}
           </div>
         </div>
-        <button className="button" onClick={() => navigate('/loading')}>Start Generating</button>
     </>
 
   );

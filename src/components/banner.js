@@ -17,7 +17,7 @@ function TopBanner({ showAlertOnNavigate }) {
   const [navigateTo, setNavigateTo] = useState("");
 
   // Determine if the current page is the homepage
-  const isHomepage = location.pathname === '/';
+  const isHomepage = location.pathname === '/' || location.pathname === '/home';
 
   function handleClick() {
     navigate('/home'); // Adjust the homepage route if needed
@@ -102,8 +102,11 @@ function TopBanner({ showAlertOnNavigate }) {
   };
 
   return (
-    <div id="stickyBanner" className={isHomepage ? 'transparent' : 'colored'}>
-      <img src={isHomepage ? homepageLogo : otherPagesLogo} title="Logo" onClick={isHomepage ? handleClick : handleLogoClick} alt="Logo" />
+    <div 
+  id="stickyBanner" 
+  className={isHomepage ? 'transparent' : 'colored'}
+  style={isHomepage ? { backgroundColor: 'transparent' } : {}}>
+      <img src={PageLogo} title="Logo" onClick={isHomepage ? handleClick : handleLogoClick} alt="Logo" />
       <div className="spacer"></div>
       <div className="rightButtons">
         <ButtonComponent

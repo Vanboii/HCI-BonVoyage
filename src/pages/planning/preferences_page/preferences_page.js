@@ -15,6 +15,7 @@ import AdventureIcon from '../../../components/travel style/adventure.png';
 import LocalIcon from '../../../components/travel style/local.png';
 import RelaxedIcon from '../../../components/travel style/relaxed.png';
 import TouristIcon from '../../../components/travel style/tourist.png';
+import { useItinerary } from '../../../useHooks/useItineraries';
 
 const dietaryOptions = [
   'No Restrictions', 'Halal', 'Vegetarian', 'Vegan', 'Gluten-Free', 'Kosher', 'Pescatarian',
@@ -32,22 +33,32 @@ const travelStyles = [
 ];
 
 const allCategories = [
-  'null', 'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
+  'None', 'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
   'Pet-friendly', 'Wheelchair-friendly', 'Parks & Scenic Place', 'Theatre & Cultural', 'Food Galore'
 ];
 
-const monthNames = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
+// const monthNames = [
+//   "January", "February", "March", "April", "May", "June",
+//   "July", "August", "September", "October", "November", "December"
+// ];
 
 const PreferencesPage = () => {
 
   // modules
-  const { search } = useLocation();
+  // const { search } = useLocation();
   const { id } = useParams();
   const User = auth.currentUser
   const { addPreference } = usePreference();
+  const { getItinerary } = useItinerary();
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+
+  const collectItinerary = async () => {
+    const itinerary = await getItinerary(id)
+    setCity(itinerary.city)
+    setCountry(itinerary.country)
+  }
+  collectItinerary()
 
   // useState 
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] = useState([]);
@@ -60,10 +71,6 @@ const PreferencesPage = () => {
   const [availableCategories, setAvailableCategories] = useState(["None"]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  const params = new URLSearchParams(search);
-  const city = params.get('city');
-  const country = params.get('country');
 
   const handleDietaryChange = (option) => {
     if (option === 'No Restrictions') {
@@ -114,17 +121,18 @@ const PreferencesPage = () => {
   };
 
   useEffect(() => {
+    collectItinerary()
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       if (!city || !country) return;
-
       try {
+        console.log('Fetching categories...',city,country);
         const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${city}&country=${country}`);
         const fetchedCategories = response.data.data.categories; // Adjusted to match the structure in the previous example
         console.log('Fetched categories:', fetchedCategories);
@@ -155,23 +163,36 @@ const PreferencesPage = () => {
       return;
     }
 
-    const currentDate = new Date();
-    const month = monthNames[currentDate.getMonth()];
+    // const currentDate = new Date();
+    // const month = monthNames[currentDate.getMonth()];
+    // const preferenceData = {
+    //   country: country,
+    //   city: city,
+    //   month: month,
+    //   category: selectedCategories,
+    //   budget: `$${budget[1]}`,
+    //   currency: "USD"
+    // };
 
-    const preferenceData = {
-      country: country,
-      city: city,
-      month: month,
-      category: selectedCategories,
-      budget: `$${budget[1]}`
-    };
+    console.log("Saving to DB...");
+    addPreference(id, {
+      [`${User.uid}`] : {
+        displayName: User.displayName,
+        diet: selectedDietaryRestrictions,
+        categories: selectedCategories,
+        travelStyles: selectedTravelStyles,
+        currency: "USD",
+        budget: budget,
+        isdone: false,
+      }
+    });
+    console.log("done");
 
     
 
-    console.log('Sending data:', preferenceData);
-
     try {
-      const response = await axios.post('https://bonvoyage-api.azurewebsites.net/get-recommendations', preferenceData, {
+      console.log('Loading data...');
+      const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-recommendations?itineraryID=${id}&userID=${auth.currentUser.uid}`,  {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -182,22 +203,6 @@ const PreferencesPage = () => {
       navigate(`/Tinderpreference/${id}`, { state: { recommendations: recommendations.data } });
     } catch (error) {
       console.error('Error fetching recommendations (POST):', error);
-
-      // Fallback to GET request
-      try {
-        const getResponse = await axios.get('https://bonvoyage-api.azurewebsites.net/get-recommendations', {
-          params: {
-            city: preferenceData.city,
-            country: preferenceData.country
-          }
-        });
-        const getRecommendations = getResponse.data;
-        console.log('Recommendations fetched (GET):', getRecommendations);
-
-        navigate(`/Tinderpreference/${id}`, { state: { recommendations: getRecommendations.data } });
-      } catch (getError) {
-        console.error('Error fetching recommendations (GET):', getError);
-      }
 
       // THIS IS FOR DEMO PURPOSES IF POST FAILS ON THE DAY ITSELF
       try {
@@ -210,19 +215,6 @@ const PreferencesPage = () => {
         console.error('Error fetching local recommendations:', localError);
       }
     }
-
-    console.log("Handling submit...");
-    addPreference(id, {
-      [`${User.uid}`] : {
-        displayName: User.displayName,
-        diet: selectedDietaryRestrictions,
-        categories: selectedCategories,
-        travelStyles: selectedTravelStyles,
-        budget: budget,
-        isdone: false
-      }
-    });
-    console.log("done");
   }
 
   //^ Add into the return block below using {loading && (<div...)}

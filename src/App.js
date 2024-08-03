@@ -52,8 +52,8 @@ function App() {
         <Route path="/preferences/:id" element={<PreferencesPage/>} />
         <Route path="/tinderpreference/:id" element={<TinderPreference/>} />
         <Route path="/waitingroom/:id" element={<WaitingRoomPage/>} />
-        <Route path="/loading" element={<LoadingPage/>} />
-        <Route path="/results" element={<ResultsPage/>} />   {/* Add ResultsPage route */}
+        <Route path="/loading/:id" element={<LoadingPage />} />
+        <Route path="/results/:id" element={<ResultsPage/>} />   {/* Add ResultsPage route */}
         <Route path="*" element={<HomePage />} />
       </Routes>
     </Router>

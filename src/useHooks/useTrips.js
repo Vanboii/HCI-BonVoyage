@@ -2,16 +2,16 @@ import { db } from "../firebase";
 import { doc, setDoc, getDoc, updateDoc, deleteDoc, } from "firebase/firestore";
 import { getIdToken } from "firebase/auth";
 
-export const useTrip = () => {
+export const useTrips = () => {
   const collectionName = "main-Trips"
-
+  const options = {merge: true}
   /**
    * @param {string} id - Itinerary/Preferences/Trip ID
    * @param {object} data Trip Details
    * @returns {boolean} 
    */
   const addTrip = (id, data) => {
-    setDoc(doc(db, collectionName, id), data).then(
+    setDoc(doc(db, collectionName, id), data, options).then(
       () => {
         return true
       }, (error) => {
@@ -46,7 +46,8 @@ export const useTrip = () => {
   const updateTrip = async (id,data) => {
     const tripRef = doc(db, collectionName, id)
     await updateDoc(tripRef, data).then(
-      (success) => {
+      () => {
+        console.log(`Trip ${id} Saved`)
         return true
       }, (error) => {
         console.error(`Failed to Update ${id}`,error)
