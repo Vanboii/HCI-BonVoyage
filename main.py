@@ -1,5 +1,5 @@
 # libraries used for routing and requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, stream_template
 from flask_cors import CORS
 from firebase_admin import credentials, initialize_app, firestore
 
@@ -97,7 +97,7 @@ def get_categories():
 
 # accessed by client-side's POST method 
 # accessed via /get-recommendations?itineraryID=&userID=
-@app.route("/get-recommendations", methods=['GET'])
+@app.route("/get-recommendations", methods=['GET', 'POST'])
 def get_recommendations():
      itineraryID = request.args.get("itineraryID")
      userID = request.args.get("userID") # or username
@@ -173,6 +173,12 @@ def get_recommendations():
 
      random.shuffle(recommendation_list)
      # remains empty if there is no output
+
+     # save to db under main-Recommendations
+     doc_ref = db.collection('main-Recommendations').document(itineraryID).set({
+         userID: recommendation_list
+     })
+
      return jsonify({"data": recommendation_list}), 201  
 
 
@@ -265,6 +271,7 @@ def get_resulttrip():
 
 
 
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
 
@@ -282,7 +289,7 @@ if __name__ == "__main__":
 
 #(Kandahār, Afghanistan)
 # /get-recommendations?itineraryID=Z8TcogrOuSzQznqZLaDR&userID=CONgA6J3q7Wx8YFTImrDfJnMWsQ2
-#  /get-recommendations?itineraryID=ltms6LCC80QLwQiI8tYh&userID=103HvNhH8BXZVGSm76EIMlzf90k1
+# /get-recommendations?itineraryID=ltms6LCC80QLwQiI8tYh&userID=103HvNhH8BXZVGSm76EIMlzf90k1
 
 # API 3s:
 # /get-resulttrip?itineraryID=IGio4nbWEIooCfvuxv6m
