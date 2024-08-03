@@ -169,20 +169,39 @@ img.dayArrow {
 }
 .activityRow {
   display: flex;
-  align-items: center;
+  align-content: center;
   background-color: #f8f9fa; /* Light gray for better contrast */
   padding: 10px;
   min-height: 160px;
-  height: fit-content;
-  /* max-height: fit-content; */
+  height: auto;
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-  position: relative; /* Ensure positioning of delete icon */
+  /* position: relative; Ensure positioning of delete icon */
+
+  .dragHandle {
+    width: 20px;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+
+
+    img {
+      width: 20px; /* Adjust the size as needed */
+      height: auto;
+    }
+  }
+   
+
 }
 .activityInfo {
   display: flex;
   flex-direction: column;
+  flex-grow: 2;
   gap: 5px;
+  justify-content: space-between;
+  align-items: stretch;
 
   h3 {
     font-size: 18px;
@@ -190,6 +209,8 @@ img.dayArrow {
   p {
     margin: 0px;
     font-size: 14px;
+    padding-left: 5px;
+    flex-grow: 2;
   }
 }
 
@@ -215,32 +236,23 @@ img.dayArrow {
   display: flex;
   align-items: center;
   text-align: right;
-  margin-right: 10px;
+  gap: 10px;
+  padding-right: 5px;
+
+
+  img {
+    width: 100px; /* Adjust the size as needed */
+    height: 100px;
+    border-radius: 8px; /* Rounded corners */
+  }
+  .deleteIcon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
 }
-.activityImage img {
-  max-width: 100px; /* Adjust the size as needed */
-  height: auto;
-  border-radius: 8px; /* Rounded corners */
-}
-.deleteIcon {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  margin-left: 10px;
-}
-.dragHandle {
-  width: 20px;
-  height: 100%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-}
-.dragHandle img {
-  width: 20px; /* Adjust the size as needed */
-  height: auto;
-}
+
+
 .activityButtons {
   display: flex;
   flex-direction: column;

@@ -3,14 +3,26 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "hosting": {
-    "public": "build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  },
+  "hosting": [
+    {
+      "target": "main",
+      "public": "build",
+      "ignore": [
+        "firebase.json", 
+        "**/.*", 
+        "**/node_modules/**"
+      ]
+    },
+    {
+      "target": "GroupB",
+      "public": "build",
+      "ignore": [
+        "firebase.json", 
+        "**/.*", 
+        "**/node_modules/**"
+      ]
+    }
+  ],
   "storage": {
     "rules": "storage.rules"
   }

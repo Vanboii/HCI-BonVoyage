@@ -1,5 +1,19 @@
 {
   "projects": {
     "default": "hci-bonvoyage"
-  }
+  },
+  "targets": {
+    "hci-bonvoyage": {
+      "hosting": {
+        "main": [
+          "hci-bonvoyage"
+        ],
+        "GroupB": [
+          "bonvoyage-testing"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }
