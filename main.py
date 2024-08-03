@@ -282,6 +282,7 @@ if __name__ == "__main__":
 
 #(Kandahār, Afghanistan)
 # /get-recommendations?itineraryID=Z8TcogrOuSzQznqZLaDR&userID=CONgA6J3q7Wx8YFTImrDfJnMWsQ2
+#  /get-recommendations?itineraryID=ltms6LCC80QLwQiI8tYh&userID=103HvNhH8BXZVGSm76EIMlzf90k1
 
 # API 3s:
 # /get-resulttrip?itineraryID=IGio4nbWEIooCfvuxv6m

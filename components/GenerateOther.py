@@ -118,6 +118,10 @@ def get_llama_others(city, country, budget, activities, pre_prompt=pre_prompt, p
     activities, tag = get_tag(activities)
     recommendation_list = []
 
+    # activity list is empty
+    if len(activities) == 0:
+        activities = ["Amusement Parks", "Historical Site", "Museum"]
+
     for a in activities:
         # print(site, city, country, budget, a+tag)
         prompt_input_updated = prompt_input % (site, city, country, budget, a+" "+", ".join(tag), a)
@@ -232,6 +236,8 @@ def get_bing_images(data, city, country, tag):
 
 # activities, tag = get_tag(activities)
 # print(activities, tag)
+
+# activities = ["Kid-friendly"]
 
 # print(get_llama_others(city, country, budget, activities))
 # print(get_llama_others("Singapore", "Singapore", "medium", ["Amusement Parks"]))
