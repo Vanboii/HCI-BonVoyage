@@ -149,57 +149,46 @@
 
 // export default MapComponent;
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from '@vis.gl/react-google-maps';
 
-const MapComponent = ({ itinerary, selectedActivity }) => {
+const MapComponent = ({ selectedActivity }) => {
   const [placeDetails, setPlaceDetails] = useState(null);
+  const [locations, setLocations] = useState([]);
   const mapRef = useRef(null);
 
   useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (window.google && window.google.maps && window.google.maps.places) {
-        const fetchPlaceId = async (activity) => {
-          return new Promise((resolve, reject) => {
-            const service = new window.google.maps.places.PlacesService(mapRef.current);
-            const request = {
-              query: activity.name,
-              fields: ['place_id']
-            };
-            service.findPlaceFromQuery(request, (results, status) => {
-              if (status === window.google.maps.places.PlacesServiceStatus.OK && results && results[0]) {
-                resolve(results[0].place_id);
-              } else {
-                reject(status);
-              }
-            });
-          });
-        };
-
-        const fetchAllPlaceIds = async () => {
-          const updatedItinerary = [...itinerary];
-          for (let day of updatedItinerary) {
-            for (let section of ['morning', 'afternoon', 'evening']) {
-              for (let activity of day[section]) {
-                try {
-                  const placeId = await fetchPlaceId(activity);
-                  activity.placeId = placeId;
-                } catch (error) {
-                  console.error(`Failed to fetch place ID for ${activity.name}:`, error);
-                }
-              }
-            }
-          }
-        };
-
-        fetchAllPlaceIds();
-      } else {
-        console.error('Google Maps JavaScript API or Places API not fully loaded');
+    const fetchItinerary = async () => {
+      try {
+        const response = await fetch('/itinerary.json');
+        const data = await response.json();
+        const locations = Object.keys(data).filter(key => key.startsWith('day')).flatMap(dayKey =>
+          ['morning', 'afternoon', 'evening'].flatMap(section =>
+            data[dayKey][section].map((activity, activityIndex) => ({
+              key: `${dayKey}-${section}-${activityIndex}`,
+              location: { lat: activity.lat, lng: activity.lng },
+              ...activity
+            }))
+          )
+        );
+        setLocations(locations);
+      } catch (error) {
+        console.error('Error fetching itinerary:', error);
       }
     };
 
-    loadGoogleMaps();
-  }, [itinerary]);
+    fetchItinerary();
+  }, []);
+
+  useEffect(() => {
+    if (mapRef.current && locations.length > 0) {
+      const bounds = new window.google.maps.LatLngBounds();
+      locations.forEach(loc => {
+        bounds.extend(new window.google.maps.LatLng(loc.location.lat, loc.location.lng));
+      });
+      mapRef.current.fitBounds(bounds);
+    }
+  }, [locations]);
 
   useEffect(() => {
     if (selectedActivity && mapRef.current) {
@@ -227,23 +216,8 @@ const MapComponent = ({ itinerary, selectedActivity }) => {
     }
   }, [selectedActivity]);
 
-  const locations = itinerary.flatMap((day, dayIndex) =>
-    ['morning', 'afternoon', 'evening'].flatMap((section) =>
-      day[section].map((activity, activityIndex) => ({
-        key: `day${dayIndex}-section${section}-activity${activityIndex}`,
-        location: { lat: activity.lat, lng: activity.lng },
-        ...activity
-      }))
-    )
-  );
-
-  const handleClick = useCallback((poi) => {
+  const handleClick = (poi) => {
     console.log('Marker clicked:', poi);
-    if (!window.google || !window.google.maps || !window.google.maps.places) {
-      console.error('Google Places API not available');
-      return;
-    }
-
     const service = new window.google.maps.places.PlacesService(mapRef.current);
     const request = {
       placeId: poi.placeId,
@@ -268,7 +242,7 @@ const MapComponent = ({ itinerary, selectedActivity }) => {
         console.error(`Failed to get details for place ID ${poi.placeId}: ${status}`);
       }
     });
-  }, []);
+  };
 
   const containerStyle = {
     width: '100%',

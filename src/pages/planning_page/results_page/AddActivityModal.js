@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
@@ -8,45 +8,9 @@ const AddActivityModal = ({ isOpen, onRequestClose, onSave }) => {
   const [description, setDescription] = useState('');
   const [openingHours, setOpeningHours] = useState('');
   const [budget, setBudget] = useState('');
-  const [lat, setLat] = useState(null);
-  const [lng, setLng] = useState(null);
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-    if (isOpen) {
-      const initializeAutocomplete = () => {
-        if (inputRef.current) {
-          const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
-            fields: ["place_id", "geometry", "formatted_address", "name"],
-          });
-
-          autocomplete.addListener('place_changed', () => {
-            const place = autocomplete.getPlace();
-            if (place.geometry && place.geometry.location) {
-              setName(place.name);
-              setDescription(place.formatted_address);
-              setLat(place.geometry.location.lat());
-              setLng(place.geometry.location.lng());
-            }
-          });
-        }
-      };
-
-      if (window.google && window.google.maps && window.google.maps.places) {
-        initializeAutocomplete();
-      } else {
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCSE_TMMsKRwr3TsvuwBbJEiwojEL1XF4A&libraries=places`;
-        script.async = true;
-        script.defer = true;
-        script.onload = () => initializeAutocomplete();
-        document.head.appendChild(script);
-      }
-    }
-  }, [isOpen]);
 
   const handleSave = () => {
-    onSave({ name, description, openingHours, budget, lat, lng });
+    onSave({ name, description, openingHours, budget });
   };
 
   return (
@@ -60,12 +24,12 @@ const AddActivityModal = ({ isOpen, onRequestClose, onSave }) => {
       <h2>Add New Activity</h2>
       <form>
         <div className="form-group">
-          <label htmlFor="placeSearch">Place Search:</label>
+          <label htmlFor="activityName">Activity Name:</label>
           <input
             type="text"
-            id="placeSearch"
-            placeholder="Enter location"
-            ref={inputRef}
+            id="activityName"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="form-group">

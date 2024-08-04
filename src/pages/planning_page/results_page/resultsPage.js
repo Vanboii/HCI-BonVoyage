@@ -193,23 +193,20 @@ const ResultsPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleSaveActivity = ({ name, description, openingHours, budget, lat, lng }) => {
+  const handleSaveActivity = ({ name, description, openingHours, budget }) => {
     const newItinerary = [...itinerary];
-  
+
     if (!newItinerary[currentDayIndex][currentSection]) {
       newItinerary[currentDayIndex][currentSection] = [];
     }
-  
+
     const newActivity = {
       name,
       description,
       openingHours,
       budget,
-      lat: parseFloat(lat), // Ensure lat is a number
-      lng: parseFloat(lng), // Ensure lng is a number
-      imageURL: 'https://via.placeholder.com/150',
     };
-  
+
     newItinerary[currentDayIndex][currentSection].push(newActivity);
     setItinerary(newItinerary);
     setIsModalOpen(false);
@@ -217,7 +214,7 @@ const ResultsPage = () => {
   
   
   
-  
+
 
   const moveActivity = (sourceDayIndex, sourceIndex, sourceSection, destinationDayIndex, destinationIndex, destinationSection) => {
     const newItinerary = [...itinerary];
@@ -265,7 +262,6 @@ const ResultsPage = () => {
   const handleActivityClick = (activity) => {
     setSelectedActivity({
       key: activity.key,
-      location: { lat: activity.lat, lng: activity.lng },
       ...activity
     });
   };
