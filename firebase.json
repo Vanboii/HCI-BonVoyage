@@ -5,21 +5,33 @@
   },
   "hosting": [
     {
-      "target": "main",
       "public": "build",
+      "target": "main",
       "ignore": [
-        "firebase.json", 
-        "**/.*", 
+        "firebase.json",
+        "**/.*",
         "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
       ]
     },
     {
-      "target": "GroupB",
       "public": "build",
+      "target": "GroupB",
       "ignore": [
-        "firebase.json", 
-        "**/.*", 
+        "firebase.json",
+        "**/.*",
         "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
       ]
     }
   ],
