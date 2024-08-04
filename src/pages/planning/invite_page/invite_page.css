@@ -1,80 +1,102 @@
-body {
+
+.invite-page-container {
     font-family: Arial, sans-serif;
-    margin: 0; /* Reset margin */
-    padding: 0;
-    text-align: left;
+    width: 100%;
+    height: 100%;
     background-color: #f9f9f9;
+    background-image: url('../../../components/city_aerial.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ensure it covers the full viewport height */
 }
 
-.invite-container {
-    font-family: Arial, sans-serif;
-    padding: 10px;
-    width: 80%;
-    margin: auto;
+.invite-page-main {
+    margin-top: 50px;
     text-align: left;
 }
 
-main {
-    margin-top: 70px; /* Adjust the margin to ensure content is not hidden behind the fixed banner */
-}
-
-.invite-container h1 {
+.invite-page-main h1 {
     font-size: 52px;
     margin-bottom: -10px;
-    margin-top: 90px;
+    margin-top: 70px;
     text-align: center;
-    color: #0c0c0c;
+    color: #ffffff;
 }
 
-.invite-container p {
+.invite-description {
     font-size: 18px;
-    color: #232323;
+    color: #ffffff;
     margin-bottom: 40px;
     font-weight: normal;
     text-align: center;
 }
 
-.form-group {
-    margin-bottom: 10px;
+.invite-form-box {
+    background-color: #ffffffa1;
+    padding: 40px 40px 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.352);
+    margin-top: 20px;
+    margin-left: 40px;
+    width: 700px;
+    margin-bottom: 20px;
+}
+
+.invite-form-group {
+    margin-bottom: 20px;
     text-align: left;
 }
 
-.form-group label {
+.invite-form-group label {
     display: block;
     font-size: 16px;
     margin-bottom: 5px;
 }
 
-.form-group input,
+.invite-form-group input,
 textarea,
 input[type="text"] {
-    width: 600px;
-    padding: 10px;
     font-size: 16px;
-    border: 1px solid #ced4da; /* Default border */
     border-radius: 4px;
     transition: border-color 0.3s ease;
-    font-family: Arial, sans-serif; /* Ensure input fields use Arial font */
+    width: 500px;
+    padding: 10px;
+    border: 1px solid #ced4da;
 }
 
-.form-group input:focus,
+.invite-form-group input:focus,
 textarea:focus,
 input[type="text"]:focus {
-    border-color: #96b1ad; /* Change border color when focused */
+    border-color: #96b1ad;
     outline: none;
     box-shadow: 0 0 5px rgba(128, 255, 253, 0.5);
 }
 
-
-.invite-input-group button img {
-    margin-left: 10px; /* Adjust the margin as needed */
-    width: 10px; /* Adjust the width as needed */
-    height: 10px; /* Adjust the height as needed */
-    filter: brightness(0) invert(1);
+.send-invite-button {
+    background-color: #015a6c;
+    color: #fff;
+    border: none;
+    padding: 10px 40px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin-top: 10px;
+    transition: transform 0.2s;
 }
 
-.next-button,
 .copy-link-button {
+    padding: 10px 20px;
+    background-color: #015a6c;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.next-button {
     background-color: #000;
     color: #fff;
     border: none;
@@ -83,88 +105,22 @@ input[type="text"]:focus {
     font-size: 16px;
     display: block;
     margin-top: 10px;
-    transition: transform 0.2s; /* Add transition for the pop-up effect */
-}
-.copy-link-button {
-    padding: 10px 20px;
-    background-color: #015a6c;
-    margin-top: 3px;
-
-}
-
-.next-button {
     margin-left: auto;
 }
 
-.send-invite-button,
-.copy-link-button {
-    transition: transform 0.2s; /* Add transition for the pop-up effect */
-}
-
-.send-invite-button:active,
-.copy-link-button:active {
-    transform: scale(1.1); /* Add pop-up effect when clicked */
-}
-
-.error {
-    color: red;
-    font-size: 14px;
-}
-
-.left-align {
-    text-align: left;
-}
-
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-input[type="email"],
-input[type="text"],
-textarea {
-    margin-right: 10px;
-}
-
-/* Updated styling for invite-link-group to align button and input */
-.invite-link-group {
-    display: flex;
-    align-items: center;
-    gap: 0px; /* Add some space between the input and the button */
-}
-
-input[type="text"].invite-link {
-    flex-grow: 3;
-    margin-right: 10px;
-}
-
-/* Updated styling for invite-link-group to align button and input */
-.invite-link-group {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Add some space between the input and the button */
-}
-
-input[type="text"].invite-link {
-    flex-grow: 1;
-    margin-right: 10px;
-    width: 600px; /* Ensure the input takes available space */
-}
-
-/* Styles for the invite list and delete button */
 .invite-list {
     list-style: none;
     margin-top: 5px;
     padding: 10px;
-    border: 1px solid #ced4da; /* Border for the list to look like a text box */
+    border: 1px solid #ced4da;
+    background-color: #ffffff;
     border-radius: 4px;
     min-height: 100px;
     max-height: 150px;
-    overflow-y: auto; /* Add scrolling if the list is too long */
-    width: 600px; /* Ensure the width matches the input fields */
-    box-sizing: border-box; /* Ensure padding is included in the width */
-    text-transform: none; /* Ensure input text is not transformed */
+    overflow-y: auto;
+    width: 500px;
+    box-sizing: border-box;
+    text-transform: none;
 }
 
 .invite-item {

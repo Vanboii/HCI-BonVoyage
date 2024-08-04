@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './invite_page.css'; // Import the CSS file to style the page
 import TopBanner from '../../../components/banner'; // Correct the path to banner.js
 import { useNavigate, useParams, } from 'react-router-dom'; // Import useNavigate and useLocation for navigation
-import sendIcon from '../../../components/expand-arrows.png'; // Correct the path to the send icon
 
 const InvitePage = () => {
   const [email, setEmail] = useState('');
@@ -47,62 +46,61 @@ const InvitePage = () => {
   };
 
   return (
-    <div className="invite-container">
+    <div className="invite-page-container">
       <TopBanner showAlertOnNavigate={true} />
-      <main>
+      <main className="invite-page-main">
         <h1>Send An Invite</h1>
-        <p>Invite others to plan your next trip together</p>
-        <form>
-          <div className="form-group">
-            <label htmlFor="email">Email / Username:</label>
-            <div className="invite-input-group">
-              <input
-                type="text"
-                id="email"
-                placeholder="eg: example@email.com or BonVoyage"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button type="button" className="send-invite-button" onClick={addInvite}>
-                Add 
-                <img src={sendIcon} alt="Send Icon" />
+        <p className="invite-description">Invite others to plan your next trip together</p>
+        <div className="invite-form-box">
+          <form>
+            <div className="invite-form-group">
+              <label htmlFor="email">Email / Username:</label>
+              <div className="input-container">
+                <input
+                  type="text"
+                  id="email"
+                  placeholder="eg: example@email.com or BonVoyage"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <button type="button" className="send-invite-button" onClick={addInvite}>
+                  Add
+                </button>
+              </div>
+            </div>
+            <div className="invite-form-group">
+              <label htmlFor="invited">Invites: </label>
+              <ul className="invite-list">
+                {invited.map((invite, index) => (
+                  <li key={index} className="invite-item">
+                    {invite}
+                    <button type="button" className="delete-button" onClick={() => deleteInvite(invite)}>
+                      &times;
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <button type="button" className="send-invite-button" onClick={sendInvites}>
+                Send Invite
               </button>
             </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="invited">Invites: </label>
-            <ul className="invite-list">
-              {invited.map((invite, index) => (
-                <li key={index} className="invite-item">
-                  {invite}
-                  <button type="button" className="delete-button" onClick={() => deleteInvite(invite)}>
-                    &times;
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <button type="button" className="send-invite-button" onClick={sendInvites}>
-              Send Invite
-              {/* <img src={sendIcon} alt="Send Icon" /> */}
-              </button>
-          </div>
-          <div className="form-group invite-link-group">
-            <label htmlFor="invite-link">Invite Link:</label>
-            <input
-              type="text"
-              id="invite-link"
-              value={inviteLink}
-              readOnly
-              className="invite-link"
-            />
-            <button type="button" className="copy-link-button" onClick={copyInviteLink}>Copy Link</button>
-          </div>
-          <button type="button" className="next-button" onClick={handleNext}>Next</button>
-        </form>
+            <div className="invite-form-group invite-link-group">
+              <label htmlFor="invite-link">Invite Link:</label>
+              <input
+                type="text"
+                id="invite-link"
+                value={inviteLink}
+                readOnly
+                className="invite-link"
+              />
+              <button type="button" className="copy-link-button" onClick={copyInviteLink}>Copy Link</button>
+            </div>
+            <button type="button" className="next-button" onClick={handleNext}>Next</button>
+          </form>
+        </div>
       </main>
     </div>
   );
 };
 
 export default InvitePage;
-

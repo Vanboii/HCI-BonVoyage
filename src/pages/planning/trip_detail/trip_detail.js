@@ -153,7 +153,6 @@ const TripDetailPage = () => {
   return (
     <div className="trip-detail-container">
       <TopBanner showAlertOnNavigate={true} />
-      {/* {!User && Popup()} */}
       <main>
         <h1>Enter Your Trip Details</h1>
         <p className="description-trip">Gateway to Planning Your Ideal Itinerary</p>
@@ -287,8 +286,8 @@ const TripDetailPage = () => {
           </form>
         </div>
       </main>
-      {modalVisible && (  
-        <div className="modal-overlay"> {/* THIS WILL NEVER APPEAR??? */}
+      {modalVisible && (
+        <div className="modal-overlay">
           <div className="modal-content">
             <p>{modalContent}</p>
             <button onClick={() => handleModalClose(true)}>Proceed to Travel</button>
