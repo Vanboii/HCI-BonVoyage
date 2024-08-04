@@ -1,55 +1,73 @@
-.preferences-container {
-    padding: 20px;
-    width: 80%;
-    margin: auto;
+
+.preferences-page .preferences-container {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    width: 100%;
+    margin:auto; /* Ensure there is no auto margin that could cause whitespace */
     text-align: left;
+    background-image: url('../../../components/hogwarts.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    box-sizing: border-box; /* Include padding in element's total width and height */
 }
 
-main {
-    margin-top: 90px; /* Ensure the content is not hidden behind the fixed banner */
-}
-
-.preferences-container h1 {
+.preferences-page .preferences-container h1 {
     font-size: 48px;
+    margin-top: 70px;
     margin-bottom: -10px;
     text-align: center;
-    color: #0c0c0c;
-    
+    color: #ffffff;
 }
 
-.preferences-container p {
+.preferences-page .preferences-container p {
     font-size: 18px;
     margin-bottom: 30px;
     text-align: center;
+    color: #ffffff;
 }
 
-form {
+.preferences-container main {
+    flex-grow: 1; /* Allow main content to grow and fill remaining space */
+}
+
+.preferences-page .form-box {
+    background-color: #ffffffcc;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    width: 800px;
+    margin-left: 220px;
+}
+
+.preferences-page form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.form-group {
+.preferences-page .form-group {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    
 }
 
-label {
+.preferences-page label {
     font-weight: bold;
-    
 }
 
-.options {
+.preferences-page .options {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-button {
-    background-color: #015a6c;
+.preferences-page button {
+    background-color: #0f4352;
     color: rgb(255, 255, 255);
     border: none;
     padding: 10px 20px;
@@ -57,13 +75,13 @@ button {
     border-radius: 5px;
 }
 
-.next-button {
+.preferences-page .next-button {
     align-self: flex-end;
     margin-top: 20px;
 }
 
 /* Styles for the dietary restriction section to match the provided UI design */
-.dietary-restriction-container {
+.preferences-page .dietary-restriction-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -71,7 +89,7 @@ button {
     margin-bottom: 20px;
 }
 
-.dietary-restriction-container .selected-options {
+.preferences-page .dietary-restriction-container .selected-options {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
@@ -79,7 +97,7 @@ button {
     margin-bottom: -10px;
 }
 
-.selected-option {
+.preferences-page .selected-option {
     background-color: #377586; /* Match the other buttons' background color */
     color: rgb(255, 255, 255); /* Match the other buttons' text color */
     border: none;
@@ -91,12 +109,12 @@ button {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
 
-.selected-option span {
+.preferences-page .selected-option span {
     margin-right: -10px;
     margin-left: 10px;
 }
 
-.selected-option button {
+.preferences-page .selected-option button {
     background: none;
     border: none;
     color: #fff;
@@ -104,7 +122,7 @@ button {
 }
 
 /* Dropdown Styles */
-.dropdown {
+.preferences-page .dropdown {
     position: relative;
     width: 530px;
     display: flex; /* Use flexbox to align elements horizontally */
@@ -112,7 +130,7 @@ button {
     z-index: 1; /* Ensure it is below the banner */
 }
 
-.dropdown input {
+.preferences-page .dropdown input {
     flex-grow: 1;
     padding: 10px;
     border: 1px solid #ced4da;
@@ -122,7 +140,7 @@ button {
     margin-right: 10px; /* Add margin to the right of the input */
 }
 
-.dropdown-menu {
+.preferences-page .dropdown-menu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -138,7 +156,7 @@ button {
     box-sizing: border-box; /* Ensure the dropdown doesn't resize */
 }
 
-.dropdown-menu .option {
+.preferences-page .dropdown-menu .option {
     display: flex;
     align-items: center; /* Center align items vertically */
     padding: 8px;
@@ -146,75 +164,78 @@ button {
     justify-content: flex-start; /* Align items to the start */
 }
 
-.dropdown-menu .option:hover {
+.preferences-page .dropdown-menu .option:hover {
     background-color: #00000027;
 }
 
-.dropdown-menu .option.selected {
+.preferences-page .dropdown-menu .option.selected {
     background-color: #d1e7dd; /* Highlight selected options */
 }
 
 /* Ensuring Dropdown and Custom Input Box Alignment */
-.dietary-restriction-container {
+.preferences-page .dietary-restriction-container {
     display: flex;
     align-items: flex-start;
     gap: 20px; /* Add gap between elements */
     flex-wrap: wrap;
+    margin-bottom: 40px;
+
 }
 
 /* Travel Style Section */
-.travel-style-container {
+.preferences-page .travel-style-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;
-  }
-  
-  .travel-style-option {
+    justify-content: left;
+    margin-bottom: 40px;
+}
+
+.preferences-page .travel-style-option {
     flex: 1 1 80%; /* Make each option take up about 45% of the container width */
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    border: 1px solid #ced4da;
+    border: 1px solid #ffffff;
     border-radius: 10px;
+    background-color: #dadada;
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s, filter 0.2s;
     max-width: 200px; /* Maximum width for each box */
-  }
-  
-  .travel-style-option img {
+
+}
+
+.preferences-page .travel-style-option img {
     width: 80px;
     height: 80px;
     margin-bottom: 8px;
     transition: filter 0.2s; /* Add transition for filter */
-  }
-  
-  .travel-style-option.selected {
+}
+
+.preferences-page .travel-style-option.selected {
     background-color: #377586; /* Highlight selected travel style options */
     color: #fff;
     transform: scale(1.05); /* Slightly increase the size when selected */
-  }
-  
-  .travel-style-option.selected span {
-    color: #fff; /* Change text color to white when selected */
-  }
-  
-  .travel-style-option:active {
-    transform: scale(1.1); /* Add pop-up effect when clicked */
-  }
-  
+}
 
+.preferences-page .travel-style-option.selected span {
+    color: #fff; /* Change text color to white when selected */
+}
+
+.preferences-page .travel-style-option:active {
+    transform: scale(1.1); /* Add pop-up effect when clicked */
+}
 
 /* Category of Activities Section */
-.options {
+.preferences-page .options {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
-.option-button {
+.preferences-page .option-button {
     background-color: #ffffff;
     color: rgb(41, 41, 41);
     border: 1px solid #ced4da;
@@ -224,18 +245,18 @@ button {
     transition: transform 0.2s, background-color 0.2s; /* Add transition for background color and transform */
 }
 
-.option-button.selected {
+.preferences-page .option-button.selected {
     background-color: #377586; /* Highlight selected category options */
     color: #fff;
     transform: scale(1.05); /* Slightly increase the size when selected */
 }
 
-.option-button:active {
+.preferences-page .option-button:active {
     transform: scale(1.1); /* Add pop-up effect when clicked */
 }
 
 /* Price Range Section */
-.price-range-container {
+.preferences-page .price-range-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -243,7 +264,7 @@ button {
     margin: 20px 0;
 }
 
-.price-range-labels {
+.preferences-page .price-range-labels {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -252,13 +273,13 @@ button {
     font-size: 14px;
 }
 
-.price-range-labels div {
+.preferences-page .price-range-labels div {
     text-align: center;
     gap: 100px;
     flex: 1;
 }
 
-.price-range-inputs {
+.preferences-page .price-range-inputs {
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -268,7 +289,7 @@ button {
     justify-content: center;
 }
 
-.price-range-inputs input {
+.preferences-page .price-range-inputs input {
     width: 100px;
     padding: 8px;
     border: 1px solid #ced4da;
@@ -276,13 +297,13 @@ button {
     text-align: center;
 }
 
-.price-range-inputs .range-label {
+.preferences-page .price-range-inputs .range-label {
     font-weight: bold;
     margin: 0 10px;
     text-align: center;
 }
 
-.price-range-track {
+.preferences-page .price-range-track {
     width: 100%;
     height: 8px;
     background: #ccc;
@@ -291,7 +312,7 @@ button {
     margin-top: 10px;
 }
 
-.price-range-track .price-range-track-active {
+.preferences-page .price-range-track .price-range-track-active {
     background: linear-gradient(to right, #5d9dae, #0e1d22);
     height: 100%;
     border-radius: 3px;
@@ -300,7 +321,7 @@ button {
     left: 0;
 }
 
-.price-range-thumb {
+.preferences-page .price-range-thumb {
     width: 18px;
     height: 18px;
     background: #377586;
@@ -312,24 +333,23 @@ button {
     box-shadow: 0px 2px 6px #AAA;
 }
 
-.budget-tagline {
+.preferences-page .budget-tagline {
     font-size: 14px !important;
-    color: #4c4c4c;
+    color: #000000!important;
     margin-bottom: -30px;
     margin-top: -5px;
     text-transform: none;
 }
 
-.budget-tagline1 {
+.preferences-page .budget-tagline1 {
     font-size: 14px !important;
-    color: #4c4c4c;
+    color: #000000 !important;
     margin-bottom: 0px;
     margin-top: -35px;
 }
 
-
 /* Error Message */
-.error-message {
+.preferences-page .error-message {
     color: red;
     font-size: 16px;
     margin-top: 10px;
@@ -337,19 +357,31 @@ button {
 }
 
 /* Add this to your CSS file */
+.preferences-page .loading-container {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    width: 100%;
+    margin:auto; /* Ensure there is no auto margin that could cause whitespace */
+    text-align: left;
+    background-image: url('../../../components/lago di barise.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    box-sizing: border-box; /* Include padding in element's total width and height */
+}
 
-.loading-container h1{
+.preferences-page .loading-container h1 {
     font-size: 96px;
     margin-top: 70px;
     margin-bottom: 0px;
     text-align: center;
-    color: #0c0c0c;
-    
+    color: #000000;
 }
 
-.loading-container p{
+.preferences-page .loading-container p {
     font-size: 24px;
     margin-top: -100px;
     text-align: center;
 }
-  
