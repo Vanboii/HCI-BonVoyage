@@ -401,15 +401,18 @@ const ResultsPage = () => {
     lng: 126.9780,
   };
 
-  const locations = Object.entries(itinerary).flatMap(([dayKey, dayPlan]) =>
-    ['morning', 'afternoon', 'evening'].flatMap(period =>
-      dayPlan[period].map(activity => ({
-        key: `${dayKey}-${period}-${activity.name}`,
-        location: { lat: activity.lat, lng: activity.lng },
-        ...activity
-      }))
-    )
-  );
+  const locations = Object.values(itinerary).flatMap(dayPlan =>
+    Object.values(dayPlan).flatMap(periodActivities => periodActivities));
+
+  // const locations = Object.entries(itinerary).flatMap(([dayKey, dayPlan]) =>
+  //   ['morning', 'afternoon', 'evening'].flatMap(period =>
+  //     dayPlan[period].map(activity => ({
+  //       key: `${dayKey}-${period}-${activity.name}`,
+  //       location: { lat: activity.lat, lng: activity.lng },
+  //       ...activity
+  //     }))
+  //   )
+  // );
   console.log("locations:", locations);
   
 

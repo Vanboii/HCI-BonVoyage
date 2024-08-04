@@ -81,7 +81,7 @@ const PreferencesPage = () => {
     const button = document.getElementById(buttonID);
     button.disabled = true;
     button.style.backgroundColor = "#377586";
-    setSubmitButton("Loading please wait for a few minutes...");
+    setSubmitButton("Loading, please wait...");
   };
 
 
@@ -198,7 +198,7 @@ const PreferencesPage = () => {
         travelStyles: selectedTravelStyles,
         currency: "USD",
         budget: budget,
-        isdone: false,
+        isdone: true,
       }
     });
     console.log("done");
@@ -215,7 +215,14 @@ const PreferencesPage = () => {
       const recommendations = response.data;
       console.log('Recommendations fetched (POST):', recommendations);
 
-      navigate(`/Tinderpreference/${id}`, { state: { recommendations: recommendations.data } });
+      addPreference(id, {
+        [`${User.uid}`] : {
+          likes: recommendations.data,
+        }});
+
+      console.log("recommendation added to db");
+
+      navigate(`/results/${id}`, { state: { recommendations: recommendations.data } });
     } catch (error) {
       console.error('Error fetching recommendations (POST):', error);
 
@@ -225,7 +232,14 @@ const PreferencesPage = () => {
         const localRecommendations = localResponse.data;
         console.log('Recommendations fetched (local):', localRecommendations);
 
-        navigate(`/Tinderpreference/${id}`, { state: { recommendations: localRecommendations } });
+        addPreference(id, {
+          [`${User.uid}`] : {
+            likes: localRecommendations,
+          }});
+  
+        console.log("recommendation added to db");
+
+        navigate(`/results/${id}`, { state: { recommendations: localRecommendations } });
       } catch (localError) {
         console.error('Error fetching local recommendations:', localError);
       }
