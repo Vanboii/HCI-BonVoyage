@@ -183,6 +183,8 @@ const ResultsPage = () => {
   const [ budgetMin,setBudgetMin] = useState();
   const [ tripDates, setTripDates] = useState(``);
   const [selectedActivity, setSelectedActivity] = useState(null);
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+
 
 
   useEffect(()=> {
@@ -212,28 +214,30 @@ const ResultsPage = () => {
         console.log('Fetched Generated Itinerary:', generatedItinerary);
         setItinerary(generatedItinerary);
 
-        const newLocations = Object.entries(generatedItinerary).flatMap(([dayKey, dayPlan]) =>
-          ['morning', 'afternoon', 'evening'].flatMap(period => {
-            if (Object.keys(dayPlan).includes(period)) {
-              return dayPlan[period].map(activity => ({
-                key: `${dayKey}-${period}-${activity.name}`,
-                location: { lat: activity.lat, lng: activity.lng },
-                ...activity
-              }))
-            } 
-            return [];
-          })
+        const locations = Object.values(generatedItinerary).flatMap(dayPlan =>
+          Object.values(dayPlan).flatMap(periodActivities =>
+            periodActivities.map(activity => ({
+              key: `${activity.name}-${activity.lat}-${activity.lng}`,
+              location: { lat: activity.lat, lng: activity.lng },
+              ...activity
+            }))
+          )
         );
-        setLocations(newLocations);
+        setLocations(locations);
 
-
-
+        // Fetch the center coordinates for the city and country
+        const geocodeResponse = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${city},${country}&key=AIzaSyBpZrkuvh_FmG-Qs1NTHsj5xMTLVG-9q64`);
+        if (geocodeResponse.data.results.length > 0) {
+          const { lat, lng } = geocodeResponse.data.results[0].geometry.location;
+          setCenter({ lat, lng });
+        }
         break
       }
       console.error('Error Fetching Itinerary', idx);
     }
     setLoading(false);
   }
+
   // const getItineraryPreferences = async () => {
   //   const data = await getPreference(id);
   //   const maxBudget = data.map((user) => user.budget[1]);
@@ -368,11 +372,6 @@ const ResultsPage = () => {
     height: '100%',
   };
 
-  const center = {
-    lat: 37.5665,
-    lng: 126.9780,
-  };
-
 
   if (loading) {
     return (
@@ -444,7 +443,7 @@ const ResultsPage = () => {
             </div>
           </div>
           <div className="rightContainer">
-            <MapComponent locations={locations} selectedActivity={selectedActivity} />
+            <MapComponent locations={locations} selectedActivity={selectedActivity} center={center} />
           </div>
         </div>
         {showSuggestions && (

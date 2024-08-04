@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from '@vis.gl/react-google-maps';
 
-const MapComponent = ({ locations, selectedActivity }) => {
+const MapComponent = ({ locations, selectedActivity, center }) => {
   const [placeDetails, setPlaceDetails] = useState(null);
   const mapRef = useRef(null);
 
@@ -74,13 +74,8 @@ const MapComponent = ({ locations, selectedActivity }) => {
     height: '100%',
   };
 
-  const center = {
-    lat: 37.5665,
-    lng: 126.9780,
-  };
-
   return (
-    <APIProvider apiKey={'AIzaSyCSE_TMMsKRwr3TsvuwBbJEiwojEL1XF4A'} onLoad={() => console.log('Maps API has loaded.')}>
+    <APIProvider apiKey={'AIzaSyBpZrkuvh_FmG-Qs1NTHsj5xMTLVG-9q64'} onLoad={() => console.log('Maps API has loaded.')}>
       <Map
         defaultZoom={10}
         defaultCenter={center}
