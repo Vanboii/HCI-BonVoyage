@@ -235,7 +235,7 @@ const PreferencesPage = () => {
   //^ Add into the return block below using {loading && (<div...)}
   if (loading) {
     return (
-      <div className="preferences-page loading-container">
+      <div className= ".preferences-page .loading-container">
         <TopBanner showAlertOnNavigate={true} />
         <main>
           <h1>Loading...</h1>
