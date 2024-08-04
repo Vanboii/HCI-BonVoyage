@@ -48,7 +48,7 @@ def get_website(place_id, API_KEY=GOOGLE_API_KEY):
 
     if response.get("status") == "OK":
         # returns none if no website found
-        return response.get("result").get("address_components")[0].get("website")
+        return response.get("result").get("website")
 
     else:
         print("error in google maps websites api")
@@ -200,9 +200,12 @@ def get_bing_images(data, city, country, tag):
                     d["lat"] = location.get("lat")
                     d["lng"] = location.get("lng")
 
-                    # update website if needed, ie: when llama has no website given
+                    # update website if needed, 
+                    # ie: when llama has no website given or invalid URL
                     d["place_id"] = place_id
-                    if d.get("website") == "" or d.get("website") == None:
+                    try:
+                        status = requests.get(d.get("website")).status_code
+                    except:
                         google_website = get_website(place_id)
                         if google_website:
                             d["website"] = google_website

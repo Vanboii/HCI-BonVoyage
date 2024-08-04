@@ -48,8 +48,7 @@ def get_website(place_id, API_KEY=GOOGLE_API_KEY):
 
     if response.get("status") == "OK":
         # returns none if no website found
-        return response.get("result").get("address_components")[0].get("website")
-
+        return response.get("result").get("website")
     else:
         print("error in google maps websites api")
         return None
@@ -120,7 +119,8 @@ def get_llama_others(city, country, budget, activities, pre_prompt=pre_prompt, p
 
     # activity list is empty
     if len(activities) == 0:
-        activities = ["Amusement Parks", "Historical Site", "Museum"]
+        site = ""
+        activities = [""]
 
     for a in activities:
         # print(site, city, country, budget, a+tag)
@@ -208,7 +208,9 @@ def get_bing_images(data, city, country, tag):
 
                     # update website if needed, ie: when llama has no website given
                     d["place_id"] = place_id
-                    if d.get("website") == "" or d.get("website") == None:
+                    try:
+                        status = requests.get(d.get("website")).status_code
+                    except:
                         google_website = get_website(place_id)
                         if google_website:
                             d["website"] = google_website
@@ -233,11 +235,11 @@ def get_bing_images(data, city, country, tag):
 
 # activities = ["Historical Site", "Amusement Park"]
 # activities = ["Museum", "Amusement Park", "Wheelchair-friendly"]
+# activities = ["Kid-friendly"]
 
 # activities, tag = get_tag(activities)
 # print(activities, tag)
 
-# activities = ["Kid-friendly"]
 
 # print(get_llama_others(city, country, budget, activities))
 # print(get_llama_others("Singapore", "Singapore", "medium", ["Amusement Parks"]))

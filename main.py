@@ -121,9 +121,9 @@ def get_recommendations():
 
      # get max end of budget PER DAY
      budget_max = int(userpreferences_data.get("budget")[1])
-     if budget_max >= 50:
+     if budget_max < 2500:
          budgetRange = 'Low'
-     elif 50 < budget_max <= 150:
+     elif 2500 <= budget_max <= 5000:
          budgetRange = 'Medium'
      else:
          budgetRange = 'High'
