@@ -211,6 +211,23 @@ const ResultsPage = () => {
       if (generatedItinerary != [] && generatedItinerary != null && Object.keys(generatedItinerary).length > 0) {
         console.log('Fetched Generated Itinerary:', generatedItinerary);
         setItinerary(generatedItinerary);
+
+        const newLocations = Object.entries(generatedItinerary).flatMap(([dayKey, dayPlan]) =>
+          ['morning', 'afternoon', 'evening'].flatMap(period => {
+            if (Object.keys(dayPlan).includes(period)) {
+              return dayPlan[period].map(activity => ({
+                key: `${dayKey}-${period}-${activity.name}`,
+                location: { lat: activity.lat, lng: activity.lng },
+                ...activity
+              }))
+            } 
+            return [];
+          })
+        );
+        setLocations(newLocations);
+
+
+
         break
       }
       console.error('Error Fetching Itinerary', idx);
