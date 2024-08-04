@@ -170,5 +170,3 @@ const TinderPreference = () => {
 };
 
 export default TinderPreference;
-
-

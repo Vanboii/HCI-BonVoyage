@@ -12,7 +12,8 @@ import PreferencesPage from './pages/planning/preferences_page/preferences_page'
 import TinderPreference from './pages/planning/tinder_preference/tinder_preference';
 import WaitingRoomPage from './pages/planning/waiting_room/waitingroomPage';
 import LoadingPage from './pages/planning/loading_page/loadingPage';
-import ResultsPage from './pages/planning/results_page/resultsPage'; 
+import ResultsPage from './pages/planning/results_page/resultsPage'; // Import ResultsPage
+import InviteStart from './pages/planning/start_invite_page/start_invite'; 
 
 
 
@@ -49,11 +50,14 @@ function App() {
         <Route path="/planning/trip_detail" element={<TripDetailPage />} />
         <Route path="/planning/invite/:id" element={<InvitePage />} />
         <Route path="/preferences/:id" element={<PreferencesPage/>} />
-        <Route path="/tinderpreference/:id" element={<TinderPreference/>} />
+        {/* <Route path="/tinderpreference/:id" element={<TinderPreference/>} /> */}
+        <Route path="/tinderpreference" element={<TinderPreference/>} />
         <Route path="/waitingroom/:id" element={<WaitingRoomPage/>} />
         <Route path="/loading/:id" element={<LoadingPage />} />
         <Route path="/results/:id" element={<ResultsPage/>} />   {/* Add ResultsPage route */}
         <Route path="*" element={<HomePage />} />
+        <Route path="/planning/invitestart/:id" element={<InviteStart/>} />
+        
       </Routes>
     </Router>
   );

@@ -143,3 +143,7 @@ input[type="text"]:focus {
 .delete-button:hover {
     color: darkred;
 }
+
+.delete-button:hover {
+    color: darkred;
+}

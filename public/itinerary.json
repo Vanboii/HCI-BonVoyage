@@ -1,0 +1,120 @@
+{
+  "itineraryID": "12345",
+  "day1": {
+    "morning": [
+      {
+        "name": "Gyeongbokgung Palace",
+        "description": "Historical palace with guided tours and cultural events.",
+        "budget": "medium",
+        "imageURL": "https://via.placeholder.com/150",
+        "lat": 37.579617,
+        "lng": 126.977041,
+        "placeId": "",
+        "hours": "9AM - 5PM"
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "Bukchon Hanok Village",
+        "description": "Traditional village showcasing historic Korean homes.",
+        "budget": "low",
+        "imageURL": "https://via.placeholder.com/150",
+        "lat": 37.582576,
+        "lng": 126.985648,
+        "placeId": "",
+        "hours": "10AM - 6PM"
+      }
+    ],
+    "evening": [
+      {
+        "name": "Insadong",
+        "description": "Popular street for traditional Korean culture and crafts.",
+        "budget": "medium",
+        "imageURL": "https://via.placeholder.com/150",
+        "lat": 37.572768,
+        "lng": 126.986632,
+        "placeId": "",
+        "hours": "10AM - 9PM"
+      }
+    ],
+    "suggestions": [
+      {
+        "name": "N Seoul Tower",
+        "description": "Iconic tower offering panoramic views of Seoul.",
+        "budget": "high",
+        "imageURL": "https://via.placeholder.com/150"
+      },
+      {
+        "name": "Myeongdong Shopping Street",
+        "description": "Bustling shopping area with a variety of stores and eateries.",
+        "budget": "medium",
+        "imageURL": "https://via.placeholder.com/150"
+      },
+      {
+        "name": "Cheonggyecheon Stream",
+        "description": "Modern public recreation space along a historic stream.",
+        "budget": "low",
+        "imageURL": "https://via.placeholder.com/150"
+      }
+    ],
+    "budgetTotal": 75
+  },
+  "day2": {
+    "morning": [
+      {
+        "name": "Myeongdong Shopping Street",
+        "description": "Bustling shopping area with a variety of stores and eateries.",
+        "budget": "medium",
+        "imageURL": "https://via.placeholder.com/150",
+        "lat": 37.560970,
+        "lng": 126.985032,
+        "placeId": "",
+        "hours": "10AM - 10PM"
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "N Seoul Tower",
+        "description": "Iconic tower offering panoramic views of Seoul.",
+        "budget": "high",
+        "imageURL": "https://via.placeholder.com/150",
+        "lat": 37.551169,
+        "lng": 126.988227,
+        "placeId": "",
+        "hours": "10AM - 11PM"
+      }
+    ],
+    "evening": [
+      {
+        "name": "Cheonggyecheon Stream",
+        "description": "Modern public recreation space along a historic stream.",
+        "budget": "low",
+        "imageURL": "https://via.placeholder.com/150",
+        "lat": 37.569273,
+        "lng": 126.977047,
+        "placeId": "",
+        "hours": "24 hours"
+      }
+    ],
+    "suggestions": [
+      {
+        "name": "Gyeongbokgung Palace",
+        "description": "Historical palace with guided tours and cultural events.",
+        "budget": "medium",
+        "imageURL": "https://via.placeholder.com/150"
+      },
+      {
+        "name": "Bukchon Hanok Village",
+        "description": "Traditional village showcasing historic Korean homes.",
+        "budget": "low",
+        "imageURL": "https://via.placeholder.com/150"
+      },
+      {
+        "name": "Insadong",
+        "description": "Popular street for traditional Korean culture and crafts.",
+        "budget": "medium",
+        "imageURL": "https://via.placeholder.com/150"
+      }
+    ]
+  }
+}

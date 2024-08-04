@@ -216,7 +216,7 @@ img.dayArrow {
 
 .activityDetails {
   display: flex;
-  align-items: center;
+  align-items: left;
   font-size: 12px;
 
   span {
@@ -314,6 +314,7 @@ img.dayArrow {
   max-width: 80%;
   max-height: 80%;
   overflow-y: auto;
+  
 }
 .modalHeader {
   display: flex;
@@ -333,9 +334,9 @@ img.dayArrow {
 }
   .suggestionItem { 
   display: flex;
-  align-items: center;
+  align-items: left;
   background-color: #f8f9fa; 
-  padding: 10px;
+  padding: 20px;
   height: 160px;
   margin-bottom: 10px;
   border-radius: 8px; /* Rounded corners */
@@ -357,7 +358,7 @@ img.dayArrow {
 }
 .suggestionItem .activityDetails {
   display: flex;
-  align-items: center;
+  align-items: left;
   font-size: 12px;
 }
 .suggestionItem .activityDetails span {
