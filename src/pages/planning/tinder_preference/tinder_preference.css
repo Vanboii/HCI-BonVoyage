@@ -122,8 +122,8 @@
 }
 
 .preference-container h2 {
-  margin-bottom: -50px;
-  margin-top: 60px;
+  margin-bottom: -40px;
+  margin-top: 90px;
   font-size: 24px;
   font-weight: bold;
   z-index: 2;
@@ -135,7 +135,7 @@
   align-items: center;
   justify-content: center;
   width: 80%;
-  height: 75%;
+  height: 80%;
   background-color: white;
   margin-top: 10px;
   position: relative; /* Ensures thumb icons are positioned correctly */
@@ -148,6 +148,8 @@
   justify-content: center;
   cursor: pointer;
   position: absolute;
+  margin-left: -20px;
+  margin-right: -20px
 }
 
 .thumb-icon img {
@@ -198,18 +200,19 @@
   justify-content: center;
   text-align: center;
   margin-top: 10px; /* Add margin to separate text from the image */
+  margin-bottom: -10px;
   width: 70%; /* Match width with picture-placeholder */
 }
 
 /* Highlighted changes: Add swipe animations */
 .swipe-left {
   animation: swipe-left 0.5s forwards;
-  border-color: red; /* Highlighted change */
+  border-color: rgb(126, 20, 20); /* Highlighted change */
 }
 
 .swipe-right {
   animation: swipe-right 0.5s forwards;
-  border-color: green; /* Highlighted change */
+  border-color: rgb(35, 99, 7); /* Highlighted change */
 }
 
 @keyframes swipe-left {
