@@ -54,18 +54,24 @@ const Activity = ({ activity, index, moveActivity, period, dayIndex, handleEdit,
       <div className="dragHandle">
         <img src={dragIcon} alt="Drag" />
       </div>
+  
       <div className="activityInfo">
-        <h3>{activity.name}</h3>
-        <p>{activity.description}</p>
+        <a href={activity.website}><h3>{activity.name}</h3></a>
         <div className="activityDetails">
-          <span>{activity.hours}</span>
+          <span>Category: {activity.category}</span>
+          <span>Expected cost: {activity.budgetRange}</span>
+          <span>Opening Hours: {activity.openingHours}</span>
         </div>
+        <div>&nbsp;</div>
+
+        <p>{activity.description}</p>
+        <div>&nbsp;</div>
         <button className="suggestionsButton" onClick={() => handleEdit(dayIndex, period, index)}>
           Suggestions
         </button>
       </div>
       <div className="activityImage">
-        <img src={activity.image} alt={activity.name} />
+        <img src={activity.imageURL} alt={activity.name} />
         <img
           src={binIcon}
           alt="Delete"
@@ -520,7 +526,7 @@ const ResultsPage = () => {
         <TopBanner showAlertOnNavigate={true} />
         <main>
           <h1>Loading...</h1>
-          <p>Please wait YOU DOG.</p>
+          <p>Please wait for a few minutes...</p>
         </main>
       </div>
     );

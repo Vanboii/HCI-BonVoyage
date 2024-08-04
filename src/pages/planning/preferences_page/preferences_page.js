@@ -34,13 +34,16 @@ const travelStyles = [
 
 const allCategories = [
   'None', 'Museums', 'Shopping', 'Amusement Park', 'Historical Site', 'Kid-friendly',
-  'Pet-friendly', 'Wheelchair-friendly', 'Parks & Scenic Place', 'Theatre & Cultural', 'Food Galore'
+  'Pet-friendly', 'Wheelchair-friendly', 'Parks & Scenic Place', 'Theatre & Cultural', 'Food Galore', 'Night-life'
 ];
 
 // const monthNames = [
 //   "January", "February", "March", "April", "May", "June",
 //   "July", "August", "September", "October", "November", "December"
 // ];
+
+
+
 
 const PreferencesPage = () => {
 
@@ -69,7 +72,18 @@ const PreferencesPage = () => {
   const [formError, setFormError] = useState('');
   const [availableCategories, setAvailableCategories] = useState(["None"]);
   const [loading, setLoading] = useState(true);
+  const [submitButton, setSubmitButton] = useState("Next");
   const navigate = useNavigate();
+
+
+  //function to disable buttons
+  function disableButton(buttonID){
+    const button = document.getElementById(buttonID);
+    button.disabled = true;
+    button.style.backgroundColor = "#377586";
+    setSubmitButton("Loading please wait for a few minutes...");
+  };
+
 
   const handleDietaryChange = (option) => {
     if (option === 'No Restrictions') {
@@ -148,6 +162,8 @@ const PreferencesPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    disableButton("submitForm");
 
     if (selectedDietaryRestrictions.length === 0) {
       setFormError('Please select at least one dietary restriction.');
@@ -371,7 +387,7 @@ const PreferencesPage = () => {
           </div>
 
           {formError && <div className="error-message">{formError}</div>}
-          <button type="submit" className="next-button">Next</button>
+          <button id="submitForm" type="submit" className="next-button">{submitButton}</button>
         </form>
       </main>
     </div>
