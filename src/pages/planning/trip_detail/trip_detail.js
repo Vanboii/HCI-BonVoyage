@@ -50,6 +50,7 @@ const TripDetailPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
   const [itineraryId, setItineraryId] = useState(null); // New state to store the itinerary ID
+  const [submitButton, setSubmitButton] = useState("Next");
   const navigate = useNavigate();
   const today = new Date();
 
@@ -69,8 +70,18 @@ const TripDetailPage = () => {
     setCity(null);
   };
 
+  //function to disable buttons
+  function disableButton(buttonID){
+    const button = document.getElementById(buttonID);
+    button.disabled = true;
+    button.style.backgroundColor = "#377586";
+    setSubmitButton("Loading, please wait...");
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    disableButton("submitForm");
   
     if (!country || !city || !startDate || !endDate || !arrivalTime || !departureTime || numberOfPeople < 1) {
       return;
@@ -272,7 +283,7 @@ const TripDetailPage = () => {
                 </div>
               </div>
             )}
-            <button type="submit" className="next-button">Next</button>
+            <button id="submitForm" type="submit" className="next-button">{submitButton}</button>
           </form>
         </div>
       </main>
