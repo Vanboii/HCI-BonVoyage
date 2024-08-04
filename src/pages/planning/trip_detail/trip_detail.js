@@ -75,49 +75,54 @@ const TripDetailPage = () => {
     if (!country || !city || !startDate || !endDate || !arrivalTime || !departureTime || numberOfPeople < 1) {
       return;
     }
-
+  
     // Check if the accommodation choice has been made
     if (hasAccommodation === null) {
       setErrorMessage('Please indicate whether you have an accommodation.');
       return; // Stop the form submission
     }
-    
-
-    // Handle form submission
-    // console.log({
-    //   country: country.label, 
-    //   city: city.label, 
-    //   startDate: startDate, 
-    //   endDate : endDate, 
-    //   numberOfPeople : numberOfPeople,
-    // });
-    let id = await addItinerary({  //Adds the itinerary to the database
-      country: country.label, 
-      city: city.label, 
-      arrivalDate: startDate, 
-      arrivalTime: arrivalTime,
-      departureDate : endDate,
-      departureTime: departureTime,
-      numberOfPeople : numberOfPeople,
-      accommodation: {
-        streetAddress: streetAddress,
-        buildingName: buildingName,
-      },
-      owner: {
-        uid: auth.currentUser.uid, 
-        displayName: auth.currentUser.displayName
-      },
-    });
-    setItineraryId(id);
-    if (id) {
-      navigate(`/planning/invite/${id}`);
-    } else {
-      console.error("Failed",itineraryId)
+  
+    try {
+      // Fetch safety status
+      const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${city.label}&country=${country.label}`);
+      const data = response.data;
+  
+      // Check safety status
+      if (typeof data.safety_status === 'number') {
+        setModalContent(data.reply);
+        setModalVisible(true);
+      } else {
+        let id = await addItinerary({  // Adds the itinerary to the database
+          country: country.label, 
+          city: city.label, 
+          arrivalDate: startDate, 
+          arrivalTime: arrivalTime,
+          departureDate: endDate,
+          departureTime: departureTime,
+          numberOfPeople: numberOfPeople,
+          accommodation: {
+            streetAddress: streetAddress,
+            buildingName: buildingName,
+          },
+          owner: {
+            uid: auth.currentUser.uid, 
+            displayName: auth.currentUser.displayName
+          },
+        });
+  
+        setItineraryId(id);
+        if (id) {
+          navigate(`/planning/invite/${id}`);
+        } else {
+          console.error("Failed", itineraryId);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching trip data:', error);
     }
-
-    // Navigate to invite page
-    
+     // Navigate to invite page
   };
+  
 
   // Get the list of cities for the selected country
   const cityOptions = country

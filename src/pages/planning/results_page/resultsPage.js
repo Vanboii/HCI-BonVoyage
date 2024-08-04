@@ -16,6 +16,7 @@ import { useTrips } from '../../../useHooks/useTrips';
 import axios from 'axios';
 import { useItinerary } from '../../../useHooks/useItineraries';
 import { usePreference } from '../../../useHooks/usePreferences';
+import MapComponent from './google_map';
 
 
 
@@ -118,67 +119,6 @@ const Section = ({ activities, dayIndex, period, moveActivity, handleEdit, handl
 
 
 const ResultsPage = () => {
-  const initialItinerary = {
-    day1:{
-      morning: [
-        {
-          name: 'Gyeongbokgung Palace',
-          description: 'Historical palace with guided tours and cultural events.',
-          hours: 'Open 9AM - 5PM',
-          image: 'https://via.placeholder.com/150',
-          lat: 37.579617,
-          lng: 126.977041,
-          placeId: ''
-        }],
-      afternoon: [{
-        name: 'Bukchon Hanok Village',
-        description: 'Traditional village showcasing historic Korean homes.',
-        hours: 'Open 10AM - 6PM',
-        image: 'https://via.placeholder.com/150',
-        lat: 37.582576,
-        lng: 126.985648,
-        placeId: ''
-      }],
-      evening:[{
-        name: 'Insadong',
-        description: 'Popular street for traditional Korean culture and crafts.',
-        hours: 'Open 10AM - 9PM',
-        image: 'https://via.placeholder.com/150',
-        lat: 37.572768,
-        lng: 126.986632,
-        placeId: ''
-      }],
-    },
-    day2: {
-      morning: [{
-        name: 'Myeongdong Shopping Street',
-        description: 'Bustling shopping area with a variety of stores and eateries.',
-        hours: 'Open 10AM - 10PM',
-        image: 'https://via.placeholder.com/150',
-        lat: 37.560970,
-        lng: 126.985032,
-        placeId: ''
-      }],
-      afternoon: [{
-        name: 'N Seoul Tower',
-        description: 'Iconic tower offering panoramic views of Seoul.',
-        hours: 'Open 10AM - 11PM',
-        image: 'https://via.placeholder.com/150',
-        lat: 37.551169,
-        lng: 126.988227,
-        placeId: ''
-      }],
-      evening: [{
-        name: 'Cheonggyecheon Stream',
-        description: 'Modern public recreation space along a historic stream.',
-        hours: 'Open 24 hours',
-        image: 'https://via.placeholder.com/150',
-        lat: 37.569273,
-        lng: 126.977047,
-        placeId: ''
-      }],
-    },
-  };
 
   const suggestedPlaces = [
     {
@@ -211,7 +151,7 @@ const ResultsPage = () => {
   ];
 
   const [itineraryDetails, setItineraryDetails] = useState(null);
-  const [itinerary, setItinerary] = useState(initialItinerary);
+  const [itinerary, setItinerary] = useState({});
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedDayIndex, setSelectedDayIndex] = useState(null);
   const [selectedPeriodIndex, setSelectedPeriodIndex] = useState(null);
@@ -240,6 +180,9 @@ const ResultsPage = () => {
   const [ budgetMax,setBudgetMax] = useState();
   const [ budgetMin,setBudgetMin] = useState();
   const [ tripDates, setTripDates] = useState(``);
+  const [selectedActivity, setSelectedActivity] = useState(null);
+
+
   // const [ locations, setLocations ] = useState([])
   // const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
 
@@ -356,6 +299,7 @@ const ResultsPage = () => {
     });
     return updatedItinerary;
   };
+  
 
   const toggleExpandDay = (dayIndex) => {
     setExpandedDays((prev) =>
@@ -367,6 +311,7 @@ const ResultsPage = () => {
     setSelectedDayIndex(dayIndex);
     setSelectedPeriodIndex(period);
     setSelectedActivityIndex(activityIndex);
+    setSelectedActivity(itinerary[dayIndex][period][activityIndex]);
     setShowSuggestions(true);
   };
 
@@ -456,10 +401,17 @@ const ResultsPage = () => {
     lng: 126.9780,
   };
 
-  const locations = Object.values(itinerary).flatMap(dayPlan =>
-    Object.values(dayPlan).flatMap(periodActivities => periodActivities)
+  const locations = Object.entries(itinerary).flatMap(([dayKey, dayPlan]) =>
+    ['morning', 'afternoon', 'evening'].flatMap(period =>
+      dayPlan[period].map(activity => ({
+        key: `${dayKey}-${period}-${activity.name}`,
+        location: { lat: activity.lat, lng: activity.lng },
+        ...activity
+      }))
+    )
   );
-  console.log("location:",locations)
+  console.log("locations:", locations);
+  
 
 
 
@@ -526,7 +478,7 @@ const ResultsPage = () => {
         <TopBanner showAlertOnNavigate={true} />
         <main>
           <h1>Loading...</h1>
-          <p>Please wait for a few minutes...</p>
+          <p>Please wait while your itinerary is being generated.</p>
         </main>
       </div>
     );
@@ -621,14 +573,7 @@ const ResultsPage = () => {
               ))} */}
             </div>
             <div className="rightContainer">
-              <Map
-                defaultZoom={10}
-                defaultCenter={center}
-                mapId='7567f4f2e6490e41'
-                onLoad={map => (mapRef.current = map)}
-              >
-                <PoiMarkers pois={locations} />
-              </Map>
+              <MapComponent locations={locations} selectedActivity={selectedActivity} />
             </div>
           </div>
           {showSuggestions && (
