@@ -520,7 +520,7 @@ const ResultsPage = () => {
         <TopBanner showAlertOnNavigate={true} />
         <main>
           <h1>Loading...</h1>
-          <p>Please wait YOU DOG.</p>
+          <p>Your itinerary is being generated!</p>
         </main>
       </div>
     );
