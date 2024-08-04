@@ -51,7 +51,7 @@ function App() {
         <Route path="/planning/invite/:id" element={<InvitePage />} />
         <Route path="/preferences/:id" element={<PreferencesPage/>} />
         {/* <Route path="/tinderpreference/:id" element={<TinderPreference/>} /> */}
-        <Route path="/tinderpreference" element={<TinderPreference/>} />
+        <Route path="/tinderpreference/:id" element={<TinderPreference/>} />
         <Route path="/waitingroom/:id" element={<WaitingRoomPage/>} />
         <Route path="/loading/:id" element={<LoadingPage />} />
         <Route path="/results/:id" element={<ResultsPage/>} />   {/* Add ResultsPage route */}

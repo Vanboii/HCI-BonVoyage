@@ -1,28 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useItineraries } from '../../../test/useGetItineraries';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useItinerary } from '../../../useHooks/useItineraries';
 import './start_invite.css';
 import TopBanner from '../../../components/banner';
 import coupletravel from '../../../components/coupletravel.png';
-import { getStatesOfCountry } from 'country-state-city/lib/state';
+import { auth } from '../../../firebase';
 
 const InviteStart = () => {
   const { id } = useParams();
-  const { getItinerary } = useItineraries();
+  const navigate = useNavigate();
+  const { getItinerary } = useItinerary();
 
-  const [city, setCity] = useState();
-  const [country, setCountry] = useState();
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     const getDetails = async () => {
       const details = await getItinerary(id);
-      console.log(details);
-      setCountry(details.country);
-      setCity(details.city);
-      setStartDate(new Date(details.startDate.seconds * 1000));
-      setEndDate(new Date(details.endDate.seconds * 1000));
+      if (details) {
+        console.log('Itinerary details:', details);
+        setCountry(details.country || '');
+        setCity(details.city || '');
+        if (details.arrivalDate && details.arrivalDate.seconds) {
+          const start = new Date(details.arrivalDate.seconds * 1000);
+          setStartDate(start);
+          console.log('Start date:', start);
+        }
+        if (details.departureDate && details.departureDate.seconds) {
+          const end = new Date(details.departureDate.seconds * 1000);
+          setEndDate(end);
+          console.log('End date:', end);
+        }
+      } else {
+        console.error('No details found for itinerary with ID:', id);
+      }
     };
 
     getDetails();
@@ -35,6 +48,10 @@ const InviteStart = () => {
       month: '2-digit',
       year: 'numeric',
     });
+  };
+
+  const handleNext = () => {
+    navigate(`/preferences/${id}`);
   };
 
   return (
@@ -50,7 +67,7 @@ const InviteStart = () => {
             <p>Date: {formatDate(startDate)} - {formatDate(endDate)}</p>
           </div>
         </div>
-        <button className="next-button">Next</button>
+        <button className="next-button" onClick={handleNext}>Next</button>
       </main>
     </div>
   );
