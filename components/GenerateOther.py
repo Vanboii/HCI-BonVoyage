@@ -226,24 +226,24 @@ def get_bing_images(data, city, country, tag):
 
 #####################
 # city, country = "Cairo", "Egypt"
-city, country = "Singapore", "Singapore"
+# city, country = "Singapore", "Singapore"
 # city, country = "Sydney", "Australia"
 # city, country = "Varna", "Bulgaria"
 # city, country = "Baku", "Azerbaijan" 
 
 # budget = "low"
-budget = "medium"
+# budget = "medium"
 # budget = "high"
 
 # activities = ["Historical Site", "Amusement Park"]
 # activities = ["Museum", "Amusement Park", "Wheelchair-friendly"]
-activities = ["Kid-friendly", "Pet-friendly"]
+# activities = ["Kid-friendly", "Pet-friendly"]
 
 # activities, tag = get_tag(activities)
 # print(activities, tag)
 
 
-print(get_llama_others(city, country, budget, activities))
+# print(get_llama_others(city, country, budget, activities))
 # print(get_llama_others("Singapore", "Singapore", "medium", ["Amusement Parks"]))
 
 ### for bing query images
