@@ -16,6 +16,7 @@ import { useTrips } from '../../../useHooks/useTrips';
 import axios from 'axios';
 import { useItinerary } from '../../../useHooks/useItineraries';
 import { usePreference } from '../../../useHooks/usePreferences';
+import { update } from '@react-spring/web';
 
 
 
@@ -234,8 +235,7 @@ const ResultsPage = () => {
   const [ budgetMax,setBudgetMax] = useState();
   const [ budgetMin,setBudgetMin] = useState();
   const [ tripDates, setTripDates] = useState(``);
-  // const [ locations, setLocations ] = useState([])
-  // const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
+  const [ locations, setLocations ] = useState([])
 
   useEffect(()=> {
     if(itineraryDetails != null) {
@@ -245,9 +245,7 @@ const ResultsPage = () => {
       setCity(itineraryDetails.city)
       setNumberOfPeople(itineraryDetails.numberOfPeople)
       setTripDates(`${itineraryDetails.arrivalDate.toDate().toLocaleDateString()} - ${itineraryDetails.departureDate.toDate().toLocaleDateString()}`)
-      console.log("StartEnd:",itineraryDetails.arrivalDate,itineraryDetails.departureDate )
     }
-    
   },[itineraryDetails])
 
   // const tripDates = startDate && endDate ? `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` : 'Unknown dates';
@@ -258,17 +256,20 @@ const ResultsPage = () => {
   }
   const getGeneratedItinerary = async () => {
     for (let idx = 0; idx < 3; idx++) {
-      console.log('Fetching Generated Itinerary...',id);
+      console.log('Fetching Generated Itinerary ',id);
       const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-resulttrip?itineraryID=${id}`);
+      console.log("response:",response)
       const generatedItinerary = response.data.dataResult; // Adjusted to match the structure in the previous example
       if (generatedItinerary != null && Object.keys(generatedItinerary).length > 0) {
         console.log('Fetched Generated Itinerary:', generatedItinerary);
         setItinerary(generatedItinerary);
-        break
+        setLoading(false);
+        return
       }
       console.error('Error Fetching Itinerary', idx);
     }
-    setLoading(false);
+    setItinerary(initialItinerary)
+    
   }
   const getItineraryPreferences = async () => {
     const data = await getPreference(id);
@@ -315,6 +316,7 @@ const ResultsPage = () => {
         for (let day of days) {
           const periods = ['morning','afternoon','evening']
           for (let period of periods) {
+            
             for (let activity of day[period]) {
               try {
                 const placeId = await fetchPlaceId(activity);
@@ -325,13 +327,16 @@ const ResultsPage = () => {
             }
           }
         }
+        console.log("updatedItinerary:",updatedItinerary);
         setItinerary(updatedItinerary);
       };
 
       fetchAllPlaceIds();
     }
-
-    console.log("itinerary", itinerary)
+    setLocations(Object.values(itinerary).flatMap(dayPlan =>
+      Object.values(dayPlan).flatMap(periodActivities => periodActivities))
+    )
+    // console.log("itinerary", itinerary)
   }, [itinerary]);
 
   const generateItineraryDates = (start, end, itinerary) => {
@@ -450,10 +455,10 @@ const ResultsPage = () => {
     lng: 126.9780,
   };
 
-  const locations = Object.values(itinerary).flatMap(dayPlan =>
-    Object.values(dayPlan).flatMap(periodActivities => periodActivities)
-  );
-  console.log("location:",locations)
+  // const locations = Object.values(itinerary).flatMap(dayPlan =>
+  //   Object.values(dayPlan).flatMap(periodActivities => periodActivities)
+  // );
+  // console.log("location:",locations)
 
 
 

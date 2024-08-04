@@ -138,7 +138,7 @@ const PreferencesPage = () => {
         setAvailableCategories(fetchedCategories);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error('Error fetching Categories:', error);
         setLoading(false);
       }
     };
@@ -162,17 +162,6 @@ const PreferencesPage = () => {
       return;
     }
 
-    // const currentDate = new Date();
-    // const month = monthNames[currentDate.getMonth()];
-    // const preferenceData = {
-    //   country: country,
-    //   city: city,
-    //   month: month,
-    //   category: selectedCategories,
-    //   budget: `$${budget[1]}`,
-    //   currency: "USD"
-    // };
-
     console.log("Saving to DB...");
     addPreference(id, {
       [`${User.uid}`] : {
@@ -182,52 +171,53 @@ const PreferencesPage = () => {
         travelStyles: selectedTravelStyles,
         currency: "USD",
         budget: budget,
-        isdone: false,
+        isdone: true,
       }
     });
     console.log("done");
 
     
 
-    try {
-      console.log('Loading data...');
-      const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-recommendations?itineraryID=${id}&userID=${auth.currentUser.uid}`,  {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const recommendations = response.data;
-      console.log('Recommendations fetched (POST):', recommendations);
+    // try {
+    //   console.log('Loading data...');
+    //   const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-recommendations?itineraryID=${id}&userID=${auth.currentUser.uid}`,  {
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   });
+    //   const recommendations = response.data;
+    //   console.log('Recommendations fetched (POST):', recommendations);
 
-      navigate(`/Tinderpreference/${id}`, { state: { recommendations: recommendations.data } });
-    } catch (error) {
-      console.error('Error fetching recommendations (POST):', error);
+    //   navigate(`/Tinderpreference/${id}`, { state: { recommendations: recommendations.data } });
+    // } catch (error) {
+    //   console.error('Error fetching recommendations (POST):', error);
 
-      // THIS IS FOR DEMO PURPOSES IF POST FAILS ON THE DAY ITSELF
-      try {
-        const localResponse = await axios.get('/places.json'); // Path relative to public folder
-        const localRecommendations = localResponse.data;
-        console.log('Recommendations fetched (local):', localRecommendations);
+    //   // THIS IS FOR DEMO PURPOSES IF POST FAILS ON THE DAY ITSELF
+    //   try {
+    //     const localResponse = await axios.get('/places.json'); // Path relative to public folder
+    //     const localRecommendations = localResponse.data;
+    //     console.log('Recommendations fetched (local):', localRecommendations);
 
-        navigate(`/Tinderpreference/${id}`, { state: { recommendations: localRecommendations } });
-      } catch (localError) {
-        console.error('Error fetching local recommendations:', localError);
-      }
-    }
+    //     navigate(`/Tinderpreference/${id}`, { state: { recommendations: localRecommendations } });
+    //   } catch (localError) {
+    //     console.error('Error fetching local recommendations:', localError);
+    //   }
+    // }
+    navigate(`/waitingroom/${id}`);
   }
 
   //^ Add into the return block below using {loading && (<div...)}
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <TopBanner showAlertOnNavigate={true} />
-        <main>
-          <h1>Loading...</h1>
-          <p>Please wait while we fetch the available categories.</p>
-        </main>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="loading-container">
+  //       <TopBanner showAlertOnNavigate={true} />
+  //       <main>
+  //         <h1>Loading...</h1>
+  //         <p>Your recommended places are being curated!</p>
+  //       </main>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="preferences-container">
