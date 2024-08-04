@@ -73,13 +73,13 @@ def get_tag(activities):
     tag = []
     if "Kid-friendly" in activities:
         tag.append("Kid-friendly")
-        activities.remove("Kid-friendly")
-    elif "Wheelchair-friendly" in activities:
+        # activities.remove("Kid-friendly")
+    if "Wheelchair-friendly" in activities:
         tag.append("Wheelchair-friendly")
-        activities.remove("Wheelchair-friendly")
-    elif "Pet-friendly" in activities:
+        # activities.remove("Wheelchair-friendly")
+    if "Pet-friendly" in activities:
         tag.append("Pet-friendly")
-        activities.remove("Pet-friendly")
+        # activities.remove("Pet-friendly")
 
     return activities, tag # both are lists
     
@@ -118,12 +118,14 @@ def get_llama_others(city, country, budget, activities, pre_prompt=pre_prompt, p
     recommendation_list = []
 
     # activity list is empty
-    if len(activities) == 0:
-        site = ""
-        activities = [""]
+    # if len(activities) == 0:
+    #     site = ""
+    #     activities = [""]
 
     for a in activities:
-        # print(site, city, country, budget, a+tag)
+        if a in tag:
+            site = ""
+        print(site, city, country, budget, a+str(tag))
         prompt_input_updated = prompt_input % (site, city, country, budget, a+" "+", ".join(tag), a)
 
         result = ""
@@ -150,7 +152,7 @@ def get_llama_others(city, country, budget, activities, pre_prompt=pre_prompt, p
                 # print(str(event), end="")
                 result += str(event)
 
-            # print(result)
+            print(result)
 
             # find where the first "[....]"
             index_start = result.find('[')
@@ -224,24 +226,24 @@ def get_bing_images(data, city, country, tag):
 
 #####################
 # city, country = "Cairo", "Egypt"
-# city, country = "Singapore", "Singapore"
+city, country = "Singapore", "Singapore"
 # city, country = "Sydney", "Australia"
 # city, country = "Varna", "Bulgaria"
 # city, country = "Baku", "Azerbaijan" 
 
 # budget = "low"
-# budget = "medium"
+budget = "medium"
 # budget = "high"
 
 # activities = ["Historical Site", "Amusement Park"]
 # activities = ["Museum", "Amusement Park", "Wheelchair-friendly"]
-# activities = ["Kid-friendly"]
+activities = ["Kid-friendly", "Pet-friendly"]
 
 # activities, tag = get_tag(activities)
 # print(activities, tag)
 
 
-# print(get_llama_others(city, country, budget, activities))
+print(get_llama_others(city, country, budget, activities))
 # print(get_llama_others("Singapore", "Singapore", "medium", ["Amusement Parks"]))
 
 ### for bing query images

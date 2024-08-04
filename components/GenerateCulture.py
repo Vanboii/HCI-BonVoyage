@@ -74,10 +74,10 @@ def get_tag(activities):
     if "Kid-friendly" in activities:
         tag.append("Kid-friendly")
         activities.remove("Kid-friendly")
-    elif "Wheelchair-friendly" in activities:
+    if "Wheelchair-friendly" in activities:
         tag.append("Wheelchair-friendly")
         activities.remove("Wheelchair-friendly")
-    elif "Pet-friendly" in activities:
+    if "Pet-friendly" in activities:
         tag.append("Pet-friendly")
         activities.remove("Pet-friendly")
 

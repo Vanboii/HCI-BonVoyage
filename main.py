@@ -141,7 +141,7 @@ def get_recommendations():
         # remove activity from the list
         activities.remove("Food Galore")
 
-     elif "Shopping" in activities:
+     if "Shopping" in activities:
         # outputs at most 9 locations for each activity => list form
         llama_summary = get_llama_shopping(city, country)
         if "Error" not in llama_summary[0]:
@@ -149,7 +149,7 @@ def get_recommendations():
         # remove activity from the list
         activities.remove("Shopping")
 
-     elif "Night-life" in activities:
+     if "Night-life" in activities:
         # outputs at most 9 locations for each activity => list form
         llama_summary = get_llama_nightlife(city, country, budgetRange, userpreferences_data.get("diet"))
         if "Error" not in llama_summary[0]:
@@ -157,7 +157,7 @@ def get_recommendations():
         # remove activity from the list
         activities.remove("Night-life")
 
-     elif "Theatre & Cultural" in activities:
+     if "Theatre & Cultural" in activities:
         # outputs at most 9 locations for each activity => list form
         llama_summary = get_llama_culture(city, country, budgetRange, activities)
         if "Error" not in llama_summary[0]:
