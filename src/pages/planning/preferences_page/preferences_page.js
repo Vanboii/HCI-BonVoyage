@@ -81,7 +81,7 @@ const PreferencesPage = () => {
     const button = document.getElementById(buttonID);
     button.disabled = true;
     button.style.backgroundColor = "#377586";
-    setSubmitButton("Loading please wait for a few minutes...");
+    setSubmitButton("Loading, please wait...");
   };
 
 
