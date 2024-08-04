@@ -57,7 +57,11 @@ const Activity = ({ activity, index, moveActivity, period, dayIndex, handleEdit,
       </div>
   
       <div className="activityInfo">
+        {activity.website ? (
         <a href={activity.website}><h3>{activity.name}</h3></a>
+        ) : (
+        <h3>{activity.name}</h3>
+        )}
         <div className="activityDetails">
           <span>Category: {activity.category}</span>
           <span>Expected cost: {activity.budgetRange}</span>
