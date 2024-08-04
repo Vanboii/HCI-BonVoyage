@@ -162,6 +162,7 @@ const ResultsPage = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [hoveredPlace, setHoveredPlace] = useState(null);
   const [placeDetails, setPlaceDetails] = useState(null);
+  const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true)
   const mapRef = useRef(null);
   const navigate = useNavigate();
@@ -183,9 +184,6 @@ const ResultsPage = () => {
   const [selectedActivity, setSelectedActivity] = useState(null);
 
 
-  // const [ locations, setLocations ] = useState([])
-  // const id = "cv2e4XxVm88jmL2GQLZu" //^Dummy itinerary ID
-
   useEffect(()=> {
     if(itineraryDetails != null) {
       setStartDate(itineraryDetails.arrivalDate)
@@ -194,7 +192,6 @@ const ResultsPage = () => {
       setCity(itineraryDetails.city)
       setNumberOfPeople(itineraryDetails.numberOfPeople)
       setTripDates(`${itineraryDetails.arrivalDate.toDate().toLocaleDateString()} - ${itineraryDetails.departureDate.toDate().toLocaleDateString()}`)
-      console.log("StartEnd:",itineraryDetails.arrivalDate,itineraryDetails.departureDate )
     }
     
   },[itineraryDetails])
@@ -210,7 +207,7 @@ const ResultsPage = () => {
       console.log('Fetching Generated Itinerary...',id);
       const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-resulttrip?itineraryID=${id}`);
       const generatedItinerary = response.data.dataResult; // Adjusted to match the structure in the previous example
-      if (generatedItinerary != null && Object.keys(generatedItinerary).length > 0) {
+      if (generatedItinerary != [] && generatedItinerary != null && Object.keys(generatedItinerary).length > 0) {
         console.log('Fetched Generated Itinerary:', generatedItinerary);
         setItinerary(generatedItinerary);
         break
@@ -219,13 +216,13 @@ const ResultsPage = () => {
     }
     setLoading(false);
   }
-  const getItineraryPreferences = async () => {
-    const data = await getPreference(id);
-    const maxBudget = data.map((user) => user.budget[1]);
-    const minBudget = data.map((user) => user.budget[0]);
-    setBudgetMax(Math.min(...maxBudget));
-    setBudgetMin(Math.max(...minBudget));
-  }
+  // const getItineraryPreferences = async () => {
+  //   const data = await getPreference(id);
+  //   const maxBudget = data.map((user) => user.budget[1]);
+  //   const minBudget = data.map((user) => user.budget[0]);
+  //   setBudgetMax(Math.min(...maxBudget));
+  //   setBudgetMin(Math.max(...minBudget));
+  // }
   useEffect(() => {
     getGeneratedItinerary();
     getItineraryDetails();
@@ -257,7 +254,6 @@ const ResultsPage = () => {
           });
         });
       };
-
       const fetchAllPlaceIds = async () => {
         const updatedItinerary = {...itinerary};
         const days = Object.values(updatedItinerary);
@@ -276,10 +272,28 @@ const ResultsPage = () => {
         }
         setItinerary(updatedItinerary);
       };
+      
 
       fetchAllPlaceIds();
     }
-
+    if (itinerary != undefined && itinerary != null) {
+      setLocations(
+        Object.entries(itinerary).flatMap(([dayKey, dayPlan]) =>
+          ['morning', 'afternoon', 'evening'].flatMap(period => {
+            if (Object.keys(dayPlan).includes(period)) {
+              return (
+                dayPlan[period].map(activity => ({
+                  key: `${dayKey}-${period}-${activity.name}`,
+                  location: { lat: activity.lat, lng: activity.lng },
+                  ...activity
+                }))
+              )
+            } 
+            return []
+          })
+        )
+      )
+    }
     console.log("itinerary", itinerary)
   }, [itinerary]);
 
@@ -400,19 +414,6 @@ const ResultsPage = () => {
     lat: 37.5665,
     lng: 126.9780,
   };
-
-  const locations = Object.entries(itinerary).flatMap(([dayKey, dayPlan]) =>
-    ['morning', 'afternoon', 'evening'].flatMap(period =>
-      dayPlan[period].map(activity => ({
-        key: `${dayKey}-${period}-${activity.name}`,
-        location: { lat: activity.lat, lng: activity.lng },
-        ...activity
-      }))
-    )
-  );
-  console.log("locations:", locations);
-  
-
 
 
   const PoiMarkers = ({ pois }) => {
