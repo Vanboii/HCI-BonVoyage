@@ -62,12 +62,10 @@ function WaitingRoom() {
 
   return (
     <>
-      <TopBanner/>
-        <div className="content">
-          <div>
-            <p className="progress">{Users.length}/{maxUsers} has filled in their preference</p>
-            <button className="button" onClick={handleSubmit}>Start Generating</button>
-          </div>
+      <TopBanner />
+      <div className="waiting-room-page">
+        <div className="waiting-room-content">
+          <p className="progress">{Users.length}/{maxUsers} has filled in their preference</p>
           <div className="status">
             <h2>Status:</h2>
             {userStatuses.map((status, index) => (
@@ -76,10 +74,11 @@ function WaitingRoom() {
               </div>
             ))}
           </div>
+          <button className="waiting-room-button" onClick={handleSubmit}>Start Generating</button>
         </div>
+      </div>
     </>
-
   );
-}
+};
 
 export default WaitingRoom;

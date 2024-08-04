@@ -199,7 +199,7 @@
     padding: 20px;
     border: 1px solid #ffffff;
     border-radius: 10px;
-    background-color: #dadada;
+    background-color: #ffffff;
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s, filter 0.2s;
     max-width: 200px; /* Maximum width for each box */

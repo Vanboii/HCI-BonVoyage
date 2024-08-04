@@ -1,52 +1,40 @@
 /* waitingroomPage.css */
-.container {
+.waiting-room-page {
   font-family: Arial, sans-serif;
   text-align: center;
   padding: 20px;
-}
-
-.header {
+  background-image: url('../../../components/japan_train.jpg'); /* Add your background image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ccc;
 }
 
-.logo {
-  height: 50px;
-}
-
-.nav {
+.waiting-room-content {
   display: flex;
-  gap: 15px;
-}
-
-.profile {
-  display: flex;
-  gap: 10px;
-}
-
-.content {
-  display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 50px;
-  padding: 0 50px;
+  background-color: #00000080;
+  padding: 40px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
 }
 
-.status {
-  text-align: left;
+.progress {
+  font-size: 2em;
+  font-weight:bold;
+  margin-bottom: 20px;
+  font-family: 'Instrument Sans', sans-serif;
+  color: #ccc;
 }
 
-.statusItem {
-  background-color: #ccc;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 5px;
-}
-
-.button {
+.waiting-room-button {
   margin-top: 20px;
   padding: 10px 20px;
   background-color: black;
@@ -54,9 +42,25 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
-.progress {
-  font-size: 2em;
-  font-weight: bold;
+.waiting-room-button:hover {
+  transform: scale(1.1); /* Slightly increase the size of the button */
+}
+
+
+.status {
+  text-align: left;
+  width: 100%;
+  margin-top: 20px;
+  
+}
+
+.statusItem {
+  background-color: #ccc;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  font-weight: lighter;
 }

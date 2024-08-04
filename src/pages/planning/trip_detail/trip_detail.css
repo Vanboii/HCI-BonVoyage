@@ -59,6 +59,7 @@ body, html {
   font-size: 16px;
   margin-bottom: 5px;
   text-align: left;
+  font-weight: bold;
 }
 
 .trip-detail-container .form-group input,
@@ -226,12 +227,14 @@ body, html {
 }
 
 .trip-detail-container .accommodation-details input {
-  width: 100%;
+  width: 560px;
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ced4da;
   border-radius: 4px;
   margin-bottom: 10px;
+  margin-left: 5px;
+  margin-top: 0px;
   transition: border-color 0.3s ease;
 }
 
