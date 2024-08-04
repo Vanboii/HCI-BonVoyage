@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from '@vis.gl/react-google-maps';
 import TopBanner from '../../../components/banner';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -165,10 +164,8 @@ const ResultsPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [hoveredPlace, setHoveredPlace] = useState(null);
-  const [placeDetails, setPlaceDetails] = useState(null);
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true)
-  const mapRef = useRef(null);
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -240,66 +237,6 @@ const ResultsPage = () => {
     }
   }, [startDate, endDate]);
 
-  useEffect(() => {
-    if (window.google && window.google.maps && window.google.maps.places) {
-      const fetchPlaceId = async (activity) => {
-        return new Promise((resolve, reject) => {
-          const service = new window.google.maps.places.PlacesService(mapRef.current);
-          const request = {
-            query: activity.name,
-            fields: ['place_id']
-          };
-          service.findPlaceFromQuery(request, (results, status) => {
-            if (status === window.google.maps.places.PlacesServiceStatus.OK && results && results[0]) {
-              resolve(results[0].place_id);
-            } else {
-              reject(status);
-            }
-          });
-        });
-      };
-      const fetchAllPlaceIds = async () => {
-        const updatedItinerary = {...itinerary};
-        const days = Object.values(updatedItinerary);
-        for (let day of days) {
-          const periods = ['morning','afternoon','evening']
-          for (let period of periods) {
-            for (let activity of day[period]) {
-              try {
-                const placeId = await fetchPlaceId(activity);
-                activity.placeId = placeId;
-              } catch (error) {
-                console.error(`Failed to fetch place ID for ${activity.name}:`, error);
-              }
-            }
-          }
-        }
-        setItinerary(updatedItinerary);
-      };
-      
-
-      fetchAllPlaceIds();
-    }
-    if (itinerary != undefined && itinerary != null) {
-      setLocations(
-        Object.entries(itinerary).flatMap(([dayKey, dayPlan]) =>
-          ['morning', 'afternoon', 'evening'].flatMap(period => {
-            if (Object.keys(dayPlan).includes(period)) {
-              return (
-                dayPlan[period].map(activity => ({
-                  key: `${dayKey}-${period}-${activity.name}`,
-                  location: { lat: activity.lat, lng: activity.lng },
-                  ...activity
-                }))
-              )
-            } 
-            return []
-          })
-        )
-      )
-    }
-    console.log("itinerary", itinerary)
-  }, [itinerary]);
 
   const generateItineraryDates = (start, end, itinerary) => {
     const dayMilliseconds = 24 * 60 * 60 * 1000;
@@ -420,63 +357,6 @@ const ResultsPage = () => {
   };
 
 
-  const PoiMarkers = ({ pois }) => {
-    const handleClick = useCallback((ev, poi) => {
-      if (!mapRef.current) return;
-      mapRef.current.panTo(poi.location);
-      mapRef.current.setZoom(15);  // Adjust zoom level as needed
-    }, []);
-
-    const handleMouseOver = useCallback((poi) => {
-      const service = new window.google.maps.places.PlacesService(mapRef.current);
-      const request = {
-        placeId: poi.placeId,
-        fields: ['name', 'formatted_address', 'place_id', 'geometry']
-      };
-
-      service.getDetails(request, (place, status) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          setPlaceDetails({
-            name: place.name,
-            address: place.formatted_address,
-            placeId: place.place_id,
-            location: place.geometry.location
-          });
-        }
-      });
-    }, []);
-
-    return (
-      <>
-        {pois.map((poi) => (
-          <AdvancedMarker
-            key={poi.key}
-            position={poi.location}
-            clickable={true}
-            onMouseOver={() => handleMouseOver(poi)}
-            onMouseOut={() => setPlaceDetails(null)}
-            onClick={(ev) => handleClick(ev, poi)}
-          >
-            <Pin background={'#ec1111'} glyphColor={'#ffffff'} borderColor={'#ffffff'} />
-          </AdvancedMarker>
-        ))}
-        {placeDetails && (
-          <InfoWindow
-            position={placeDetails.location}
-            onCloseClick={() => setPlaceDetails(null)}
-          >
-            <div>
-              <h3>{placeDetails.name}</h3>
-              <p>{placeDetails.address}</p>
-              <p>{placeDetails.placeId}</p>
-            </div>
-          </InfoWindow>
-        )}
-      </>
-    );
-  };
-
-
   if (loading) {
     return (
       <div className="loading-container">
@@ -491,138 +371,107 @@ const ResultsPage = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <APIProvider apiKey={'AIzaSyCSE_TMMsKRwr3TsvuwBbJEiwojEL1XF4A'} onLoad={() => console.log('Maps API has loaded.')}>
-        <div className="resultsPageContainer">
-          <TopBanner />
-          <div className="contentContainer">
-            <div className="leftContainer">
-              <div className="pageHeader">
-                <h1>Trip to {city}, {country}</h1>
-                <p>Click on attraction to view more information.<br />
-                Drag & Drop to adjust attraction in your itinerary timeline.<br />
-                Hover over location for preview</p>
-                <div className="headerDetails">
-                  <div className="peopleDetails">
-                    <img src={personIcon} alt="Person" className="personIcon" />
-                    <span className="numberOfPeople">{numberOfPeople} Pax</span>
-                  </div>
-                  <div className="tripDetails">
-                    <img src={calendarIcon} alt="Calendar" className="calendarIcon" />
-                    <span className="tripDates">{tripDates}</span>
-                  </div>
-                  <div className='spacer'/>
-                  <button className="saveExitButton" onClick={handleSaveAndExit}>Save and Exit</button>
+      <div className="resultsPageContainer">
+        <TopBanner />
+        <div className="contentContainer">
+          <div className="leftContainer">
+            <div className="pageHeader">
+              <h1>Trip to {city}, {country}</h1>
+              <p>Click on attraction to view more information.<br />
+              Drag & Drop to adjust attraction in your itinerary timeline.<br />
+              Hover over location for preview</p>
+              <div className="headerDetails">
+                <div className="peopleDetails">
+                  <img src={personIcon} alt="Person" className="personIcon" />
+                  <span className="numberOfPeople">{numberOfPeople} Pax</span>
                 </div>
+                <div className="tripDetails">
+                  <img src={calendarIcon} alt="Calendar" className="calendarIcon" />
+                  <span className="tripDates">{tripDates}</span>
+                </div>
+                <div className='spacer'/>
+                <button className="saveExitButton" onClick={handleSaveAndExit}>Save and Exit</button>
               </div>
-              <div className='itineraryContainer'>
-                {Object.entries(itinerary).map(([day,days]) => (
-                  <div key={day} className='dayContainer'>
-                    <div className={`dayHeader ${expandedDays.includes(day) ? 'expanded' : ''}`} onClick={() => toggleExpandDay(day)}>
-                      <img
-                        src={expandedDays.includes(day) ? arrowDownIcon : arrowRightIcon}
-                        alt="Arrow"
-                        className='dayArrow'
-                      />
-                      <h2>{day}</h2>
+            </div>
+            <div className='itineraryContainer'>
+              {Object.entries(itinerary).map(([day,days]) => (
+                <div key={day} className='dayContainer'>
+                  <div className={`dayHeader ${expandedDays.includes(day) ? 'expanded' : ''}`} onClick={() => toggleExpandDay(day)}>
+                    <img
+                      src={expandedDays.includes(day) ? arrowDownIcon : arrowRightIcon}
+                      alt="Arrow"
+                      className='dayArrow'
+                    />
+                    <h2>{day}</h2>
+                  </div>
+                  {expandedDays.includes(day) && dayPeriods.map((period) => {
+                    if (Object.keys(days).includes(period)) {
+                      return (
+                          <Section
+                            activities={days[period]}
+                            period={period}
+                            dayIndex={day}
+                            handleEdit={handleEdit}
+                            moveActivity={moveActivity}
+                            handleDeleteActivity={handleDeleteActivity}
+                          />
+                      
+                      )
+                    }
+                  })}
+                  <button className="addActivityButton" onClick={() => handleAddGreyBox(day,"evening")}>
+                    + Add Activity
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rightContainer">
+            <MapComponent locations={locations} selectedActivity={selectedActivity} />
+          </div>
+        </div>
+        {showSuggestions && (
+          <div className="suggestionsModal">
+            <div className="suggestionsContainer">
+              <div className="modalHeader">
+                <h3>Select a place:</h3>
+                <button className="closeButton" onClick={handleCloseSuggestions}>
+                  &#10005;
+                </button>
+              </div>
+              <div className="suggestionsList">
+                {currentSuggestions.map((place, index) => (
+                  <div className="suggestionItem" key={index} onClick={() => handleSuggestionSelect(place)}>
+                    <div className="activityInfo">
+                      <h3>{place.name}</h3>
+                      <p>{place.description}</p>
+                      <div className="activityDetails">
+                        <span>{place.hours}</span>
+                      </div>
                     </div>
-                    {expandedDays.includes(day) && dayPeriods.map((period) => {
-                      if (Object.keys(days).includes(period)) {
-                        return (
-                            <Section
-                              activities={days[period]}
-                              period={period}
-                              dayIndex={day}
-                              handleEdit={handleEdit}
-                              moveActivity={moveActivity}
-                              handleDeleteActivity={handleDeleteActivity}
-                            />
-                        
-                        )
-                      }
-                    })}
-                    <button className="addActivityButton" onClick={() => handleAddGreyBox(day,"evening")}>
-                      + Add Activity
-                    </button>
+                    <div className="activityImage">
+                      <img src={place.image} alt={place.name} />
+                    </div>
                   </div>
                 ))}
               </div>
-
-              {/* {itinerary.map((dayPlan, dayIndex) => (
-                <div className="dayContainer" key={dayIndex}>
-                  <div className={`dayHeader ${expandedDays.includes(dayIndex) ? 'expanded' : ''}`} onClick={() => toggleExpandDay(dayIndex)}>
-                    <span className="dayArrow">
-                      <img
-                        src={expandedDays.includes(dayIndex) ? arrowDownIcon : arrowRightIcon}
-                        alt="Arrow"
-                      />
-                    </span>
-                    <h2>{dayPlan.day}</h2>
-                  </div>
-                  {expandedDays.includes(dayIndex) && (
-                    <div className="activitiesContainer">
-                      {dayPlan.activities.map((activity, activityIndex) => (
-                        <Activity
-                          key={activityIndex}
-                          index={activityIndex}
-                          activity={activity}
-                          dayIndex={dayIndex}
-                          moveActivity={moveActivity}
-                          handleEdit={handleEdit}
-                          handleDeleteActivity={handleDeleteActivity}
-                        />
-                      ))}
-                      
-                    </div>
-                  )}
-                </div>
-              ))} */}
-            </div>
-            <div className="rightContainer">
-              <MapComponent locations={locations} selectedActivity={selectedActivity} />
             </div>
           </div>
-          {showSuggestions && (
-            <div className="suggestionsModal">
-              <div className="suggestionsContainer">
-                <div className="modalHeader">
-                  <h3>Select a place:</h3>
-                  <button className="closeButton" onClick={handleCloseSuggestions}>
-                    &#10005;
-                  </button>
-                </div>
-                <div className="suggestionsList">
-                  {currentSuggestions.map((place, index) => (
-                    <div className="suggestionItem" key={index} onClick={() => handleSuggestionSelect(place)}>
-                      <div className="activityInfo">
-                        <h3>{place.name}</h3>
-                        <p>{place.description}</p>
-                        <div className="activityDetails">
-                          <span>{place.hours}</span>
-                        </div>
-                      </div>
-                      <div className="activityImage">
-                        <img src={place.image} alt={place.name} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-          <Modal
-            isOpen={showModal}
-            onRequestClose={closeModal}
-            contentLabel="Itinerary Saved"
-            className="customModal"
-            overlayClassName="customOverlay"
-          >
-            <h2>Itinerary Saved Successfully in My Trips!</h2>
-            <button onClick={closeModal}>OK</button>
-          </Modal>
-        </div>
-      </APIProvider>
+        )}
+        <Modal
+          isOpen={showModal}
+          onRequestClose={closeModal}
+          contentLabel="Itinerary Saved"
+          className="customModal"
+          overlayClassName="customOverlay"
+        >
+          <h2>Itinerary Saved Successfully in My Trips!</h2>
+          <button onClick={closeModal}>OK</button>
+        </Modal>
+      </div>
     </DndProvider>
   );
+  
 };
 
 export default ResultsPage;
