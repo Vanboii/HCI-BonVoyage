@@ -146,7 +146,7 @@ const PreferencesPage = () => {
       if (!city || !country) return;
       try {
         console.log('Fetching categories...',city,country);
-        const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-categories?city=${city}&country=${country}`);
+        const response = await axios.get(`https://bonvoyage-api-testing.azurewebsites.net/get-categories?city=${city}&country=${country}`);
         const fetchedCategories = response.data.data.categories; // Adjusted to match the structure in the previous example
         console.log('Fetched categories:', fetchedCategories);
         setAvailableCategories(fetchedCategories);
@@ -207,7 +207,7 @@ const PreferencesPage = () => {
 
     try {
       console.log('Loading data...');
-      const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-recommendations?itineraryID=${id}&userID=${auth.currentUser.uid}`,  {
+      const response = await axios.get(`https://bonvoyage-api-testing.azurewebsites.net/get-recommendations?itineraryID=${id}&userID=${auth.currentUser.uid}`,  {
         headers: {
           'Content-Type': 'application/json'
         }

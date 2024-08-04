@@ -212,7 +212,7 @@ const ResultsPage = () => {
   const getGeneratedItinerary = async () => {
     for (let idx = 0; idx < 3; idx++) {
       console.log('Fetching Generated Itinerary...',id);
-      const response = await axios.get(`https://bonvoyage-api.azurewebsites.net/get-resulttrip?itineraryID=${id}`);
+      const response = await axios.get(`https://bonvoyage-api-testing.azurewebsites.net/get-resulttrip?itineraryID=${id}`);
       const generatedItinerary = response.data.dataResult; // Adjusted to match the structure in the previous example
       if (generatedItinerary != null && Object.keys(generatedItinerary).length > 0) {
         console.log('Fetched Generated Itinerary:', generatedItinerary);
