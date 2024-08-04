@@ -1,5 +1,6 @@
 Flask==2.3.3
 Flask-Cors==4.0.1
+gunicorn==22.0.0
 python-dotenv==1.0.1
 requests==2.25.1
 replicate==0.27.0
