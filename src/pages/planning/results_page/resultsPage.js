@@ -7,7 +7,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import './resultsPage.css';
 import binIcon from '../../../components/bin.png';
 import dragIcon from '../../../components/drag.png';
-import calendarIcon from '../../../components/calendar.png'; 
+import calendarIcon from '../../../components/calendar.png';
 import arrowDownIcon from '../../../components/arrow-down.png';
 import arrowRightIcon from '../../../components/arrow-right.png';
 import personIcon from '../../../components/person.png';
@@ -43,6 +43,7 @@ const Activity = ({ activity, index, moveActivity, period, dayIndex, handleEdit,
         draggedItem.index = index;
         draggedItem.period = period;
         draggedItem.dayIndex = dayIndex;
+        draggedItem.section = section;
       }
     },
   });
@@ -58,14 +59,15 @@ const Activity = ({ activity, index, moveActivity, period, dayIndex, handleEdit,
         <h3>{activity.name}</h3>
         <p>{activity.description}</p>
         <div className="activityDetails">
-          <span>{activity.hours}</span>
+          <span className="hours">Opening Hours: {activity.hours}</span>
+          <span className="budget">Budget: {activity.budget}</span>
         </div>
         <button className="suggestionsButton" onClick={() => handleEdit(dayIndex, period, index)}>
           Suggestions
         </button>
       </div>
       <div className="activityImage">
-        <img src={activity.image} alt={activity.name} />
+        <img src={activity.imageURL} alt={activity.name} />
         <img
           src={binIcon}
           alt="Delete"
@@ -210,7 +212,8 @@ const ResultsPage = () => {
   const [selectedDayIndex, setSelectedDayIndex] = useState(null);
   const [selectedPeriodIndex, setSelectedPeriodIndex] = useState(null);
   const [selectedActivityIndex, setSelectedActivityIndex] = useState(null);
-  const [currentSuggestions] = useState([...suggestedPlaces.slice(0, 15)]);
+  const [selectedSection, setSelectedSection] = useState(null);
+  const [currentSuggestions, setCurrentSuggestions] = useState([]);
   const [expandedDays, setExpandedDays] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -284,11 +287,17 @@ const ResultsPage = () => {
   },[])
 
   useEffect(() => {
-    if (startDate && endDate) {
-      const updatedItinerary = generateItineraryDates(new Date(startDate), new Date(endDate), itinerary);
-      setItinerary(updatedItinerary);
-    }
-  }, [startDate, endDate]);
+    fetch('/itinerary.json')
+      .then(response => response.json())
+      .then(data => {
+        const itineraryData = Object.keys(data).filter(key => key.startsWith('day')).map(dayKey => ({
+          day: dayKey,
+          ...data[dayKey]
+        }));
+        setItinerary(itineraryData);
+      })
+      .catch(error => console.error('Error fetching itinerary data:', error));
+  }, []);
 
   useEffect(() => {
     if (window.google && window.google.maps && window.google.maps.places) {
@@ -345,7 +354,9 @@ const ResultsPage = () => {
       const formattedDate = `${dayName}, ${dayNumber} ${monthName}`;
       return {
         day: `Day ${index + 1}: ${formattedDate}`,
-        activities: itinerary[index] ? itinerary[index].activities : [],
+        morning: itinerary[index] ? itinerary[index].morning : [],
+        afternoon: itinerary[index] ? itinerary[index].afternoon : [],
+        evening: itinerary[index] ? itinerary[index].evening : [],
       };
     });
     return updatedItinerary;
@@ -361,6 +372,7 @@ const ResultsPage = () => {
     setSelectedDayIndex(dayIndex);
     setSelectedPeriodIndex(period);
     setSelectedActivityIndex(activityIndex);
+    setSelectedSection(section);
     setShowSuggestions(true);
   };
 
@@ -373,6 +385,7 @@ const ResultsPage = () => {
       setShowSuggestions(false);
       setSelectedDayIndex(null);
       setSelectedActivityIndex(null);
+      setSelectedSection(null);
     }
   };
 
@@ -388,7 +401,7 @@ const ResultsPage = () => {
       name: `New Activity ${newItinerary[day][period].length + 1}`,
       description: 'Placeholder description for the new activity.',
       hours: 'Open hours for the new activity.',
-      image: 'https://via.placeholder.com/150',
+      imageURL: 'https://via.placeholder.com/150',
       lat: 37.5665,
       lng: 126.9780,
       placeId: ''
@@ -408,6 +421,7 @@ const ResultsPage = () => {
     setShowSuggestions(false);
     setSelectedDayIndex(null);
     setSelectedActivityIndex(null);
+    setSelectedSection(null);
   };
 
   const handleSaveAndExit = () => {
@@ -641,11 +655,12 @@ const ResultsPage = () => {
                         <h3>{place.name}</h3>
                         <p>{place.description}</p>
                         <div className="activityDetails">
-                          <span>{place.hours}</span>
+                          <span className="hours">{place.hours}</span>
+                          <span className="budget">Budget: {place.budget}</span>
                         </div>
                       </div>
                       <div className="activityImage">
-                        <img src={place.image} alt={place.name} />
+                        <img src={place.imageURL} alt={place.name} />
                       </div>
                     </div>
                   ))}
