@@ -193,7 +193,8 @@ def get_resulttrip():
     # main structure for their arrival and departure templates
     start_date = preplanning_data.get("arrivalDate")
     end_date = preplanning_data.get("departureDate")
-    no_days = (end_date - start_date).days
+    no_days = (end_date - start_date).days + 1
+    # print('no days:', no_days)
     
 
     arrival_time = preplanning_data.get("arrivalTime").get("value")
@@ -203,11 +204,13 @@ def get_resulttrip():
                        "afternoon": {"evening": []},
                        "evening": {"morning": [], "afternoon": [], "evening": []}}
     departure_pattern = {"early_morning": {"morning": [], "afternoon": []},
-                         "morning": {"morning": [], "afternoon": []},
-                         "afternoon": {},
-                         "evening": {"morning-next-day": []}}
+                         "morning": {},
+                         "afternoon": {"morning": []},
+                         "evening": {"morning": [], "afternoon": []}}
     start_day_template = arrival_pattern.get(arrival_time)
+    # print('start', start_day_template)
     end_day_template = departure_pattern.get(deparature_time)
+    # print('end', end_day_template)
 
 
     # gets the accomadation information
@@ -272,8 +275,8 @@ def get_resulttrip():
 
 
 
-# if __name__ == "__main__":
-#     app.run(host="0.0.0.0", port=8000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
 
 
 # API 1:

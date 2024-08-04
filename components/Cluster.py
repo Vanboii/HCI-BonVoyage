@@ -274,7 +274,7 @@ def get_results(currated_locations, no_days, start_day_template, end_day_templat
 
 data = [
         {
-            "budget": "Low",
+            "budgetRange": "Low",
             "description": "This island in the Nile River is a popular spot for recreation and relaxation, with plenty of green space, walking trails, and picnic areas. The vibe is peaceful and natural, and visitors can take a leisurely stroll or have a picnic with friends.",
             "imageURL": "https://img.freepik.com/free-photo/view-cairo-tower-gezira-island-nile-egypt_400112-711.jpg?w=1800",
             "lat": 30.0609422,
@@ -288,7 +288,7 @@ data = [
             "website": ""
         },
         {
-            "budget": "Mid-range",
+            "budgetRange": "Mid-range",
             "description": "Heliopolis Mall is a modern shopping mall located in Heliopolis. It features a range of local and international brands, including H&M, Zara, and Apple. The mall also has a variety of dining options and a food court.",
             "imageURL": "https://c8.alamy.com/comp/T8RAP4/atrium-of-city-stars-mall-heliopolis-showing-multi-levels-and-modern-decor-heliopolis-cairo-egypt-T8RAP4.jpg",
             "lat": 30.0444196,
@@ -299,7 +299,7 @@ data = [
             "website": ""
         },
         {
-            "budget": "High-end",
+            "budgetRange": "High-end",
             "description": "The Mall of Egypt is a luxurious shopping mall located in 6th October City. It features a range of high-end international brands such as Louis Vuitton, Gucci, and Chanel, as well as local Egyptian brands. The mall also has an IMAX theatre, a virtual reality experience, and a variety of dining options.",
             "imageURL": "https://www.bimcommunity.com/files/images/experiences/Mall-of-Egypt.jpg",
             "lat": 29.97242739999999,
@@ -310,7 +310,7 @@ data = [
             "website": "https://www.mallofegypt.com/"
         },
         {
-            "budget": "Low",
+            "budgetRange": "Low",
             "description": "This popular park is a great place to relax and enjoy the outdoors, with plenty of green space, walking trails, and picnic areas. The vibe is peaceful and natural, and visitors can take a leisurely stroll or have a picnic with friends.",
             "imageURL": "https://www.barcelo.com/guia-turismo/wp-content/uploads/2022/05/el-cairo-dokki-pal.jpg",
             "lat": 30.0382661,
@@ -324,7 +324,7 @@ data = [
             "website": ""
         },
         {
-            "budget": "Low",
+            "budgetRange": "Low",
             "description": "For a panoramic view of the city, head to the Cairo Tower. The vibe is modern and exciting, and visitors can enjoy a meal at the tower's restaurant or take a ride to the top for a stunning view.",
             "imageURL": "https://www.egypttoursportal.com/images/2021/04/Cairo-Tower-Egypt-Tours-Portal-1.jpg",
             "lat": 30.0459751,
@@ -338,7 +338,7 @@ data = [
             "website": "https://www.cairo-tower.com/"
         },
         {
-            "budget": "Low",
+            "budgetRange": "Low",
             "description": "This beautiful mosque is one of the oldest and most important in Cairo, with stunning architecture and intricate tile work. The vibe is peaceful and serene, and visitors can take a guided tour to learn more about its history and significance.",
             "imageURL": "https://www.osiristours.com/wp-content/uploads/2018/11/201803070520052732.jpg",
             "lat": 30.0625176,
@@ -352,7 +352,7 @@ data = [
             "website": "https://www.imammosque.com/"
         },
         {
-            "budget": "High-end",
+            "budgetRange": "High-end",
             "description": "Cairo Festival City Mall is a luxurious shopping mall located in Nasr City. It features a range of high-end international brands such as Louis Vuitton, Gucci, and Chanel, as well as local Egyptian brands. The mall also has an IMAX theatre and a variety of dining options.",
             "imageURL": "http://gb.gleeds.com/contentassets/72182d734782442b909cbc53d956f99c/cacm0001_n33.jpg",
             "lat": 30.02883619999999,
@@ -363,7 +363,7 @@ data = [
             "website": "https://www.cairofestivalcitymall.com/"
         },
         {
-            "budget": "Low",
+            "budgetRange": "Low",
             "description": "This museum showcases the work of Egyptian artists, with a focus on modern and contemporary art. The vibe is creative and inspiring, and visitors can explore exhibits on everything from painting to sculpture.",
             "imageURL": "https://images.squarespace-cdn.com/content/v1/56c13cc00442627a08632989/1585432288121-15NNGMB5XEP5CJ1YSGL3/egyptianmuseum.jpg",
             "lat": 30.043688,
@@ -377,7 +377,7 @@ data = [
             "website": "https://www.eegyptianmuseum.com/"
         },
         {
-            "budget": "Mid-range",
+            "budgetRange": "Mid-range",
             "description": "The AUC New Campus Mall is a modern shopping mall located on the campus of the American University in Cairo. It features a range of local and international brands, including H&M, Zara, and Apple. The mall also has a variety of dining options and a food court.",
             "imageURL": "https://auctoday.com/wp-content/uploads/2019/02/20170816-_D8E1343.jpg",
             "lat": 30.0192078,
@@ -388,7 +388,7 @@ data = [
             "website": ""
         },
         {
-            "budget": "Mid-range",
+            "budgetRange": "Mid-range",
             "description": "City Stars Mall is a popular shopping destination in Nasr City. It offers a range of local and international brands, including H&M, Zara, and Adidas. The mall also features a cinema complex, a bowling alley, and a variety of dining options.",
             "imageURL": "https://i.redd.it/vfykp05dedg51.jpg",
             "lat": 30.0729538,
@@ -399,7 +399,7 @@ data = [
             "website": "https://www.citystarsmall.com/"
         },
         {
-            "budget": "Low",
+            "budgetRange": "Low",
             "description": "One of the Seven Wonders of the Ancient World, the Pyramid of Giza is a must-visit attraction in Cairo. The vibe is historic and awe-inspiring, and visitors can take a guided tour to learn more about its construction and significance.",
             "imageURL": "https://i.natgeofe.com/n/535f3cba-f8bb-4df2-b0c5-aaca16e9ff31/giza-plateau-pyramids.jpg?w=1200",
             "lat": 29.9791705,
@@ -413,7 +413,7 @@ data = [
             "website": ""
         },
         {
-            "budget": "Mid-range",
+            "budgetRange": "Mid-range",
             "description": "Point 90 Mall is a popular shopping destination in Maadi. It offers a range of local and international brands, including H&M, Zara, and Adidas. The mall also features a cinema complex and a variety of dining options.",
             "imageURL": "https://ehaf.com/storage/app/projects_gallery/full_size/point-90-mall,-egypt-1.jpg",
             "lat": 30.0444196,
@@ -424,7 +424,7 @@ data = [
             "website": ""
         },
         {
-            "budget": "Budget-friendly",
+            "budgetRange": "Budget-friendly",
             "description": "Khan el-Khalili is one of the oldest and most famous bazaars in the Middle East. It's a great place to find unique souvenirs and local handicrafts. The bazaar is filled with narrow streets and alleys, and visitors can find everything from spices and perfumes to jewelry and textiles.",
             "imageURL": "https://prd-webrepository.firabarcelona.com/wp-content/uploads/sites/69/2023/04/14175713/istock-992735534-scaled.jpg",
             "lat": 30.0477386,
@@ -435,7 +435,7 @@ data = [
             "website": ""
         },
         {
-            "budget": "Mid-range",
+            "budgetRange": "Mid-range",
             "description": "Village Walk Mall is a modern shopping mall located in New Cairo. It features a range of local and international brands, including H&M, Zara, and Apple. The mall also has a variety of dining options and a food court.",
             "imageURL": "https://top10cairo.com/wp-content/uploads/2020/01/mall-of-arabia-best-malls-in-cairo.jpg",
             "lat": 30.0444196,
@@ -446,7 +446,7 @@ data = [
             "website": ""
         },
         {
-            "budget": "Mid-range",
+            "budgetRange": "Mid-range",
             "description": "Mall of Arabia is a popular shopping destination in 6th October City. It offers a range of local and international brands, including H&M, Zara, and Adidas. The mall also features a cinema complex and a variety of dining options.",
             "imageURL": "https://www.onartstructures.com/wp-content/uploads/2020/08/IMG_8745-scaled.jpg",
             "lat": 30.0065859,
@@ -457,7 +457,7 @@ data = [
             "website": ""
         },
         {
-            "budget": "Low",
+            "budgetRange": "Low",
             "description": "This museum showcases the history and culture of Africa, with a focus on Egyptian artifacts. The vibe is educational and interactive, and visitors can explore exhibits on everything from ancient civilizations to modern-day Africa.",
             "imageURL": "https://rnn.ng/wp-content/uploads/2023/04/Grand-Egyptian-Museum-Egypt-Largest-museums-in-Africa.jpg",
             "lat": 30.0444196,
@@ -471,7 +471,7 @@ data = [
             "website": "https://www.manialmuseum.com/"
         },
         {
-            "budget": "Low",
+            "budgetRange": "Low",
             "description": "This entertainment complex offers a range of activities, including an amusement park, cinema, and bowling alley. The vibe is lively and fun, and visitors can enjoy a day out with family and friends.",
             "imageURL": "https://i.pinimg.com/originals/dc/87/e6/dc87e6b875a1f11eeecbfaea2ee8cc68.jpg",
             "lat": 30.0328642,
@@ -485,7 +485,7 @@ data = [
             "website": "https://www.cairofestivalcity.com/"
         },
         {
-            "budget": "Low",
+            "budgetRange": "Low",
             "description": "This bustling market is one of the oldest and most famous in the Middle East, with a wide range of goods on offer, from spices to souvenirs. The vibe is vibrant and chaotic, and visitors can haggle for bargains and try local foods.",
             "imageURL": "https://prd-webrepository.firabarcelona.com/wp-content/uploads/sites/69/2023/04/14175713/istock-992735534-scaled.jpg",
             "lat": 30.0477386,
@@ -508,8 +508,8 @@ data = [
 
 # currated_locations = [{'budget': 'Low', 'description': 'This island in the Nile River is a popular spot for recreation and relaxation, with plenty of green space, walking trails, and picnic areas. The vibe is peaceful and natural, and visitors can take a leisurely stroll or have a picnic with friends.', 'imageURL': 'https://img.freepik.com/free-photo/view-cairo-tower-gezira-island-nile-egypt_400112-711.jpg?w=1800', 'lat': 30.0609422, 'lng': 31.219709, 'name': 'Gezira Island', 'openingHours': '8:00 AM - 8:00 PM', 'place_id': None, 'restrictions': ['Kid-friendly'], 'website': '', 'cluster': 0, 'centroids': 0}, {'budget': 'Mid-range', 'description': 'Heliopolis Mall is a modern shopping mall located in Heliopolis. It features a range of local and international brands, including H&M, Zara, and Apple. The mall also has a variety of dining options and a food court.', 'imageURL': 'https://c8.alamy.com/comp/T8RAP4/atrium-of-city-stars-mall-heliopolis-showing-multi-levels-and-modern-decor-heliopolis-cairo-egypt-T8RAP4.jpg', 'lat': 30.0444196, 'lng': 31.2357116, 'name': 'Heliopolis Mall', 'openingHours': '10:00 AM - 10:00 PM', 'place_id': None, 'restrictions': None, 'website': '', 'cluster': 0, 'centroids': 0}, {'budget': 'Low', 'description': 'This popular park is a great place to relax and enjoy the outdoors, with plenty of green space, walking trails, and picnic areas. The vibe is peaceful and natural, and visitors can take a leisurely stroll or have a picnic with friends.', 'imageURL': 'https://www.barcelo.com/guia-turismo/wp-content/uploads/2022/05/el-cairo-dokki-pal.jpg', 'lat': 30.0382661, 'lng': 31.2114354, 'name': 'Dokki Park', 'openingHours': '8:00 AM - 8:00 PM', 'place_id': None, 'restrictions': ['Kid-friendly'], 'website': '', 'cluster': 0, 'centroids': 0}, {'budget': 'Low', 'description': "For a panoramic view of the city, head to the Cairo Tower. The vibe is modern and exciting, and visitors can enjoy a meal at the tower's restaurant or take a ride to the top for a stunning view.", 'imageURL': 'https://www.egypttoursportal.com/images/2021/04/Cairo-Tower-Egypt-Tours-Portal-1.jpg', 'lat': 30.0459751, 'lng': 31.2242988, 'name': 'Cairo Tower', 'openingHours': '9:00 AM - 10:00 PM', 'place_id': None, 'restrictions': ['Kid-friendly'], 'website': 'https://www.cairo-tower.com/', 'cluster': 0, 'centroids': 1}, {'budget': 'Low', 'description': 'This beautiful mosque is one of the oldest and most important in Cairo, with stunning architecture and intricate tile work. The vibe is peaceful and serene, and visitors can take a guided tour to learn more about its history and significance.', 'imageURL': 'https://www.osiristours.com/wp-content/uploads/2018/11/201803070520052732.jpg', 'lat': 30.0625176, 'lng': 31.2380668, 'name': 'Imam Mosque', 'openingHours': '9:00 AM - 5:00 PM', 'place_id': None, 'restrictions': ['Kid-friendly'], 'website': 'https://www.imammosque.com/', 'cluster': 0, 'centroids': 0}, {'budget': 'Low', 'description': 'This museum showcases the work of Egyptian artists, with a focus on modern and contemporary art. The vibe is creative and inspiring, and visitors can explore exhibits on everything from painting to sculpture.', 'imageURL': 'https://images.squarespace-cdn.com/content/v1/56c13cc00442627a08632989/1585432288121-15NNGMB5XEP5CJ1YSGL3/egyptianmuseum.jpg', 'lat': 30.043688, 'lng': 31.2246792, 'name': 'The Egyptian Museum of Modern Art', 'openingHours': '9:00 AM - 5:00 PM', 'place_id': None, 'restrictions': ['Kid-friendly'], 'website': 'https://www.eegyptianmuseum.com/', 'cluster': 0, 'centroids': 0}, {'budget': 'Mid-range', 'description': 'Point 90 Mall is a popular shopping destination in Maadi. It offers a range of local and international brands, including H&M, Zara, and Adidas. The mall also features a cinema complex and a variety of dining options.', 'imageURL': 'https://ehaf.com/storage/app/projects_gallery/full_size/point-90-mall,-egypt-1.jpg', 'lat': 30.0444196, 'lng': 31.2357116, 'name': 'Point 90 Mall', 'openingHours': '10:00 AM - 12:00 AM', 'place_id': None, 'restrictions': None, 'website': '', 'cluster': 0, 'centroids': 0}, {'budget': 'Mid-range', 'description': 'Village Walk Mall is a modern shopping mall located in New Cairo. It features a range of local and international brands, including H&M, Zara, and Apple. The mall also has a variety of dining options and a food court.', 'imageURL': 'https://top10cairo.com/wp-content/uploads/2020/01/mall-of-arabia-best-malls-in-cairo.jpg', 'lat': 30.0444196, 'lng': 31.2357116, 'name': 'Village Walk Mall', 'openingHours': '10:00 AM - 10:00 PM', 'place_id': None, 'restrictions': None, 'website': '', 'cluster': 0, 'centroids': 0}, {'budget': 'Low', 'description': 'This museum showcases the history and culture of Africa, with a focus on Egyptian artifacts. The vibe is educational and interactive, and visitors can explore exhibits on everything from ancient civilizations to modern-day Africa.', 'imageURL': 'https://rnn.ng/wp-content/uploads/2023/04/Grand-Egyptian-Museum-Egypt-Largest-museums-in-Africa.jpg', 'lat': 30.0444196, 'lng': 31.2357116, 'name': 'African Museum', 'openingHours': '9:00 AM - 5:00 PM', 'place_id': None, 'restrictions': ['Kid-friendly'], 'website': 'https://www.manialmuseum.com/', 'cluster': 0, 'centroids': 0}, {'budget': 'High-end', 'description': 'Cairo Festival City Mall is a luxurious shopping mall located in Nasr City. It features a range of high-end international brands such as Louis Vuitton, Gucci, and Chanel, as well as local Egyptian brands. The mall also has an IMAX theatre and a variety of dining options.', 'imageURL': 'http://gb.gleeds.com/contentassets/72182d734782442b909cbc53d956f99c/cacm0001_n33.jpg', 'lat': 30.02883619999999, 'lng': 31.4075861, 'name': 'Cairo Festival City Mall', 'openingHours': '10:00 AM - 10:00 PM', 'place_id': None, 'restrictions': None, 'website': 'https://www.cairofestivalcitymall.com/', 'cluster': 1, 'centroids': 0}, {'budget': 'Low', 'description': 'This entertainment complex offers a range of activities, including an amusement park, cinema, and bowling alley. The vibe is lively and fun, and visitors can enjoy a day out with family and friends.', 'imageURL': 'https://i.pinimg.com/originals/dc/87/e6/dc87e6b875a1f11eeecbfaea2ee8cc68.jpg', 'lat': 30.0328642, 'lng': 31.4100122, 'name': 'Cairo Festival City', 'openingHours': '10:00 AM - 10:00 PM', 'place_id': None, 'restrictions': ['Kid-friendly'], 'website': 'https://www.cairofestivalcity.com/', 'cluster': 1, 'centroids': 1}, {'budget': 'High-end', 'description': 'The Mall of Egypt is a luxurious shopping mall located in 6th October City. It features a range of high-end international brands such as Louis Vuitton, Gucci, and Chanel, as well as local Egyptian brands. The mall also has an IMAX theatre, a virtual reality experience, and a variety of dining options.', 'imageURL': 'https://www.bimcommunity.com/files/images/experiences/Mall-of-Egypt.jpg', 'lat': 29.97242739999999, 'lng': 31.0164062, 'name': 'The Mall of Egypt', 'openingHours': '10:00 AM - 10:00 PM', 'place_id': None, 'restrictions': None, 'website': 'https://www.mallofegypt.com/', 'cluster': 2, 'centroids': 0}, {'budget': 'Mid-range', 'description': 'Mall of Arabia is a popular shopping destination in 6th October City. It offers a range of local and international brands, including H&M, Zara, and Adidas. The mall also features a cinema complex and a variety of dining options.', 'imageURL': 'https://www.onartstructures.com/wp-content/uploads/2020/08/IMG_8745-scaled.jpg', 'lat': 30.0065859, 'lng': 30.9753955, 'name': 'Mall of Arabia', 'openingHours': '10:00 AM - 12:00 AM', 'place_id': None, 'restrictions': None, 'website': '', 'cluster': 2, 'centroids': 1}, {'budget': 'Low', 'description': 'One of the Seven Wonders of the Ancient World, the Pyramid of Giza is a must-visit attraction in Cairo. The vibe is historic and awe-inspiring, and visitors can take a guided tour to learn more about its construction and significance.', 'imageURL': 'https://i.natgeofe.com/n/535f3cba-f8bb-4df2-b0c5-aaca16e9ff31/giza-plateau-pyramids.jpg?w=1200', 'lat': 29.9791705, 'lng': 31.1342046, 'name': 'Pyramid of Giza', 'openingHours': '9:00 AM - 5:00 PM', 'place_id': None, 'restrictions': ['Kid-friendly'], 'website': '', 'cluster': 3, 'centroids': 1}, {'budget': 'Mid-range', 'description': 'The AUC New Campus Mall is a modern shopping mall located on the campus of the American University in Cairo. It features a range of local and international brands, including H&M, Zara, and Apple. The mall also has a variety of dining options and a food court.', 'imageURL': 'https://auctoday.com/wp-content/uploads/2019/02/20170816-_D8E1343.jpg', 'lat': 30.0192078, 'lng': 31.5004742, 'name': 'AUC New Campus Mall', 'openingHours': '10:00 AM - 10:00 PM', 'place_id': None, 'restrictions': None, 'website': '', 'cluster': 4, 'centroids': 1}, {'budget': 'Budget-friendly', 'description': "Khan el-Khalili is one of the oldest and most famous bazaars in the Middle East. It's a great place to find unique souvenirs and local handicrafts. The bazaar is filled with narrow streets and alleys, and visitors can find everything from spices and perfumes to jewelry and textiles.", 'imageURL': 'https://prd-webrepository.firabarcelona.com/wp-content/uploads/sites/69/2023/04/14175713/istock-992735534-scaled.jpg', 'lat': 30.0477386, 'lng': 31.2622538, 'name': 'Khan el-Khalili', 'openingHours': '9:00 AM - 6:00 PM', 'place_id': None, 'restrictions': None, 'website': '', 'cluster': 5, 'centroids': 1}, {'budget': 'Low', 'description': 'This bustling market is one of the oldest and most famous in the Middle East, with a wide range of goods on offer, from spices to souvenirs. The vibe is vibrant and chaotic, and visitors can haggle for bargains and try local foods.', 'imageURL': 'https://prd-webrepository.firabarcelona.com/wp-content/uploads/sites/69/2023/04/14175713/istock-992735534-scaled.jpg', 'lat': 30.0477386, 'lng': 31.2622538, 'name': 'Khan el-Khalili Market', 'openingHours': '9:00 AM - 9:00 PM', 'place_id': None, 'restrictions': ['Kid-friendly'], 'website': '', 'cluster': 5, 'centroids': 0}, {'budget': 'Mid-range', 'description': 'City Stars Mall is a popular shopping destination in Nasr City. It offers a range of local and international brands, including H&M, Zara, and Adidas. The mall also features a cinema complex, a bowling alley, and a variety of dining options.', 'imageURL': 'https://i.redd.it/vfykp05dedg51.jpg', 'lat': 30.0729538, 'lng': 31.3455066, 'name': 'City Stars Mall', 'openingHours': '10:00 AM - 12:00 AM', 'place_id': None, 'restrictions': None, 'website': 'https://www.citystarsmall.com/', 'cluster': 6, 'centroids': 1}]
 
-# get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye)
-# result, suggestion = get_results(currated_locations, 3, {"morning": [], "afternoon": [], "evening": []}, {}, {"relaxed": 0, "compact": 0})
+# get_results(currated_locations, no_days, start_day_template, end_day_template, travel_stye, budgetMin)
+# result, suggestion = get_results(data, 3, {"morning": [], "afternoon": [], "evening": []}, {"morning": [], "afternoon": []}, {"relaxed": 1, "compact": 0}, 2)
 # print(result)
 
 # print('Suggestions: \n', suggestion)
