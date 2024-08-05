@@ -97,7 +97,7 @@ def get_categories():
 
 # accessed by client-side's POST method 
 # accessed via /get-recommendations?itineraryID=&userID=
-@app.route("/get-recommendations", methods=['GET', 'POST', OPTIONS])
+@app.route("/get-recommendations", methods=['GET', 'POST', 'OPTIONS'])
 def get_recommendations():
      itineraryID = request.args.get("itineraryID")
      userID = request.args.get("userID") # or username
