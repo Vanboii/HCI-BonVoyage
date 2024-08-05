@@ -73,7 +73,7 @@ def testdb():
 
 
 # accessed via https://<flaskapp>/get-categories?city=london&country=United Kingdom
-@app.route("/get-categories", methods=['GET'])
+@app.route("/get-categories", methods=['GET', 'OPTIONS'])
 def get_categories():
     city = request.args.get("city")
     country = request.args.get("country")
@@ -97,7 +97,7 @@ def get_categories():
 
 # accessed by client-side's POST method 
 # accessed via /get-recommendations?itineraryID=&userID=
-@app.route("/get-recommendations", methods=['GET', 'POST'])
+@app.route("/get-recommendations", methods=['GET', 'POST', OPTIONS])
 def get_recommendations():
      itineraryID = request.args.get("itineraryID")
      userID = request.args.get("userID") # or username
@@ -185,7 +185,7 @@ def get_recommendations():
 
 # accessed by client-side's POST method 
 # accessed via /get-recommendations?itineraryID=
-@app.route("/get-resulttrip", methods=['GET'])
+@app.route("/get-resulttrip", methods=['GET', 'OPTIONS'])
 def get_resulttrip():
     itineraryID = request.args.get("itineraryID")
     preplanning_data = db.collection('main-PrePlanning').document(itineraryID).get().to_dict()
