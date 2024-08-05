@@ -541,6 +541,7 @@ const ResultsPage = () => {
                         
                         )
                       }
+                      return <></>
                     })}
                     <button className="addActivityButton" onClick={() => handleAddGreyBox(day,"evening")}>
                       + Add Activity

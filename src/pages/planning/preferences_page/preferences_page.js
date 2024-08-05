@@ -147,6 +147,7 @@ const PreferencesPage = () => {
       try {
         console.log('Fetching categories...',city,country);
         const response = await axios.get(`https://bonvoyage-api-testing.azurewebsites.net/get-categories?city=${city}&country=${country}`);
+        console.log(response)
         const fetchedCategories = response.data.data.categories; // Adjusted to match the structure in the previous example
         console.log('Fetched categories:', fetchedCategories);
         setAvailableCategories(fetchedCategories);
