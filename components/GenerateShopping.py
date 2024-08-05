@@ -166,25 +166,25 @@ def get_bing_images(data, city, country):
                 search_results = response.json()
                 thumbnail_urls = [img["contentUrl"] for img in search_results["value"][:1]] # only retrieve the first one # contentUrl
                 d["imageURL"] = thumbnail_urls[0]
-
-                # get geolocation
-                location, place_id = get_location(d.get("name"), city, country)
-                if location:
-                    d["lat"] = location.get("lat")
-                    d["lng"] = location.get("lng")
-
-                    # update website if needed, ie: when llama has no website given
-                    d["place_id"] = place_id
-                    try:
-                        status = requests.get(d.get("website")).status_code
-                    except:
-                        google_website = get_website(place_id)
-                        if google_website:
-                            d["website"] = google_website
             
             except requests.HTTPError as e:
                 print(e)
                 d["imageURL"] = None
+
+             # get geolocation
+            location, place_id = get_location(d.get("name"), city, country)
+            if location:
+                d["lat"] = location.get("lat")
+                d["lng"] = location.get("lng")
+
+                # update website if needed, ie: when llama has no website given
+                d["place_id"] = place_id
+                try:
+                    status = requests.get(d.get("website")).status_code
+                except:
+                    google_website = get_website(place_id)
+                    if google_website:
+                        d["website"] = google_website
 
         return data
 

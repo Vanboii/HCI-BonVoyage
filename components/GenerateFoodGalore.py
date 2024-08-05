@@ -174,29 +174,26 @@ def get_bing_images(data, city, country, dietary_restrictions):
                 search_results = response.json()
                 thumbnail_urls = [img["contentUrl"] for img in search_results["value"][:1]] # only retrieve the first one # contentUrl
                 d["imageURL"] = thumbnail_urls[0]
-
-                # get geolocation
-                location, place_id = get_location(d.get("name"), city, country)
-                if location:
-                    d["lat"] = location.get("lat")
-                    d["lng"] = location.get("lng")
-
-                    # update website if needed, 
-                    # ie: when llama has no website given
-                    d["place_id"] = place_id
-                    try:
-                        status = requests.get(d.get("website")).status_code
-                    except:
-                        google_website = get_website(place_id)
-                        if google_website:
-                            d["website"] = google_website
             
             except requests.HTTPError as e:
                 print(e)
                 d["imageURL"] = None
-                #429 Client Error: Too Many Requests for url
-                # if e.response.status_code == 429:
-                #     pass
+
+            # get geolocation
+            location, place_id = get_location(d.get("name"), city, country)
+            if location:
+                d["lat"] = location.get("lat")
+                d["lng"] = location.get("lng")
+
+                # update website if needed, ie: when llama has no website given
+                d["place_id"] = place_id
+                try:
+                    status = requests.get(d.get("website")).status_code
+                except:
+                    google_website = get_website(place_id)
+                    if google_website:
+                        d["website"] = google_website
+
 
         return data
 
@@ -213,7 +210,7 @@ def get_bing_images(data, city, country, dietary_restrictions):
 # budget = "medium"
 # budget = "high"
 
-# dietary_restrictions = "NIL"
+# dietary_restrictions = ["No restriction"]
 # dietary_restrictions = ["Halal"]
 # dietary_restrictions = ["Nut-free", "Dairy-free", "Gluten-free"]
 

@@ -42,7 +42,7 @@ def index():
     return jsonify(route_dict)
 
 
-@app.route("/testdb", methods=['GET'])
+@app.route("/testdb", methods=['GET', 'OPTIONS'])
 def testdb():
     test = db.collection('main-PrePlanning').get()
 
@@ -73,7 +73,7 @@ def testdb():
 
 
 # accessed via https://<flaskapp>/get-categories?city=london&country=United Kingdom
-@app.route("/get-categories", methods=['GET'])
+@app.route("/get-categories", methods=['GET', 'OPTIONS'])
 def get_categories():
     city = request.args.get("city")
     country = request.args.get("country")
@@ -97,7 +97,7 @@ def get_categories():
 
 # accessed by client-side's POST method 
 # accessed via /get-recommendations?itineraryID=&userID=
-@app.route("/get-recommendations", methods=['GET', 'POST'])
+@app.route("/get-recommendations", methods=['GET', 'POST', 'OPTIONS'])
 def get_recommendations():
      itineraryID = request.args.get("itineraryID")
      userID = request.args.get("userID") # or username
@@ -185,7 +185,7 @@ def get_recommendations():
 
 # accessed by client-side's POST method 
 # accessed via /get-recommendations?itineraryID=
-@app.route("/get-resulttrip", methods=['GET'])
+@app.route("/get-resulttrip", methods=['GET', 'OPTIONS'])
 def get_resulttrip():
     itineraryID = request.args.get("itineraryID")
     preplanning_data = db.collection('main-PrePlanning').document(itineraryID).get().to_dict()
@@ -275,8 +275,8 @@ def get_resulttrip():
 
 
 
-# if __name__ == "__main__":
-#     app.run(host="0.0.0.0", port=8000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)  #threaded=True
 
 
 # API 1:
@@ -298,3 +298,6 @@ def get_resulttrip():
 # /get-resulttrip?itineraryID=IGio4nbWEIooCfvuxv6m
 # /get-resulttrip?itineraryID=Z8TcogrOuSzQznqZLaDR
 # /get-resulttrip?itineraryID=UxHsrGtaoPeVrC06Rf3d
+
+# /get-recommendations?itineraryID=x6v0Ut9QmTd0JVKmQ3gH&userID=9orOez3uBYgA1m2OCzVTfhzaIUt1
+
